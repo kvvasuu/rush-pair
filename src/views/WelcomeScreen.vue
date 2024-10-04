@@ -18,7 +18,7 @@
         class="flex flex-col items-center justify-center gap-6"
       >
         <button
-          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-yellow-500 hover:-translate-y-1 rounded-2xl transition-all duration-300"
+          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 hover:-translate-y-1 rounded-2xl transition-all duration-300"
           @click="chooseMode('user')"
         >
           Join session
