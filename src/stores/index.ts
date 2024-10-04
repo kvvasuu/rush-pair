@@ -23,12 +23,15 @@ export const useMainStore = defineStore("mainStore", {
   },
   actions: {
     updateUser(payload: State) {
-      this.firstName = payload.firstName;
-      this.lastName = payload.lastName;
+      this.firstName = payload?.firstName || "";
+      this.lastName = payload?.lastName || "";
       this.userId = payload.userId;
     },
     setGameMode(payload: PlayerType) {
       this.playerType = payload;
+    },
+    setUserId(payload: number) {
+      this.userId = payload;
     },
     resetGame() {
       this.$reset();

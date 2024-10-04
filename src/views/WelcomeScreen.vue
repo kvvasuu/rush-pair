@@ -1,6 +1,8 @@
 <template>
   <main class="flex flex-col items-center justify-center">
-    <div class="logo hover:scale-105 transition-all drop-shadow cursor-pointer">
+    <div
+      class="logo hover:scale-105 transition-all drop-shadow cursor-pointer duration-500"
+    >
       <a href="https://kwasu.pl" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
       /></a>
@@ -51,7 +53,7 @@ const chooseMode = (mode: "admin" | "user") => {
 onMounted(() => {
   setTimeout(() => {
     isLoading.value = false;
-  }, 2000);
+  }, 2000); // to jest tylko symulacja ładowania
 });
 </script>
 
