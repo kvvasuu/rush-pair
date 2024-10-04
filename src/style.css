@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-size: 16px;
+  font-family: Helvetica, Arial, sans-serif;
+  color: #00224d;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: rgb(255, 32, 108);
+  background: -moz-linear-gradient(
+    20deg,
+    rgba(255, 32, 108, 1) 0%,
+    rgba(255, 127, 88, 1) 87%
+  );
+  background: -webkit-linear-gradient(
+    20deg,
+    rgba(255, 32, 108, 1) 0%,
+    rgba(255, 127, 88, 1) 87%
+  );
+  background: linear-gradient(
+    20deg,
+    rgba(255, 32, 108, 1) 0%,
+    rgba(255, 127, 88, 1) 87%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff206c",endColorstr="#ff7f58",GradientType=1);
+}
+
+#app {
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+
+color-primary: #ff206c
+color-secondary: #A0153E
+color-details: #5D0E41
+color-font: #00224D
+
+*/
