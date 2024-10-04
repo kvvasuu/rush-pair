@@ -8,19 +8,25 @@
 
     <section
       id="controls"
-      class="flex flex-col items-center py-10"
+      class="flex flex-col items-center pt-16"
       :class="{ expanded: !isLoading }"
     >
       <div
         id="controls-delayed"
-        class="flex flex-col items-center justify-center gap-10"
+        class="flex flex-col items-center justify-center gap-6"
       >
         <button
-          class="px-8 py-4 font-bold bg-yellow-400 hover:bg-yellow-500 rounded-2xl transition-all"
+          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-yellow-500 hover:-translate-y-1 rounded-2xl transition-all duration-300"
+          @click="chooseMode('user')"
         >
           Join session
         </button>
-        <button class="px-4 py-2">Host session</button>
+        <button
+          class="px-4 py-2 font-bold text-sm hover:bg-gray-100/50 hover:-translate-y-1 rounded-lg transition-all duration-300"
+          @click="chooseMode('admin')"
+        >
+          Host session
+        </button>
       </div>
     </section>
   </main>
@@ -29,13 +35,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { onMounted } from "vue";
+import { useMainStore } from "../stores";
+import { useRouter } from "vue-router";
+
+const store = useMainStore();
+const router = useRouter();
 
 const isLoading = ref<boolean>(true);
+
+const chooseMode = (mode: "admin" | "user") => {
+  store.setGameMode(mode);
+  mode === "admin" ? router.push("/host") : router.push("/join");
+};
 
 onMounted(() => {
   setTimeout(() => {
     isLoading.value = false;
-  }, 3000);
+  }, 2000);
 });
 </script>
 

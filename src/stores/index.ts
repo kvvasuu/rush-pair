@@ -1,15 +1,21 @@
 import { defineStore } from "pinia";
+
+type PlayerType = "admin" | "user";
 interface State {
   firstName: string;
   lastName: string;
   userId: number | null;
+  isPlaying: boolean;
+  playerType: PlayerType;
 }
 
-export const useStore = defineStore("store", {
+export const useMainStore = defineStore("mainStore", {
   state: (): State => ({
     firstName: "",
     lastName: "",
     userId: null,
+    isPlaying: false,
+    playerType: "user",
   }),
   getters: {
     fullName: (state) => `${state.firstName} ${state.lastName}`,
@@ -21,7 +27,10 @@ export const useStore = defineStore("store", {
       this.lastName = payload.lastName;
       this.userId = payload.userId;
     },
-    clearUser() {
+    setGameMode(payload: PlayerType) {
+      this.playerType = payload;
+    },
+    resetGame() {
       this.$reset();
     },
   },
