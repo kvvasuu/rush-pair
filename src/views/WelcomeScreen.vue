@@ -1,7 +1,11 @@
 <template>
   <main class="flex flex-col items-center justify-center">
     <div
-      class="logo hover:scale-105 transition-all drop-shadow cursor-pointer duration-500"
+      class="logo pointer-events-none"
+      :class="{
+        'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled':
+          store.userId,
+      }"
     >
       <a href="https://kwasu.pl" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
@@ -68,5 +72,9 @@ const chooseMode = (mode: "admin" | "user") => {
 #controls.expanded #controls-delayed {
   opacity: 1;
   transition-delay: 1s;
+}
+
+.enabled {
+  pointer-events: all;
 }
 </style>
