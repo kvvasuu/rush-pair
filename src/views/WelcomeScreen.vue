@@ -11,7 +11,7 @@
     <section
       id="controls"
       class="flex flex-col items-center pt-16"
-      :class="{ expanded: !isLoading }"
+      :class="{ expanded: store.userId }"
     >
       <div
         id="controls-delayed"
@@ -35,26 +35,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { onMounted } from "vue";
 import { useMainStore } from "../stores";
 import { useRouter } from "vue-router";
 
 const store = useMainStore();
 const router = useRouter();
 
-const isLoading = ref<boolean>(true);
-
 const chooseMode = (mode: "admin" | "user") => {
   store.setGameMode(mode);
   mode === "admin" ? router.push("/host") : router.push("/join");
 };
-
-onMounted(() => {
-  setTimeout(() => {
-    isLoading.value = false;
-  }, 2000); // to jest tylko symulacja ładowania
-});
 </script>
 
 <style scoped>
