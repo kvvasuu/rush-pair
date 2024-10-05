@@ -7,6 +7,7 @@ interface State {
   userId: number | null;
   isPlaying: boolean;
   playerType: PlayerType;
+  isConnected: boolean | null;
 }
 
 export const useMainStore = defineStore("mainStore", {
@@ -16,6 +17,7 @@ export const useMainStore = defineStore("mainStore", {
     userId: null,
     isPlaying: false,
     playerType: "user",
+    isConnected: null,
   }),
   getters: {
     fullName: (state) => `${state.firstName} ${state.lastName}`,
@@ -32,6 +34,9 @@ export const useMainStore = defineStore("mainStore", {
     },
     setUserId(payload: number) {
       this.userId = payload;
+    },
+    setConnectionState(payload: boolean) {
+      this.isConnected = payload;
     },
     resetGame() {
       this.$reset();

@@ -1,7 +1,7 @@
 <template>
   <main class="flex flex-col items-center justify-center">
     <div
-      class="logo pointer-events-none"
+      class="logo pointer-events-none h-40"
       :class="{
         'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled opacity-95':
           store.userId,
@@ -10,6 +10,20 @@
       <a href="https://kwasu.pl" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
       /></a>
+      <div v-if="!store.userId">
+        <p
+          class="text-gray-100/80 my-8 w-full text-center"
+          v-if="store.isConnected === false"
+        >
+          Unable to connect. <br />Try again later.
+        </p>
+        <p
+          class="text-gray-100/80 my-8 w-full text-center animate-pulse"
+          v-else=
+        >
+          Connecting to server...
+        </p>
+      </div>
     </div>
 
     <section

@@ -9,13 +9,26 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useMainStore } from "./stores";
+import axios from "axios";
 
 const store = useMainStore();
 
-onMounted(() => {
-  setTimeout(() => {
-    store.setUserId(231231);
-  }, 2000);
+const connectToServer = async () => {
+  let res;
+  try {
+    res = await axios.get("http://localhost:3000");
+    store.setConnectionState(true);
+    store.setUserId(res.data.userId);
+    console.log(res.data.message);
+    return res.data;
+  } catch (error) {
+    store.setConnectionState(false);
+    console.error(error);
+  }
+};
+
+onMounted(async () => {
+  await connectToServer();
 });
 </script>
 
