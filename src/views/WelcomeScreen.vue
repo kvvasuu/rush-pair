@@ -3,7 +3,7 @@
     <div
       class="logo pointer-events-none"
       :class="{
-        'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled':
+        'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled opacity-95':
           store.userId,
       }"
     >
@@ -19,16 +19,16 @@
     >
       <div
         id="controls-delayed"
-        class="flex flex-col items-center justify-center gap-6"
+        class="flex flex-col items-center justify-center gap-6 px-10"
       >
         <button
-          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 shadow-xl"
+          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
           @click="chooseMode('user')"
         >
           Join session
         </button>
         <button
-          class="px-4 py-2 font-bold text-sm hover:bg-gray-100/50 hover:-translate-y-1 rounded-lg transition-all duration-300"
+          class="px-4 py-2 font-bold text-sm hover:bg-gray-100/50 hover:-translate-y-1 rounded-lg transition-all duration-300 drop-shadow-md"
           @click="chooseMode('admin')"
         >
           Host session
