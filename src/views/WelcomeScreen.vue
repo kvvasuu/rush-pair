@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col items-center justify-center">
+  <main class="flex flex-col items-center justify-center w-full">
     <div
       class="logo pointer-events-none h-40"
       :class="{

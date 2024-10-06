@@ -31,6 +31,11 @@
       </button>
       Room {{ roomId }} created
     </div>
+    <button class="absolute bottom-8 left-8" @click="goBack">
+      <i
+        class="fa-solid fa-circle-arrow-left text-5xl text-gray-100/50 hover:text-gray-100/75 hover:scale-110 transition-all duration-300 drop-shadow-xl"
+      ></i>
+    </button>
   </main>
 </template>
 
@@ -39,13 +44,18 @@ import { useAdminStore } from "../stores/adminStore";
 import { useMainStore } from "../stores";
 import { io, Socket } from "socket.io-client";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { Player } from "../types";
+import { useRouter } from "vue-router";
 
 const adminStore = useAdminStore();
 const store = useMainStore();
+const router = useRouter();
 
 const socketAdmin = ref<Socket | null>(null);
 const isConnected = ref<boolean>(false);
+
+const goBack = () => {
+  router.replace("/");
+};
 
 const roomId = ref<string>("");
 
@@ -74,26 +84,33 @@ onMounted(() => {
     console.log(msg);
   });
 
-  socketAdmin.value.on("roomExists", (msg) => {
-    console.log(msg);
+  socketAdmin.value.on("rooms", (payload) => {
+    switch (payload.action) {
+      case "exists":
+        console.log(payload.message);
+        break;
+      case "created":
+        console.log(payload.message);
+        isConnected.value = true;
+        break;
+      case "closed":
+        console.log(payload.message);
+        isConnected.value = false;
+        break;
+    }
   });
 
-  socketAdmin.value.on("roomCreated", (msg) => {
-    console.log(msg);
-    isConnected.value = true;
-  });
-
-  socketAdmin.value.on("roomClosed", (msg) => {
-    console.log(msg);
-    isConnected.value = false;
-  });
-
-  socketAdmin.value.on("userJoined", (player: Player) => {
-    adminStore.addPlayer(player);
-  });
-
-  socketAdmin.value.on("userLeft", (player: string) => {
-    adminStore.removePlayer(player);
+  socketAdmin.value.on("users", (payload) => {
+    switch (payload.action) {
+      case "joined":
+        console.log(payload.message);
+        adminStore.addPlayer(payload.user);
+        break;
+      case "left":
+        console.log(payload.message);
+        adminStore.removePlayer(payload.user.userId);
+        break;
+    }
   });
 });
 

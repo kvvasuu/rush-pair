@@ -22,11 +22,9 @@ export const useAdminStore = defineStore("adminStore", {
       this.playersInRoom.push(payload);
     },
     removePlayer(payload: string) {
-      console.log(this.playersInRoom);
       this.playersInRoom = this.playersInRoom.filter(
         (el) => el.userId !== payload
       );
-      console.log(this.playersInRoom);
     },
     closeRoom() {
       this.roomName = "";

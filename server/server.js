@@ -37,13 +37,20 @@ const userNamespace = io.of("/users");
 const rooms = new Map();
 
 const removeUserFromRoom = (roomName, userId) => {
-  if (rooms.has(Name)) {
-    const users = rooms.get(Name);
+  if (rooms.has(roomName)) {
+    const users = rooms.get(roomName);
 
     const updatedUsers = users.filter((user) => user.userId !== userId);
 
-    rooms.set(Name, updatedUsers);
+    rooms.set(roomName, updatedUsers);
   }
+};
+
+const getAvailableRooms = (rooms) => {
+  return Array.from(rooms, ([key, value]) => ({
+    roomName: key,
+    users: value.users.length,
+  }));
 };
 
 // Admin namespace
@@ -60,12 +67,19 @@ adminNamespace.on("connection", (socket) => {
   // Tworzenie pokoju
   socket.on("createRoom", (roomName) => {
     if (rooms.has(roomName)) {
-      socket.emit("roomExists", `Room '${roomName}' already exists.`);
+      socket.emit("rooms", {
+        action: "exists",
+        message: `Room '${roomName}' already exists.`,
+      });
     } else {
       rooms.set(roomName, { users: [] });
       socket.join(roomName);
-      socket.emit("roomCreated", `Room '${roomName}' has been created.`);
-      console.log(`Room '${roomName}' created`);
+
+      socket.emit("rooms", {
+        action: "created",
+        message: `Room '${roomName}' has been created.`,
+      });
+      userNamespace.emit("getAvailableRooms", getAvailableRooms(rooms));
     }
   });
 
@@ -74,13 +88,15 @@ adminNamespace.on("connection", (socket) => {
       const room = rooms.get(roomName);
 
       // Powiadomienie użytkowników o zamknięciu pokoju
-      userNamespace
-        .to(roomName)
-        .emit("roomClosed", `Room '${roomName}' has been closed.`);
+      userNamespace.to(roomName).emit("rooms", {
+        action: "closed",
+        message: `Room '${roomName}' has been closed.`,
+      });
 
-      adminNamespace
-        .to(roomName)
-        .emit("roomClosed", `Room '${roomName}' has been closed.`);
+      adminNamespace.to(roomName).emit("rooms", {
+        action: "closed",
+        message: `Room '${roomName}' has been closed.`,
+      });
 
       // Odłączenie wszystkich użytkowników i usunięcie pokoju
       room.users.forEach((userId) => {
@@ -88,6 +104,7 @@ adminNamespace.on("connection", (socket) => {
       });
       socket.leave(roomName);
       rooms.delete(roomName);
+      userNamespace.emit("getAvailableRooms", getAvailableRooms(rooms));
       console.log(`Room '${roomName}' has been closed`);
     } else {
       socket.emit("error", `Room '${roomName}' does not exist.`);
@@ -127,16 +144,25 @@ userNamespace.on("connection", (socket) => {
 
   console.log("User connected:", socket.handshake.session.userId);
 
-  // User dołącza do pokoju
+  socket.on("getAvailableRooms", () => {
+    if (rooms) socket.emit("getAvailableRooms", getAvailableRooms(rooms));
+  });
+
   socket.on("joinRoom", (roomName, userName) => {
     if (rooms.has(roomName)) {
       const user = { name: userName, userId: socket.handshake.session.userId };
 
       rooms.get(roomName).users.push(user);
       socket.join(roomName);
-      socket.emit("roomJoined", `You have joined room ${roomName}`);
-      adminNamespace.to(roomName).emit("userJoined", user);
-      console.log(rooms);
+      socket.emit("rooms", {
+        action: "joined",
+        message: `You have joined room ${roomName}`,
+      });
+      adminNamespace.to(roomName).emit("users", {
+        action: "joined",
+        message: `User "${user.name}" joined the room.`,
+        user: user,
+      });
     } else {
       socket.emit("error", "Room does not exist");
     }
@@ -145,6 +171,9 @@ userNamespace.on("connection", (socket) => {
   socket.on("leaveRoom", (roomName) => {
     if (rooms.has(roomName)) {
       const userSocket = io.sockets.sockets.get(userId);
+      const users = rooms.get(roomName).users;
+      const user = users.find((user) => user.userId === userId);
+
       if (userSocket) {
         userSocket.leave(roomName);
         removeUserFromRoom("room1", socket.handshake.session.userId);
@@ -154,7 +183,16 @@ userNamespace.on("connection", (socket) => {
         .to(roomName)
         .emit("userLeft", socket.handshake.session.userId);
 
-      socket.emit("roomLeft", "You left the room");
+      adminNamespace.to(roomName).emit("users", {
+        action: "left",
+        message: `User "${user.name}" left the room.`,
+        user: user,
+      });
+
+      socket.emit("rooms", {
+        action: "left",
+        message: `You left the room "${roomName}"`,
+      });
 
       console.log(rooms);
     } else {
