@@ -8,6 +8,12 @@
         type="text"
         v-model="roomId"
         placeholder="room"
+      />
+      <input
+        class="m-4 rounded-lg p-2"
+        type="text"
+        v-model="userName"
+        placeholder="name"
       /><button
         class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
         @click="joinRoom"
@@ -35,15 +41,19 @@
 <script setup lang="ts">
 import { io, Socket } from "socket.io-client";
 import { ref, onMounted, watch } from "vue";
+import { useMainStore } from "../stores";
 
-const socket = ref<Socket | null>(null);
+const store = useMainStore();
+
+const usersSocket = ref<Socket | null>(null);
 const isConnected = ref<boolean>(false);
 
 const roomId = ref<string>("");
+const userName = ref<string>("");
 
 const joinRoom = () => {
-  if (roomId.value && socket.value) {
-    socket.value.emit("joinRoom", roomId.value);
+  if (roomId.value && usersSocket.value) {
+    usersSocket.value.emit("joinRoom", roomId.value, userName.value);
   }
 };
 
@@ -51,8 +61,8 @@ const message = ref<string>("");
 const messages = ref<string[]>([]);
 
 const sendMessage = () => {
-  if (roomId.value && message.value && socket.value) {
-    socket.value.emit("sendMessageToRoom", {
+  if (roomId.value && message.value && usersSocket.value) {
+    usersSocket.value.emit("sendMessageToRoom", {
       roomName: roomId.value,
       message: message.value,
     });
@@ -65,22 +75,31 @@ watch(messages.value, () => {
 });
 
 onMounted(() => {
-  socket.value = io("http://localhost:3000");
+  const userId = store.userId;
 
-  socket.value.on("message", (msg) => {
+  usersSocket.value = io("http://localhost:3000/users", {
+    query: { userId },
+  });
+
+  usersSocket.value.on("message", (msg) => {
     console.log(msg);
     messages.value.push(msg);
   });
 
-  socket.value.on("noRoom", (msg) => {
+  usersSocket.value.on("noRoom", (msg) => {
     console.log(msg);
   });
-  socket.value.on("roomJoined", (msg) => {
+  usersSocket.value.on("roomJoined", (msg) => {
     console.log(msg);
     isConnected.value = true;
   });
 
-  socket.value.on("roomClosed", (msg) => {
+  usersSocket.value.on("roomLeft", (msg) => {
+    console.log(msg);
+    isConnected.value = false;
+  });
+
+  usersSocket.value.on("roomClosed", (msg) => {
     console.log(msg);
     isConnected.value = false;
   });

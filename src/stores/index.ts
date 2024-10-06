@@ -2,9 +2,8 @@ import { defineStore } from "pinia";
 
 type PlayerType = "admin" | "user";
 interface State {
-  firstName: string;
-  lastName: string;
-  userId: number | null;
+  name: string;
+  userId: string | null;
   isPlaying: boolean;
   playerType: PlayerType;
   isConnected: boolean | null;
@@ -12,27 +11,24 @@ interface State {
 
 export const useMainStore = defineStore("mainStore", {
   state: (): State => ({
-    firstName: "",
-    lastName: "",
+    name: "",
     userId: null,
     isPlaying: false,
     playerType: "user",
     isConnected: null,
   }),
   getters: {
-    fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
   },
   actions: {
     updateUser(payload: State) {
-      this.firstName = payload?.firstName || "";
-      this.lastName = payload?.lastName || "";
+      this.name = payload?.name || "";
       this.userId = payload.userId;
     },
     setGameMode(payload: PlayerType) {
       this.playerType = payload;
     },
-    setUserId(payload: number) {
+    setUserId(payload: string) {
       this.userId = payload;
     },
     setConnectionState(payload: boolean) {
