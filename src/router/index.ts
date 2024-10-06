@@ -14,20 +14,20 @@ const router = createRouter({
       path: "/host",
       name: "Host",
       component: () => import("../views/Host.vue"),
-      meta: { requiresAuth: false, requiresAdmin: true },
+      meta: { requiresConnection: true, requiresAdmin: true },
     },
     {
       path: "/join",
       name: "Join",
       component: () => import("../views/Join.vue"),
-      meta: { requiresAuth: false },
+      meta: { requiresConnection: true },
     },
   ],
 });
 
 router.beforeEach((to, _from) => {
   const store = useMainStore();
-  if (to.meta.requiresAuth && !store.loggedIn) {
+  if (to.meta.requiresConnection && !store.isConnected && !store.userId) {
     return {
       path: "/",
     };

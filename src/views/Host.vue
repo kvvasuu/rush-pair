@@ -36,18 +36,20 @@
 
 <script setup lang="ts">
 import { useAdminStore } from "../stores/adminStore";
+import { useMainStore } from "../stores";
 import { io, Socket } from "socket.io-client";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { Player } from "../types";
 
-const store = useAdminStore();
+const adminStore = useAdminStore();
+const store = useMainStore();
 
 const socketAdmin = ref<Socket | null>(null);
 const isConnected = ref<boolean>(false);
 
 const roomId = ref<string>("");
 
-const players = computed(() => store.getPlayersInRoom);
+const players = computed(() => adminStore.getPlayersInRoom);
 
 const createRoom = () => {
   if (roomId.value && socketAdmin.value) {
@@ -59,14 +61,14 @@ const closeRoom = () => {
   if (roomId.value && socketAdmin.value) {
     socketAdmin.value.emit("closeRoom", roomId.value);
   }
+  adminStore.closeRoom();
 };
-
-const addPlayer = (player: Player) => {
-  store.addPlayer(player);
-};
-
 onMounted(() => {
-  socketAdmin.value = io("http://localhost:3000/admin");
+  const userId = store.userId;
+
+  socketAdmin.value = io("http://localhost:3000/admin", {
+    query: { userId },
+  });
 
   socketAdmin.value.on("message", (msg) => {
     console.log(msg);
@@ -86,9 +88,12 @@ onMounted(() => {
     isConnected.value = false;
   });
 
-  socketAdmin.value.on("userJoined", (player) => {
-    console.log(player);
-    addPlayer(player);
+  socketAdmin.value.on("userJoined", (player: Player) => {
+    adminStore.addPlayer(player);
+  });
+
+  socketAdmin.value.on("userLeft", (player: string) => {
+    adminStore.removePlayer(player);
   });
 });
 

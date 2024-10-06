@@ -38,7 +38,6 @@ const checkServerConnection = async () => {
 
 onMounted(async () => {
   await checkServerConnection();
-
   let storedUserID = localStorage.getItem("userID");
 
   if (!storedUserID) {

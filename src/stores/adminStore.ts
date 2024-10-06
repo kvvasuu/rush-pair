@@ -21,8 +21,12 @@ export const useAdminStore = defineStore("adminStore", {
     addPlayer(payload: Player) {
       this.playersInRoom.push(payload);
     },
-    removePlayer(payload: Player) {
-      this.playersInRoom.filter((el) => el.userId !== payload.userId);
+    removePlayer(payload: string) {
+      console.log(this.playersInRoom);
+      this.playersInRoom = this.playersInRoom.filter(
+        (el) => el.userId !== payload
+      );
+      console.log(this.playersInRoom);
     },
     closeRoom() {
       this.roomName = "";

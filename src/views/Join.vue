@@ -30,9 +30,9 @@
       />
       <button
         class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
-        @click="sendMessage"
+        @click="leaveRoom"
       >
-        Send message
+        Leave room
       </button>
     </div>
   </main>
@@ -57,10 +57,16 @@ const joinRoom = () => {
   }
 };
 
+const leaveRoom = () => {
+  if (roomId.value && usersSocket.value) {
+    usersSocket.value.emit("leaveRoom", roomId.value);
+  }
+};
+
 const message = ref<string>("");
 const messages = ref<string[]>([]);
 
-const sendMessage = () => {
+/* const sendMessage = () => {
   if (roomId.value && message.value && usersSocket.value) {
     usersSocket.value.emit("sendMessageToRoom", {
       roomName: roomId.value,
@@ -68,7 +74,7 @@ const sendMessage = () => {
     });
     message.value = "";
   }
-};
+}; */
 
 watch(messages.value, () => {
   console.log(messages.value);
