@@ -6,10 +6,20 @@
 
     <section
       id="roomList"
-      class="w-full h-80 rounded-lg shadow-inner bg-gray-200/25 my-8"
+      class="w-full h-80 rounded-lg my-8"
       v-if="!isConnected"
     >
-      <ul class="w-full h-full snap-y overflow-auto">
+      <div class="flex items-center justify-center py-2 px-3">
+        <div class="flex grow-0 shrink-0 basis-4/5">
+          <p class="font-semibold uppercase text-sm">Room name</p>
+        </div>
+        <div class="flex grow">
+          <p class="font-semibold uppercase text-sm text-right w-full">Users</p>
+        </div>
+      </div>
+      <ul
+        class="w-full h-full snap-y overflow-auto shadow-inner bg-gray-200/25 rounded-lg scroll"
+      >
         <li
           v-for="room in availableRooms"
           :key="room.roomId"
@@ -155,7 +165,6 @@ onMounted(() => {
 
   usersSocket.value.on("getAvailableRooms", (rooms) => {
     availableRooms.value = rooms;
-    console.log(rooms);
   });
 });
 </script>
