@@ -116,7 +116,7 @@ onMounted(() => {
 
   refreshInterval = window.setInterval(() => {
     if (usersSocket.value) usersSocket.value.emit("getAvailableRooms");
-  }, 5000);
+  }, 15000);
 
   usersSocket.value.on("getAvailableRooms", (rooms) => {
     availableRooms.value = rooms;
