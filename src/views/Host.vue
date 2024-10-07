@@ -6,7 +6,7 @@
       <input
         class="m-4 rounded-lg p-2"
         type="text"
-        v-model="roomId"
+        v-model="roomName"
         placeholder="room"
       /><button
         class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
@@ -29,7 +29,7 @@
       >
         Close room
       </button>
-      Room {{ roomId }} created
+      Room {{ roomName }} created
     </div>
     <button class="absolute bottom-8 left-8" @click="goBack">
       <i
@@ -57,19 +57,19 @@ const goBack = () => {
   router.replace("/");
 };
 
-const roomId = ref<string>("");
+const roomName = ref<string>("");
 
 const players = computed(() => adminStore.getPlayersInRoom);
 
 const createRoom = () => {
-  if (roomId.value && socketAdmin.value) {
-    socketAdmin.value.emit("createRoom", roomId.value);
+  if (roomName.value && socketAdmin.value) {
+    socketAdmin.value.emit("createRoom", roomName.value);
   }
 };
 
 const closeRoom = () => {
-  if (roomId.value && socketAdmin.value) {
-    socketAdmin.value.emit("closeRoom", roomId.value);
+  if (roomName.value && socketAdmin.value) {
+    socketAdmin.value.emit("closeRoom", roomName.value);
   }
   adminStore.closeRoom();
 };
@@ -91,6 +91,7 @@ onMounted(() => {
         break;
       case "created":
         console.log(payload.message);
+        adminStore.setRoom({ ...payload.room });
         isConnected.value = true;
         break;
       case "closed":

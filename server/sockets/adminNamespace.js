@@ -20,61 +20,62 @@ export const setupAdminNamespace = (io) => {
     console.log("Admin connected:", userId);
 
     socket.on("createRoom", (roomName) => {
-      if (rooms.has(roomName)) {
-        socket.emit("rooms", {
-          action: "exists",
-          message: `Room '${roomName}' already exists.`,
-        });
-      } else {
-        rooms.set(roomName, { users: [] });
-        socket.join(roomName);
-        socket.emit("rooms", {
-          action: "created",
-          message: `Room '${roomName}' has been created.`,
-        });
-        getIO()
-          .of("/users")
-          .emit("getAvailableRooms", getAvailableRooms(rooms));
-      }
+      let roomId = "";
+      do {
+        roomId = `room-${Math.random().toString(36).slice(2, 9)}`;
+      } while (rooms.has(roomId));
+
+      rooms.set(roomId, { roomName: roomName, users: [] });
+      socket.join(roomId);
+      socket.emit("rooms", {
+        action: "created",
+        message: `Room '${roomName}' has been created.`,
+        room: { roomId, roomName },
+      });
+      getIO().of("/users").emit("getAvailableRooms", getAvailableRooms(rooms));
     });
 
-    socket.on("closeRoom", (roomName) => {
-      if (rooms.has(roomName)) {
-        const room = rooms.get(roomName);
+    socket.on("closeRoom", (roomId) => {
+      if (rooms.has(roomId)) {
+        const room = rooms.get(roomId);
 
         getIO()
           .of("/users")
-          .to(roomName)
+          .to(roomId)
           .emit("rooms", {
             action: "closed",
-            message: `Room '${roomName}' has been closed.`,
+            message: `Room '${room.roomName}' has been closed.`,
           });
         socket.emit("rooms", {
           action: "closed",
-          message: `Room '${roomName}' has been closed.`,
+          message: `Room '${room.roomName}' has been closed.`,
         });
 
         room.users.forEach((userId) => {
-          getIO().sockets.sockets.get(userId)?.leave(roomName);
+          getIO().sockets.sockets.get(userId)?.leave(roomId);
         });
 
-        rooms.delete(roomName);
+        rooms.delete(roomId);
         getIO()
           .of("/users")
           .emit("getAvailableRooms", getAvailableRooms(rooms));
       }
     });
 
-    socket.on("kickUser", (userId, roomName) => {
+    socket.on("kickUser", (userId, roomId) => {
       const userSocket = getIO().sockets.sockets.get(userId);
+      const room = rooms.get(roomId);
       if (userSocket) {
-        userSocket.leave(roomName);
-        userSocket.emit("roomLeft", `You were kicked from room ${roomName}`);
+        userSocket.leave(roomId);
+        userSocket.emit(
+          "roomLeft",
+          `You were kicked from room ${room.roomName}`
+        );
         socket.emit(
           "userKicked",
-          `User ${userId} was kicked from room ${roomName}`
+          `User ${userId} was kicked from room ${room.roomName}`
         );
-        removeUserFromRoom(roomName, userId);
+        removeUserFromRoom(roomId, userId);
       } else {
         socket.emit("error", "User not found");
       }

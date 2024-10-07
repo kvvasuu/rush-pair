@@ -24,22 +24,25 @@ export const setupUserNamespace = (io) => {
       if (rooms) socket.emit("getAvailableRooms", getAvailableRooms(rooms));
     });
 
-    socket.on("joinRoom", (roomName, userName) => {
-      if (rooms.has(roomName)) {
+    socket.on("joinRoom", (roomId, userName) => {
+      if (rooms.has(roomId)) {
+        const room = rooms.get(roomId);
         const user = {
           name: userName,
           userId: userId,
         };
 
-        rooms.get(roomName).users.push(user);
-        socket.join(roomName);
+        room.users.push(user);
+
+        socket.join(roomId);
+
         socket.emit("rooms", {
           action: "joined",
-          message: `You have joined room ${roomName}`,
+          message: `You have joined room ${room.roomName}`,
         });
         getIO()
           .of("/admin")
-          .to(roomName)
+          .to(roomId)
           .emit("users", {
             action: "joined",
             message: `User "${userId}" joined the room.`,
@@ -50,20 +53,18 @@ export const setupUserNamespace = (io) => {
       }
     });
 
-    socket.on("leaveRoom", (roomName) => {
-      if (rooms.has(roomName)) {
-        const userSocket = io.sockets.sockets.get(userId);
-        const users = rooms.get(roomName).users;
+    socket.on("leaveRoom", (roomId) => {
+      if (rooms.has(roomId)) {
+        const room = rooms.get(roomId);
+        const users = room.users;
         const user = users.find((user) => user.userId === userId);
 
-        if (userSocket) {
-          userSocket.leave(roomName);
-          removeUserFromRoom(roomName, userId);
-        }
+        socket.leave(roomId);
+        removeUserFromRoom(roomId, userId);
 
         getIO()
           .of("/admin")
-          .to(roomName)
+          .to(roomId)
           .emit("users", {
             action: "left",
             message: `User "${userId}" left the room.`,
@@ -72,7 +73,7 @@ export const setupUserNamespace = (io) => {
 
         socket.emit("rooms", {
           action: "left",
-          message: `You left the room "${roomName}"`,
+          message: `You left the room "${room.roomName}"`,
         });
       } else {
         socket.emit("error", "Room does not exist");

@@ -2,12 +2,14 @@ import { defineStore } from "pinia";
 import { Player } from "../types";
 
 interface State {
+  roomId: string;
   roomName: string;
   playersInRoom: Player[];
 }
 
 export const useAdminStore = defineStore("adminStore", {
   state: (): State => ({
+    roomId: "",
     roomName: "",
     playersInRoom: [],
   }),
@@ -15,8 +17,9 @@ export const useAdminStore = defineStore("adminStore", {
     getPlayersInRoom: (state) => state.playersInRoom,
   },
   actions: {
-    setRoomName(payload: string) {
-      this.roomName = payload;
+    setRoom(payload: { roomId: string; roomName: string }) {
+      this.roomId = payload.roomId;
+      this.roomName = payload.roomName;
     },
     addPlayer(payload: Player) {
       this.playersInRoom.push(payload);
@@ -27,6 +30,7 @@ export const useAdminStore = defineStore("adminStore", {
       );
     },
     closeRoom() {
+      this.roomId = "";
       this.roomName = "";
       this.playersInRoom = [];
     },

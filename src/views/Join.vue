@@ -1,19 +1,23 @@
 <template>
-  <main class="flex flex-col items-center justify-center w-full">
+  <main
+    class="flex flex-col items-center justify-center w-full max-w-[640px] m-4"
+  >
     <h1 class="text-2xl font-semibold uppercase">Select room</h1>
 
     <section
-      class="w-full max-w-[640px] min-h-32 rounded-lg shadow-inner bg-gray-200/25 m-8 overflow-hidden"
+      id="roomList"
+      class="w-full h-80 rounded-lg shadow-inner bg-gray-200/25 my-8"
+      v-if="!isConnected"
     >
-      <ul>
+      <ul class="w-full h-full snap-y overflow-auto">
         <li
           v-for="room in availableRooms"
-          :key="room.roomName"
-          class="hover:bg-gray-200/50 cursor-pointer"
+          :key="room.roomId"
+          class="hover:bg-gray-200/30 cursor-pointer snap-start"
           :class="{
-            'bg-gray-100/40': selectedRoom === room.roomName,
+            'bg-gray-100/40': selectedRoom === room.roomId,
           }"
-          @click="() => selectRoom(room.roomName)"
+          @click="() => selectRoom(room.roomId)"
         >
           <div class="flex items-center justify-center py-2 px-3">
             <div class="flex grow-0 shrink-0 basis-auto">
@@ -21,7 +25,7 @@
                 class="fa-solid fa-users-rectangle text-2xl text-slate-800/90"
               ></i>
             </div>
-            <div class="flex grow-0 shrink-0 basis-4/5 ml-4">
+            <div class="flex grow-0 shrink-0 basis-4/5 ml-4 overflow-hidden">
               <p class="font-semibold uppercase text-sm">{{ room.roomName }}</p>
             </div>
             <div class="flex grow">
@@ -77,7 +81,9 @@ const router = useRouter();
 const usersSocket = ref<Socket | null>(null);
 const isConnected = ref<boolean>(false);
 
-const availableRooms = ref<{ roomName: string; users: number }[]>([]);
+const availableRooms = ref<
+  { roomId: string; roomName: string; users: number }[]
+>([]);
 const selectedRoom = ref<string>("");
 
 const userName = ref<string>("");
@@ -91,9 +97,9 @@ const joinRoom = () => {
     usersSocket.value.emit(
       "joinRoom",
       selectedRoom.value,
-      userName.value || ""
+      userName.value || "Anonym"
     );
-    clearInterval(refreshInterval);
+    /* clearInterval(refreshInterval); */
   }
 };
 
@@ -149,6 +155,7 @@ onMounted(() => {
 
   usersSocket.value.on("getAvailableRooms", (rooms) => {
     availableRooms.value = rooms;
+    console.log(rooms);
   });
 });
 </script>
