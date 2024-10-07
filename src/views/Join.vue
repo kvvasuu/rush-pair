@@ -1,22 +1,40 @@
 <template>
   <main class="flex flex-col items-center justify-center w-full">
-    <h1 class="text-2xl">Select room</h1>
+    <h1 class="text-2xl font-semibold uppercase">Select room</h1>
 
-    <section>
+    <section
+      class="w-full max-w-[640px] min-h-32 rounded-lg shadow-inner bg-gray-200/25 m-8 overflow-hidden"
+    >
       <ul>
-        <li v-for="room in availableRooms" :key="room.roomName">
-          {{ room.roomName }} {{ room.users }}
+        <li
+          v-for="room in availableRooms"
+          :key="room.roomName"
+          class="hover:bg-gray-200/50 cursor-pointer"
+          :class="{
+            'bg-gray-100/40': selectedRoom === room.roomName,
+          }"
+          @click="() => selectRoom(room.roomName)"
+        >
+          <div class="flex items-center justify-center py-2 px-3">
+            <div class="flex grow-0 shrink-0 basis-auto">
+              <i
+                class="fa-solid fa-users-rectangle text-2xl text-slate-800/90"
+              ></i>
+            </div>
+            <div class="flex grow-0 shrink-0 basis-4/5 ml-4">
+              <p class="font-semibold uppercase text-sm">{{ room.roomName }}</p>
+            </div>
+            <div class="flex grow">
+              <p class="font-semibold uppercase text-sm text-right w-full">
+                {{ room.users }}
+              </p>
+            </div>
+          </div>
         </li>
       </ul>
     </section>
 
     <div class="flex flex-col items-center justify-center" v-if="!isConnected">
-      <input
-        class="m-4 rounded-lg p-2"
-        type="text"
-        v-model="roomId"
-        placeholder="room"
-      />
       <input
         class="m-4 rounded-lg p-2"
         type="text"
@@ -60,28 +78,36 @@ const usersSocket = ref<Socket | null>(null);
 const isConnected = ref<boolean>(false);
 
 const availableRooms = ref<{ roomName: string; users: number }[]>([]);
+const selectedRoom = ref<string>("");
 
-const roomId = ref<string>("");
 const userName = ref<string>("");
 
-let refreshInterval: number;
-
-const goBack = () => {
-  router.replace("/");
+const selectRoom = (room: string) => {
+  selectedRoom.value = room;
 };
 
 const joinRoom = () => {
-  if (roomId.value && usersSocket.value) {
-    usersSocket.value.emit("joinRoom", roomId.value, userName.value);
+  if (selectedRoom.value && usersSocket.value) {
+    usersSocket.value.emit(
+      "joinRoom",
+      selectedRoom.value,
+      userName.value || ""
+    );
     clearInterval(refreshInterval);
   }
 };
 
 const leaveRoom = () => {
-  if (roomId.value && usersSocket.value) {
-    usersSocket.value.emit("leaveRoom", roomId.value);
+  if (selectedRoom.value && usersSocket.value) {
+    usersSocket.value.emit("leaveRoom", store.roomName);
   }
 };
+
+const goBack = () => {
+  router.replace("/");
+};
+
+let refreshInterval: number;
 
 onBeforeUnmount(() => {
   leaveRoom();
@@ -99,16 +125,19 @@ onMounted(() => {
       case "joined":
         console.log(payload.message);
         isConnected.value = true;
+        store.setRoomName(selectedRoom.value);
         break;
 
       case "left":
         console.log(payload.message);
         isConnected.value = false;
+        store.setRoomName("");
         break;
 
       case "closed":
         console.log(payload.message);
         isConnected.value = false;
+        store.setRoomName("");
         break;
     }
   });
@@ -120,9 +149,6 @@ onMounted(() => {
 
   usersSocket.value.on("getAvailableRooms", (rooms) => {
     availableRooms.value = rooms;
-    console.log(availableRooms.value);
   });
 });
 </script>
-
-<style scoped></style>

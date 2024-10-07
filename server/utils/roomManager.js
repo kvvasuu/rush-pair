@@ -1,10 +1,12 @@
 export const rooms = new Map();
 
 export const getAvailableRooms = () => {
-  return Array.from(rooms, ([key, value]) => ({
-    roomName: key,
-    users: value.users.length,
-  }));
+  if (rooms.size > 0) {
+    return Array.from(rooms, ([key, value]) => ({
+      roomName: key,
+      users: value.users.length,
+    }));
+  } else return [];
 };
 
 export const removeUserFromRoom = (roomName, userId) => {

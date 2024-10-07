@@ -18,7 +18,7 @@ export const setupUserNamespace = (io) => {
     socket.handshake.session.userId = userId;
     socket.handshake.session.save();
 
-    console.log("User connected:", socket.handshake.session.userId);
+    console.log("User connected:", userId);
 
     socket.on("getAvailableRooms", () => {
       if (rooms) socket.emit("getAvailableRooms", getAvailableRooms(rooms));
@@ -28,7 +28,7 @@ export const setupUserNamespace = (io) => {
       if (rooms.has(roomName)) {
         const user = {
           name: userName,
-          userId: socket.handshake.session.userId,
+          userId: userId,
         };
 
         rooms.get(roomName).users.push(user);
@@ -42,7 +42,7 @@ export const setupUserNamespace = (io) => {
           .to(roomName)
           .emit("users", {
             action: "joined",
-            message: `User "${user.name}" joined the room.`,
+            message: `User "${userId}" joined the room.`,
             user: user,
           });
       } else {
@@ -58,20 +58,15 @@ export const setupUserNamespace = (io) => {
 
         if (userSocket) {
           userSocket.leave(roomName);
-          removeUserFromRoom("room1", socket.handshake.session.userId);
+          removeUserFromRoom(roomName, userId);
         }
-
-        getIO()
-          .of("/admin")
-          .to(roomName)
-          .emit("userLeft", socket.handshake.session.userId);
 
         getIO()
           .of("/admin")
           .to(roomName)
           .emit("users", {
             action: "left",
-            message: `User "${user.name}" left the room.`,
+            message: `User "${userId}" left the room.`,
             user: user,
           });
 
@@ -79,15 +74,13 @@ export const setupUserNamespace = (io) => {
           action: "left",
           message: `You left the room "${roomName}"`,
         });
-
-        console.log(rooms);
       } else {
         socket.emit("error", "Room does not exist");
       }
     });
 
     socket.on("disconnect", () => {
-      console.log(`User ${socket.handshake.session.userId} disconnected`);
+      console.log(`User ${userId} disconnected`);
     });
   });
 };
