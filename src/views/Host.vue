@@ -68,8 +68,8 @@ const createRoom = () => {
 };
 
 const closeRoom = () => {
-  if (roomName.value && socketAdmin.value) {
-    socketAdmin.value.emit("closeRoom", roomName.value);
+  if (adminStore.roomId && socketAdmin.value) {
+    socketAdmin.value.emit("closeRoom", adminStore.roomId);
   }
   adminStore.closeRoom();
 };

@@ -1,9 +1,9 @@
 /* export const rooms = new Map(); */
 
 export const rooms = new Map([
-  ["1dsa", { users: [1, 2, 4, 5] }],
-  ["3sdasd", { users: [1, 2, 4, 5, 2, 4, 5, 6] }],
-  ["4dsa", { users: [1, 2, 5] }],
+  ["1dsa", { roomName: "test", users: [1, 2, 4, 5] }],
+  ["3sdasd", { roomName: "testowy pokój", users: [1, 2, 4, 5, 2, 4, 5, 6] }],
+  ["4dsa", { roomName: "pokój zwierzeń", users: [1, 2, 5] }],
   ["daa", { users: [1, 2, 4, 5, 2, 4, 5, 6, 7, 1, 2, 3, 4, 5] }],
   ["3szzadasd", { users: [] }],
   ["4dsada", { users: [] }],
