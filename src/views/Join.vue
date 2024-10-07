@@ -6,16 +6,16 @@
 
     <section
       id="roomList"
-      class="w-full h-80 rounded-lg shadow-inner bg-gray-200/25 my-8"
-      v-if="!isConnected"
+      class="w-full h-80 rounded-lg shadow-inner bg-gray-200/25 my-8 overflow-hidden"
+      v-if="!store.roomId"
     >
       <ul class="w-full h-full snap-y overflow-auto">
         <li
           v-for="room in availableRooms"
           :key="room.roomId"
-          class="hover:bg-gray-200/30 cursor-pointer snap-start"
+          class="hover:bg-gray-100/40 cursor-pointer snap-start"
           :class="{
-            'bg-gray-100/40': selectedRoom === room.roomId,
+            'bg-gray-100/30': selectedRoom === room.roomId,
           }"
           @click="() => selectRoom(room.roomId)"
         >
@@ -38,7 +38,7 @@
       </ul>
     </section>
 
-    <div class="flex flex-col items-center justify-center" v-if="!isConnected">
+    <div class="flex flex-col items-center justify-center" v-if="!store.roomId">
       <input
         class="m-4 rounded-lg p-2"
         type="text"
@@ -46,13 +46,15 @@
         placeholder="name"
       /><button
         class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
+        :class="{ disabled: !selectedRoom || !userName }"
+        :disabled="!selectedRoom || !userName"
         @click="joinRoom"
       >
         Join session
       </button>
     </div>
 
-    <div class="flex flex-col items-center justify-center" v-else>
+    <div class="flex flex-col items-center justify-center m-8" v-else>
       <button
         class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
         @click="leaveRoom"
@@ -79,7 +81,6 @@ const store = useMainStore();
 const router = useRouter();
 
 const usersSocket = ref<Socket | null>(null);
-const isConnected = ref<boolean>(false);
 
 const availableRooms = ref<
   { roomId: string; roomName: string; users: number }[]
@@ -89,7 +90,9 @@ const selectedRoom = ref<string>("");
 const userName = ref<string>("");
 
 const selectRoom = (room: string) => {
-  selectedRoom.value = room;
+  selectedRoom.value === room
+    ? (selectedRoom.value = "")
+    : (selectedRoom.value = room);
 };
 
 const joinRoom = () => {
@@ -130,19 +133,16 @@ onMounted(() => {
     switch (payload.action) {
       case "joined":
         console.log(payload.message);
-        isConnected.value = true;
         store.setRoom({ ...payload.room });
         break;
 
       case "left":
         console.log(payload.message);
-        isConnected.value = false;
         store.setRoom({ roomId: "", roomName: "" });
         break;
 
       case "closed":
         console.log(payload.message);
-        isConnected.value = false;
         store.setRoom({ roomId: "", roomName: "" });
         break;
     }
@@ -158,3 +158,10 @@ onMounted(() => {
   });
 });
 </script>
+
+<style scoped>
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
