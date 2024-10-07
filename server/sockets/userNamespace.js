@@ -27,6 +27,7 @@ export const setupUserNamespace = (io) => {
     socket.on("joinRoom", (roomId, userName) => {
       if (rooms.has(roomId)) {
         const room = rooms.get(roomId);
+        const roomName = room.roomName;
         const user = {
           name: userName,
           userId: userId,
@@ -38,7 +39,8 @@ export const setupUserNamespace = (io) => {
 
         socket.emit("rooms", {
           action: "joined",
-          message: `You have joined room ${room.roomName}`,
+          message: `You have joined room ${roomName}`,
+          room: { roomId, roomName },
         });
         getIO()
           .of("/admin")

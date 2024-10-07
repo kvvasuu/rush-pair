@@ -8,6 +8,7 @@ interface State {
   playerType: PlayerType;
   isConnected: boolean | null;
   roomName: string;
+  roomId: string;
 }
 
 export const useMainStore = defineStore("mainStore", {
@@ -18,14 +19,16 @@ export const useMainStore = defineStore("mainStore", {
     playerType: "user",
     isConnected: null,
     roomName: "",
+    roomId: "",
   }),
   actions: {
     updateUser(payload: State) {
       this.name = payload?.name || "";
       this.userId = payload.userId;
     },
-    setRoomName(payload: string) {
-      this.roomName = payload;
+    setRoom(payload: { roomId: string; roomName: string }) {
+      this.roomId = payload.roomId;
+      this.roomName = payload.roomName;
     },
     setGameMode(payload: PlayerType) {
       this.playerType = payload;

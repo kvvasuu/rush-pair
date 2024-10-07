@@ -104,8 +104,8 @@ const joinRoom = () => {
 };
 
 const leaveRoom = () => {
-  if (selectedRoom.value && usersSocket.value) {
-    usersSocket.value.emit("leaveRoom", store.roomName);
+  if (store.roomId && usersSocket.value) {
+    usersSocket.value.emit("leaveRoom", store.roomId);
   }
 };
 
@@ -131,19 +131,19 @@ onMounted(() => {
       case "joined":
         console.log(payload.message);
         isConnected.value = true;
-        store.setRoomName(selectedRoom.value);
+        store.setRoom({ ...payload.room });
         break;
 
       case "left":
         console.log(payload.message);
         isConnected.value = false;
-        store.setRoomName("");
+        store.setRoom({ roomId: "", roomName: "" });
         break;
 
       case "closed":
         console.log(payload.message);
         isConnected.value = false;
-        store.setRoomName("");
+        store.setRoom({ roomId: "", roomName: "" });
         break;
     }
   });
@@ -155,7 +155,6 @@ onMounted(() => {
 
   usersSocket.value.on("getAvailableRooms", (rooms) => {
     availableRooms.value = rooms;
-    console.log(rooms);
   });
 });
 </script>
