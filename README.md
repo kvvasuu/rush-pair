@@ -1,5 +1,1 @@
-# Vue 3 + TypeScript + Vite
-
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+RushPair is an exciting speed friending app that brings people together for real-life interactions. Meet new people in a fun, fast-paced environment where anonymity is key. Each round, you’ll have 3 minutes to chat with a randomly selected partner. If you both click, the match is revealed at the end of the game. Discover connections naturally, one conversation at a time.
