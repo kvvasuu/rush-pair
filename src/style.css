@@ -77,27 +77,29 @@ color-font: #00224D
   opacity: 0;
 }
 
-.scroll::-webkit-scrollbar {
-  width: 14px;
-  height: 18px;
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
 }
 
-.scroll::-webkit-scrollbar-thumb {
-  height: 6px;
-  border: 4px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  background-color: rgba(0, 0, 0, 0, 0.2);
-  -webkit-border-radius: 7px;
-  -webkit-box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05),
-    inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
-.scroll::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-.scroll::-webkit-scrollbar-corner {
-  background-color: transparent;
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #707070;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00224d;
 }

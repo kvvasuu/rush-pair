@@ -1,6 +1,6 @@
-/* export const rooms = new Map(); */
+export const rooms = new Map();
 
-export const rooms = new Map([
+/* export const rooms = new Map([
   ["1dsa", { roomName: "test", users: [1, 2, 4, 5] }],
   ["3sdasd", { roomName: "testowy pokój", users: [1, 2, 4, 5, 2, 4, 5, 6] }],
   ["4dsa", { roomName: "pokój zwierzeń", users: [1, 2, 5] }],
@@ -11,7 +11,7 @@ export const rooms = new Map([
   ["3sxzdasd", { users: [] }],
   ["4daasa", { users: [] }],
 ]);
-
+ */
 export const getAvailableRooms = () => {
   if (rooms.size > 0) {
     return Array.from(rooms, ([key, value]) => ({
