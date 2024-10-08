@@ -2,6 +2,7 @@ import {
   getAvailableRooms,
   removeUserFromRoom,
   rooms,
+  users,
 } from "../utils/roomManager.js";
 import sharedSession from "express-socket.io-session";
 import sessionMiddleware from "../session.js";
@@ -17,6 +18,8 @@ export const setupUserNamespace = (io) => {
 
     socket.handshake.session.userId = userId;
     socket.handshake.session.save();
+
+    users.push({ userId: userId });
 
     console.log("User connected:", userId);
 
@@ -84,6 +87,7 @@ export const setupUserNamespace = (io) => {
 
     socket.on("disconnect", () => {
       console.log(`User ${userId} disconnected`);
+      users.push(userId);
     });
   });
 };

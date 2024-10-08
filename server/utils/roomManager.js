@@ -1,6 +1,6 @@
 /* export const rooms = new Map(); */
 
-export const users = new Map();
+export const users = [];
 
 export const rooms = new Map([
   ["1dsa", { roomName: "test", users: [1, 2, 4, 5] }],
