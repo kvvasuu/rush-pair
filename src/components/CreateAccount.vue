@@ -1,6 +1,57 @@
 <template>
   <BasicModal @close="closeModal">
-    <div class="w-full h-full"></div>
+    <div class="w-full h-full flex flex-col items-center">
+      <header>
+        <h1 class="text-3xl font-bold text-center">Create account</h1>
+        <span v-if="generalError">{{ generalError }}</span>
+      </header>
+      <form class="w-full flex flex-col items-center justify-center">
+        <div class="mt-4 w-full flex flex-col items-center relative">
+          <input
+            id="email"
+            placeholder="Email"
+            type="email"
+            v-model="email"
+            @blur="validateEmail"
+            @click="showEmailError = false"
+            class="w-full p-4 pl-12 rounded-xl border-2"
+            :class="{ 'border-red-500': showEmailError }"
+          />
+
+          <i
+            class="fa-regular fa-envelope h-[60px] flex items-center absolute text-xl left-4"
+          ></i>
+
+          <span
+            v-if="showEmailError"
+            class="text-red-500 font-semibold text-xs w-full text-left pl-4 py-1"
+            >Please provide correct email</span
+          >
+        </div>
+        <div class="mt-4 w-full flex flex-col items-center relative">
+          <input
+            id="password"
+            placeholder="Password"
+            type="password"
+            v-model="password"
+            @blur="validatePassword"
+            @click="showPasswordError = false"
+            class="w-full p-4 pl-12 rounded-xl border-2"
+            :class="{ 'border-red-500': showPasswordError }"
+          />
+
+          <i
+            class="fa-solid fa-lock h-[60px] flex items-center absolute text-xl left-4"
+          ></i>
+
+          <span
+            v-if="showPasswordError"
+            class="text-red-500 font-semibold text-xs w-full text-left pl-4 py-1"
+            >Password must be at least 6 characters long.</span
+          >
+        </div>
+      </form>
+    </div>
   </BasicModal>
 </template>
 
@@ -37,7 +88,6 @@ const isLoading = ref(false);
 const registerComplete = ref(false);
 
 const generalError = ref("Something went wrong. Try again later.");
-const showGeneralError = ref(false);
 
 //Methods
 const validateEmail = () => {
@@ -86,7 +136,7 @@ const register = async () => {
   validatePassword();
   validatePasswordConfirm();
   validateTerms();
-  showGeneralError.value = false;
+  generalError.value = "";
   isLoading.value = true;
   if (
     emailCorrect.value &&
@@ -110,9 +160,6 @@ const register = async () => {
             "The provided email address is already registered in our system. If you forgot your password, please use the password recovery option.";
         } else {
           generalError.value = "Something went wrong. Try again later.";
-        }
-        if (error.error === "email-taken") {
-          showGeneralError.value = true;
         }
         console.log(error);
       })
