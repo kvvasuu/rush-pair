@@ -155,6 +155,33 @@
         </button>
       </form>
     </div>
+    <div
+      class="w-full h-full flex flex-col items-center justify-between pb-6"
+      v-else
+    >
+      <header class="flex flex-col items-center mb-6">
+        <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
+        <h1 class="text-2xl font-bold text-center mt-12">
+          <p>Registration successful!</p>
+          <p>Welcome aboard.</p>
+        </h1>
+      </header>
+      <i class="fa-solid fa-check text-5xl text-neutral-700"></i>
+
+      <div class="flex flex-col">
+        <button
+          class="px-8 py-3 w-full sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+        >
+          Login
+        </button>
+        <button
+          class="px-2 py-1 mt-6 text-xs font-semibold"
+          @click="() => (registerComplete = false)"
+        >
+          Back
+        </button>
+      </div>
+    </div>
   </BasicModal>
 </template>
 
@@ -197,6 +224,14 @@ const preventModalClose = computed(() => {
 });
 
 //Methods
+const resetForm = () => {
+  email.value = "";
+  password.value = "";
+  passwordConfirm.value = "";
+  checkbox.value = false;
+  isLoading.value = false;
+};
+
 const validateEmail = () => {
   if (email.value.length == 0) {
     showEmailError.value = false;
@@ -253,29 +288,24 @@ const register = async () => {
     isLoading.value = true;
     await axios
       .post("http://localhost:3000/auth/register", {
-        name: "Łukasz Kwas",
-        email: "robak1111@gmail.com",
-        password: "dupa1111",
+        email: email.value,
+        password: password.value,
       })
       .then((res) => {
         registerComplete.value = true;
         console.log(res);
       })
       .catch((error) => {
-        if (error.error === "email-taken") {
+        if (error.response.data.error === "email-taken") {
           generalError.value =
-            "The provided email address is already registered in our system. If you forgot your password, please use the password recovery option.";
+            "The provided email address is already registered in our system.";
         } else {
           generalError.value = "Something went wrong. Try again later.";
         }
         console.log(error);
       })
       .finally(() => {
-        email.value = "";
-        password.value = "";
-        passwordConfirm.value = "";
-        checkbox.value = false;
-        isLoading.value = false;
+        resetForm();
       });
   }
 };
