@@ -1,6 +1,6 @@
 <template>
   <BasicModal @close="closeModal">
-    <section class="bg-slate-50"></section>
+    <div class="w-full h-full"></div>
   </BasicModal>
 </template>
 

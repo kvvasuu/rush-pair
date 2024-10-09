@@ -51,44 +51,31 @@
 
     <section
       id="controls"
-      class="flex flex-col items-center py-16"
+      class="flex flex-col items-center py-32 sm:py-16 w-full"
       :class="{ show: showUi }"
     >
       <div
         id="controls-delayed"
-        class="flex flex-col items-center justify-center gap-6 px-10"
-        v-if="false"
+        class="flex flex-col items-center justify-center gap-6 px-10 w-full"
       >
         <button
-          class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
-          @click="chooseMode('user')"
-        >
-          Join session
-        </button>
-        <button
-          class="px-4 py-2 font-bold text-sm hover:bg-gray-100/50 hover:-translate-y-1 rounded-lg transition-all duration-300 drop-shadow-md"
-          @click="chooseMode('admin')"
-        >
-          Host session
-        </button>
-      </div>
-      <div
-        id="controls-delayed"
-        class="flex flex-col items-center justify-center gap-6 px-10"
-        v-else
-      >
-        <button
-          class="px-8 py-3 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 w-full mx-10 sm:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
           @click="() => toggleAuthModal('register')"
         >
           Register
+        </button>
+        <button
+          class="text-slate-50 sm:text-inherit px-8 py-3 w-full mx-10 sm:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm sm:hidden"
+          @click="() => toggleAuthModal('login')"
+        >
+          Login
         </button>
       </div>
     </section>
     <div
       id="login-button"
       :class="{ show: showUi }"
-      class="absolute top-8 right-8"
+      class="absolute top-8 right-8 hidden sm:block"
     >
       <button
         class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"

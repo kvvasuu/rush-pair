@@ -4,9 +4,19 @@
     @click="closeModal"
   >
     <Transition name="pop-up">
-      <div @click.stop="" v-if="isVisible">
+      <section
+        @click.stop=""
+        v-if="isVisible"
+        class="w-full sm:max-w-[28rem] h-full sm:max-h-[42rem] bg-slate-50 sm:rounded-lg p-12 relative"
+      >
         <slot></slot>
-      </div>
+        <button
+          @click="closeModal"
+          class="absolute top-6 right-6 text-neutral-400 hover:text-neutral-500 transition-colors text-4xl flex items-center justify-center w-8 h-8"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </section>
     </Transition>
   </div>
 </template>
@@ -30,7 +40,7 @@ const closeModal = () => {
     isVisible.value = false;
     setTimeout(() => {
       emit("close");
-    }, 100);
+    }, 200);
   }
 };
 </script>
