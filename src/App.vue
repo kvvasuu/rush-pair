@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+/* import { onMounted } from "vue";
 import { useMainStore } from "./stores";
 import axios from "axios";
 
@@ -48,7 +48,7 @@ onMounted(async () => {
     store.setUserId(storedUserID);
     localStorage.setItem("userID", storedUserID);
   }
-});
+}); */
 </script>
 
 <style scoped>

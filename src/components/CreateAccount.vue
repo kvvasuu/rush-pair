@@ -1,12 +1,18 @@
 <template>
   <BasicModal @close="closeModal">
     <div class="w-full h-full flex flex-col items-center">
-      <header>
-        <h1 class="text-3xl font-bold text-center">Create account</h1>
-        <span v-if="generalError">{{ generalError }}</span>
+      <header class="flex flex-col items-center mb-6">
+        <img src="../../public/logo_sygnet.png" alt="Rush Pair" width="52px" />
+        <h1 class="text-3xl font-bold text-center mt-6">Create account</h1>
+        <p class="min-h-6">
+          <span v-if="generalError">{{ generalError }}</span>
+        </p>
       </header>
       <form class="w-full flex flex-col items-center justify-center">
-        <div class="mt-4 w-full flex flex-col items-center relative">
+        <div
+          class="mb-3 w-full flex flex-col items-center relative"
+          :class="{ 'mb-0': showEmailError }"
+        >
           <input
             id="email"
             placeholder="Email"
@@ -19,16 +25,18 @@
           />
 
           <i
-            class="fa-regular fa-envelope h-[60px] flex items-center absolute text-xl left-4"
+            class="fa-regular fa-envelope h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
           ></i>
-
           <span
             v-if="showEmailError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 py-1"
-            >Please provide correct email</span
+            >Please provide correct email.</span
           >
         </div>
-        <div class="mt-4 w-full flex flex-col items-center relative">
+        <div
+          class="mb-3 w-full flex flex-col items-center relative"
+          :class="{ 'mb-0': showPasswordError }"
+        >
           <input
             id="password"
             placeholder="Password"
@@ -41,7 +49,7 @@
           />
 
           <i
-            class="fa-solid fa-lock h-[60px] flex items-center absolute text-xl left-4"
+            class="fa-solid fa-lock h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
           ></i>
 
           <span
@@ -50,6 +58,37 @@
             >Password must be at least 6 characters long.</span
           >
         </div>
+        <div
+          class="mb-3 w-full flex flex-col items-center relative"
+          :class="{ 'mb-0': showPasswordError }"
+        >
+          <input
+            id="password-confirm"
+            placeholder="Confirm password"
+            type="password"
+            v-model="passwordConfirm"
+            @blur="validatePasswordConfirm"
+            @click="showPasswordConfirmError = false"
+            class="w-full p-4 pl-12 rounded-xl border-2"
+            :class="{ 'border-red-500': showPasswordConfirmError }"
+          />
+
+          <i
+            class="fa-solid fa-lock h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
+          ></i>
+
+          <span
+            v-if="showPasswordConfirmError"
+            class="text-red-500 font-semibold text-xs w-full text-left pl-4 py-1"
+            >Passwords are not the same.</span
+          >
+        </div>
+        <button
+          class="px-8 py-3 w-full mt-8 sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+          @click="register"
+        >
+          Create account
+        </button>
       </form>
     </div>
   </BasicModal>
