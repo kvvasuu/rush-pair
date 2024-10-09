@@ -7,7 +7,7 @@
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
         <h1 class="text-3xl font-bold text-center mt-6">Create account</h1>
-        <p class="min-h-6 mt-2 text-center">
+        <p class="min-h-6 mt-2 text-center text-red-500 font-semibold">
           <span v-if="generalError">{{ generalError }}</span>
         </p>
       </header>
@@ -161,16 +161,17 @@
     >
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-2xl font-bold text-center mt-12">
+        <h1 class="text-2xl font-bold text-center mt-32 sm:mt-20">
           <p>Registration successful!</p>
           <p>Welcome aboard.</p>
         </h1>
+        <i class="fa-solid fa-check text-5xl text-neutral-700 mt-20"></i>
       </header>
-      <i class="fa-solid fa-check text-5xl text-neutral-700"></i>
 
       <div class="flex flex-col">
         <button
           class="px-8 py-3 w-full sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+          @click="() => emit("goToLogin")"
         >
           Login
         </button>
@@ -190,7 +191,7 @@ import { computed, ref } from "vue";
 import BasicModal from "./containers/BasicModal.vue";
 import axios from "axios";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "goToLogin"]);
 const closeModal = () => {
   emit("close");
 };
@@ -296,7 +297,7 @@ const register = async () => {
         console.log(res);
       })
       .catch((error) => {
-        if (error.response.data.error === "email-taken") {
+        if (error.response && error.response.data.error === "email-taken") {
           generalError.value =
             "The provided email address is already registered in our system.";
         } else {
