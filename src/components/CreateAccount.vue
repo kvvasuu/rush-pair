@@ -1,5 +1,5 @@
 <template>
-  <BasicModal @close="closeModal">
+  <BasicModal :prevent-close="preventModalClose" @close="closeModal">
     <div class="w-full h-full flex flex-col items-center">
       <header class="flex flex-col items-center mb-6">
         <img src="../../public/logo_sygnet.png" alt="Rush Pair" width="52px" />
@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import BasicModal from "./containers/BasicModal.vue";
 import axios from "axios";
 
@@ -127,6 +127,10 @@ const isLoading = ref(false);
 const registerComplete = ref(false);
 
 const generalError = ref("Something went wrong. Try again later.");
+
+const preventModalClose = computed(() => {
+  return !!emailCorrect.value || !!password.value || !!passwordConfirm.value;
+});
 
 //Methods
 const validateEmail = () => {
