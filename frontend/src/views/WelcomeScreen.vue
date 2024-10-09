@@ -25,13 +25,13 @@
       >
         <button
           class="px-8 py-3 w-full mx-10 sm:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
-          @click="() => toggleAuthModal('register')"
+          @click="toggleAuthModal('register')"
         >
           Create account
         </button>
         <button
           class="text-slate-50 sm:text-inherit px-8 py-3 w-full mx-10 sm:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm sm:hidden"
-          @click="() => toggleAuthModal('login')"
+          @click="toggleAuthModal('login')"
         >
           Login
         </button>
@@ -44,7 +44,7 @@
     >
       <button
         class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
-        @click="() => toggleAuthModal('login')"
+        @click="toggleAuthModal('login')"
       >
         Login
       </button>
@@ -54,7 +54,9 @@
         <CreateAccount
           v-if="registerModal"
           @close="toggleAuthModal('register')"
+          @go-to-login="toggleAuthModal('login')"
         ></CreateAccount>
+        <Login v-else-if="loginModal" @close="toggleAuthModal('login')"></Login>
       </Teleport>
     </Transition>
   </main>
@@ -62,6 +64,7 @@
 
 <script setup lang="ts">
 import CreateAccount from "../components/CreateAccount.vue";
+import Login from "../components/Login.vue";
 import { ref, onMounted } from "vue";
 /* import { useMainStore } from "../stores";
 

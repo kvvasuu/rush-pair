@@ -75,7 +75,7 @@
             @blur="
               () => {
                 validatePasswordConfirm;
-                validatePasswordConfirm;
+                validatePassword;
               }
             "
             @click="showPasswordError = false"
@@ -105,7 +105,7 @@
             @blur="
               () => {
                 validatePasswordConfirm;
-                validatePasswordConfirm;
+                validatePassword;
               }
             "
             @click="showPasswordConfirmError = false"
@@ -171,7 +171,12 @@
       <div class="flex flex-col">
         <button
           class="px-8 py-3 w-full sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
-          @click="() => emit("goToLogin")"
+          @click="
+            () => {
+              emit('goToLogin');
+              emit('close');
+            }
+          "
         >
           Login
         </button>
