@@ -77,6 +77,23 @@ color-font: #00224D
   opacity: 0;
 }
 
+.pop-up-enter-active {
+  animation: pop-up 0.5s;
+}
+.pop-up-leave-active {
+  animation: pop-up 0.5s reverse;
+}
+@keyframes pop-up {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/**/
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;

@@ -14,6 +14,10 @@ export const rooms = new Map([
   ["4daasa", { users: [] }],
 ]);
 
+export const getUserData = (userId) => {
+  return users.filter((el) => (el.userId = userId));
+};
+
 export const getAvailableRooms = () => {
   if (rooms.size > 0) {
     return Array.from(rooms, ([key, value]) => ({

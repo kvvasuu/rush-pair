@@ -24,6 +24,7 @@ export const setupUserNamespace = (io) => {
     console.log("User connected:", userId);
 
     socket.on("getAvailableRooms", () => {
+      console.log(users);
       if (rooms) socket.emit("getAvailableRooms", getAvailableRooms(rooms));
     });
 
@@ -87,7 +88,7 @@ export const setupUserNamespace = (io) => {
 
     socket.on("disconnect", () => {
       console.log(`User ${userId} disconnected`);
-      users.push(userId);
+      users = users.filter((el) => el.userId !== userId);
     });
   });
 };

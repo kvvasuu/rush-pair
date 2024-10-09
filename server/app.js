@@ -1,24 +1,28 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
+import authRoutes from "./routes/auth.js";
 import sessionMiddleware from "./session.js";
 
 const app = express();
 
+app.use(express.json());
 app.use(cors());
 app.use(sessionMiddleware);
+
+mongoose
+  .connect("mongodb://localhost:27017/auth-app")
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log("Error. Not connected to MongoDB:", err.message);
+  });
 
 app.get("/status", (req, res) => {
   res.status(200).send("Server is running");
 });
 
-app.get("/get-user-id", (req, res) => {
-  if (!req.session.userId) {
-    req.session.userId = `user-${Math.random().toString(36).slice(2, 9)}`;
-    console.log(`User ${req.session.userId} connected.`);
-  } else {
-    console.log(`User ${req.session.userId} reconnected.`);
-  }
-  res.json({ userId: req.session.userId });
-});
+app.use("/auth", authRoutes);
 
 export default app;

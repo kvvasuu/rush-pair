@@ -118,7 +118,7 @@ const joinRoom = () => {
 
 const leaveRoom = () => {
   if (store.roomId && usersSocket.value) {
-    usersSocket.value.emit("leaveRoom", store.roomId);
+    usersSocket.value.emit("disconnect", store.roomId);
   }
 };
 

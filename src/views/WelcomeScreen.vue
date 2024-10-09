@@ -1,17 +1,19 @@
 <template>
-  <main class="flex flex-col items-center justify-center w-full">
+  <main
+    class="flex flex-col items-center justify-center w-full h-full relative"
+  >
     <div
       class="logo pointer-events-none h-40"
       :class="{
         'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled opacity-95':
-          store.userId,
+          showUi,
       }"
     >
       <a href="https://kwasu.pl" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
       /></a>
       <Transition name="fade">
-        <div v-if="!store.userId && showConnectingMessage">
+        <div v-if="false">
           <Transition name="fade">
             <p
               class="text-gray-100/80 my-8 w-full text-center"
@@ -49,12 +51,13 @@
 
     <section
       id="controls"
-      class="flex flex-col items-center pt-16"
-      :class="{ expanded: store.userId }"
+      class="flex flex-col items-center py-16"
+      :class="{ show: showUi }"
     >
       <div
         id="controls-delayed"
         class="flex flex-col items-center justify-center gap-6 px-10"
+        v-if="false"
       >
         <button
           class="px-8 py-4 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 hover:-translate-y-1 rounded-2xl transition-all duration-300 drop-shadow-md"
@@ -69,11 +72,44 @@
           Host session
         </button>
       </div>
+      <div
+        id="controls-delayed"
+        class="flex flex-col items-center justify-center gap-6 px-10"
+        v-else
+      >
+        <button
+          class="px-8 py-3 font-bold text-lg bg-yellow-400 hover:bg-amber-400 border-[1px] border-amber-300 rounded-full transition-all drop-shadow-sm"
+          @click="() => toggleAuthModal('register')"
+        >
+          Register
+        </button>
+      </div>
     </section>
+    <div
+      id="login-button"
+      :class="{ show: showUi }"
+      class="absolute top-8 right-8"
+    >
+      <button
+        class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+        @click="() => toggleAuthModal('login')"
+      >
+        Login
+      </button>
+    </div>
+    <Transition name="fade">
+      <Teleport to="body">
+        <Register
+          v-if="registerModal"
+          @close="toggleAuthModal('register')"
+        ></Register>
+      </Teleport>
+    </Transition>
   </main>
 </template>
 
 <script setup lang="ts">
+import Register from "../components/Register.vue";
 import { ref, onMounted } from "vue";
 import { useMainStore } from "../stores";
 import { useRouter } from "vue-router";
@@ -86,12 +122,27 @@ const chooseMode = (mode: "admin" | "user") => {
   mode === "admin" ? router.push("/host") : router.push("/join");
 };
 
-const showConnectingMessage = ref<boolean>(false);
+const showUi = ref<boolean>(false);
+
+const registerModal = ref<boolean>(false);
+const loginModal = ref<boolean>(false);
+
+const toggleAuthModal = (type: string) => {
+  switch (type) {
+    case "register":
+      registerModal.value = !registerModal.value;
+      break;
+
+    case "login":
+      loginModal.value = !loginModal.value;
+      break;
+  }
+};
 
 onMounted(() => {
   setTimeout(() => {
-    showConnectingMessage.value = true;
-  }, 3000);
+    showUi.value = true;
+  }, 1500);
 });
 </script>
 
@@ -103,19 +154,23 @@ onMounted(() => {
   opacity: 0;
 }
 
-#controls.expanded {
+#controls.show {
   max-height: 200px;
   opacity: 1;
 }
 
-#controls-delayed {
+#controls-delayed,
+#login-button {
   opacity: 0;
   transition: all 1s ease;
+  pointer-events: none;
 }
 
-#controls.expanded #controls-delayed {
+#controls.show #controls-delayed,
+#login-button.show {
   opacity: 1;
   transition-delay: 1s;
+  pointer-events: auto;
 }
 
 .enabled {
