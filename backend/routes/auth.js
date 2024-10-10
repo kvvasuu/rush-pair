@@ -6,7 +6,8 @@ import User from "../models/User.js";
 
 const router = express.Router();
 
-// Rejestracja użytkownika
+const JWT_SECRET = "bTz8Kj%T&v9#LvD8j!7M@c4Hy92Xm&N^4tQZ2$wYFzRqS3GpJpP!";
+
 router.post(
   "/register",
   [
@@ -46,7 +47,6 @@ router.post(
   }
 );
 
-// Logowanie użytkownika
 router.post(
   "/login",
   [
@@ -55,6 +55,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -65,7 +66,7 @@ router.post(
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(409).json({
-          msg: "Email not exists.",
+          msg: "Email does not exists.",
         });
       }
 
@@ -78,11 +79,11 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
+          email: user.email,
         },
       };
 
-      jwt.sign(payload, "secretKey", { expiresIn: "1h" }, (err, token) => {
+      jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
@@ -92,5 +93,28 @@ router.post(
     }
   }
 );
+
+router.get("/verify-token", async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "Token missing" });
+  }
+
+  jwt.verify(token, JWT_SECRET, async (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Invalid token" });
+    }
+
+    const user = await User.findOne(decoded.email);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Zwróć dane użytkownika
+    res.json({ user });
+  });
+});
 
 export default router;

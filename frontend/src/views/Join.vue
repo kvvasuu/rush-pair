@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <main
     class="flex flex-col items-center justify-center w-full max-w-[640px] m-4"
   >
@@ -175,3 +175,4 @@ onMounted(() => {
   pointer-events: none;
 }
 </style>
+ -->

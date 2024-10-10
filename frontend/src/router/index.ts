@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useMainStore } from "../stores";
+import { useAuthStore } from "../stores/authStore";
+import AppView from "../views/app/AppView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,32 +12,20 @@ const router = createRouter({
       component: () => import("../views/WelcomeScreen.vue"),
     },
     {
-      path: "/host",
-      name: "Host",
-      component: () => import("../views/Host.vue"),
-      meta: { requiresConnection: true, requiresAdmin: true },
-    },
-    {
-      path: "/join",
-      name: "Join",
-      component: () => import("../views/Join.vue"),
-      meta: { requiresConnection: true },
+      path: "/app",
+      name: "App",
+      component: AppView,
+      meta: { requiresAuth: true },
+      beforeEnter: (_to, _from, next) => {
+        const store = useAuthStore();
+        if (store.token) {
+          next();
+        } else {
+          next("/");
+        }
+      },
     },
   ],
-});
-
-router.beforeEach((to, _from) => {
-  const store = useMainStore();
-  if (to.meta.requiresConnection && !store.isConnected && !store.userId) {
-    return {
-      path: "/",
-    };
-  }
-  if (to.meta.requiresAdmin && store.playerType !== "admin") {
-    return {
-      path: "/",
-    };
-  }
 });
 
 export default router;

@@ -66,12 +66,6 @@
 import CreateAccount from "../components/CreateAccount.vue";
 import Login from "../components/Login.vue";
 import { ref, onMounted } from "vue";
-/* import { useMainStore } from "../stores";
-
-import { useRouter } from "vue-router";
-
-const store = useMainStore();
-const router = useRouter(); */
 
 const showUi = ref(false);
 

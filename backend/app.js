@@ -19,10 +19,6 @@ mongoose
     console.log("Error. Not connected to MongoDB:", err.message);
   });
 
-app.get("/status", (req, res) => {
-  res.status(200).send("Server is running");
-});
-
 app.use("/auth", authRoutes);
 
 export default app;

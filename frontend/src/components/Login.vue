@@ -99,6 +99,10 @@ import { ref } from "vue";
 import BasicModal from "./containers/BasicModal.vue";
 import axios from "axios";
 
+import { useAuthStore } from "../stores/authStore";
+
+const store = useAuthStore();
+
 const emit = defineEmits(["close"]);
 const closeModal = () => {
   emit("close");
@@ -126,8 +130,10 @@ const login = async () => {
         password: password.value,
       })
       .then((res) => {
-        console.log("logged in");
-        console.log(res);
+        const token = res.data.token;
+        store.setToken(token);
+
+        store.login();
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
