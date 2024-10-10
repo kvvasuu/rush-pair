@@ -13,6 +13,7 @@
         <button
           @click="closeModal"
           class="absolute top-6 right-6 text-neutral-400 hover:text-neutral-500 transition-colors text-4xl flex items-center justify-center w-8 h-8"
+          v-if="!noCloseButton"
         >
           <i class="fa-solid fa-xmark"></i>
         </button>
@@ -24,7 +25,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const props = defineProps(["preventClose"]);
+const props = defineProps(["preventClose", "noCloseButton"]);
 const emit = defineEmits(["close"]);
 
 const isVisible = ref(false);

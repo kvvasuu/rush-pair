@@ -14,12 +14,12 @@ const router = createRouter({
     {
       path: "/app",
       meta: { requiresAuth: true },
-      beforeEnter: (_to, _from, next) => {
+      beforeEnter: (to, _from, next) => {
         const store = useAuthStore();
-        if (store.firstVisit) {
-          next("/app/first-steps");
+        if (store.firstVisit && to.path !== "/app/first-steps") {
+          next("/app/first-steps"); // Przekierowanie na first-steps
         } else {
-          next();
+          next(); // Kontynuacja do domyślnej trasy /app
         }
       },
       children: [
@@ -32,15 +32,7 @@ const router = createRouter({
           path: "first-steps",
           name: "FirstSteps",
           component: () => import("../components/FirstSteps.vue"),
-          meta: { requiresAuth: true },
-          /* beforeEnter: (_to, _from, next) => {
-            const store = useAuthStore();
-            if (!store.firstVisit) {
-              next("/app");
-            } else {
-              next();
-            }
-          }, */
+          meta: { requiresAuth: true }, // Sprawdź, czy użytkownik jest zalogowany
         },
       ],
     },
