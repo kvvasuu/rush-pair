@@ -43,7 +43,6 @@ export const useAuthStore = defineStore("authStore", {
 
           const { email, name } = { ...res.data.user };
           this.updateUser({ name, email });
-          console.log("Logged in.");
           this.router.replace("/app");
         } catch (error) {
           localStorage.removeItem("token");
