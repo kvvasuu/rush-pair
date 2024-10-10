@@ -2,11 +2,17 @@
   <main
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
-    <h1 class="text-5xl">Logged in</h1>
+    <RouterView v-slot="{ Component }">
+      <Transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
   </main>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterView } from "vue-router";
+</script>
 
 <style scoped>
 #controls {

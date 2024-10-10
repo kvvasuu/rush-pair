@@ -5,6 +5,7 @@ interface State {
   name: string;
   email: string;
   token: string;
+  firstVisit: boolean;
 }
 
 export const useAuthStore = defineStore("authStore", {
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore("authStore", {
     name: "",
     email: "",
     token: "",
+    firstVisit: true,
   }),
   actions: {
     updateUser({ name, email }: { name: string; email: string }) {

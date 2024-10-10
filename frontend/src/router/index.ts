@@ -13,19 +13,46 @@ const router = createRouter({
     },
     {
       path: "/app",
-      name: "App",
-      component: AppView,
       meta: { requiresAuth: true },
       beforeEnter: (_to, _from, next) => {
         const store = useAuthStore();
-        if (store.token) {
-          next();
+        if (store.firstVisit) {
+          next("/app/first-steps");
         } else {
-          next("/");
+          next();
         }
       },
+      children: [
+        {
+          path: "",
+          name: "App",
+          component: AppView,
+        },
+        {
+          path: "first-steps",
+          name: "FirstSteps",
+          component: () => import("../components/FirstSteps.vue"),
+          meta: { requiresAuth: true },
+          /* beforeEnter: (_to, _from, next) => {
+            const store = useAuthStore();
+            if (!store.firstVisit) {
+              next("/app");
+            } else {
+              next();
+            }
+          }, */
+        },
+      ],
     },
   ],
+});
+
+router.beforeEach(async (to, _from) => {
+  const store = useAuthStore();
+
+  if (to.meta.requiresAuth && !store.token && to.name !== "Welcome") {
+    return { name: "Welcome" };
+  }
 });
 
 export default router;
