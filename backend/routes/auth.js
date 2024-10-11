@@ -4,11 +4,28 @@ import bcrypt from "bcryptjs/dist/bcrypt.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-const router = express.Router();
+const auth = express.Router();
 
 const JWT_SECRET = "bTz8Kj%T&v9#LvD8j!7M@c4Hy92Xm&N^4tQZ2$wYFzRqS3GpJpP!";
 
-router.post(
+export const authenticateToken = (req, res, next) => {
+  const token = req.headers["authorizations"];
+
+  if (!token) {
+    return res.status(403).json({ msg: "Token not provided" });
+  }
+
+  jwt.verify(token.split(" ")[1], JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ msg: "Invalid token" });
+    }
+
+    req.user = decoded;
+    next();
+  });
+};
+
+auth.post(
   "/register",
   [
     check("email", "Email is not correct").isEmail(),
@@ -24,17 +41,20 @@ router.post(
 
     const { email, password } = req.body;
 
+    const firstVisit = true;
+
     try {
       let user = await User.findOne({ email });
       if (user) {
-        return res
-          .status(409)
-          .json({ msg: "Email is already taken", error: "email-taken" });
+        return res.status(409).json({
+          msg: "The provided email address is already registered in our system.",
+        });
       }
 
       user = new User({
         email,
         password,
+        firstVisit,
       });
 
       return await user.save().then(() => {
@@ -47,7 +67,7 @@ router.post(
   }
 );
 
-router.post(
+auth.post(
   "/login",
   [
     check("email", "Provide correct email").isEmail(),
@@ -94,7 +114,7 @@ router.post(
   }
 );
 
-router.get("/verify-token", async (req, res) => {
+auth.get("/verify-token", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -117,4 +137,4 @@ router.get("/verify-token", async (req, res) => {
   });
 });
 
-export default router;
+export default auth;

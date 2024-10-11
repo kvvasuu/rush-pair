@@ -1,18 +1,17 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-
-interface State {
-  name: string;
-  email: string;
-  token: string;
-  firstVisit: boolean;
-}
+import { User, State } from "../types";
 
 export const useAuthStore = defineStore("authStore", {
   state: (): State => ({
-    name: "",
     email: "",
     token: "",
+    name: "",
+    age: 16,
+    gender: "other",
+    country: "",
+    city: "",
+    phoneNumber: "",
     firstVisit: true,
   }),
   actions: {
@@ -43,12 +42,47 @@ export const useAuthStore = defineStore("authStore", {
 
           this.setToken(token);
 
-          const { email, name } = { ...res.data.user };
-          this.updateUser({ name, email });
+          const { email, name, firstVisit } = { ...res.data.user };
+
+          this.name = name;
+          this.email = email;
+          this.firstVisit = firstVisit;
           this.router.replace("/app");
         } catch (error) {
           localStorage.removeItem("token");
         }
+      }
+    },
+    async initializeUser(userData: User) {
+      try {
+        return await axios
+          .put(
+            "http://localhost:3000/user/update-profile",
+            {
+              email: this.email,
+              userData: userData,
+              firstVisit: this.firstVisit,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((res) => {
+            this.name = res.data.user.name;
+            this.age = res.data.user.age;
+            this.gender = res.data.user.gender;
+            this.country = res.data.user.country;
+            this.city = res.data.user.city;
+            this.phoneNumber = res.data.user.phoneNumber;
+            this.firstVisit = res.data.user.firstVisit;
+            this.router.replace("/app");
+            return "User initialized";
+          });
+      } catch (_error) {
+        throw new Error("Something went wrong. Try again later.");
       }
     },
   },

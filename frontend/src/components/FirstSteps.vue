@@ -147,38 +147,51 @@
           >
         </div>
       </form>
-      <div
-        class="w-full h-full flex flex-col items-center"
+
+      <ol
+        class="h-full flex flex-col items-center gap-1"
         id="step-2"
         v-if="step === 2"
       >
-        <ol class="w-4/5">
-          <li class="w-full">
-            <i class="fa-regular fa-user text-xl text-neutral-700 mr-4"></i
-            >{{ name }}
-          </li>
-          <li class="w-full">
-            <i
-              class="fa-solid fa-calendar-days text-xl text-neutral-700 mr-4"
-            ></i
-            >{{ age }}
-          </li>
-          <li class="w-full" v-if="country">
-            <i
-              class="fa-solid fa-earth-americas text-xl text-neutral-700 mr-4"
-            ></i
-            >{{ country }}
-          </li>
-          <li class="w-full" v-if="city">
-            <i class="fa-solid fa-city text-xl text-neutral-700 mr-4"></i
-            >{{ city }}
-          </li>
-          <li class="w-full" v-if="phoneNumber">
-            <i class="fa-solid fa-phone text-xl text-neutral-700 mr-4"></i
-            >{{ phoneNumber }}
-          </li>
-        </ol>
-      </div>
+        <li class="w-full">
+          <i class="fa-regular fa-user text-xl text-neutral-700 mr-4 w-6"></i
+          >{{ name }}
+        </li>
+        <li class="w-full">
+          <i
+            class="fa-solid fa-calendar-days text-xl text-neutral-700 mr-4 w-6"
+          ></i
+          >{{ age }}
+        </li>
+        <li class="w-full capitalize">
+          <i
+            class="fa-solid fa-mars-and-venus text-xl text-neutral-700 mr-4 w-6"
+          ></i
+          >{{ gender }}
+        </li>
+        <li class="w-full" v-if="country">
+          <i
+            class="fa-solid fa-earth-americas text-xl text-neutral-700 mr-4 w-6"
+          ></i
+          >{{ country }}
+        </li>
+        <li class="w-full" v-if="city">
+          <i class="fa-solid fa-city text-xl text-neutral-700 mr-4 w-6"></i
+          >{{ city }}
+        </li>
+        <li class="w-full" v-if="phoneNumber">
+          <i class="fa-solid fa-phone text-xl text-neutral-700 mr-4 w-6"></i
+          >{{ phoneNumber }}
+        </li>
+      </ol>
+
+      <p
+        class="min-h-6 mt-2 mb-8 text-center text-red-500 font-semibold"
+        v-if="generalError"
+      >
+        {{ generalError }}
+      </p>
+
       <div class="flex items-center w-full justify-center mb-8 gap-4">
         <button
           class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
@@ -295,11 +308,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import BasicModal from "./containers/BasicModal.vue";
-/* import axios from "axios";
 
 import { useAuthStore } from "../stores/authStore";
 
-const store = useAuthStore(); */
+const authStore = useAuthStore();
 
 const emit = defineEmits(["close"]);
 const closeModal = () => {
@@ -313,7 +325,7 @@ const showNameError = ref(false);
 const age = ref<number | null>(null);
 const showAgeError = ref(false);
 
-const gender = ref<"female" | "male" | "other" | null>(null);
+const gender = ref<"female" | "male" | "other">();
 const showGenderError = ref(false);
 
 //Additional data
@@ -327,6 +339,7 @@ const showPhoneNumberError = ref(false);
 //UI state
 const step = ref(0);
 const isSent = ref(false);
+const generalError = ref("");
 
 const goToStep = (clickedStep: number) => {
   if (clickedStep < step.value) {
@@ -339,7 +352,12 @@ const nextStep = () => {
   validateAge();
   validateGender();
   validatePhoneNumber();
-  if (showNameError.value || showAgeError.value || showPhoneNumberError.value) {
+  if (
+    showNameError.value ||
+    showAgeError.value ||
+    showPhoneNumberError.value ||
+    showGenderError.value
+  ) {
     return;
   } else {
     step.value < 2 ? step.value++ : finish();
@@ -361,7 +379,9 @@ const validateGender = () => {
 
 const validatePhoneNumber = () => {
   if (phoneNumber.value) {
-    /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/gi.test(phoneNumber.value)
+    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/gi.test(
+      phoneNumber.value
+    )
       ? (showPhoneNumberError.value = false)
       : (showPhoneNumberError.value = true);
   } else {
@@ -369,39 +389,28 @@ const validatePhoneNumber = () => {
   }
 };
 
-const finish = () => {
-  step.value = 4;
+const finish = async () => {
+  step.value = 3;
   isSent.value = true;
-  console.log("finish");
+
+  const userData = {
+    name: name.value,
+    age: age.value as number,
+    gender: gender.value,
+    country: country.value,
+    city: city.value,
+    phoneNumber: phoneNumber.value,
+  };
+
+  await authStore
+    .initializeUser(userData)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      generalError.value = error;
+      step.value = 2;
+      isSent.value = false;
+    });
 };
-
-/* const login = async () => {
-  generalError.value = "";
-  if (email.value && password.value) {
-    isLoading.value = true;
-    await axios
-      .post("http://localhost:3000/auth/login", {
-        email: email.value,
-        password: password.value,
-      })
-      .then((res) => {
-        const token = res.data.token;
-        store.setToken(token);
-
-        store.login();
-      })
-      .catch((error) => {
-        if (error.response && error.response.data.msg) {
-          generalError.value = error.response.data.msg;
-        } else {
-          generalError.value = "Something went wrong. Try again later.";
-        }
-        console.log(error);
-      })
-      .finally(() => {
-        password.value = "";
-        isLoading.value = false;
-      });
-  }
-}; */
 </script>

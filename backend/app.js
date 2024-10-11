@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/userRoutes.js";
 import sessionMiddleware from "./session.js";
 
 const app = express();
@@ -22,5 +23,6 @@ mongoose
   });
 
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
 
 export default app;

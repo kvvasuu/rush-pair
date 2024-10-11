@@ -3,10 +3,6 @@ import bcrypt from "bcryptjs/dist/bcrypt.js";
 
 // Schemat użytkownika
 const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: false,
-  },
   email: {
     type: String,
     required: true,
@@ -15,6 +11,34 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+  name: {
+    type: String,
+    required: false,
+  },
+  age: {
+    type: Number,
+    required: false,
+  },
+  gender: {
+    type: String,
+    required: false,
+  },
+  country: {
+    type: String,
+    required: false,
+  },
+  city: {
+    type: String,
+    required: false,
+  },
+  phoneNumber: {
+    type: String,
+    required: false,
+  },
+  firstVisit: {
+    type: Boolean,
+    required: false,
   },
 });
 

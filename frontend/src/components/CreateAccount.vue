@@ -302,9 +302,8 @@ const register = async () => {
         console.log(res);
       })
       .catch((error) => {
-        if (error.response && error.response.data.error === "email-taken") {
-          generalError.value =
-            "The provided email address is already registered in our system.";
+        if (error.response && error.response.data.msg) {
+          generalError.value = error.response.data.msg;
         } else {
           generalError.value = "Something went wrong. Try again later.";
         }

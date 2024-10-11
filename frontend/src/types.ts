@@ -1,6 +1,15 @@
-interface Player {
+interface User {
   name: string;
-  userId: string;
+  age: number;
+  gender?: "female" | "male" | "other";
+  country: string;
+  city: string;
+  phoneNumber: string;
+}
+interface State extends User {
+  email: string;
+  token: string;
+  firstVisit: boolean;
 }
 
-export type { Player };
+export type { User, State };
