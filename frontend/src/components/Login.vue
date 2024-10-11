@@ -141,10 +141,10 @@ const login = async () => {
           generalError.value = "Something went wrong. Try again later.";
         }
         console.log(error);
+        isLoading.value = false;
       })
       .finally(() => {
         password.value = "";
-        isLoading.value = false;
       });
   }
 };

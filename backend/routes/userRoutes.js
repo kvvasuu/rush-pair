@@ -20,7 +20,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
     user.country = country || user.country;
     user.city = city || user.city;
     user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.firstVisit = req.body.firstVisit;
+    user.firstVisit = false;
 
     await user.save();
 

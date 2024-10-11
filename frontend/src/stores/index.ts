@@ -1,20 +1,15 @@
 import { defineStore } from "pinia";
 interface State {
-  name: string;
-  email: string | null;
-  token: string;
+  isLoading: boolean;
 }
 
 export const useMainStore = defineStore("mainStore", {
   state: (): State => ({
-    name: "",
-    email: null,
-    token: "",
+    isLoading: true,
   }),
   actions: {
-    updateUser(payload: State) {
-      this.name = payload?.name || "";
-      this.email = payload.email;
+    setLoading() {
+      this.isLoading = !this.isLoading;
     },
   },
 });

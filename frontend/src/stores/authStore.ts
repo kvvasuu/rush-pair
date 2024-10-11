@@ -61,7 +61,6 @@ export const useAuthStore = defineStore("authStore", {
             {
               email: this.email,
               userData: userData,
-              firstVisit: this.firstVisit,
             },
             {
               headers: {

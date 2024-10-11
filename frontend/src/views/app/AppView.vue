@@ -2,16 +2,17 @@
   <main
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
-    <RouterView v-slot="{ Component }">
+    <h1 class="text-5xl font-semibold">App View</h1>
+    <!-- <RouterView v-slot="{ Component }">
       <Transition name="fade" mode="out-in">
         <component :is="Component" />
       </Transition>
-    </RouterView>
+    </RouterView> -->
   </main>
 </template>
 
 <script setup lang="ts">
-import { RouterView } from "vue-router";
+/* import { RouterView } from "vue-router"; */
 </script>
 
 <style scoped>
