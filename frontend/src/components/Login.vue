@@ -132,7 +132,6 @@ const login = async () => {
       .then((res) => {
         const token = res.data.token;
         store.setToken(token);
-
         store.login();
       })
       .catch((error) => {

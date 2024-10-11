@@ -11,7 +11,9 @@ app.use(cors());
 app.use(sessionMiddleware);
 
 mongoose
-  .connect("mongodb://localhost:27017/rush-pair")
+  .connect(
+    "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair"
+  )
   .then(() => {
     console.log("Connected to MongoDB");
   })
