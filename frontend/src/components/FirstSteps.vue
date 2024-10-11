@@ -5,7 +5,6 @@
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
         <h1 class="text-3xl font-bold text-center mt-6">First steps</h1>
         <p class="mt-2 text-center font-semibold" v-if="step === 0">
-          Before you start.<br />
           You need to provide some personal information.
         </p>
         <p class="mt-2 text-center font-semibold" v-else-if="step === 1">
@@ -29,8 +28,9 @@
             type="text"
             v-model="name"
             @click="showNameError = false"
-            class="w-full p-4 pl-12 rounded-xl border-2"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
             :class="{ 'border-red-500': showNameError }"
+            required
           />
 
           <i
@@ -51,8 +51,9 @@
             max="99"
             @click="showAgeError = false"
             v-model="age"
-            class="w-full p-4 pl-12 rounded-xl border-2"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
             :class="{ 'border-red-500': showAgeError }"
+            required
           />
 
           <i
@@ -62,6 +63,34 @@
             v-if="showAgeError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
             >Please enter your age.</span
+          >
+        </div>
+        <div class="mb-3 w-full flex flex-col items-center relative">
+          <select
+            name="gender"
+            id="gender-select"
+            v-model="gender"
+            @click="showGenderError = false"
+            class="w-full p-4 pl-11 rounded-xl border-2"
+            :class="{ 'border-red-500': showGenderError }"
+            required
+          >
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other</option>
+          </select>
+          <i
+            class="fa-solid fa-mars-and-venus h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
+          ></i>
+          <span
+            class="absolute left-12 h-[60px] flex items-center pointer-events-none text-gray-400"
+            v-if="!gender"
+            >Gender</span
+          >
+          <span
+            v-if="showGenderError"
+            class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
+            >Please choose your gender.</span
           >
         </div>
       </form>
@@ -77,7 +106,7 @@
             placeholder="Country"
             type="text"
             v-model="country"
-            class="w-full p-4 pl-12 rounded-xl border-2"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
           />
 
           <i
@@ -90,7 +119,7 @@
             placeholder="City"
             type="text"
             v-model="city"
-            class="w-full p-4 pl-12 rounded-xl border-2"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
           />
 
           <i
@@ -104,12 +133,12 @@
             type="text"
             v-model="phoneNumber"
             @click="showPhoneNumberError = false"
-            class="w-full p-4 pl-12 rounded-xl border-2"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
             :class="{ 'border-red-500': showPhoneNumberError }"
           />
 
           <i
-            class="fa-regular fa-user h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
+            class="fa-solid fa-phone h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
           ></i>
           <span
             v-if="showPhoneNumberError"
@@ -118,6 +147,38 @@
           >
         </div>
       </form>
+      <div
+        class="w-full h-full flex flex-col items-center"
+        id="step-2"
+        v-if="step === 2"
+      >
+        <ol class="w-4/5">
+          <li class="w-full">
+            <i class="fa-regular fa-user text-xl text-neutral-700 mr-4"></i
+            >{{ name }}
+          </li>
+          <li class="w-full">
+            <i
+              class="fa-solid fa-calendar-days text-xl text-neutral-700 mr-4"
+            ></i
+            >{{ age }}
+          </li>
+          <li class="w-full" v-if="country">
+            <i
+              class="fa-solid fa-earth-americas text-xl text-neutral-700 mr-4"
+            ></i
+            >{{ country }}
+          </li>
+          <li class="w-full" v-if="city">
+            <i class="fa-solid fa-city text-xl text-neutral-700 mr-4"></i
+            >{{ city }}
+          </li>
+          <li class="w-full" v-if="phoneNumber">
+            <i class="fa-solid fa-phone text-xl text-neutral-700 mr-4"></i
+            >{{ phoneNumber }}
+          </li>
+        </ol>
+      </div>
       <div class="flex items-center w-full justify-center mb-8 gap-4">
         <button
           class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
@@ -252,6 +313,9 @@ const showNameError = ref(false);
 const age = ref<number | null>(null);
 const showAgeError = ref(false);
 
+const gender = ref<"female" | "male" | "other" | null>(null);
+const showGenderError = ref(false);
+
 //Additional data
 const country = ref("");
 
@@ -273,6 +337,7 @@ const goToStep = (clickedStep: number) => {
 const nextStep = () => {
   validateName();
   validateAge();
+  validateGender();
   validatePhoneNumber();
   if (showNameError.value || showAgeError.value || showPhoneNumberError.value) {
     return;
@@ -288,6 +353,10 @@ const validateName = () => {
 const validateAge = () => {
   if (age.value === null || (age.value as number) < 16)
     showAgeError.value = true;
+};
+
+const validateGender = () => {
+  if (!gender.value) showGenderError.value = true;
 };
 
 const validatePhoneNumber = () => {
