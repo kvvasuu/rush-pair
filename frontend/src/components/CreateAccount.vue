@@ -226,7 +226,7 @@ const registerComplete = ref(false);
 const generalError = ref("");
 
 const preventModalClose = computed(() => {
-  return !!emailCorrect.value || !!password.value || !!passwordConfirm.value;
+  return !!email.value || !!password.value || !!passwordConfirm.value;
 });
 
 //Methods
