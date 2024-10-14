@@ -2,7 +2,7 @@
   <main
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
-    <h1 class="text-4xl font-semibold">Home</h1>
+    <h1 class="text-4xl font-semibold">Stars</h1>
   </main>
 </template>
 

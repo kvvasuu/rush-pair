@@ -33,12 +33,12 @@
         ></i>
       </RouterLink>
       <RouterLink
-        to="/app/profile"
+        to="/app/settings"
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
       >
         <i
-          class="fa-solid fa-user text-3xl"
-          :class="{ 'text-neutral-300': route.path === '/app/profile' }"
+          class="fa-solid fa-bars text-3xl"
+          :class="{ 'text-neutral-300': route.path === '/app/settings' }"
         ></i>
       </RouterLink>
     </nav>
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { RouterLink } from "vue-router";
 
 const route = useRoute();
 </script>

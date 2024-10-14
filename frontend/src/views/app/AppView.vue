@@ -1,6 +1,9 @@
 <template>
-  <div class="flex flex-col items-center justify-center w-full h-full relative">
-    <RouterView v-slot="{ Component }">
+  <div class="w-full h-full">
+    <RouterView
+      v-slot="{ Component }"
+      class="absolute top-0 w-full h-[calc(100%-4rem)]"
+    >
       <Transition name="fade" mode="out-in">
         <component :is="Component" />
       </Transition>
@@ -13,4 +16,5 @@
 
 <script setup lang="ts">
 import BottomControls from "../../components/BottomControls.vue";
+import { RouterView } from "vue-router";
 </script>
