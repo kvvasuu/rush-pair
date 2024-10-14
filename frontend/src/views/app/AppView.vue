@@ -16,5 +16,4 @@
 
 <script setup lang="ts">
 import BottomControls from "../../components/BottomControls.vue";
-import { RouterView } from "vue-router";
 </script>

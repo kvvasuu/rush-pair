@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-full h-full bg-neutral-800 flex items-center justify-center md:hidden"
-  >
+  <div class="w-full h-full bg-neutral-800 flex items-center justify-center">
     <nav
       class="w-full max-w-[666px] h-full flex items-center justify-between px-2"
     >

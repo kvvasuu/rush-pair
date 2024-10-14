@@ -4,7 +4,8 @@ import AppView from "../views/app/AppView.vue";
 import Home from "../views/app/Home.vue";
 import Stars from "../views/app/Stars.vue";
 import Pairs from "../views/app/Pairs.vue";
-import Settings from "../views/app/Settings.vue";
+import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
+import Settings from "../views/app/settings/Settings.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,9 +54,23 @@ const router = createRouter({
             },
             {
               path: "settings",
-              name: "Settings",
-              component: Settings,
+              name: "SettingsWrapper",
+              component: SettingsWrapper,
               meta: { requiresAuth: true },
+              children: [
+                {
+                  path: "",
+                  name: "Settings",
+                  component: Settings,
+                  meta: { requiresAuth: true },
+                },
+                {
+                  path: "profile",
+                  name: "Profile",
+                  component: () => import("../views/app/settings/Profile.vue"),
+                  meta: { requiresAuth: true },
+                },
+              ],
             },
           ],
         },

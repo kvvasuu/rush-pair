@@ -6,10 +6,11 @@ interface User {
   city: string;
   phoneNumber: string;
 }
-interface State extends User {
+interface authStoreState extends User {
   email: string;
   token: string;
   firstVisit: boolean;
+  imageUrl: string;
 }
 
-export type { User, State };
+export type { User, authStoreState };

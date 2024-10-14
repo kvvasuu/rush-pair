@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { User, State } from "../types";
+import { User, authStoreState } from "../types";
 
 export const useAuthStore = defineStore("authStore", {
-  state: (): State => ({
+  state: (): authStoreState => ({
     email: "",
     token: "",
     name: "",
@@ -13,6 +13,7 @@ export const useAuthStore = defineStore("authStore", {
     city: "",
     phoneNumber: "",
     firstVisit: true,
+    imageUrl: "",
   }),
   actions: {
     updateUser({ name, email }: { name: string; email: string }) {
