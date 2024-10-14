@@ -7,7 +7,7 @@
       <section
         @click.stop=""
         v-if="isVisible"
-        class="w-full sm:max-w-[28rem] h-full sm:max-h-[42rem] bg-slate-50 sm:rounded-lg p-12 relative"
+        class="w-full md:max-w-[28rem] h-full md:max-h-[42rem] bg-slate-50 md:rounded-lg p-12 relative"
       >
         <slot></slot>
         <button

@@ -201,7 +201,7 @@
           Back
         </button>
         <button
-          class="px-8 py-3 w-full sm:w-4/5 font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 w-full md:w-4/5 font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
           @click="nextStep"
           v-if="!isSent"
         >
@@ -234,7 +234,7 @@
       </div>
       <ol
         id="stepper"
-        class="flex items-center justify-between w-full sm:w-4/5 text-sm text-center text-gray-400 min-h-8 select-none -mb-6 mt-auto"
+        class="flex items-center justify-between w-full md:w-4/5 text-sm text-center text-gray-400 min-h-8 select-none -mb-6 mt-auto"
       >
         <li
           class="flex items-center text-blue-500"

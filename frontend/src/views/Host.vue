@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <main class="flex flex-col items-center justify-center">
     <h1 class="text-2xl">Host</h1>
 
@@ -121,3 +121,4 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped></style>
+ -->

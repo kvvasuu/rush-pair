@@ -148,7 +148,7 @@
           </div>
         </div>
         <button
-          class="px-8 py-3 w-full sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
+          class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
           type="submit"
         >
           Create account
@@ -161,7 +161,7 @@
     >
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-2xl font-bold text-center mt-32 sm:mt-20">
+        <h1 class="text-2xl font-bold text-center mt-32 md:mt-20">
           <p>Registration successful!</p>
           <p>Welcome aboard.</p>
         </h1>
@@ -170,7 +170,7 @@
 
       <div class="flex flex-col">
         <button
-          class="px-8 py-3 w-full sm:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
           @click="
             () => {
               emit('goToLogin');
@@ -297,7 +297,7 @@ const register = async () => {
         email: email.value,
         password: password.value,
       })
-      .then((res) => {
+      .then(() => {
         registerComplete.value = true;
       })
       .catch((error) => {

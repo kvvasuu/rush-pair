@@ -16,7 +16,7 @@
 
     <section
       id="controls"
-      class="flex flex-col items-center py-32 sm:py-16 w-full"
+      class="flex flex-col items-center py-32 md:py-16 w-full"
       :class="{ show: showUi }"
     >
       <div
@@ -24,13 +24,13 @@
         class="flex flex-col items-center justify-center gap-6 px-10 w-full"
       >
         <button
-          class="px-8 py-3 w-full mx-10 sm:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 w-full mx-10 md:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
           @click="toggleAuthModal('register')"
         >
           Create account
         </button>
         <button
-          class="text-slate-50 sm:text-inherit px-8 py-3 w-full mx-10 sm:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm sm:hidden"
+          class="text-slate-50 md:text-inherit px-8 py-3 w-full mx-10 md:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm md:hidden"
           @click="toggleAuthModal('login')"
         >
           Login
@@ -40,7 +40,7 @@
     <div
       id="login-button"
       :class="{ show: showUi }"
-      class="absolute top-8 right-8 hidden sm:block"
+      class="absolute top-8 right-8 hidden md:block"
     >
       <button
         class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"

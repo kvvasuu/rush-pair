@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 import AppView from "../views/app/AppView.vue";
+import Home from "../views/app/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,9 @@ const router = createRouter({
       meta: { requiresAuth: true },
       beforeEnter: (to, _from, next) => {
         const store = useAuthStore();
+        if (!store.token) {
+          next("/");
+        }
         if (store.firstVisit && to.path !== "/app/first-steps") {
           next("/app/first-steps");
         } else {
@@ -27,6 +31,15 @@ const router = createRouter({
           path: "",
           name: "App",
           component: AppView,
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: "",
+              name: "Home",
+              component: Home,
+              meta: { requiresAuth: true },
+            },
+          ],
         },
         {
           path: "first-steps",
@@ -44,6 +57,9 @@ router.beforeEach(async (to, _from) => {
 
   if (to.meta.requiresAuth && !store.token && to.name !== "Welcome") {
     return { name: "Welcome" };
+  }
+  if (to.meta.requiresAuth && store.token && to.name !== "App") {
+    return { name: "App" };
   }
 });
 
