@@ -299,7 +299,6 @@ const register = async () => {
       })
       .then((res) => {
         registerComplete.value = true;
-        console.log(res);
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
