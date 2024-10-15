@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-4rem)] py-12"
+    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-12 pb-8"
   >
     <div class="flex flex-col items-center justify-center">
       <div class="h-24"><UserAvatar></UserAvatar></div>
@@ -12,14 +12,51 @@
         {{ authStore.email }}
       </p>
     </div>
-    <ol>
-      <li class="w-full p-4">
+    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+      <li>
         <RouterLink
           to="/app/settings/profile"
-          class="text-neutral-500 hover:text-neutral-300 transition-all"
-        >
-          Profile
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          ><i class="fa-solid fa-user w-10 text-center"></i>
+          <span class="px-1">Profile</span>
+
+          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
         </RouterLink>
+      </li>
+      <li>
+        <RouterLink
+          to="/app/settings/profile"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          ><i class="fa-solid fa-bell w-10 text-center"></i>
+          <span class="px-1">Notifications</span>
+          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink
+          to="/app/settings/profile"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          ><i class="fa-solid fa-eye w-10 text-center"></i>
+          <span class="px-1">Apperance</span>
+          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+        </RouterLink>
+      </li>
+      <li>
+        <RouterLink
+          to="/app/settings/profile"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          ><i class="fa-solid fa-lock w-10 text-center"></i>
+          <span class="px-1">Security</span>
+          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+        </RouterLink>
+      </li>
+    </ol>
+    <ol class="mt-auto rounded-lg overflow-hidden w-4/5 text-center">
+      <li
+        class="w-full p-3 text-red-500 cursor-pointer bg-neutral-800 hover:bg-neutral-700/50 transition-all"
+        @click="logout"
+      >
+        Logout
       </li>
     </ol>
   </div>
@@ -29,4 +66,8 @@
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
 const authStore = useAuthStore();
+
+const logout = () => {
+  authStore.logout();
+};
 </script>

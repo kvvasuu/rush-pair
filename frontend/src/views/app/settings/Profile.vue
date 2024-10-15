@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-4rem)] py-12"
+    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] py-12"
   >
     <div class="flex flex-col items-center justify-center">
       <div class="h-24 relative cursor-pointer group">

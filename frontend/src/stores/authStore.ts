@@ -54,6 +54,11 @@ export const useAuthStore = defineStore("authStore", {
         }
       }
     },
+    async logout() {
+      localStorage.removeItem("token");
+      this.$reset();
+      this.router.replace("/");
+    },
     async initializeUser(userData: User) {
       try {
         return await axios
