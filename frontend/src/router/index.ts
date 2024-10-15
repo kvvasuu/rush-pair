@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: "/",
       name: "Welcome",
-      component: () => import("../views/WelcomeScreen.vue"),
+      component: () => import("../views/welcome_screen/WelcomeScreen.vue"),
     },
     {
       path: "/app",
@@ -77,7 +77,7 @@ const router = createRouter({
         {
           path: "first-steps",
           name: "FirstSteps",
-          component: () => import("../components/FirstSteps.vue"),
+          component: () => import("../views/app/FirstSteps.vue"),
           meta: { requiresAuth: true },
         },
       ],

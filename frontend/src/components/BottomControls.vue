@@ -8,8 +8,8 @@
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
       >
         <i
-          class="fa-solid fa-house text-3xl text-neutral-500"
-          :class="{ 'text-neutral-300': route.path === '/app' }"
+          class="fa-solid fa-house text-3xl transition-all"
+          :class="{ 'text-neutral-300': isRouteActive }"
         ></i>
       </RouterLink>
       <RouterLink
@@ -17,8 +17,8 @@
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
       >
         <i
-          class="fa-solid fa-star text-3xl"
-          :class="{ 'text-neutral-300': route.path === '/app/stars' }"
+          class="fa-solid fa-star text-3xl transition-all"
+          :class="{ 'text-neutral-300': route.path.startsWith('/app/stars') }"
         ></i>
       </RouterLink>
       <RouterLink
@@ -26,8 +26,8 @@
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
       >
         <i
-          class="fa-solid fa-handshake-simple text-3xl"
-          :class="{ 'text-neutral-300': route.path === '/app/pairs' }"
+          class="fa-solid fa-handshake-simple text-3xl transition-all"
+          :class="{ 'text-neutral-300': route.path.startsWith('/app/pairs') }"
         ></i>
       </RouterLink>
       <RouterLink
@@ -35,8 +35,10 @@
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
       >
         <i
-          class="fa-solid fa-bars text-3xl"
-          :class="{ 'text-neutral-300': route.path === '/app/settings' }"
+          class="fa-solid fa-bars text-3xl transition-all"
+          :class="{
+            'text-neutral-300': route.path.startsWith('/app/settings'),
+          }"
         ></i>
       </RouterLink>
     </nav>
@@ -46,6 +48,16 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { RouterLink } from "vue-router";
+import { computed } from "vue";
 
 const route = useRoute();
+
+const isRouteActive = computed(() => {
+  return (
+    route.path.startsWith("/app") &&
+    !route.path.startsWith("/app/pairs") &&
+    !route.path.startsWith("/app/stars") &&
+    !route.path.startsWith("/app/settings")
+  );
+});
 </script>

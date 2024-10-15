@@ -16,35 +16,44 @@
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
           ><i class="fa-solid fa-user w-10 text-center"></i>
           <span class="px-1">Profile</span>
 
           <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <div
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+          ></div>
         </RouterLink>
       </li>
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
           ><i class="fa-solid fa-bell w-10 text-center"></i>
           <span class="px-1">Notifications</span>
           <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <div
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+          ></div>
         </RouterLink>
       </li>
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
           ><i class="fa-solid fa-eye w-10 text-center"></i>
           <span class="px-1">Apperance</span>
           <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <div
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+          ></div>
         </RouterLink>
       </li>
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
           ><i class="fa-solid fa-lock w-10 text-center"></i>
           <span class="px-1">Security</span>
           <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>

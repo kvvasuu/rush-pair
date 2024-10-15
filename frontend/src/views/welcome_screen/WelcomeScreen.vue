@@ -63,8 +63,8 @@
 </template>
 
 <script setup lang="ts">
-import CreateAccount from "../components/CreateAccount.vue";
-import Login from "../components/Login.vue";
+import CreateAccount from "./CreateAccount.vue";
+import Login from "./Login.vue";
 import { ref, onMounted } from "vue";
 
 const showUi = ref(false);

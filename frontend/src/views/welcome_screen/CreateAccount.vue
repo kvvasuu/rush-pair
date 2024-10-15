@@ -193,7 +193,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import BasicModal from "./containers/BasicModal.vue";
+import BasicModal from "../../components/containers/BasicModal.vue";
 import axios from "axios";
 
 const emit = defineEmits(["close", "goToLogin"]);
