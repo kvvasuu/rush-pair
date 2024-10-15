@@ -1,6 +1,6 @@
 interface User {
   name: string;
-  age: number;
+  birthdate: string;
   gender?: "female" | "male" | "other";
   country: string;
   city: string;

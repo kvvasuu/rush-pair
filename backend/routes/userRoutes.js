@@ -6,7 +6,8 @@ const userRoutes = express.Router();
 
 userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
   try {
-    const { name, age, gender, country, city, phoneNumber } = req.body.userData;
+    const { name, birthdate, gender, country, city, phoneNumber } =
+      req.body.userData;
 
     const user = await User.findOne({ email: req.body.email });
 
@@ -15,7 +16,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
     }
 
     user.name = name || user.name;
-    user.age = age || user.age;
+    user.birthdate = birthdate || user.birthdate;
     user.gender = gender || user.gender;
     user.country = country || user.country;
     user.city = city || user.city;
@@ -29,7 +30,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
       user: {
         id: user._id,
         name: user.name,
-        age: user.age,
+        birthdate: user.birthdate,
         gender: user.gender,
         country: user.country,
         city: user.city,

@@ -13,6 +13,116 @@
       </div>
       <p class="text-neutral-400 mt-4">Change image</p>
     </div>
+    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+      <li class="relative">
+        <input
+          id="name"
+          type="text"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          autocomplete="off"
+          v-model="name"
+          required
+          placeholder="Required"
+        />
+        <label
+          for="name"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >Name</label
+        >
+
+        <div
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+        ></div>
+      </li>
+      <li
+        class="select-none text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 relative"
+      >
+        <span
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >Gender</span
+        >
+        <p class="capitalize">{{ gender }}</p>
+        <div
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+        ></div>
+      </li>
+
+      <li class="relative">
+        <input
+          id="birthdate"
+          type="date"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer"
+          autocomplete="off"
+          v-model="birthdate"
+          min="1920-01-01"
+          max="2008-01-01"
+          ref="birthdateInputRef"
+          @focus="birthdateInputRef.showPicker()"
+        />
+        <label
+          for="birthdate"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >Birthdate</label
+        >
+      </li>
+    </ol>
+
+    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+      <li class="relative">
+        <input
+          id="country"
+          type="text"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          autocomplete="off"
+          v-model="country"
+          placeholder="Optional"
+        />
+        <label
+          for="name"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >Country</label
+        >
+
+        <div
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+        ></div>
+      </li>
+      <li class="relative">
+        <input
+          id="city"
+          type="text"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          autocomplete="off"
+          v-model="city"
+          placeholder="Optional"
+        />
+        <label
+          for="name"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >City</label
+        >
+
+        <div
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+        ></div>
+      </li>
+
+      <li class="relative">
+        <input
+          id="phone-number"
+          type="text"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          autocomplete="off"
+          v-model="phoneNumber"
+          placeholder="Optional"
+        />
+        <label
+          for="name"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          >Phone</label
+        >
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -23,5 +133,26 @@ import { useAuthStore } from "../../../stores/authStore";
 
 const authStore = useAuthStore();
 
-const name = ref(authStore.name);
+const { name, birthdate, gender, phoneNumber, country, city } = authStore;
+
+const birthdateInputRef = ref();
 </script>
+
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  color: transparent;
+}
+</style>

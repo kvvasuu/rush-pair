@@ -44,13 +44,32 @@
         </div>
         <div class="mb-3 w-full flex flex-col items-center relative">
           <input
+            id="birthdate"
+            type="date"
+            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
+            :class="{ 'border-red-500': showAgeError }"
+            required
+            autocomplete="off"
+            v-model="birthdate"
+            min="1920-01-01"
+            max="2008-01-01"
+            ref="birthdateInputRef"
+            @click="showAgeError = false"
+            @focus="birthdateInputRef.showPicker()"
+          />
+          <label
+            for="birthdate"
+            class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+            >Birthdate</label
+          >
+          <input
             id="age"
             placeholder="Age"
             type="number"
             min="16"
             max="99"
             @click="showAgeError = false"
-            v-model="age"
+            v-model="birthdate"
             class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
             :class="{ 'border-red-500': showAgeError }"
             required
@@ -161,7 +180,7 @@
           <i
             class="fa-solid fa-calendar-days text-xl text-neutral-700 mr-4 w-6"
           ></i
-          >{{ age }}
+          >{{ birthdate }}
         </li>
         <li class="w-full capitalize">
           <i
@@ -307,9 +326,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import BasicModal from "./containers/BasicModal.vue";
+import BasicModal from "../../components/containers/BasicModal.vue";
 
-import { useAuthStore } from "../stores/authStore";
+import { useAuthStore } from "../../stores/authStore";
 
 const authStore = useAuthStore();
 
@@ -322,7 +341,8 @@ const closeModal = () => {
 const name = ref("");
 const showNameError = ref(false);
 
-const age = ref<number | null>(null);
+const birthdate = ref("");
+const birthdateInputRef = ref();
 const showAgeError = ref(false);
 
 const gender = ref<"female" | "male" | "other">();
@@ -369,8 +389,7 @@ const validateName = () => {
 };
 
 const validateAge = () => {
-  if (age.value === null || (age.value as number) < 16)
-    showAgeError.value = true;
+  if (birthdate.value === null) showAgeError.value = true;
 };
 
 const validateGender = () => {
@@ -395,7 +414,7 @@ const finish = async () => {
 
   const userData = {
     name: name.value,
-    age: age.value as number,
+    birthdate: birthdate.value,
     gender: gender.value,
     country: country.value,
     city: city.value,

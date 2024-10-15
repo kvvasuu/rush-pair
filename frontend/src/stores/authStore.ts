@@ -7,7 +7,7 @@ export const useAuthStore = defineStore("authStore", {
     email: "",
     token: "",
     name: "",
-    age: 16,
+    birthdate: "",
     gender: "other",
     country: "",
     city: "",
@@ -77,7 +77,7 @@ export const useAuthStore = defineStore("authStore", {
           )
           .then((res) => {
             this.name = res.data.user.name;
-            this.age = res.data.user.age;
+            this.birthdate = res.data.user.birthdate;
             this.gender = res.data.user.gender;
             this.country = res.data.user.country;
             this.city = res.data.user.city;
