@@ -15,8 +15,6 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "User not found." });
     }
 
-    console.log(req.body.userData);
-
     user.name = name || user.name;
     user.birthdate = birthdate || user.birthdate;
     user.gender = gender || user.gender;
