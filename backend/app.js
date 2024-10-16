@@ -4,17 +4,17 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/userRoutes.js";
 import sessionMiddleware from "./session.js";
+import "dotenv/config";
 
 const app = express();
+const MONGODB_KEY = process.env.MONGODB_KEY;
 
 app.use(express.json());
 app.use(cors());
 app.use(sessionMiddleware);
 
 mongoose
-  .connect(
-    "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair"
-  )
+  .connect(MONGODB_KEY)
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -24,5 +24,9 @@ mongoose
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+
+app.get("/dupa", async (req, res) => {
+  console.log("dupa");
+});
 
 export default app;
