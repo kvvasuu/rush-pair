@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { User, authStoreState } from "../types";
+import { useMainStore } from ".";
 
 export const useAuthStore = defineStore("authStore", {
   state: (): authStoreState => ({
@@ -16,10 +17,6 @@ export const useAuthStore = defineStore("authStore", {
     imageUrl: "",
   }),
   actions: {
-    updateUser({ name, email }: { name: string; email: string }) {
-      this.name = name || "";
-      this.email = email;
-    },
     setToken(token: string) {
       this.token = token;
       localStorage.setItem("token", token);
@@ -55,11 +52,11 @@ export const useAuthStore = defineStore("authStore", {
             imageUrl,
           } = { ...res.data.user };
 
-          this.name = name;
+          this.name = name || "";
           this.email = email;
           this.firstVisit = firstVisit;
-          this.birthdate = birthdate;
-          this.gender = gender;
+          this.birthdate = birthdate || "";
+          this.gender = gender || "other";
           this.country = country || "";
           this.city = city || "";
           this.phoneNumber = phoneNumber || "";
@@ -75,14 +72,18 @@ export const useAuthStore = defineStore("authStore", {
       this.$reset();
       this.router.replace("/");
     },
-    async initializeUser(userData: User) {
-      try {
-        return await axios
+    async updateUser(user: User) {
+      const mainStore = useMainStore();
+
+      mainStore.isLoading = true;
+
+      return new Promise((resolve, reject) => {
+        axios
           .put(
             "http://localhost:3000/user/update-profile",
             {
               email: this.email,
-              userData: userData,
+              userData: user,
             },
             {
               headers: {
@@ -98,13 +99,17 @@ export const useAuthStore = defineStore("authStore", {
             this.country = res.data.user.country;
             this.city = res.data.user.city;
             this.phoneNumber = res.data.user.phoneNumber;
+            this.imageUrl = res.data.user.imageUrl;
             this.firstVisit = res.data.user.firstVisit;
-            this.router.replace("/app");
-            return "User initialized";
+            resolve("Details updated");
+          })
+          .catch((err) => {
+            reject(err);
+          })
+          .finally(() => {
+            mainStore.isLoading = false;
           });
-      } catch (_error) {
-        throw new Error("Something went wrong. Try again later.");
-      }
+      });
     },
   },
 });

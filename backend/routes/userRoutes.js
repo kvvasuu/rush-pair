@@ -15,20 +15,22 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "User not found." });
     }
 
+    console.log(req.body.userData);
+
     user.name = name || user.name;
     user.birthdate = birthdate || user.birthdate;
     user.gender = gender || user.gender;
     user.country = country || user.country;
     user.city = city || user.city;
     user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.firstVisit = false;
+    user.firstVisit = user.firstVisit && false;
+    user.imageUrl = user.imageUrl;
 
     await user.save();
 
     res.json({
       message: "Profile updated successfully",
       user: {
-        id: user._id,
         name: user.name,
         birthdate: user.birthdate,
         gender: user.gender,
@@ -36,6 +38,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
         city: user.city,
         phoneNumber: user.phoneNumber,
         firstVisit: user.firstVisit,
+        imageUrl: user.imageUrl,
       },
     });
   } catch (error) {

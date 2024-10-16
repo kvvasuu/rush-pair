@@ -5,11 +5,6 @@ interface State {
 
 export const useMainStore = defineStore("mainStore", {
   state: (): State => ({
-    isLoading: true,
+    isLoading: false,
   }),
-  actions: {
-    setLoading() {
-      this.isLoading = !this.isLoading;
-    },
-  },
 });

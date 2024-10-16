@@ -312,7 +312,9 @@ import { ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 
 import { useAuthStore } from "../../stores/authStore";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const authStore = useAuthStore();
 
 const emit = defineEmits(["close"]);
@@ -405,9 +407,10 @@ const finish = async () => {
   };
 
   await authStore
-    .initializeUser(userData)
+    .updateUser(userData)
     .then((res) => {
       console.log(res);
+      router.replace("/app");
     })
     .catch((error) => {
       generalError.value = error;

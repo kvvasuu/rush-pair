@@ -5,12 +5,12 @@ interface User {
   country: string;
   city: string;
   phoneNumber: string;
+  firstVisit: boolean;
+  imageUrl: string;
 }
 interface authStoreState extends User {
   email: string;
   token: string;
-  firstVisit: boolean;
-  imageUrl: string;
 }
 
 export type { User, authStoreState };

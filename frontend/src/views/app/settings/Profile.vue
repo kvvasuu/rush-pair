@@ -123,25 +123,45 @@
         >
       </li>
     </ol>
+    <button
+      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-400 bg-neutral-800 hover:bg-neutral-700/50"
+      :disabled="!isSavePossible"
+      :class="{
+        'opacity-50 hover:bg-neutral-800 cursor-auto text-neutral-600':
+          !isSavePossible,
+      }"
+      @click="saveDetails"
+    >
+      Save
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
 
 const authStore = useAuthStore();
 
-const details = reactive({ ...authStore });
-
-/* const { name, birthdate, gender, phoneNumber, country, city } = authStore; */
+const details = reactive({ ...authStore.$state });
 
 const birthdateInputRef = ref();
 
-/* const saveDetails = () => {
-  authStore.updateUser(name, birthdate, gender, phoneNumber, country, city);
-}; */
+const isSavePossible = computed(() => {
+  return (
+    JSON.stringify(details) !== JSON.stringify(authStore.$state) &&
+    !!details.name &&
+    !!details.birthdate
+  );
+});
+
+const saveDetails = async () => {
+  await authStore
+    .updateUser({ ...details })
+    .then((res) => console.log(res))
+    .catch((err) => console.error(err));
+};
 </script>
 
 <style scoped>
