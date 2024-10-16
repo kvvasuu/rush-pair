@@ -196,6 +196,8 @@ import { computed, ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import axios from "axios";
 
+const URL = import.meta.env.SERVER_URL;
+
 const emit = defineEmits(["close", "goToLogin"]);
 const closeModal = () => {
   emit("close");
@@ -293,7 +295,7 @@ const register = async () => {
   ) {
     isLoading.value = true;
     await axios
-      .post("http://localhost:3000/auth/register", {
+      .post(`${URL}/auth/register`, {
         email: email.value,
         password: password.value,
       })

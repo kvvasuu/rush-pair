@@ -11,7 +11,7 @@
         <div
           class="bg-amber-400 rounded-full h-8 w-8 bottom-0 right-0 absolute flex items-center justify-center group-hover:bg-yellow-400 transition-all"
         >
-          <i class="fa-solid fa-pencil"></i>
+          <i class="fa-solid fa-camera text-neutral-700"></i>
         </div>
       </div>
       <p class="text-neutral-400 mt-4">Change image</p>
