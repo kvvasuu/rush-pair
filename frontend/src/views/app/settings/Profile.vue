@@ -20,7 +20,7 @@
           type="text"
           class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
-          v-model="name"
+          v-model="details.name"
           required
           placeholder="Required"
         />
@@ -41,7 +41,7 @@
           class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
           >Gender</span
         >
-        <p class="capitalize">{{ gender }}</p>
+        <p class="capitalize">{{ details.gender }}</p>
         <div
           class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
         ></div>
@@ -53,7 +53,7 @@
           type="date"
           class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer"
           autocomplete="off"
-          v-model="birthdate"
+          v-model="details.birthdate"
           min="1920-01-01"
           max="2008-01-01"
           ref="birthdateInputRef"
@@ -74,7 +74,7 @@
           type="text"
           class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
-          v-model="country"
+          v-model="details.country"
           placeholder="Optional"
         />
         <label
@@ -93,7 +93,7 @@
           type="text"
           class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
-          v-model="city"
+          v-model="details.city"
           placeholder="Optional"
         />
         <label
@@ -113,7 +113,7 @@
           type="text"
           class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
-          v-model="phoneNumber"
+          v-model="details.phoneNumber"
           placeholder="Optional"
         />
         <label
@@ -127,15 +127,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
 
 const authStore = useAuthStore();
 
-const { name, birthdate, gender, phoneNumber, country, city } = authStore;
+const details = reactive({ ...authStore });
+
+/* const { name, birthdate, gender, phoneNumber, country, city } = authStore; */
 
 const birthdateInputRef = ref();
+
+/* const saveDetails = () => {
+  authStore.updateUser(name, birthdate, gender, phoneNumber, country, city);
+}; */
 </script>
 
 <style scoped>

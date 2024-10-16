@@ -57,23 +57,6 @@
             @click="showAgeError = false"
             @focus="birthdateInputRef.showPicker()"
           />
-          <label
-            for="birthdate"
-            class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
-            >Birthdate</label
-          >
-          <input
-            id="age"
-            placeholder="Age"
-            type="number"
-            min="16"
-            max="99"
-            @click="showAgeError = false"
-            v-model="birthdate"
-            class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
-            :class="{ 'border-red-500': showAgeError }"
-            required
-          />
 
           <i
             class="fa-solid fa-calendar-days h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
@@ -81,7 +64,7 @@
           <span
             v-if="showAgeError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please enter your age.</span
+            >Please enter your birthdate.</span
           >
         </div>
         <div class="mb-3 w-full flex flex-col items-center relative">
@@ -389,7 +372,7 @@ const validateName = () => {
 };
 
 const validateAge = () => {
-  if (birthdate.value === null) showAgeError.value = true;
+  if (!birthdate.value) showAgeError.value = true;
 };
 
 const validateGender = () => {
@@ -433,3 +416,10 @@ const finish = async () => {
     });
 };
 </script>
+
+<style scoped>
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  color: transparent;
+}
+</style>

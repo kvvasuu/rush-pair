@@ -43,11 +43,27 @@ export const useAuthStore = defineStore("authStore", {
 
           this.setToken(token);
 
-          const { email, name, firstVisit } = { ...res.data.user };
+          const {
+            email,
+            name,
+            birthdate,
+            gender,
+            country,
+            city,
+            firstVisit,
+            phoneNumber,
+            imageUrl,
+          } = { ...res.data.user };
 
           this.name = name;
           this.email = email;
           this.firstVisit = firstVisit;
+          this.birthdate = birthdate;
+          this.gender = gender;
+          this.country = country || "";
+          this.city = city || "";
+          this.phoneNumber = phoneNumber || "";
+          this.imageUrl = imageUrl || "";
           this.router.replace("/app");
         } catch (error) {
           localStorage.removeItem("token");
