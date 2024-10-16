@@ -124,7 +124,7 @@
       </li>
     </ol>
     <button
-      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-400 bg-neutral-800 hover:bg-neutral-700/50"
+      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-400 bg-neutral-800 hover:bg-neutral-700/50 transition-all"
       :disabled="!isSavePossible"
       :class="{
         'opacity-50 hover:bg-neutral-800 cursor-auto text-neutral-600':
@@ -141,7 +141,9 @@
 import { computed, reactive, ref } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
+import { useMainStore } from "../../../stores";
 
+const mainStore = useMainStore();
 const authStore = useAuthStore();
 
 const details = reactive({ ...authStore.$state });
@@ -152,7 +154,11 @@ const isSavePossible = computed(() => {
   return (
     JSON.stringify(details) !== JSON.stringify(authStore.$state) &&
     !!details.name &&
-    !!details.birthdate
+    !!details.birthdate &&
+    !mainStore.isLoading &&
+    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/gi.test(
+      details.phoneNumber
+    )
   );
 });
 

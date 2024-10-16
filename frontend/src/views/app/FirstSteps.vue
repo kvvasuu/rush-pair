@@ -408,8 +408,7 @@ const finish = async () => {
 
   await authStore
     .updateUser(userData)
-    .then((res) => {
-      console.log(res);
+    .then((_res) => {
       router.replace("/app");
     })
     .catch((error) => {

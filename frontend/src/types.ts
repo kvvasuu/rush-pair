@@ -5,8 +5,8 @@ interface User {
   country: string;
   city: string;
   phoneNumber: string;
-  firstVisit: boolean;
-  imageUrl: string;
+  firstVisit?: boolean;
+  imageUrl?: string;
 }
 interface authStoreState extends User {
   email: string;

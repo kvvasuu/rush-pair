@@ -9,11 +9,17 @@
         {{ route.name }}
       </p>
 
-      <i
-        class="fa-solid fa-angle-left absolute left-0 top-0 text-4xl text-neutral-500 hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
+      <button
+        class="absolute left-0 top-0 text-4xl text-neutral-500 hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
+        :class="{
+          'opacity-30 cursor-auto hover:text-neutral-500': mainStore.isLoading,
+        }"
         @click="router.back()"
         v-if="route.name !== 'Settings'"
-      ></i>
+        :disabled="mainStore.isLoading"
+      >
+        <i class="fa-solid fa-angle-left"></i>
+      </button>
     </div>
     <RouterView
       v-slot="{ Component }"
@@ -28,6 +34,9 @@
 
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
+import { useMainStore } from "../../../stores";
+
+const mainStore = useMainStore();
 
 const router = useRouter();
 const route = useRoute();
