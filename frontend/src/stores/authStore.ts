@@ -3,7 +3,7 @@ import axios from "axios";
 import { User, authStoreState } from "../types";
 import { useMainStore } from ".";
 
-const URL = import.meta.env.SERVER_URL;
+const URL = import.meta.env.VITE_SERVER_URL;
 
 export const useAuthStore = defineStore("authStore", {
   state: (): authStoreState => ({

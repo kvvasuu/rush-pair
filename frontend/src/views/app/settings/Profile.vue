@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] py-12"
+    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] py-12 overflow-y-auto"
   >
     <div
       class="flex flex-col items-center justify-center group cursor-pointer"
@@ -16,7 +16,7 @@
       </div>
       <p class="text-neutral-400 mt-4">Change image</p>
     </div>
-    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+    <ol class="mt-8 rounded-lg w-4/5">
       <li class="relative">
         <input
           id="name"
@@ -70,7 +70,7 @@
       </li>
     </ol>
 
-    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+    <ol class="mt-8 rounded-lg w-4/5">
       <li class="relative">
         <input
           id="country"

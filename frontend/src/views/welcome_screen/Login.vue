@@ -101,6 +101,8 @@ import axios from "axios";
 
 import { useAuthStore } from "../../stores/authStore";
 
+const URL = import.meta.env.VITE_SERVER_URL;
+
 const store = useAuthStore();
 
 const emit = defineEmits(["close"]);
@@ -125,7 +127,7 @@ const login = async () => {
   if (email.value && password.value) {
     isLoading.value = true;
     await axios
-      .post("http://localhost:3000/auth/login", {
+      .post(`${URL}/auth/login`, {
         email: email.value,
         password: password.value,
       })

@@ -196,7 +196,7 @@ import { computed, ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import axios from "axios";
 
-const URL = import.meta.env.SERVER_URL;
+const URL = import.meta.env.VITE_SERVER_URL;
 
 const emit = defineEmits(["close", "goToLogin"]);
 const closeModal = () => {
