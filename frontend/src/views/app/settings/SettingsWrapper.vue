@@ -53,7 +53,7 @@ const route = useRoute();
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(-500px);
+  transform: translateX(-100%);
   opacity: 0;
 }
 </style>

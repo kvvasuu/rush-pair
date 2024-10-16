@@ -2,7 +2,10 @@
   <div
     class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] py-12"
   >
-    <div class="flex flex-col items-center justify-center group cursor-pointer">
+    <div
+      class="flex flex-col items-center justify-center group cursor-pointer"
+      @click="toggleImageChangeOverlay"
+    >
       <div class="h-24 relative">
         <UserAvatar></UserAvatar>
         <div
@@ -134,6 +137,14 @@
     >
       Save
     </button>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <ImageChangeOverlay
+          v-if="imageChangeOverlay"
+          @close="toggleImageChangeOverlay"
+        ></ImageChangeOverlay>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
@@ -142,6 +153,7 @@ import { computed, reactive, ref } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
 import { useMainStore } from "../../../stores";
+import ImageChangeOverlay from "./ImageChangeOverlay.vue";
 
 const mainStore = useMainStore();
 const authStore = useAuthStore();
@@ -167,6 +179,11 @@ const saveDetails = async () => {
     .updateUser({ ...details })
     .then((res) => console.log(res))
     .catch((err) => console.error(err));
+};
+
+const imageChangeOverlay = ref(false);
+const toggleImageChangeOverlay = () => {
+  imageChangeOverlay.value = !imageChangeOverlay.value;
 };
 </script>
 

@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full h-full overflow-hidden select-none rounded-full">
+  <div
+    class="w-full h-full overflow-hidden select-none rounded-full flex items-center justify-center"
+  >
     <img
       :src="passPhotoUrl"
       alt="User image"

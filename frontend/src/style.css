@@ -23,6 +23,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   position: relative;
   background: rgb(255, 32, 108);
   background: -moz-linear-gradient(
@@ -88,6 +89,19 @@ color-font: #00224D
   100% {
     transform: scale(1);
   }
+}
+
+.slide-from-bottom-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-from-bottom-leave-active {
+  transition: all 0.3s ease-in;
+}
+
+.slide-from-bottom-enter-from,
+.slide-from-bottom-leave-to {
+  transform: translateY(100%);
 }
 
 /**/
