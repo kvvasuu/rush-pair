@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-12 pb-8"
+    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-12 pb-8 overflow-auto"
   >
     <div class="flex flex-col items-center justify-center">
       <div class="h-24"><UserAvatar></UserAvatar></div>
@@ -12,11 +12,11 @@
         {{ authStore.email }}
       </p>
     </div>
-    <ol class="mt-8 rounded-lg overflow-hidden w-4/5">
+    <ol class="mt-8 rounded-lg w-4/5">
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative rounded-t-lg"
           ><i class="fa-solid fa-user w-10 text-center"></i>
           <span class="px-1">Profile</span>
 
@@ -53,7 +53,7 @@
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
+          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative rounded-b-lg"
           ><i class="fa-solid fa-lock w-10 text-center"></i>
           <span class="px-1">Security</span>
           <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>

@@ -55,14 +55,16 @@ body {
   align-items: center;
   justify-content: center;
 }
-/*
 
-color-primary: #ff206c
-color-secondary: #A0153E
-color-details: #5D0E41
-color-font: #00224D
-
-*/
+input,
+textarea,
+select,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
 
 /* TRANSITIONS */
 

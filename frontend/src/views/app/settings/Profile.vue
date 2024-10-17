@@ -21,7 +21,7 @@
         <input
           id="name"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.name"
           required
@@ -54,7 +54,7 @@
         <input
           id="birthdate"
           type="date"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer rounded-b-lg"
           autocomplete="off"
           v-model="details.birthdate"
           min="1920-01-01"
@@ -75,7 +75,7 @@
         <input
           id="country"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.country"
           placeholder="Optional"
@@ -114,7 +114,7 @@
         <input
           id="phone-number"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
           autocomplete="off"
           v-model="details.phoneNumber"
           placeholder="Optional"
