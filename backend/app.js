@@ -7,7 +7,9 @@ import sessionMiddleware from "./session.js";
 import "dotenv/config";
 
 const app = express();
-const MONGODB_KEY = process.env.MONGODB_KEY;
+const MONGODB_KEY =
+  process.env.MONGODB_KEY ||
+  "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair";
 
 app.use(express.json());
 app.use(cors());
