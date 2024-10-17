@@ -1,8 +1,57 @@
 import express from "express";
 import authenticateToken from "./auth.js";
 import User from "../models/User.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
 
 const userRoutes = express.Router();
+
+const imagesStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    const uploadDir = "./uploads";
+
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const email = req.body.email;
+
+    const fileExtension = path.extname(file.originalname);
+    cb(null, `${email}${fileExtension}`);
+  },
+});
+
+const imageUpload = multer({ storage: imagesStorage });
+
+userRoutes.put(
+  "/update-image",
+  authenticateToken,
+  imageUpload.single("profilePicture"),
+  async (req, res) => {
+    try {
+      const user = await User.findOne({ email: req.body.email });
+
+      if (!user) {
+        return res.status(404).json({ msg: "User not found." });
+      }
+
+      user.imageUrl = req.file.filename;
+
+      await user.save();
+
+      res.json({
+        message: "Profile updated successfully",
+        imageUrl: user.imageUrl,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: "Server error" });
+    }
+  }
+);
 
 userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
   try {

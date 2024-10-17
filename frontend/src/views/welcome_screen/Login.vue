@@ -101,7 +101,7 @@ import axios from "axios";
 
 import { useAuthStore } from "../../stores/authStore";
 
-const URL = import.meta.env.VITE_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const store = useAuthStore();
 
@@ -127,7 +127,7 @@ const login = async () => {
   if (email.value && password.value) {
     isLoading.value = true;
     await axios
-      .post(`${URL}/auth/login`, {
+      .post(`${SERVER_URL}/auth/login`, {
         email: email.value,
         password: password.value,
       })

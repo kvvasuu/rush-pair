@@ -3,7 +3,7 @@ import axios from "axios";
 import { User, authStoreState } from "../types";
 import { useMainStore } from ".";
 
-const URL = import.meta.env.VITE_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useAuthStore = defineStore("authStore", {
   state: (): authStoreState => ({
@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("authStore", {
 
       if (token) {
         try {
-          const res = await axios.get(`${URL}/auth/verify-token`, {
+          const res = await axios.get(`${SERVER_URL}/auth/verify-token`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -79,7 +79,7 @@ export const useAuthStore = defineStore("authStore", {
       return new Promise((resolve, reject) => {
         axios
           .put(
-            `${URL}/user/update-profile`,
+            `${SERVER_URL}/user/update-profile`,
             {
               email: this.email,
               userData: user,

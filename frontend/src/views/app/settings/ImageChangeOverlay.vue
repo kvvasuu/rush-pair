@@ -81,10 +81,11 @@ import UserAvatar from "../../../components/containers/UserAvatar.vue";
 import { useAuthStore } from "../../../stores/authStore";
 import { useMainStore } from "../../../stores";
 import BasicOverlay from "../../../components/containers/BasicOverlay.vue";
+import axios from "axios";
 
 const emit = defineEmits(["close"]);
 
-const URL = import.meta.env.VITE_SERVER_URL;
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const isUploaded = ref(false);
 const imageFile = ref<File | null>(null);
@@ -128,14 +129,18 @@ const changeImage = async () => {
     canvas.toBlob(async (blob) => {
       const formData = new FormData();
       formData.append("profilePic", blob as Blob, "profile-pic.png");
-
-      await fetch(`${URL}/user/update_image`, {
-        method: "POST",
-        body: formData,
-      })
+      formData.append("email", authStore.email);
+      axios
+        .put(`${SERVER_URL}/user/update-image`, {
+          method: "PUT",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${authStore.token}`,
+            "Content-Type": "application/json",
+          },
+        })
         .then((res) => {
-          const response = res.json();
-          console.log(response);
+          console.log(res);
         })
         .catch((err) => {
           console.log(err);
