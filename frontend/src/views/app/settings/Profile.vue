@@ -127,11 +127,10 @@
       </li>
     </ol>
     <button
-      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-400 bg-neutral-800 hover:bg-neutral-700/50 transition-all"
+      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-300 bg-blue-800 hover:bg-blue-700 transition-all"
       :disabled="!isSavePossible"
       :class="{
-        'opacity-50 hover:bg-neutral-800 cursor-auto text-neutral-600':
-          !isSavePossible,
+        'opacity-25 hover:bg-blue-700 cursor-auto': !isSavePossible,
       }"
       @click="saveDetails"
     >

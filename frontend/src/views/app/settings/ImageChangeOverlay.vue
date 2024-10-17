@@ -59,6 +59,17 @@
             class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           />
         </div>
+        <button
+          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-300 bg-blue-800 hover:bg-blue-700 transition-all cursor-pointer"
+          v-if="isUploaded"
+          :disabled="mainStore.isLoading"
+          :class="{
+            'opacity-25 hover:bg-blue-700 cursor-auto': mainStore.isLoading,
+          }"
+          @click="changeImage"
+        >
+          Save
+        </button>
       </div>
     </div>
   </BasicOverlay>
@@ -67,11 +78,13 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
-/* import { useAuthStore } from "../../../stores/authStore";
-import { useMainStore } from "../../../stores"; */
+import { useAuthStore } from "../../../stores/authStore";
+import { useMainStore } from "../../../stores";
 import BasicOverlay from "../../../components/containers/BasicOverlay.vue";
 
 const emit = defineEmits(["close"]);
+
+const URL = import.meta.env.VITE_SERVER_URL;
 
 const isUploaded = ref(false);
 const imageFile = ref<File | null>(null);
@@ -79,8 +92,8 @@ const imageFileUrl = ref<string>("");
 
 const scale = ref(150);
 
-/* const mainStore = useMainStore();
-const authStore = useAuthStore(); */
+const mainStore = useMainStore();
+const authStore = useAuthStore();
 
 const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -91,6 +104,44 @@ const previewImage = (event: Event) => {
   } else {
     isUploaded.value = false;
   }
+};
+
+const changeImage = async () => {
+  if (!imageRef.value) return;
+  const canvas = document.createElement("canvas");
+
+  canvas.width = imageRef.value.getBoundingClientRect().width;
+  canvas.height = imageRef.value.getBoundingClientRect().height;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+
+  const img = new Image();
+  img.src = imageFileUrl.value;
+  img.onload = () => {
+    ctx.drawImage(
+      img,
+      position.value.x,
+      position.value.y,
+      canvas.width,
+      canvas.height
+    );
+
+    canvas.toBlob(async (blob) => {
+      const formData = new FormData();
+      formData.append("profilePic", blob as Blob, "profile-pic.png");
+
+      await fetch(`${URL}/user/update_image`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => {
+          const response = res.json();
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }, "image/png");
+  };
 };
 
 const close = () => {
