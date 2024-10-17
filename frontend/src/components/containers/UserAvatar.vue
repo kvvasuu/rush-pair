@@ -16,7 +16,10 @@ import avatar from "../../assets/images/avatar-placeholder.png";
 import { computed } from "vue";
 import { useAuthStore } from "../../stores/authStore";
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const authStore = useAuthStore();
 
-const passPhotoUrl = computed(() => authStore.imageUrl || avatar);
+const passPhotoUrl = computed(
+  () => `${SERVER_URL}/${authStore.imageUrl}.png` || avatar
+);
 </script>

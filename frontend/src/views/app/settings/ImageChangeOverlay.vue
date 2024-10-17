@@ -128,22 +128,28 @@ const changeImage = async () => {
 
     canvas.toBlob(async (blob) => {
       const formData = new FormData();
-      formData.append("profilePic", blob as Blob, "profile-pic.png");
+
+      const fileName = authStore.email.replace(/[@.]/g, "_");
+
+      formData.append("profilePicture", blob as Blob, fileName);
       formData.append("email", authStore.email);
+      mainStore.isLoading = true;
       axios
-        .put(`${SERVER_URL}/user/update-image`, {
-          method: "PUT",
-          body: formData,
+        .put(`${SERVER_URL}/user/update-image`, formData, {
           headers: {
             Authorization: `Bearer ${authStore.token}`,
-            "Content-Type": "application/json",
           },
         })
         .then((res) => {
+          authStore.imageUrl = res.data.imageUrl;
+          isUploaded.value = false;
           console.log(res);
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          mainStore.isLoading = false;
         });
     }, "image/png");
   };

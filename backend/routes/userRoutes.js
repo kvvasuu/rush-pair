@@ -2,25 +2,16 @@ import express from "express";
 import authenticateToken from "./auth.js";
 import User from "../models/User.js";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
 
 const userRoutes = express.Router();
 
 const imagesStorage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    const uploadDir = "./uploads";
-
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
-    cb(null, uploadDir);
+  destination: (req, file, cb) => {
+    cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
-    const email = req.body.email;
-
-    const fileExtension = path.extname(file.originalname);
-    cb(null, `${email}${fileExtension}`);
+    const safeFileName = file.originalname.replace(/[@.]/g, "_");
+    cb(null, safeFileName);
   },
 });
 
@@ -43,7 +34,7 @@ userRoutes.put(
       await user.save();
 
       res.json({
-        message: "Profile updated successfully",
+        message: "Profile image updated successfully",
         imageUrl: user.imageUrl,
       });
     } catch (error) {

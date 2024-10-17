@@ -2,7 +2,7 @@ import { createServer } from "http";
 import app from "./app.js";
 import { initSocketIO } from "./sockets/socketManager.js";
 
-export const URL = process.env.CLIENT_URL;
+export const CLIENT_URL = process.env.CLIENT_URL;
 
 const server = createServer(app);
 

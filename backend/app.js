@@ -26,9 +26,6 @@ mongoose
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-
-app.get("/dupa", async (req, res) => {
-  console.log("dupa");
-});
+app.use("/uploads", express.static("uploads"));
 
 export default app;

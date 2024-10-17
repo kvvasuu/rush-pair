@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     required: false,
   },
+  imageUrl: {
+    type: String,
+    required: false,
+  },
 });
 
 // Hashowanie hasła przed zapisaniem

@@ -3,14 +3,14 @@ import sharedSession from "express-socket.io-session";
 import sessionMiddleware from "../session.js";
 import { setupAdminNamespace } from "./adminNamespace.js";
 import { setupUserNamespace } from "./userNamespace.js";
-import { URL } from "../server.js";
+import { CLIENT_URL } from "../server.js";
 
 let io;
 
 export const initSocketIO = (server) => {
   io = new Server(server, {
     cors: {
-      origin: URL,
+      origin: CLIENT_URL,
       methods: ["GET", "POST"],
     },
   });
