@@ -160,6 +160,7 @@ const changeImage = async () => {
           authStore.imageUrl = res.data.imageUrl;
           isUploaded.value = false;
           console.log(res);
+          close();
         })
         .catch((err) => {
           console.log(err);

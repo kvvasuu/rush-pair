@@ -3,6 +3,7 @@
     class="w-full aspect-square h-full overflow-hidden select-none rounded-full flex items-center justify-center"
   >
     <img
+      :key="avatarSrc"
       :src="avatarSrc"
       alt="User image"
       draggable="false"
@@ -29,7 +30,8 @@ const setDefaultAvatar = () => {
 const avatarSrc = computed(() => {
   return isError.value
     ? avatar
-    : `${SERVER_URL}/uploads/${authStore.imageUrl}?token=${authStore.token}` ||
-        avatar;
+    : `${SERVER_URL}/uploads/${authStore.imageUrl}?token=${
+        authStore.token
+      }&time=${Date.now()}` || avatar;
 });
 </script>

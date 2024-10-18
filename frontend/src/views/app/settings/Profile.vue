@@ -7,7 +7,7 @@
       @click="toggleImageChangeOverlay"
     >
       <div class="h-24 relative">
-        <UserAvatar></UserAvatar>
+        <UserAvatar :key="imageKey"></UserAvatar>
         <div
           class="bg-amber-400 rounded-full h-8 w-8 bottom-0 right-0 absolute flex items-center justify-center group-hover:bg-yellow-400 transition-all"
         >
@@ -161,6 +161,8 @@ const details = reactive({ ...authStore.$state });
 
 const birthdateInputRef = ref();
 
+const imageKey = ref(0);
+
 const isSavePossible = computed(() => {
   return (
     JSON.stringify(details) !== JSON.stringify(authStore.$state) &&
@@ -182,6 +184,7 @@ const saveDetails = async () => {
 
 const imageChangeOverlay = ref(false);
 const toggleImageChangeOverlay = () => {
+  imageChangeOverlay.value && imageKey.value++;
   imageChangeOverlay.value = !imageChangeOverlay.value;
 };
 </script>
