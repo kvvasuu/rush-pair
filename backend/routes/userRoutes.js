@@ -2,16 +2,18 @@ import express from "express";
 import authenticateToken from "./auth.js";
 import User from "../models/User.js";
 import multer from "multer";
+import path from "path";
+import { __dirname } from "../app.js";
 
 const userRoutes = express.Router();
 
 const imagesStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads");
+    cb(null, path.join(__dirname, "uploads"));
   },
   filename: (req, file, cb) => {
     const safeFileName = file.originalname.replace(/[@.]/g, "_");
-    cb(null, safeFileName);
+    cb(null, `${safeFileName}.png`);
   },
 });
 
