@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full overflow-hidden select-none rounded-full flex items-center justify-center"
+    class="w-full aspect-square h-full overflow-hidden select-none rounded-full flex items-center justify-center"
   >
     <img
       :src="avatarSrc"

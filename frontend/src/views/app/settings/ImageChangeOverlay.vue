@@ -6,9 +6,7 @@
         class="w-4/5 flex flex-col items-center justify-center py-20"
       >
         <div class="w-4/5 h-full" v-if="isUploaded">
-          <div
-            class="w-full aspect-square relative overflow-hidden rounded-full"
-          >
+          <div class="w-full aspect-square relative overflow-hidden">
             <div
               class="absolute min-w-full min-h-full"
               :style="{
@@ -70,6 +68,7 @@
         >
           Save
         </button>
+        <canvas ref="previewCanvas"></canvas>
       </div>
     </div>
   </BasicOverlay>
@@ -96,6 +95,8 @@ const scale = ref(150);
 const mainStore = useMainStore();
 const authStore = useAuthStore();
 
+const previewCanvas = ref(null);
+
 const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
@@ -109,24 +110,45 @@ const previewImage = (event: Event) => {
 
 const changeImage = async () => {
   if (!imageRef.value) return;
-  const canvas = document.createElement("canvas");
+  /* const canvas = document.createElement("canvas"); */
+  const canvas = previewCanvas.value as any;
 
-  canvas.width = imageRef.value.getBoundingClientRect().width;
-  canvas.height = imageRef.value.getBoundingClientRect().height;
+  const parentElement = imageRef.value.parentElement;
+  if (!parentElement) return;
+
+  const parentRect = parentElement.getBoundingClientRect();
+  const imageRect = imageRef.value.getBoundingClientRect();
+
+  const cropX = 0;
+  const cropY = 0;
+  const cropWidth = 420;
+  const cropHeight = 420;
+
+  canvas.width = cropWidth;
+  canvas.height = cropWidth;
+
+  console.log(cropX, cropY, cropWidth, cropHeight);
+
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const img = new Image();
   img.src = imageFileUrl.value;
   img.onload = () => {
+    console.log(img.width, img.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(
       img,
-      position.value.x,
-      position.value.y,
-      canvas.width,
-      canvas.height
+      cropX,
+      cropY,
+      cropWidth,
+      cropHeight,
+      0,
+      0,
+      cropWidth,
+      cropHeight
     );
 
-    canvas.toBlob(async (blob) => {
+    /* canvas.toBlob(async (blob) => {
       const formData = new FormData();
 
       const fileName = authStore.email.replace(/[@.]/g, "_");
@@ -151,7 +173,7 @@ const changeImage = async () => {
         .finally(() => {
           mainStore.isLoading = false;
         });
-    }, "image/png");
+    }, "image/png"); */
   };
 };
 
@@ -162,7 +184,7 @@ const close = () => {
 const position = ref({ x: 0, y: 0 });
 const isDragging = ref(false);
 const lastMousePosition = ref({ x: 0, y: 0 });
-const imageRef = ref<HTMLImageElement | null>(null);
+const imageRef = ref<HTMLElement | null>(null);
 
 const startDrag = (event: MouseEvent | TouchEvent) => {
   isDragging.value = true;
