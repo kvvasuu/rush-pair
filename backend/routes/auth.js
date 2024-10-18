@@ -9,13 +9,13 @@ const auth = express.Router();
 const JWT_SECRET = "bTz8Kj%T&v9#LvD8j!7M@c4Hy92Xm&N^4tQZ2$wYFzRqS3GpJpP!";
 
 export const authenticateToken = (req, res, next) => {
-  const token = req.headers["authorizations"];
+  const token = req.headers.authorization?.split(" ")[1] || req.query.token;
 
   if (!token) {
     return res.status(403).json({ msg: "Token not provided" });
   }
 
-  jwt.verify(token.split(" ")[1], JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(403).json({ msg: "Invalid token" });
     }
@@ -132,7 +132,6 @@ auth.get("/verify-token", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Zwróć dane użytkownika
     res.json({ user });
   });
 });

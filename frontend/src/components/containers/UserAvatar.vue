@@ -20,6 +20,8 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 const authStore = useAuthStore();
 
 const passPhotoUrl = computed(
-  () => `${SERVER_URL}/${authStore.imageUrl}.png` || avatar
+  () =>
+    `${SERVER_URL}/uploads/${authStore.imageUrl}.png?token=${authStore.token}` ||
+    avatar
 );
 </script>
