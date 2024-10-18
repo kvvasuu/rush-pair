@@ -6,7 +6,9 @@
         class="w-4/5 flex flex-col items-center justify-center py-20"
       >
         <div class="w-4/5 h-full" v-if="isUploaded">
-          <div class="w-full aspect-square relative overflow-hidden">
+          <div
+            class="w-full aspect-square relative overflow-hidden rounded-full"
+          >
             <div
               class="absolute min-w-full min-h-full"
               :style="{
@@ -68,7 +70,6 @@
         >
           Save
         </button>
-        <canvas ref="previewCanvas"></canvas>
       </div>
     </div>
   </BasicOverlay>
@@ -95,8 +96,6 @@ const scale = ref(150);
 const mainStore = useMainStore();
 const authStore = useAuthStore();
 
-const previewCanvas = ref(null);
-
 const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
@@ -110,8 +109,7 @@ const previewImage = (event: Event) => {
 
 const changeImage = async () => {
   if (!imageRef.value) return;
-  /* const canvas = document.createElement("canvas"); */
-  const canvas = previewCanvas.value as any;
+  const canvas = document.createElement("canvas");
 
   const parentElement = imageRef.value.parentElement;
   if (!parentElement) return;
@@ -119,36 +117,32 @@ const changeImage = async () => {
   const parentRect = parentElement.getBoundingClientRect();
   const imageRect = imageRef.value.getBoundingClientRect();
 
-  const cropX = 0;
-  const cropY = 0;
-  const cropWidth = 420;
-  const cropHeight = 420;
-
-  canvas.width = cropWidth;
-  canvas.height = cropWidth;
-
-  console.log(cropX, cropY, cropWidth, cropHeight);
+  const cropX = Math.abs(imageRect.left - parentRect.left);
+  const cropY = Math.abs(imageRect.top - parentRect.top);
 
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   const img = new Image();
   img.src = imageFileUrl.value;
+
   img.onload = () => {
-    console.log(img.width, img.height);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const proportion = img.width / imageRect.width;
+
+    canvas.width = proportion * parentRect.width;
+    canvas.height = proportion * parentRect.width;
     ctx.drawImage(
       img,
-      cropX,
-      cropY,
-      cropWidth,
-      cropHeight,
+      proportion * cropX,
+      proportion * cropY,
+      proportion * parentRect.width,
+      proportion * parentRect.height,
       0,
       0,
-      cropWidth,
-      cropHeight
+      proportion * parentRect.width,
+      proportion * parentRect.height
     );
 
-    /* canvas.toBlob(async (blob) => {
+    canvas.toBlob(async (blob) => {
       const formData = new FormData();
 
       const fileName = authStore.email.replace(/[@.]/g, "_");
@@ -173,7 +167,7 @@ const changeImage = async () => {
         .finally(() => {
           mainStore.isLoading = false;
         });
-    }, "image/png"); */
+    }, "image/png");
   };
 };
 
