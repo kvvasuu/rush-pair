@@ -40,7 +40,6 @@ userRoutes.put(
         imageUrl: user.imageUrl,
       });
     } catch (error) {
-      console.error(error);
       res.status(500).json({ msg: "Server error" });
     }
   }
@@ -82,7 +81,27 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.body.email,
+      { $set: { settings: req.body.settings } },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found." });
+    }
+
+    res.json({
+      message: "Settings changed",
+      settings: req.body.settings,
+    });
+  } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }
 });

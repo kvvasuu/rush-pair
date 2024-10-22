@@ -44,9 +44,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  settings: {
+    notifications: {
+      type: Boolean,
+      default: true,
+    },
+    theme: {
+      type: String,
+      enum: ["light", "dark"],
+      default: "dark",
+    },
+    language: {
+      type: String,
+      default: "ENG",
+    },
+  },
 });
 
-// Hashowanie hasła przed zapisaniem
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 

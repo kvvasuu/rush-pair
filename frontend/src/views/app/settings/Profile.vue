@@ -130,7 +130,7 @@
       class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-300 bg-blue-800 hover:bg-blue-700 transition-all"
       :disabled="!isSavePossible"
       :class="{
-        'opacity-25 hover:bg-blue-700 cursor-auto': !isSavePossible,
+        'opacity-25 hover:bg-blue-800 cursor-auto': !isSavePossible,
       }"
       @click="saveDetails"
     >
