@@ -116,12 +116,9 @@ const notificationsLoading = ref(false);
 const changeNotifications = async () => {
   notificationsLoading.value = true;
   try {
-    const res = await settingsStore.changeSettings({
+    await settingsStore.changeSettings({
       notifications: !settingsStore.settings.notifications,
     });
-    console.log(res);
-  } catch (err) {
-    console.error(err);
   } finally {
     notificationsLoading.value = false;
   }

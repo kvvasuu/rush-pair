@@ -87,8 +87,8 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
 
 userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      req.body.email,
+    const user = await User.findOneAndUpdate(
+      { email: req.body.email },
       { $set: { settings: req.body.settings } },
       { new: true, runValidators: true }
     );

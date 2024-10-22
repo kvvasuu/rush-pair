@@ -18,7 +18,7 @@ export const useSettingsStore = defineStore("settingsStore", {
       const authStore = useAuthStore();
       if (authStore.token) {
         try {
-          const response = await axios.patch(
+          await axios.patch(
             `${SERVER_URL}/user/change-settings`,
             { email: authStore.email, settings },
             {
@@ -28,7 +28,6 @@ export const useSettingsStore = defineStore("settingsStore", {
             }
           );
           this.settings = { ...this.settings, ...settings };
-          return response;
         } catch (error) {
           throw error;
         }
