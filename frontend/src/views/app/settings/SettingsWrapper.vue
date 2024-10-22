@@ -1,11 +1,13 @@
 <template>
   <main
-    class="w-full h-full flex justify-center relative bg-neutral-900 overflow-hidden"
+    class="w-full h-full flex justify-center relative bg-slate-200 dark:bg-neutral-900 overflow-hidden"
   >
     <div
-      class="flex justify-center items-center w-full h-16 relative bg-neutral-800"
+      class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800"
     >
-      <p class="text-neutral-300 font-semibold text-xl select-none">
+      <p
+        class="text-neutral-800 dark:text-neutral-300 font-semibold text-xl select-none"
+      >
         {{ route.name }}
       </p>
 

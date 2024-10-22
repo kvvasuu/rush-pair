@@ -9,10 +9,17 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useAuthStore } from "./stores/authStore";
+import { useSettingsStore } from "./stores/settingsStore";
 
 const store = useAuthStore();
+const settingsStore = useSettingsStore();
 
 onMounted(async () => {
+  settingsStore.settings.theme &&
+    document.documentElement.setAttribute(
+      "data-theme",
+      settingsStore.settings.theme
+    );
   await store.login();
 });
 </script>

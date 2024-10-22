@@ -5,10 +5,12 @@
     <div class="flex flex-col items-center justify-center">
       <div class="h-24"><UserAvatar></UserAvatar></div>
 
-      <p class="text-neutral-300 font-semibold text-2xl mt-6 select-none">
+      <p
+        class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl mt-6 select-none"
+      >
         {{ authStore.name }}
       </p>
-      <p class="text-neutral-500 text-sm select-none">
+      <p class="text-slate-600 dark:text-neutral-500 text-sm select-none">
         {{ authStore.email }}
       </p>
     </div>
@@ -16,18 +18,20 @@
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative rounded-t-lg"
+          class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative rounded-t-lg"
           ><i class="fa-solid fa-user w-10 text-center"></i>
           <span class="px-1">Profile</span>
 
-          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <i
+            class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
+          ></i>
           <div
-            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
           ></div>
         </RouterLink>
       </li>
       <label
-        class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative cursor-pointer"
+        class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative cursor-pointer"
       >
         <i class="fa-solid fa-bell w-10 text-center"></i>
         <span class="px-1">Notifications</span>
@@ -37,6 +41,7 @@
           value=""
           class="sr-only peer"
           checked
+          v-model="notifications"
           @change="changeNotifications"
         />
         <div
@@ -64,37 +69,41 @@
         </div>
         <div
           v-else
-          class="absolute right-4 w-11 h-6 bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-neutral-100 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-700"
+          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-neutral-100 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-700"
         ></div>
         <div
-          class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </label>
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative"
+          class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative"
           ><i class="fa-solid fa-eye w-10 text-center"></i>
           <span class="px-1">Apperance</span>
-          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <i
+            class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
+          ></i>
           <div
-            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-700 absolute"
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
           ></div>
         </RouterLink>
       </li>
       <li>
         <RouterLink
           to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-800 hover:bg-neutral-700/50 relative rounded-b-lg"
+          class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative rounded-b-lg"
           ><i class="fa-solid fa-lock w-10 text-center"></i>
           <span class="px-1">Security</span>
-          <i class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-500"></i>
+          <i
+            class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
+          ></i>
         </RouterLink>
       </li>
     </ol>
     <ol class="mt-auto rounded-lg overflow-hidden w-4/5 text-center">
       <li
-        class="w-full p-3 text-red-500 cursor-pointer bg-neutral-800 hover:bg-neutral-700/50 transition-all"
+        class="w-full p-3 text-red-500 font-semibold dark:font-normal cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
         @click="logout"
       >
         Logout
@@ -111,6 +120,8 @@ import { useSettingsStore } from "../../../stores/settingsStore";
 
 const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
+
+const notifications = ref(settingsStore.settings.notifications);
 
 const notificationsLoading = ref(false);
 const changeNotifications = async () => {
