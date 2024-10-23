@@ -12,7 +12,7 @@
       </p>
 
       <button
-        class="absolute left-0 top-0 text-4xl text-neutral-500 hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
+        class="absolute left-0 top-0 text-4xl text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
         :class="{
           'opacity-30 cursor-auto hover:text-neutral-500': mainStore.isLoading,
         }"

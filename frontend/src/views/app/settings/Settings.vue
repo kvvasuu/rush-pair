@@ -43,6 +43,7 @@
           checked
           v-model="notifications"
           @change="changeNotifications"
+          id="notifications-toggle"
         />
         <div
           role="status"
@@ -69,26 +70,35 @@
         </div>
         <div
           v-else
-          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-neutral-100 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-700"
+          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-neutral-100 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-700"
         ></div>
         <div
           class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </label>
-      <li>
-        <RouterLink
-          to="/app/settings/profile"
-          class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative"
-          ><i class="fa-solid fa-eye w-10 text-center"></i>
-          <span class="px-1">Apperance</span>
-          <i
-            class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
-          ></i>
-          <div
-            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
-          ></div>
-        </RouterLink>
-      </li>
+      <label
+        class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative cursor-pointer"
+      >
+        <i class="fa-solid fa-eye w-10 text-center"></i>
+        <span class="px-1">Theme</span>
+
+        <input
+          type="checkbox"
+          value=""
+          class="sr-only peer"
+          checked
+          v-model="theme"
+          @change="changeTheme"
+          id="theme-toggle"
+        />
+        <div
+          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-yellow-600 peer-checked:after:bg-yellow-500 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 dark:after:bg-yellow-500/80 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-neutral-900"
+        ></div>
+
+        <div
+          class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
+        ></div>
+      </label>
       <li>
         <RouterLink
           to="/app/settings/profile"
@@ -122,7 +132,6 @@ const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
 const notifications = ref(settingsStore.settings.notifications);
-
 const notificationsLoading = ref(false);
 const changeNotifications = async () => {
   notificationsLoading.value = true;
@@ -133,6 +142,20 @@ const changeNotifications = async () => {
   } finally {
     notificationsLoading.value = false;
   }
+};
+
+const theme = ref(settingsStore.settings.theme === "dark");
+
+const changeTheme = async () => {
+  let changedTheme: "light" | "dark";
+
+  !!theme.value ? (changedTheme = "dark") : (changedTheme = "light");
+  try {
+    await settingsStore.changeSettings({
+      theme: changedTheme,
+    });
+    document.documentElement.setAttribute("data-theme", changedTheme);
+  } catch {}
 };
 
 const logout = () => {

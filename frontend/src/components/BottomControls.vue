@@ -1,43 +1,52 @@
 <template>
-  <div class="w-full h-full bg-neutral-800 flex items-center justify-center">
+  <div
+    class="w-full h-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center"
+  >
     <nav
       class="w-full max-w-[666px] h-full flex items-center justify-between px-2"
     >
       <RouterLink
         to="/app"
-        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
+        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
         <i
-          class="fa-solid fa-house text-3xl transition-all"
-          :class="{ 'text-neutral-300': isRouteActive }"
+          class="fa-solid fa-house text-3xl transition-all duration-150"
+          :class="{ 'text-neutral-500 dark:text-neutral-300': isRouteActive }"
         ></i>
       </RouterLink>
       <RouterLink
         to="/app/stars"
-        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
+        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
         <i
-          class="fa-solid fa-star text-3xl transition-all"
-          :class="{ 'text-neutral-300': route.path.startsWith('/app/stars') }"
+          class="fa-solid fa-star text-3xl transition-all duration-150"
+          :class="{
+            'text-neutral-500 dark:text-neutral-300':
+              route.path.startsWith('/app/stars'),
+          }"
         ></i>
       </RouterLink>
       <RouterLink
         to="/app/pairs"
-        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
+        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
         <i
-          class="fa-solid fa-handshake-simple text-3xl transition-all"
-          :class="{ 'text-neutral-300': route.path.startsWith('/app/pairs') }"
+          class="fa-solid fa-handshake-simple text-3xl transition-all duration-150"
+          :class="{
+            'text-neutral-500 dark:text-neutral-300':
+              route.path.startsWith('/app/pairs'),
+          }"
         ></i>
       </RouterLink>
       <RouterLink
         to="/app/settings"
-        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-500 hover:text-neutral-300 transition-all"
+        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
         <i
-          class="fa-solid fa-bars text-3xl transition-all"
+          class="fa-solid fa-bars text-3xl transition-all duration-150"
           :class="{
-            'text-neutral-300': route.path.startsWith('/app/settings'),
+            'text-neutral-500 dark:text-neutral-300':
+              route.path.startsWith('/app/settings'),
           }"
         ></i>
       </RouterLink>

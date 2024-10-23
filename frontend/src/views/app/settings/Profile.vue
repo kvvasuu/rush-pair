@@ -14,14 +14,14 @@
           <i class="fa-solid fa-camera text-neutral-700"></i>
         </div>
       </div>
-      <p class="text-neutral-400 mt-4">Change image</p>
+      <p class="text-neutral-600 dark:text-neutral-400 mt-4">Change image</p>
     </div>
     <ol class="mt-8 rounded-lg w-4/5">
       <li class="relative">
         <input
           id="name"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.name"
           required
@@ -29,24 +29,26 @@
         />
         <label
           for="name"
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >Name</label
         >
 
         <div
-          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </li>
       <li
-        class="select-none text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 relative"
+        class="select-none text-xl text-neutral-500 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 dark:bg-neutral-800 relative"
       >
         <span
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >Gender</span
         >
-        <p class="capitalize">{{ details.gender }}</p>
+        <p class="capitalize text-neutral-600 dark:text-neutral-400">
+          {{ details.gender }}
+        </p>
         <div
-          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </li>
 
@@ -54,7 +56,7 @@
         <input
           id="birthdate"
           type="date"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer rounded-b-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
           autocomplete="off"
           v-model="details.birthdate"
           min="1920-01-01"
@@ -64,7 +66,7 @@
         />
         <label
           for="birthdate"
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >Birthdate</label
         >
       </li>
@@ -75,38 +77,38 @@
         <input
           id="country"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.country"
           placeholder="Optional"
         />
         <label
           for="name"
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >Country</label
         >
 
         <div
-          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </li>
       <li class="relative">
         <input
           id="city"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
           v-model="details.city"
           placeholder="Optional"
         />
         <label
           for="name"
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >City</label
         >
 
         <div
-          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </li>
 
@@ -114,23 +116,24 @@
         <input
           id="phone-number"
           type="text"
-          class="text-xl text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-800 hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
           autocomplete="off"
           v-model="details.phoneNumber"
           placeholder="Optional"
         />
         <label
           for="name"
-          class="absolute left-5 h-full flex items-center top-0 text-neutral-400 text-xl"
+          class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
           >Phone</label
         >
       </li>
     </ol>
     <button
-      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-300 bg-blue-800 hover:bg-blue-700 transition-all"
+      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all"
       :disabled="!isSavePossible"
       :class="{
-        'opacity-25 hover:bg-blue-800 cursor-auto': !isSavePossible,
+        'opacity-25 hover:bg-blue-600 dark:hover:bg-blue-800 cursor-auto':
+          !isSavePossible,
       }"
       @click="saveDetails"
     >

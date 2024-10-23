@@ -11,12 +11,12 @@ const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
 onMounted(async () => {
+  await authStore.login();
   settingsStore.settings.theme &&
     document.documentElement.setAttribute(
       "data-theme",
       settingsStore.settings.theme
     );
-  await authStore.login();
 });
 </script>
 

@@ -36,7 +36,7 @@
         </div>
         <label
           for="uploadFile"
-          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-400 bg-neutral-800 hover:bg-neutral-700/50 transition-all cursor-pointer"
+          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
         >
           <i class="fa-solid fa-cloud-arrow-up"></i>
           {{ isUploaded ? "Change" : "Upload" }}
@@ -56,15 +56,16 @@
             max="200"
             v-model="scale"
             @input="calculateImagePosition(position.x, position.y)"
-            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            class="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           />
         </div>
         <button
-          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-300 bg-blue-800 hover:bg-blue-700 transition-all cursor-pointer"
+          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all cursor-pointer"
           v-if="isUploaded"
           :disabled="mainStore.isLoading"
           :class="{
-            'opacity-25 hover:bg-blue-700 cursor-auto': mainStore.isLoading,
+            'opacity-25 hover:bg-blue-600 dark:hover:bg-blue-800 cursor-auto':
+              mainStore.isLoading,
           }"
           @click="changeImage"
         >
