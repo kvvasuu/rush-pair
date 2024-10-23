@@ -87,9 +87,15 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
 
 userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
   try {
+    const updateQuery = {};
+
+    for (const [key, value] of Object.entries(req.body.settings)) {
+      updateQuery[`settings.${key}`] = value;
+    }
+
     const user = await User.findOneAndUpdate(
       { email: req.body.email },
-      { $set: { settings: req.body.settings } },
+      { $set: updateQuery },
       { new: true, runValidators: true }
     );
 

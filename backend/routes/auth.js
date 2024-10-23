@@ -55,6 +55,11 @@ auth.post(
         email,
         password,
         firstVisit,
+        settings: {
+          notifications: true,
+          theme: "dark",
+          language: "ENG",
+        },
       });
 
       return await user.save().then(() => {

@@ -14,7 +14,7 @@ export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const MONGODB_KEY =
   process.env.MONGODB_KEY ||
-  "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair";
+  "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/rushpair?retryWrites=true&w=majority&appName=Rushpair";
 
 app.use(
   "/uploads",
@@ -24,8 +24,6 @@ app.use(
 app.use(express.json());
 app.use(cors());
 app.use(sessionMiddleware);
-
-console.log(__dirname);
 
 mongoose
   .connect(MONGODB_KEY)

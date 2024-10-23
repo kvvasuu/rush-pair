@@ -1,9 +1,5 @@
 <template>
-  <RouterView v-slot="{ Component }">
-    <Transition name="fade" mode="out-in">
-      <component :is="Component" />
-    </Transition>
-  </RouterView>
+  <RouterView></RouterView>
 </template>
 
 <script setup lang="ts">
@@ -11,7 +7,7 @@ import { onMounted } from "vue";
 import { useAuthStore } from "./stores/authStore";
 import { useSettingsStore } from "./stores/settingsStore";
 
-const store = useAuthStore();
+const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 
 onMounted(async () => {
@@ -20,7 +16,7 @@ onMounted(async () => {
       "data-theme",
       settingsStore.settings.theme
     );
-  await store.login();
+  await authStore.login();
 });
 </script>
 
