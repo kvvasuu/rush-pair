@@ -7,14 +7,15 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/userRoutes.js";
 import sessionMiddleware from "./session.js";
 import { authenticateToken } from "./routes/auth.js";
-import "dotenv/config";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-const MONGODB_KEY =
-  process.env.MONGODB_KEY ||
-  "mongodb+srv://RushPairUser:rushpair1!@rushpair.jt6i9.mongodb.net/rushpair?retryWrites=true&w=majority&appName=Rushpair";
+
+const MONGODB_KEY = process.env.MONGODB_KEY;
 
 app.use(
   "/uploads",
