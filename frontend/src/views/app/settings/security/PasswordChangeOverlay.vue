@@ -32,7 +32,7 @@
               type="password"
               v-model="password"
               @click="errorMessage = ''"
-              class="w-full p-4 pl-12 text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-lg"
+              class="w-full p-4 pl-12 text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-lg"
             />
 
             <i
@@ -46,7 +46,7 @@
               type="password"
               v-model="newPassword"
               @click="errorMessage = ''"
-              class="w-full p-4 pl-12 text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-lg"
+              class="w-full p-4 pl-12 text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-lg"
             />
 
             <i

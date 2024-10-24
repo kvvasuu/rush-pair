@@ -9,7 +9,7 @@ import sessionMiddleware from "./session.js";
 import { authenticateToken } from "./routes/auth.js";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: ".env" });
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
