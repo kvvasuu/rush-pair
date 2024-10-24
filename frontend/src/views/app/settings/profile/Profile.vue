@@ -129,7 +129,7 @@
       </li>
     </ol>
     <button
-      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all"
+      class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-50 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all"
       :disabled="!isSavePossible"
       :class="{
         'opacity-25 hover:bg-blue-600 dark:hover:bg-blue-800 cursor-auto':

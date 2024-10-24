@@ -16,6 +16,7 @@
     </div>
     <button
       class="mt-8 rounded-lg w-4/5 flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative rounded-t-lg"
+      @click="togglePasswordChangeOverlay"
     >
       <i class="fa-solid fa-lock w-10 text-center"></i>
       <span class="px-1">Change password</span>
@@ -42,6 +43,14 @@
         ></DeleteAccountOverlay>
       </Teleport>
     </Transition>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <PasswordChangeOverlay
+          v-if="passwordChangeOverlay"
+          @close="togglePasswordChangeOverlay"
+        ></PasswordChangeOverlay>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
@@ -49,9 +58,15 @@
 import { ref } from "vue";
 import UserAvatar from "../../../../components/containers/UserAvatar.vue";
 import DeleteAccountOverlay from "./DeleteAccountOverlay.vue";
+import PasswordChangeOverlay from "./PasswordChangeOverlay.vue";
 import { useAuthStore } from "../../../../stores/authStore";
 
 const authStore = useAuthStore();
+
+const passwordChangeOverlay = ref(false);
+const togglePasswordChangeOverlay = () => {
+  passwordChangeOverlay.value = !passwordChangeOverlay.value;
+};
 
 const deleteAccountOverlay = ref(false);
 const toggleDeleteAccountOverlay = () => {

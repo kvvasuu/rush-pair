@@ -4,7 +4,7 @@
       class="flex flex-col items-center justify-start w-full h-full px-12 py-20"
     >
       <div
-        class="flex flex-col items-center justify-center text-2xl font-semibold text-red-500 dark:text-red-500 mb-8 gap-3"
+        class="flex flex-col items-center justify-center text-2xl font-semibold text-red-500 mb-8 gap-3"
       >
         <i class="fa-solid fa-trash-can text-5xl text-red-500"></i>
         <h2>Account Deletion</h2>
@@ -93,9 +93,7 @@
             <span class="sr-only">Loading...</span>
           </div>
 
-          <div
-            class="w-full sm:w-4/5 flex flex-col sm:flex-row items-center justify-center mt-auto mb-0 sm:mt-8 gap-6 sm:gap-8 transition-all"
-          >
+          <div class="w-full sm:w-4/5 flex items-center justify-center mt-6">
             <button
               class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
               @click="authStore.logout"
