@@ -11,9 +11,6 @@ interface User {
 interface authStoreState extends User {
   email: string;
   token: string;
-}
-
-interface settingsStoreState {
   settings: {
     notifications: boolean;
     theme: "dark" | "light";
@@ -21,4 +18,4 @@ interface settingsStoreState {
   };
 }
 
-export type { User, authStoreState, settingsStoreState };
+export type { User, authStoreState };

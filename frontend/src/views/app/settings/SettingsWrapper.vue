@@ -2,7 +2,7 @@
   <main
     class="w-full h-full flex justify-center relative bg-slate-200 dark:bg-neutral-900 overflow-hidden"
   >
-    <div
+    <header
       class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800"
     >
       <p
@@ -22,7 +22,7 @@
       >
         <i class="fa-solid fa-angle-left"></i>
       </button>
-    </div>
+    </header>
     <RouterView
       v-slot="{ Component }"
       class="absolute top-0 w-full h-[calc(100%-4rem)]"

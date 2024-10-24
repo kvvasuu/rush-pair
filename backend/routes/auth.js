@@ -141,4 +141,79 @@ auth.get("/verify-token", async (req, res) => {
   });
 });
 
+auth.post(
+  "/change-password",
+  [
+    check("email", "Email is not correct").isEmail(),
+    check("oldPassword", "Old password is required").notEmpty(),
+    check(
+      "newPassword",
+      "New password must be at least 6 characters long"
+    ).isLength({
+      min: 6,
+    }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, oldPassword, newPassword } = req.body;
+
+    try {
+      let user = await User.findOne({ email });
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
+      if (!isMatch) {
+        return res.status(409).json({ msg: "Old password is incorrect" });
+      }
+
+      user.password = newPassword;
+
+      return await user.save().then(() => {
+        return res.status(200).json({ msg: "Password changed successfully" });
+      });
+    } catch (err) {
+      res.status(500).send("Server error");
+    }
+  }
+);
+
+auth.post(
+  "/delete-account",
+  [
+    check("email", "Email is not correct").isEmail(),
+    check("passord", "Password is required").notEmpty(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    try {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(409).json({ msg: "Password is incorrect" });
+      }
+
+      let user = await User.findOneAndDelete({ email });
+
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+
+      res.status(200).json({ msg: "User deleted successfully" });
+    } catch (err) {
+      res.status(500).send("Server error");
+    }
+  }
+);
+
 export default auth;

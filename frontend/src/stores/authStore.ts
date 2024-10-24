@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { User, authStoreState } from "../types";
 import { useMainStore } from ".";
-import { useSettingsStore } from "./settingsStore";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -18,6 +17,11 @@ export const useAuthStore = defineStore("authStore", {
     phoneNumber: "",
     firstVisit: true,
     imageUrl: "",
+    settings: {
+      notifications: true,
+      theme: "dark",
+      language: "ENG",
+    },
   }),
   actions: {
     setToken(token: string) {
@@ -39,7 +43,6 @@ export const useAuthStore = defineStore("authStore", {
           });
 
           this.setToken(token);
-          const settingsStore = useSettingsStore();
           const {
             email,
             name,
@@ -62,7 +65,7 @@ export const useAuthStore = defineStore("authStore", {
           this.city = city || "";
           this.phoneNumber = phoneNumber || "";
           this.imageUrl = imageUrl || "";
-          settingsStore.settings = settings || settingsStore.settings;
+          this.settings = settings || this.settings;
 
           this.router.replace("/app");
         } catch (error) {
@@ -113,6 +116,24 @@ export const useAuthStore = defineStore("authStore", {
             mainStore.isLoading = false;
           });
       });
+    },
+    async changeSettings(settings: {}) {
+      if (this.token) {
+        try {
+          await axios.patch(
+            `${SERVER_URL}/user/change-settings`,
+            { email: this.email, settings },
+            {
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+              },
+            }
+          );
+          this.settings = { ...this.settings, ...settings };
+        } catch (error) {
+          throw error;
+        }
+      }
     },
   },
 });
