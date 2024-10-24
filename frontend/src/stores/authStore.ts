@@ -75,6 +75,8 @@ export const useAuthStore = defineStore("authStore", {
     },
     async logout() {
       localStorage.removeItem("token");
+      const store = useMainStore();
+      store.$reset();
       this.$reset();
       this.router.replace("/");
     },

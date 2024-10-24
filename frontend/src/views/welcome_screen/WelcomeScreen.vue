@@ -9,7 +9,7 @@
           showUi,
       }"
     >
-      <a href="https://kwasu.pl" target="_blank"
+      <a href="https://github.com/kvvasuu/rush-pair" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
       /></a>
     </div>

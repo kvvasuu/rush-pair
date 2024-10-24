@@ -78,10 +78,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import UserAvatar from "../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../stores/authStore";
-import { useMainStore } from "../../../stores";
-import BasicOverlay from "../../../components/containers/BasicOverlay.vue";
+import UserAvatar from "../../../../components/containers/UserAvatar.vue";
+import { useAuthStore } from "../../../../stores/authStore";
+import { useMainStore } from "../../../../stores";
+import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import axios from "axios";
 
 const emit = defineEmits(["close"]);

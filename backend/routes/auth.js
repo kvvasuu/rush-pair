@@ -91,14 +91,14 @@ auth.post(
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(409).json({
-          msg: "Email does not exists.",
+          msg: "Account does not exists.",
         });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(409).json({
-          msg: "Incorrect passord",
+          msg: "Incorrect password.",
         });
       }
 
@@ -108,7 +108,7 @@ auth.post(
         },
       };
 
-      jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
+      jwt.sign(payload, JWT_SECRET, { expiresIn: "3h" }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
@@ -164,18 +164,18 @@ auth.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(404).json({ msg: "User not found" });
+        return res.status(404).json({ msg: "User not found." });
       }
 
       const isMatch = await bcrypt.compare(oldPassword, user.password);
       if (!isMatch) {
-        return res.status(409).json({ msg: "Old password is incorrect" });
+        return res.status(409).json({ msg: "Old password is incorrect." });
       }
 
       user.password = newPassword;
 
       return await user.save().then(() => {
-        return res.status(200).json({ msg: "Password changed successfully" });
+        return res.status(200).json({ msg: "Password changed successfully." });
       });
     } catch (err) {
       res.status(500).send("Server error");
@@ -185,33 +185,31 @@ auth.post(
 
 auth.post(
   "/delete-account",
-  [
-    check("email", "Email is not correct").isEmail(),
-    check("passord", "Password is required").notEmpty(),
-  ],
+  [check("password", "Password is required").notEmpty()],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ msg: errors.array()[0].msg });
     }
 
     const { email, password } = req.body;
+    let user = await User.findOne({ email });
 
     try {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(409).json({ msg: "Password is incorrect" });
+        return res.status(409).json({ msg: "Password is incorrect." });
       }
 
-      let user = await User.findOneAndDelete({ email });
+      let deletedUser = await User.findOneAndDelete({ email });
 
-      if (!user) {
-        return res.status(404).json({ msg: "User not found" });
+      if (!deletedUser) {
+        return res.status(404).json({ msg: "User not found." });
       }
 
-      res.status(200).json({ msg: "User deleted successfully" });
+      res.status(200).json({ msg: "User deleted successfully." });
     } catch (err) {
-      res.status(500).send("Server error");
+      res.status(500).send("Server error.");
     }
   }
 );

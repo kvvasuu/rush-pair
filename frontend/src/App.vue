@@ -10,6 +10,5 @@ const authStore = useAuthStore();
 
 onMounted(async () => {
   await authStore.login();
-  document.documentElement.setAttribute("data-theme", authStore.settings.theme);
 });
 </script>

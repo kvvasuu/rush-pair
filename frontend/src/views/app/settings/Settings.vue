@@ -63,9 +63,10 @@
           type="checkbox"
           value=""
           class="sr-only peer"
-          checked
           v-model="theme"
           @change="changeTheme"
+          true-value="dark"
+          false-value="light"
           id="theme-toggle"
         />
         <div
@@ -118,17 +119,14 @@ const changeNotifications = async () => {
   } catch {}
 };
 
-const theme = ref(authStore.settings.theme === "dark");
+const theme = ref(authStore.settings.theme);
 
 const changeTheme = async () => {
-  let changedTheme: "light" | "dark";
-
-  !!theme.value ? (changedTheme = "dark") : (changedTheme = "light");
   try {
     await authStore.changeSettings({
-      theme: changedTheme,
+      theme: theme.value,
     });
-    document.documentElement.setAttribute("data-theme", changedTheme);
+    document.documentElement.setAttribute("data-theme", theme.value);
   } catch {}
 };
 

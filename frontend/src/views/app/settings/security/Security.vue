@@ -25,27 +25,36 @@
     </button>
     <button
       class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 text-red-500 font-semibold cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
-      @click="toggleDeleteAccountModal"
+      @click="toggleDeleteAccountOverlay"
     >
       <div class="relative">
         <span>Delete account</span>
         <i
-          class="fa-solid fa-circle-exclamation absolute h-full flex items-center -right-6 top-0"
+          class="fa-solid fa-trash-can absolute h-full flex items-center -right-6 top-0"
         ></i>
       </div>
     </button>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <DeleteAccountOverlay
+          v-if="deleteAccountOverlay"
+          @close="toggleDeleteAccountOverlay"
+        ></DeleteAccountOverlay>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import UserAvatar from "../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../stores/authStore";
+import UserAvatar from "../../../../components/containers/UserAvatar.vue";
+import DeleteAccountOverlay from "./DeleteAccountOverlay.vue";
+import { useAuthStore } from "../../../../stores/authStore";
 
 const authStore = useAuthStore();
 
-const deleteAccountModal = ref(false);
-const toggleDeleteAccountModal = () => {
-  deleteAccountModal.value = !deleteAccountModal.value;
+const deleteAccountOverlay = ref(false);
+const toggleDeleteAccountOverlay = () => {
+  deleteAccountOverlay.value = !deleteAccountOverlay.value;
 };
 </script>

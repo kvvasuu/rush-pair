@@ -152,9 +152,9 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
-import UserAvatar from "../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../stores/authStore";
-import { useMainStore } from "../../../stores";
+import UserAvatar from "../../../../components/containers/UserAvatar.vue";
+import { useAuthStore } from "../../../../stores/authStore";
+import { useMainStore } from "../../../../stores";
 import ImageChangeOverlay from "./ImageChangeOverlay.vue";
 
 const mainStore = useMainStore();

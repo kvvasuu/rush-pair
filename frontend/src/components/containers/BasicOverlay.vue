@@ -24,6 +24,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useMainStore } from "../../stores";
+
+const store = useMainStore();
 
 const props = defineProps(["preventClose", "noCloseButton"]);
 const emit = defineEmits(["close"]);
@@ -37,11 +40,12 @@ onMounted(() => {
 });
 
 const closeModal = () => {
-  if (!props.preventClose) {
-    isVisible.value = false;
-    setTimeout(() => {
-      emit("close");
-    }, 200);
-  }
+  if (!store.isLoading)
+    if (!props.preventClose) {
+      isVisible.value = false;
+      setTimeout(() => {
+        emit("close");
+      }, 200);
+    }
 };
 </script>

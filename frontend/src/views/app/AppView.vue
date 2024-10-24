@@ -16,4 +16,12 @@
 
 <script setup lang="ts">
 import BottomControls from "../../components/BottomControls.vue";
+import { onBeforeMount } from "vue";
+import { useAuthStore } from "../../stores/authStore";
+
+const authStore = useAuthStore();
+
+onBeforeMount(() => {
+  document.documentElement.setAttribute("data-theme", authStore.settings.theme);
+});
 </script>
