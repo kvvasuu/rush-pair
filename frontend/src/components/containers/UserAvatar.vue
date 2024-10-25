@@ -24,7 +24,7 @@ const authStore = useAuthStore();
 const isError = ref(false);
 
 const setDefaultAvatar = () => {
-  isError.value = true; // Gdy wystąpi błąd, ustawiamy flagę na true, aby wyświetlić domyślny obrazek
+  isError.value = true;
 };
 
 const avatarSrc = computed(() => {

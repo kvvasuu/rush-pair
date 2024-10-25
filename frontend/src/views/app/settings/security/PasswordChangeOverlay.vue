@@ -4,7 +4,7 @@
       class="flex flex-col items-center justify-start w-full h-full px-12 py-20"
     >
       <div
-        class="flex flex-col items-center justify-center text-2xl font-semibold mb-8 gap-3 dark:text-neutral-300"
+        class="flex flex-col items-center justify-center text-2xl font-semibold mb-8 gap-3 text-neutral-600 dark:text-neutral-300"
       >
         <i class="fa-solid fa-lock text-5xl"></i>
         <h2>Password Change</h2>

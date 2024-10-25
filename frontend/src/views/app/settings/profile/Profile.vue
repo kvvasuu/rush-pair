@@ -21,7 +21,7 @@
         <input
           id="name"
           type="text"
-          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.name"
           required
@@ -56,7 +56,7 @@
         <input
           id="birthdate"
           type="date"
-          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-b-lg cursor-pointer"
           autocomplete="off"
           v-model="details.birthdate"
           min="1920-01-01"
@@ -77,7 +77,7 @@
         <input
           id="country"
           type="text"
-          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.country"
           placeholder="Optional"
@@ -96,7 +96,7 @@
         <input
           id="city"
           type="text"
-          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600"
           autocomplete="off"
           v-model="details.city"
           placeholder="Optional"
@@ -116,7 +116,7 @@
         <input
           id="phone-number"
           type="text"
-          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none cursor-pointer placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
+          class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-600 rounded-b-lg"
           autocomplete="off"
           v-model="details.phoneNumber"
           placeholder="Optional"
