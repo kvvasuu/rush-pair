@@ -12,7 +12,7 @@
       </p>
 
       <button
-        class="absolute left-0 top-0 text-4xl text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
+        class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
         :class="{
           'opacity-30 cursor-auto hover:text-neutral-500': mainStore.isLoading,
         }"
@@ -20,7 +20,8 @@
         v-if="route.name !== 'Settings'"
         :disabled="mainStore.isLoading"
       >
-        <i class="fa-solid fa-angle-left"></i>
+        <i class="fa-solid fa-angle-left text-4xl"></i>
+        <span class="text-xl hidden md:block">Settings</span>
       </button>
     </header>
     <RouterView

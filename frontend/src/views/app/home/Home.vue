@@ -7,5 +7,5 @@
 </template>
 
 <script setup lang="ts">
-import RecentPairs from "./RecentPairs.vue";
+import RecentPairs from "./recent_pairs/RecentPairs.vue";
 </script>
