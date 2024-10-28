@@ -14,7 +14,7 @@
         {{ authStore.email }}
       </p>
     </div>
-    <ol class="mt-8 rounded-lg w-4/5">
+    <ol class="mt-8 mb-6 rounded-lg w-4/5">
       <li>
         <RouterLink
           to="/app/settings/profile"
@@ -90,7 +90,7 @@
       </li>
     </ol>
     <button
-      class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 text-red-500 font-semibold cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
+      class="mt-auto rounded-lg overflow-hidden min-h-[52px] w-4/5 flex items-center justify-center text-center p-3 text-red-500 font-semibold cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
       @click="logout"
     >
       <div class="relative">
