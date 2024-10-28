@@ -1,30 +1,39 @@
 <template>
   <div
-    class="w-full flex px-6 gap-6 overflow-hidden py-4 overflow-x-scroll scroll-hide relative"
-    ref="horizontalSlider"
-    @scroll="handleScroll"
+    class="w-full flex flex-col items-center justify-center pt-4 px-6 md:px-0"
   >
-    <div
-      v-for="(pair, index) in arr"
-      class="aspect-square rounded-full cursor-pointer pair w-1/5 min-w-[72px] select-none"
+    <p
+      class="w-full border-b-[1px] border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500"
     >
-      <img
-        :src="pair"
-        :alt="`pair_${index}`"
-        :key="`pair_${index}`"
-        class="w-full h-full rounded-full border-slate-50 dark:border-neutral-900 border-[2px]"
-        draggable="false"
-      />
-    </div>
-    <button
-      class="h-full px-2 absolute left-0 top-0 flex items-center justify-center rounded-full text-xl text-neutral-600 hover:text-neutral-500 transition-all cursor-pointer"
+      Recent pairs
+    </p>
+    <div
+      class="w-full flex gap-6 py-4 overflow-x-scroll scroll-hide relative"
+      ref="horizontalSlider"
+      @scroll="handleScroll"
     >
       <div
-        class="w-8 h-8 flex items-center justify-center bg-neutral-200/75 rounded-full"
+        v-for="(pair, index) in arr"
+        class="aspect-square rounded-full cursor-pointer pair w-1/5 min-w-[72px] select-none"
       >
-        <i class="fa-solid fa-angle-left"></i>
+        <img
+          :src="pair"
+          :alt="`pair_${index}`"
+          :key="`pair_${index}`"
+          class="w-full h-full rounded-full border-slate-50 dark:border-neutral-900 border-[2px]"
+          draggable="false"
+        />
       </div>
-    </button>
+      <button
+        class="h-full px-2 absolute left-0 top-0 items-center justify-center rounded-full text-xl text-neutral-600 hover:text-neutral-500 transition-all cursor-pointer hidden"
+      >
+        <div
+          class="w-8 h-8 flex items-center justify-center bg-neutral-200/75 rounded-full"
+        >
+          <i class="fa-solid fa-angle-left"></i>
+        </div>
+      </button>
+    </div>
   </div>
 </template>
 
