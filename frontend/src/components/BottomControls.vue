@@ -11,7 +11,7 @@
       >
         <i
           class="fa-solid fa-house text-3xl transition-all duration-150"
-          :class="{ 'text-neutral-500 dark:text-neutral-300': isRouteActive }"
+          :class="{ 'text-rose-500': isRouteActive }"
         ></i>
       </RouterLink>
       <RouterLink
@@ -21,8 +21,7 @@
         <i
           class="fa-solid fa-star text-3xl transition-all duration-150"
           :class="{
-            'text-neutral-500 dark:text-neutral-300':
-              route.path.startsWith('/app/stars'),
+            'text-rose-500': route.path.startsWith('/app/stars'),
           }"
         ></i>
       </RouterLink>
@@ -33,8 +32,7 @@
         <i
           class="fa-solid fa-handshake-simple text-3xl transition-all duration-150"
           :class="{
-            'text-neutral-500 dark:text-neutral-300':
-              route.path.startsWith('/app/pairs'),
+            'text-rose-500': route.path.startsWith('/app/pairs'),
           }"
         ></i>
       </RouterLink>
@@ -45,8 +43,7 @@
         <i
           class="fa-solid fa-bars text-3xl transition-all duration-150"
           :class="{
-            'text-neutral-500 dark:text-neutral-300':
-              route.path.startsWith('/app/settings'),
+            'text-rose-500': route.path.startsWith('/app/settings'),
           }"
         ></i>
       </RouterLink>

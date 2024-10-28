@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full h-full">
+  <div
+    class="w-full h-full bg-slate-200 dark:bg-neutral-900 flex justify-center"
+  >
     <RouterView
       v-slot="{ Component }"
       class="absolute top-0 w-full h-[calc(100%-4rem)]"

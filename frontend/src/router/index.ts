@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "../stores/authStore";
 import AppView from "../views/app/AppView.vue";
-import Home from "../views/app/Home.vue";
+import Home from "../views/app/home/Home.vue";
 import Stars from "../views/app/Stars.vue";
 import Pairs from "../views/app/Pairs.vue";
 import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
