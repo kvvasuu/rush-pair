@@ -123,10 +123,10 @@ const theme = ref(authStore.settings.theme);
 
 const changeTheme = async () => {
   try {
+    document.documentElement.setAttribute("data-theme", theme.value);
     await authStore.changeSettings({
       theme: theme.value,
     });
-    document.documentElement.setAttribute("data-theme", theme.value);
   } catch {}
 };
 
