@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center"
+    class="fixed bottom-0 w-full h-16 md:hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center"
   >
     <nav
       class="w-full max-w-[666px] h-full flex items-center justify-between px-2"

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full flex px-6 gap-6 overflow-hidden bg-slate-50 dark:bg-neutral-800 py-4 overflow-x-scroll scroll-hide"
+    class="w-full flex px-6 gap-6 overflow-hidden py-4 overflow-x-scroll scroll-hide"
   >
     <div
       v-for="(pair, index) in arr"

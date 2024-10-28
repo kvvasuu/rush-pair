@@ -1,5 +1,7 @@
 <template>
-  <main class="flex flex-col items-center h-full relative max-w-[666px] w-full">
+  <main
+    class="flex flex-col items-center h-full relative w-full md:max-w-[666px]"
+  >
     <RecentPairs></RecentPairs>
   </main>
 </template>
