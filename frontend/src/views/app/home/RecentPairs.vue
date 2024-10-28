@@ -1,6 +1,8 @@
 <template>
   <div
-    class="w-full flex px-6 gap-6 overflow-hidden py-4 overflow-x-scroll scroll-hide"
+    class="w-full flex px-6 gap-6 overflow-hidden py-4 overflow-x-scroll scroll-hide relative"
+    ref="horizontalSlider"
+    @scroll="handleScroll"
   >
     <div
       v-for="(pair, index) in arr"
@@ -14,13 +16,31 @@
         draggable="false"
       />
     </div>
+    <button
+      class="h-full px-2 absolute left-0 top-0 flex items-center justify-center rounded-full text-xl text-neutral-600 hover:text-neutral-500 transition-all cursor-pointer"
+    >
+      <div
+        class="w-8 h-8 flex items-center justify-center bg-neutral-200/75 rounded-full"
+      >
+        <i class="fa-solid fa-angle-left"></i>
+      </div>
+    </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import photo from "../../../../../backend/uploads/lukaszkwas96_gmail_com.png";
 
 const arr = [photo, photo, photo, photo, photo, photo, photo, photo];
+
+const horizontalSlider = ref<HTMLElement | null>();
+
+const handleScroll = () => {
+  if (!horizontalSlider.value) return;
+
+  console.log(horizontalSlider.value.scrollLeft);
+};
 </script>
 
 <style scoped>

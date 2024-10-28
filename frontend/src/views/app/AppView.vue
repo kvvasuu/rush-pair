@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang="ts">
-import BottomControls from "../../components/BottomControls.vue";
-import LeftControls from "../../components/LeftControls.vue";
+import BottomControls from "./BottomControls.vue";
+import LeftControls from "./LeftControls.vue";
 import { onBeforeMount } from "vue";
 import { useAuthStore } from "../../stores/authStore";
 
