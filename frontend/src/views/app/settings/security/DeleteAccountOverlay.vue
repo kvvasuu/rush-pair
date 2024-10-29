@@ -45,7 +45,7 @@
             :class="{ 'opacity-50': store.isLoading }"
           >
             <button
-              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
+              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
               @click="close"
               :class="{
                 'hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-default':
@@ -56,7 +56,7 @@
               Keep account
             </button>
             <button
-              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center opaci justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-500/75 transition-all"
+              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-500/75 transition-all"
               @click="deleteAccount"
               :class="{ 'hover:bg-red-500 cursor-default': store.isLoading }"
               :disabled="store.isLoading"
@@ -95,7 +95,7 @@
 
           <div class="w-full sm:w-4/5 flex items-center justify-center mt-6">
             <button
-              class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
+              class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all select-none"
               @click="authStore.logout"
             >
               Log out

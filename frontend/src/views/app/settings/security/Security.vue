@@ -19,7 +19,7 @@
       @click="togglePasswordChangeOverlay"
     >
       <i class="fa-solid fa-lock w-10 text-center"></i>
-      <span class="px-1">Change password</span>
+      <span class="px-1 select-none">Change password</span>
       <i
         class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
       ></i>
@@ -29,7 +29,7 @@
       @click="toggleDeleteAccountOverlay"
     >
       <div class="relative">
-        <span>Delete account</span>
+        <span class="select-none">Delete account</span>
         <i
           class="fa-solid fa-trash-can absolute h-full flex items-center -right-6 top-0"
         ></i>

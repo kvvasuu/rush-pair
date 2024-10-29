@@ -36,7 +36,7 @@
         </div>
         <label
           for="uploadFile"
-          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
+          class="mt-12 rounded-lg select-none py-3 px-8 text-xl text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
         >
           <i class="fa-solid fa-cloud-arrow-up"></i>
           {{ isUploaded ? "Change" : "Upload" }}
@@ -60,7 +60,7 @@
           />
         </div>
         <button
-          class="mt-12 rounded-lg py-3 px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all cursor-pointer"
+          class="mt-12 rounded-lg py-3 select-none px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all cursor-pointer"
           v-if="isUploaded"
           :disabled="mainStore.isLoading"
           :class="{
@@ -150,6 +150,10 @@ const changeImage = async () => {
 
       formData.append("profilePicture", blob as Blob, fileName);
       formData.append("email", authStore.email);
+      if (authStore.imageUrl) {
+        formData.append("oldImageName", authStore.imageUrl);
+      }
+
       mainStore.isLoading = true;
       axios
         .put(`${SERVER_URL}/user/update-image`, formData, {

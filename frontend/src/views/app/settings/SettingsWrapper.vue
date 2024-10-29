@@ -21,7 +21,7 @@
         :disabled="mainStore.isLoading"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
-        <span class="text-xl hidden md:block">Settings</span>
+        <span class="text-xl hidden md:block select-none">Settings</span>
       </button>
     </header>
     <RouterView

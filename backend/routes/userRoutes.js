@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import multer from "multer";
 import path from "path";
 import { __dirname } from "../app.js";
+import fs from "fs";
 
 const userRoutes = express.Router();
 
@@ -13,7 +14,8 @@ const imagesStorage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const safeFileName = file.originalname.replace(/[@.]/g, "_");
-    cb(null, `${safeFileName}.png`);
+    const date = Date.now();
+    cb(null, `${safeFileName}_${date}.png`);
   },
 });
 
@@ -29,6 +31,16 @@ userRoutes.put(
 
       if (!user) {
         return res.status(404).json({ msg: "User not found." });
+      }
+      if (req.body.oldImageName) {
+        fs.unlink(
+          path.join(__dirname, "uploads", req.body.oldImageName),
+          (err) => {
+            if (err) {
+              console.error("Failed to delete old file:", err);
+            }
+          }
+        );
       }
 
       user.imageUrl = req.file.filename;

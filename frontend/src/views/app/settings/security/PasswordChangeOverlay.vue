@@ -58,7 +58,7 @@
             :class="{ 'opacity-50': store.isLoading }"
           >
             <button
-              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all"
+              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all select-none"
               @click="changePassword"
               :class="{
                 'hover:bg-blue-600 dark:hover:bg-blue-800 cursor-default':
