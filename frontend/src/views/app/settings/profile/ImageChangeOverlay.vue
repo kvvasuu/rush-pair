@@ -43,12 +43,12 @@
           <input
             type="file"
             id="uploadFile"
-            class="hidden"
+            class="hidden select-none"
             accept="image/*"
             @change="previewImage"
           />
         </label>
-        <div class="mt-8 w-full max-w-56" v-if="isUploaded">
+        <div class="mt-8 w-full max-w-56 select-none" v-if="isUploaded">
           <input
             id="minmax-range"
             type="range"
@@ -56,7 +56,7 @@
             max="200"
             v-model="scale"
             @input="calculateImagePosition(position.x, position.y)"
-            class="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            class="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 select-none"
           />
         </div>
         <button

@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { useAvatar } from "../../../../composables/avatar.ts";
 const props = defineProps(["pair"]);
 
