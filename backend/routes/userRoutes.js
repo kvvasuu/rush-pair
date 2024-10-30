@@ -5,6 +5,7 @@ import multer from "multer";
 import path from "path";
 import { __dirname } from "../app.js";
 import fs from "fs";
+import sharp from "sharp";
 
 const userRoutes = express.Router();
 
@@ -15,7 +16,7 @@ const imagesStorage = multer.diskStorage({
   filename: (req, file, cb) => {
     const safeFileName = file.originalname.replace(/[@.]/g, "_");
     const date = Date.now();
-    cb(null, `${safeFileName}_${date}.png`);
+    cb(null, `beforeresize_${safeFileName}_${date}.jpeg`);
   },
 });
 
@@ -32,6 +33,21 @@ userRoutes.put(
       if (!user) {
         return res.status(404).json({ msg: "User not found." });
       }
+
+      const uploadedFilePath = path.join(
+        __dirname,
+        "uploads",
+        req.file.filename
+      );
+      const resizedFilePath = path.join(
+        __dirname,
+        "uploads",
+        req.file.filename.replace("beforeresize_", "")
+      );
+
+      await sharp(uploadedFilePath).resize(512, 512).toFile(resizedFilePath);
+      fs.unlinkSync(uploadedFilePath);
+
       if (req.body.oldImageName) {
         fs.unlink(
           path.join(__dirname, "uploads", req.body.oldImageName),
@@ -43,7 +59,7 @@ userRoutes.put(
         );
       }
 
-      user.imageUrl = req.file.filename;
+      user.imageUrl = req.file.filename.replace("beforeresize_", "");
 
       await user.save();
 
