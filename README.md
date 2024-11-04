@@ -27,22 +27,17 @@ RushPair is an exciting speed friending app that brings people together for real
 
 ## Setup
 
+Before you run app you need to set up envioronmental variables which are URLs used by app. Of course theese variables are not part of this repository since one of them - MongoDB URL - is secret and should not be exposed.
+
+Create .env file in frontend folder with variable called "VITE_SERVER_URL" e.g. "VITE_SERVER_URL=http://localhost:3000" which is backend server URL - default "http://localhost:3000".
+Create .env file in backend folder with variable called "MONGODB_KEY" e.g. "mongodb+srv://RushPairUser:<db_password>@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair" which is MongoDB URL. If you want to run this app you should connect to your MongoDB database.
+
+This repository is using Concurrently to run both frontend and backend at the same time with one npm script - "start": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"", so there is no need to run them separately. Just use "npm run start" in main package folder.
+
 ```
 # install dependencies
 npm install
 
 # serve with hot reload at localhost:5173
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
+npm run start // run both frontend and backend with concurrently 
 ```
