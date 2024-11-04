@@ -7,7 +7,7 @@
     >
       Recent pairs
     </p>
-    <div class="w-full relative">
+    <div class="w-full relative flex items-center justify-center min-h-24">
       <div
         class="w-full flex gap-6 py-4 overflow-x-scroll scroll-hide snap-x"
         ref="horizontalSlider"
@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
+
 import PairAvatar from "./PairAvatar.vue";
 
 const arr = [
@@ -90,7 +91,6 @@ const isTouchDevice = ref(
 const horizontalSlider = ref<HTMLElement | null>();
 
 const showLeftArrow = ref(false);
-
 const scrollLeft = () => {
   if (!horizontalSlider.value || !horizontalSlider.value.parentElement) return;
   horizontalSlider.value.scrollTo({
@@ -102,7 +102,6 @@ const scrollLeft = () => {
 };
 
 const showRightArrow = ref(false);
-
 const scrollRight = () => {
   if (!horizontalSlider.value || !horizontalSlider.value.parentElement) return;
   horizontalSlider.value.scrollTo({
