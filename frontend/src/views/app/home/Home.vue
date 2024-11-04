@@ -2,10 +2,7 @@
   <main
     class="flex flex-col items-center h-full relative w-full md:max-w-[666px]"
   >
-    <div
-      class="h-28 w-full flex items-start justify-center relative"
-      v-if="isLoading"
-    >
+    <div class="h-28 w-full flex items-center justify-center" v-if="isLoading">
       <BasicSpinner></BasicSpinner>
     </div>
 

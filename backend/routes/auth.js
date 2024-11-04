@@ -57,7 +57,7 @@ auth.post(
         firstVisit,
         settings: {
           notifications: true,
-          theme: "dark",
+          theme: "light",
           language: "ENG",
         },
       });

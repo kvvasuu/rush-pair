@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("authStore", {
     imageUrl: "",
     settings: {
       notifications: true,
-      theme: "dark",
+      theme: "light",
       language: "ENG",
     },
   }),
@@ -77,6 +77,7 @@ export const useAuthStore = defineStore("authStore", {
       localStorage.removeItem("token");
       const store = useMainStore();
       store.$reset();
+      document.documentElement.setAttribute("data-theme", "light");
       this.$reset();
       this.router.replace("/");
     },

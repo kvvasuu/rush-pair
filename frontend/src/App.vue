@@ -7,12 +7,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import { useAuthStore } from "./stores/authStore";
 
 const authStore = useAuthStore();
 
-onMounted(async () => {
+onBeforeMount(async () => {
   await authStore.login();
 });
 </script>
