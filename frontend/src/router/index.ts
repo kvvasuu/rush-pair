@@ -3,9 +3,9 @@ import { useUserStore } from "../stores/userStore";
 import AppView from "../views/app/AppView.vue";
 import Home from "../views/app/home/Home.vue";
 import Stars from "../views/app/Stars.vue";
-import Pairs from "../views/app/Pairs.vue";
 import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
 import Settings from "../views/app/settings/Settings.vue";
+import PairsWrapper from "../views/app/pairs/PairsWrapper.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,8 +48,8 @@ const router = createRouter({
             },
             {
               path: "pairs/:id?",
-              name: "Pairs",
-              component: Pairs,
+              name: "PairsWrapper",
+              component: PairsWrapper,
               meta: { requiresAuth: true },
             },
             {

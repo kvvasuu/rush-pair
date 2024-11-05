@@ -8,20 +8,16 @@
       <p
         class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none"
       >
-        {{ route.name }}
+        {{ pairName || "Pairs" }}
       </p>
 
       <button
         class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
-        :class="{
-          'opacity-30 cursor-auto hover:text-neutral-500': mainStore.isLoading,
-        }"
-        @click="router.back()"
-        v-if="route.name !== 'Settings'"
-        :disabled="mainStore.isLoading"
+        @click="router.push({ name: 'PairsWrapper' })"
+        v-if="route.params.id"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
-        <span class="text-xl hidden md:block select-none">Settings</span>
+        <span class="text-xl hidden md:block select-none">Pairs</span>
       </button>
     </header>
     <RouterView
@@ -36,13 +32,23 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useMainStore } from "../../../stores";
-
-const mainStore = useMainStore();
+import { useUserStore } from "../../../stores/userStore";
 
 const router = useRouter();
 const route = useRoute();
+
+const userStore = useUserStore();
+
+const pairName = computed(() => {
+  if (route.params.id) {
+    return (
+      userStore.pairs.filter((el) => el.id === route.params.id)[0].name ||
+      "Anonymous user"
+    );
+  }
+});
 </script>
 
 <style scoped>

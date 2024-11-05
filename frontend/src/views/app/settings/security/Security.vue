@@ -36,7 +36,7 @@
       </div>
     </button>
     <Transition name="fade" mode="out-in">
-      <Teleport to="body">
+      <Teleport to="main">
         <DeleteAccountOverlay
           v-if="deleteAccountOverlay"
           @close="toggleDeleteAccountOverlay"
@@ -44,7 +44,7 @@
       </Teleport>
     </Transition>
     <Transition name="fade" mode="out-in">
-      <Teleport to="body">
+      <Teleport to="main">
         <PasswordChangeOverlay
           v-if="passwordChangeOverlay"
           @close="togglePasswordChangeOverlay"
