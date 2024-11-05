@@ -156,13 +156,13 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
 
         return el.isVisible
           ? {
-              email: el.email,
+              id: pairedUser.id,
               pairedAt: el.pairedAt,
               name: pairedUser.name,
               imageUrl: pairedUser.imageUrl,
             }
           : {
-              email: el.email,
+              id: pairedUser.id,
               pairedAt: el.pairedAt,
             };
       })

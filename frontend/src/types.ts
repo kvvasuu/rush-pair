@@ -10,7 +10,7 @@ interface User {
 }
 
 interface Pair {
-  email: string;
+  id: string;
   name?: string;
   imageUrl?: string;
   pairedAt: number;

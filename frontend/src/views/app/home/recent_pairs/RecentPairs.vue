@@ -23,9 +23,10 @@
         <PairAvatar
           v-for="pair in userStore.pairs"
           :pair="pair"
-          :key="pair?.email"
+          :key="pair?.id"
           class="snap-start"
           :title="pair?.name"
+          @click="goToPair(pair.id)"
         ></PairAvatar>
 
         <button
@@ -72,9 +73,15 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "../../../../stores/userStore.ts";
+import { useRouter } from "vue-router";
 import PairAvatar from "./PairAvatar.vue";
 
+const router = useRouter();
 const userStore = useUserStore();
+
+const goToPair = (id: string) => {
+  router.push(`/app/pairs/${id}`);
+};
 
 const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0
