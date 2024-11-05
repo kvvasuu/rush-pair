@@ -20,11 +20,11 @@
 import BottomControls from "./BottomControls.vue";
 import LeftControls from "./LeftControls.vue";
 import { onBeforeMount } from "vue";
-import { useAuthStore } from "../../stores/authStore";
+import { useUserStore } from "../../stores/userStore";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 onBeforeMount(() => {
-  document.documentElement.setAttribute("data-theme", authStore.settings.theme);
+  document.documentElement.setAttribute("data-theme", userStore.settings.theme);
 });
 </script>

@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "../../stores/authStore";
+import { useUserStore } from "../../stores/userStore";
 import { useAvatar } from "../../composables/avatar";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
-const { setDefaultAvatar, avatarSrc } = useAvatar(authStore.imageUrl);
+const { setDefaultAvatar, avatarSrc } = useAvatar(userStore.imageUrl);
 </script>

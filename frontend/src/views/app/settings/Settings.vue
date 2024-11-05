@@ -8,10 +8,10 @@
       <p
         class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl mt-6 select-none"
       >
-        {{ authStore.name }}
+        {{ userStore.name }}
       </p>
       <p class="text-slate-600 dark:text-neutral-500 text-sm select-none">
-        {{ authStore.email }}
+        {{ userStore.email }}
       </p>
     </div>
     <ol class="mt-8 mb-6 rounded-lg w-4/5">
@@ -106,31 +106,31 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import UserAvatar from "../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../stores/authStore";
+import { useUserStore } from "../../../stores/userStore";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
-const notifications = ref(authStore.settings.notifications);
+const notifications = ref(userStore.settings.notifications);
 const changeNotifications = async () => {
   try {
-    await authStore.changeSettings({
-      notifications: !authStore.settings.notifications,
+    await userStore.changeSettings({
+      notifications: !userStore.settings.notifications,
     });
   } catch {}
 };
 
-const theme = ref(authStore.settings.theme);
+const theme = ref(userStore.settings.theme);
 
 const changeTheme = async () => {
   try {
     document.documentElement.setAttribute("data-theme", theme.value);
-    await authStore.changeSettings({
+    await userStore.changeSettings({
       theme: theme.value,
     });
   } catch {}
 };
 
 const logout = () => {
-  authStore.logout();
+  userStore.logout();
 };
 </script>

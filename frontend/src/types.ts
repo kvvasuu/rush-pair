@@ -16,7 +16,7 @@ interface Pair {
   pairedAt: number;
 }
 
-interface AuthStoreState extends User {
+interface UserStoreState extends User {
   email: string;
   token: string;
   settings: {
@@ -24,7 +24,7 @@ interface AuthStoreState extends User {
     theme: "dark" | "light";
     language: string;
   };
-  pairs?: Array<Pair> | [];
+  pairs: Array<Pair> | [];
 }
 
-export type { User, AuthStoreState, Pair };
+export type { User, UserStoreState, Pair };

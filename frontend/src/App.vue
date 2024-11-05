@@ -8,11 +8,11 @@
 
 <script setup lang="ts">
 import { onBeforeMount } from "vue";
-import { useAuthStore } from "./stores/authStore";
+import { useUserStore } from "./stores/userStore";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 onBeforeMount(async () => {
-  await authStore.login();
+  await userStore.login();
 });
 </script>

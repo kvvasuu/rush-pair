@@ -84,11 +84,11 @@ import BasicModal from "../../components/containers/BasicModal.vue";
 import BasicSpinner from "../../components/BasicSpinner.vue";
 import axios from "axios";
 
-import { useAuthStore } from "../../stores/authStore";
+import { useUserStore } from "../../stores/userStore";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-const store = useAuthStore();
+const store = useUserStore();
 
 const emit = defineEmits(["close"]);
 const closeModal = () => {

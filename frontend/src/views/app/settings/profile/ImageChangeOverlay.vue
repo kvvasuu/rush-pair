@@ -79,7 +79,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import UserAvatar from "../../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import axios from "axios";
@@ -95,7 +95,7 @@ const imageFileUrl = ref<string>("");
 const scale = ref(150);
 
 const mainStore = useMainStore();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -146,23 +146,23 @@ const changeImage = async () => {
     canvas.toBlob(async (blob) => {
       const formData = new FormData();
 
-      const fileName = authStore.email.replace(/[@.]/g, "_");
+      const fileName = userStore.email.replace(/[@.]/g, "_");
 
       formData.append("profilePicture", blob as Blob, fileName);
-      formData.append("email", authStore.email);
-      if (authStore.imageUrl) {
-        formData.append("oldImageName", authStore.imageUrl);
+      formData.append("email", userStore.email);
+      if (userStore.imageUrl) {
+        formData.append("oldImageName", userStore.imageUrl);
       }
 
       mainStore.isLoading = true;
       axios
         .put(`${SERVER_URL}/user/update-image`, formData, {
           headers: {
-            Authorization: `Bearer ${authStore.token}`,
+            Authorization: `Bearer ${userStore.token}`,
           },
         })
         .then((res) => {
-          authStore.imageUrl = res.data.imageUrl;
+          userStore.imageUrl = res.data.imageUrl;
           isUploaded.value = false;
           console.log(res);
           close();

@@ -3,17 +3,25 @@
     class="w-full flex flex-col items-center justify-center pt-4 px-6 md:px-0"
   >
     <p
-      class="w-full border-b-[1px] border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500"
+      class="w-full border-b-[1px] border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500 select-none"
     >
       Recent pairs
     </p>
     <div class="w-full relative flex items-center justify-center min-h-24">
+      <p
+        v-if="userStore.pairs?.length <= 0"
+        class="text-neutral-400 dark:text-neutral-500 select-none"
+      >
+        There are no pairs yet...
+      </p>
+
       <div
         class="w-full flex gap-6 py-4 overflow-x-scroll scroll-hide snap-x"
         ref="horizontalSlider"
+        v-else
       >
         <PairAvatar
-          v-for="pair in authStore.pairs"
+          v-for="pair in userStore.pairs"
           :pair="pair"
           :key="pair.email"
           class="snap-start"
@@ -63,10 +71,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore.ts";
 import PairAvatar from "./PairAvatar.vue";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0

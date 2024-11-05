@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import axios, { isAxiosError } from "axios";
@@ -103,7 +103,7 @@ const emit = defineEmits(["close"]);
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const store = useMainStore();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const password = ref("");
 const newPassword = ref("");
@@ -134,13 +134,13 @@ const changePassword = async () => {
       const res = await axios.post(
         `${SERVER_URL}/auth/change-password`,
         {
-          email: authStore.email,
+          email: userStore.email,
           oldPassword: password.value,
           newPassword: newPassword.value,
         },
         {
           headers: {
-            Authorization: `Bearer ${authStore.token}`,
+            Authorization: `Bearer ${userStore.token}`,
           },
         }
       );

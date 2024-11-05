@@ -80,7 +80,7 @@
           <div class="w-full sm:w-4/5 flex items-center justify-center mt-6">
             <button
               class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all select-none"
-              @click="authStore.logout"
+              @click="userStore.logout"
             >
               Log out
             </button>
@@ -93,7 +93,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
@@ -104,7 +104,7 @@ const emit = defineEmits(["close"]);
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const store = useMainStore();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const password = ref("");
 const errorMessage = ref("");
@@ -117,19 +117,19 @@ const deleteAccount = async () => {
     const res = await axios.post(
       `${SERVER_URL}/auth/delete-account`,
       {
-        email: authStore.email,
+        email: userStore.email,
         password: password.value,
       },
       {
         headers: {
-          Authorization: `Bearer ${authStore.token}`,
+          Authorization: `Bearer ${userStore.token}`,
         },
       }
     );
     console.log(res);
     isAccountDeleted.value = true;
     setTimeout(() => {
-      authStore.logout();
+      userStore.logout();
     }, 5000);
   } catch (error) {
     if (isAxiosError(error)) {

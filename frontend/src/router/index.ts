@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "../stores/authStore";
+import { useUserStore } from "../stores/userStore";
 import AppView from "../views/app/AppView.vue";
 import Home from "../views/app/home/Home.vue";
 import Stars from "../views/app/Stars.vue";
@@ -20,7 +20,7 @@ const router = createRouter({
       path: "/app",
       meta: { requiresAuth: true },
       beforeEnter: (to, _from, next) => {
-        const store = useAuthStore();
+        const store = useUserStore();
         if (store.firstVisit && to.path !== "/app/first-steps") {
           next("/app/first-steps");
         } else {
@@ -94,7 +94,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, _from) => {
-  const store = useAuthStore();
+  const store = useUserStore();
 
   if (to.meta.requiresAuth && !store.token && to.name !== "Welcome") {
     return { name: "Welcome" };

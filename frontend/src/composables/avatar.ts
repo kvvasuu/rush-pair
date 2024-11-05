@@ -1,10 +1,10 @@
 import avatar from "../assets/images/avatar-placeholder.png";
 import { computed, ref } from "vue";
-import { useAuthStore } from "../stores/authStore";
+import { useUserStore } from "../stores/userStore";
 
 export function useAvatar(src?: string) {
   const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-  const authStore = useAuthStore();
+  const userStore = useUserStore();
 
   const isError = ref(false);
 
@@ -15,7 +15,7 @@ export function useAvatar(src?: string) {
   const avatarSrc = computed(() => {
     return isError.value
       ? avatar
-      : `${SERVER_URL}/uploads/${src}?token=${authStore.token}` || avatar;
+      : `${SERVER_URL}/uploads/${src}?token=${userStore.token}` || avatar;
   });
 
   return { setDefaultAvatar, avatarSrc };

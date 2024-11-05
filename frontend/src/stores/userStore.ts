@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { User, AuthStoreState } from "../types";
+import { User, UserStoreState } from "../types";
 import { useMainStore } from ".";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-export const useAuthStore = defineStore("authStore", {
-  state: (): AuthStoreState => ({
+export const useUserStore = defineStore("userStore", {
+  state: (): UserStoreState => ({
     email: "",
     token: "",
     name: "",

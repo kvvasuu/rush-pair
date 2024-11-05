@@ -8,10 +8,10 @@
       <p
         class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl mt-6 select-none"
       >
-        {{ authStore.name }}
+        {{ userStore.name }}
       </p>
       <p class="text-slate-600 dark:text-neutral-500 text-sm select-none">
-        {{ authStore.email }}
+        {{ userStore.email }}
       </p>
     </div>
     <button
@@ -59,9 +59,9 @@ import { ref } from "vue";
 import UserAvatar from "../../../../components/containers/UserAvatar.vue";
 import DeleteAccountOverlay from "./DeleteAccountOverlay.vue";
 import PasswordChangeOverlay from "./PasswordChangeOverlay.vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore";
 
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const passwordChangeOverlay = ref(false);
 const togglePasswordChangeOverlay = () => {

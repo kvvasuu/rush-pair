@@ -295,11 +295,11 @@ import { ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import BasicSpinner from "../../components/BasicSpinner.vue";
 
-import { useAuthStore } from "../../stores/authStore";
+import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const emit = defineEmits(["close"]);
 const closeModal = () => {
@@ -390,7 +390,7 @@ const finish = async () => {
     phoneNumber: phoneNumber.value,
   };
 
-  await authStore
+  await userStore
     .updateUser(userData)
     .then((_res) => {
       router.replace("/app");

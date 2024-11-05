@@ -153,14 +153,14 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from "vue";
 import UserAvatar from "../../../../components/containers/UserAvatar.vue";
-import { useAuthStore } from "../../../../stores/authStore";
+import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import ImageChangeOverlay from "./ImageChangeOverlay.vue";
 
 const mainStore = useMainStore();
-const authStore = useAuthStore();
+const userStore = useUserStore();
 
-const details = reactive({ ...authStore.$state });
+const details = reactive({ ...userStore.$state });
 
 const birthdateInputRef = ref();
 
@@ -168,7 +168,7 @@ const imageKey = ref(0);
 
 const isSavePossible = computed(() => {
   return (
-    JSON.stringify(details) !== JSON.stringify(authStore.$state) &&
+    JSON.stringify(details) !== JSON.stringify(userStore.$state) &&
     !!details.name &&
     !!details.birthdate &&
     !mainStore.isLoading &&
@@ -179,7 +179,7 @@ const isSavePossible = computed(() => {
 });
 
 const saveDetails = async () => {
-  await authStore
+  await userStore
     .updateUser({ ...details })
     .then((res) => console.log(res))
     .catch((err) => console.error(err));
