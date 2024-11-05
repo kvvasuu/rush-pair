@@ -17,6 +17,7 @@
           :pair="pair"
           :key="pair.email"
           class="snap-start"
+          :title="pair?.name"
         ></PairAvatar>
 
         <button

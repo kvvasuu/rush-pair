@@ -67,8 +67,11 @@ export const useAuthStore = defineStore("authStore", {
           this.phoneNumber = phoneNumber || "";
           this.imageUrl = imageUrl || "";
           this.settings = settings || this.settings;
-          this.pairs = res.data.pairs || [];
-
+          try {
+            this.getPairs();
+          } catch (error) {
+            console.log(error);
+          }
           this.router.replace("/app");
         } catch (error) {
           localStorage.removeItem("token");
@@ -138,6 +141,21 @@ export const useAuthStore = defineStore("authStore", {
         } catch (error) {
           throw error;
         }
+      }
+    },
+    async getPairs() {
+      if (this.token) {
+        try {
+          const res = await axios.get(
+            `${SERVER_URL}/user/get-pairs/${this.email}`,
+            {
+              headers: {
+                Authorization: `Bearer ${this.token}`,
+              },
+            }
+          );
+          this.pairs = res.data.pairedWith || [];
+        } catch (error) {}
       }
     },
   },

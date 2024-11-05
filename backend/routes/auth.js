@@ -3,7 +3,6 @@ import { check, validationResult } from "express-validator";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import Pair from "../models/Pair.js";
 
 const auth = express.Router();
 
@@ -138,32 +137,7 @@ auth.get("/verify-token", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const pairs = await Pair.findOne({ email: user.email });
-
-    if (!pairs) {
-      return res.json({ user: user });
-    }
-
-    const pairedWith = await Promise.all(
-      pairs.pairedWith.map(async (el) => {
-        const pairedUser = await User.findOne({ email: el.email });
-        if (!pairedUser) return;
-
-        return el.isVisible
-          ? {
-              email: el.email,
-              pairedAt: el.pairedAt,
-              name: pairedUser.name,
-              imageUrl: pairedUser.imageUrl,
-            }
-          : {
-              email: el.email,
-              pairedAt: el.pairedAt,
-            };
-      })
-    );
-
-    res.json({ user: user, pairs: pairedWith });
+    res.json({ user: user });
   });
 });
 

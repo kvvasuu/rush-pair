@@ -11,6 +11,7 @@ interface User {
 
 interface Pair {
   email: string;
+  name?: string;
   imageUrl?: string;
   pairedAt: number;
 }

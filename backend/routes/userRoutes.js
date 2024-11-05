@@ -1,6 +1,7 @@
 import express from "express";
 import authenticateToken from "./auth.js";
 import User from "../models/User.js";
+import Pair from "../models/Pair.js";
 import multer from "multer";
 import path from "path";
 import { __dirname } from "../app.js";
@@ -135,6 +136,39 @@ userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
       message: "Settings changed",
       settings: req.body.settings,
     });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
+  try {
+    const pairs = await Pair.findOne({ email: req.params.email });
+
+    if (!pairs) {
+      return res.json({ pairedWith: [] });
+    }
+
+    const pairedWith = await Promise.all(
+      pairs.pairedWith.map(async (el) => {
+        const pairedUser = await User.findOne({ email: el.email });
+        if (!pairedUser) return;
+
+        return el.isVisible
+          ? {
+              email: el.email,
+              pairedAt: el.pairedAt,
+              name: pairedUser.name,
+              imageUrl: pairedUser.imageUrl,
+            }
+          : {
+              email: el.email,
+              pairedAt: el.pairedAt,
+            };
+      })
+    );
+
+    res.json({ pairedWith });
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }
