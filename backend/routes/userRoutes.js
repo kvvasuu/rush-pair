@@ -152,7 +152,7 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
     const pairedWith = await Promise.all(
       pairs.pairedWith.map(async (el) => {
         const pairedUser = await User.findOne({ email: el.email });
-        if (!pairedUser) return;
+        if (!pairedUser) return null;
 
         return el.isVisible
           ? {
@@ -168,7 +168,8 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
       })
     );
 
-    res.json({ pairedWith });
+    const data = pairedWith.filter((el) => el !== null);
+    res.json({ pairedWith: data });
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }

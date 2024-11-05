@@ -23,7 +23,7 @@
         <PairAvatar
           v-for="pair in userStore.pairs"
           :pair="pair"
-          :key="pair.email"
+          :key="pair?.email"
           class="snap-start"
           :title="pair?.name"
         ></PairAvatar>
