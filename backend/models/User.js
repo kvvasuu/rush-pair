@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 
-// Schemat użytkownika
 const userSchema = new mongoose.Schema({
   email: {
     type: String,

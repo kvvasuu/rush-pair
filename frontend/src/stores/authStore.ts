@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { User, authStoreState } from "../types";
+import { User, AuthStoreState } from "../types";
 import { useMainStore } from ".";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useAuthStore = defineStore("authStore", {
-  state: (): authStoreState => ({
+  state: (): AuthStoreState => ({
     email: "",
     token: "",
     name: "",
@@ -22,6 +22,7 @@ export const useAuthStore = defineStore("authStore", {
       theme: "light",
       language: "ENG",
     },
+    pairs: [],
   }),
   actions: {
     setToken(token: string) {
@@ -66,6 +67,7 @@ export const useAuthStore = defineStore("authStore", {
           this.phoneNumber = phoneNumber || "";
           this.imageUrl = imageUrl || "";
           this.settings = settings || this.settings;
+          this.pairs = res.data.pairs || [];
 
           this.router.replace("/app");
         } catch (error) {

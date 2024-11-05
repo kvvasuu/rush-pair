@@ -13,9 +13,9 @@
         ref="horizontalSlider"
       >
         <PairAvatar
-          v-for="(pair, index) in arr"
+          v-for="pair in authStore.pairs"
           :pair="pair"
-          :key="`pair_${index}`"
+          :key="pair.email"
           class="snap-start"
         ></PairAvatar>
 
@@ -62,27 +62,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from "vue";
-
+import { useAuthStore } from "../../../../stores/authStore";
 import PairAvatar from "./PairAvatar.vue";
 
-const arr = [
-  "lukaszkwas96_gmail_com.png",
-  "lukaszkwas96_gmail_com1.png",
-  "lukaszkwas96_gmail_com2.png",
-  "lukaszkwas96_gmail_com3.png",
-  "lukaszkwas96_gmail_com4.png",
-  "lukaszkwas96_gmail_com2.png",
-  "lukaszkwas96_gmail_com1.png",
-  "lukaszkwas96_gmail_com.png",
-  "lukaszkwas96_gmail_com.png",
-  "lukaszkwas96_gmail_com1.png",
-  "lukaszkwas96_gmail_com2.png",
-  "lukaszkwas96_gmail_com3.png",
-  "lukaszkwas96_gmail_com4.png",
-  "lukaszkwas96_gmail_com2.png",
-  "lukaszkwas96_gmail_com1.png",
-  "lukaszkwas96_gmail_com.png",
-];
+const authStore = useAuthStore();
 
 const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0

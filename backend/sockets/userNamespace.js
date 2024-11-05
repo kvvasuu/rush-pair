@@ -1,9 +1,3 @@
-import {
-  getAvailableRooms,
-  removeUserFromRoom,
-  rooms,
-  users,
-} from "../utils/roomManager.js";
 import sharedSession from "express-socket.io-session";
 import sessionMiddleware from "../session.js";
 import { getIO } from "./socketManager.js";
