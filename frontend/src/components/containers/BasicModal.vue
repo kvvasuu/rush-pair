@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute z-50 bg-black/40 w-dvw h-dvh flex items-center justify-center"
+    class="absolute z-50 bg-black/40 w-full h-full flex items-center justify-center"
     @click="closeModal"
   >
     <Transition name="pop-up">

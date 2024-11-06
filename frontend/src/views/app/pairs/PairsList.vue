@@ -2,7 +2,15 @@
   <div
     class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-4 overflow-y-auto"
   >
-    <div class="relative w-[calc(100%-3rem)] flex justify-center">
+    <div
+      class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none"
+      v-if="userStore.pairs?.length <= 0"
+    >
+      <p class="text-xl">You have no pairs yet.</p>
+      <i class="fa-solid fa-handshake-simple text-5xl"></i>
+      <p class="text-xl">Start pairing!</p>
+    </div>
+    <div class="relative w-[calc(100%-3rem)] flex justify-center" v-else>
       <input
         id="search-input"
         type="text"
@@ -20,7 +28,7 @@
     <div class="w-full h-full mt-2">
       <ul class="w-full">
         <li
-          class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100 dark:hover:bg-neutral-700 transition-all"
+          class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100 dark:hover:bg-neutral-700 transition-all relative"
           v-for="pair in userStore.pairs"
           @click="goToPair(pair.id)"
         >

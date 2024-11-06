@@ -8,113 +8,99 @@ import Settings from "../views/app/settings/Settings.vue";
 import PairsWrapper from "../views/app/pairs/PairsWrapper.vue";
 import PairsList from "../views/app/pairs/PairsList.vue";
 
+const routes = [
+  { path: "/:pathMatch(.*)*", redirect: "/" },
+  {
+    path: "/",
+    name: "Welcome",
+    meta: { requiresAuth: false },
+    component: () => import("../views/welcome_screen/WelcomeScreen.vue"),
+  },
+  {
+    path: "/app",
+    component: AppView,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "",
+        name: "Home",
+        component: Home,
+      },
+      {
+        path: "stars",
+        name: "Stars",
+        component: Stars,
+      },
+      {
+        path: "pairs",
+        component: PairsWrapper,
+        children: [
+          {
+            path: "",
+            name: "PairsList",
+            component: PairsList,
+          },
+          {
+            path: ":id",
+            name: "PairChat",
+            component: () => import("../views/app/pairs/PairChat.vue"),
+          },
+        ],
+      },
+      {
+        path: "settings",
+        component: SettingsWrapper,
+        children: [
+          {
+            path: "",
+            name: "Settings",
+            component: Settings,
+          },
+          {
+            path: "profile",
+            name: "Profile",
+            component: () =>
+              import("../views/app/settings/profile/Profile.vue"),
+          },
+          {
+            path: "security",
+            name: "Security",
+            component: () =>
+              import("../views/app/settings/security/Security.vue"),
+          },
+        ],
+      },
+      {
+        path: "first-steps",
+        name: "FirstSteps",
+        component: () => import("../views/app/FirstSteps.vue"),
+      },
+    ],
+  },
+];
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    { path: "/:pathMatch(.*)*", redirect: "/" },
-    {
-      path: "/",
-      name: "Welcome",
-      component: () => import("../views/welcome_screen/WelcomeScreen.vue"),
-    },
-    {
-      path: "/app",
-      meta: { requiresAuth: true },
-      beforeEnter: (to, _from, next) => {
-        const store = useUserStore();
-        if (store.firstVisit && to.path !== "/app/first-steps") {
-          next("/app/first-steps");
-        } else {
-          next();
-        }
-      },
-      children: [
-        {
-          path: "",
-          name: "App",
-          component: AppView,
-          meta: { requiresAuth: true },
-          children: [
-            {
-              path: "",
-              name: "Home",
-              component: Home,
-              meta: { requiresAuth: true },
-            },
-            {
-              path: "stars",
-              name: "Stars",
-              component: Stars,
-              meta: { requiresAuth: true },
-            },
-            {
-              path: "pairs",
-              name: "PairsWrapper",
-              component: PairsWrapper,
-              meta: { requiresAuth: true },
-              children: [
-                {
-                  path: "",
-                  name: "PairsList",
-                  component: PairsList,
-                  meta: { requiresAuth: true },
-                },
-                {
-                  path: ":id",
-                  name: "PairChat",
-                  component: () => import("../views/app/pairs/PairChat.vue"),
-                  meta: { requiresAuth: true },
-                },
-              ],
-            },
-            {
-              path: "settings",
-              name: "SettingsWrapper",
-              component: SettingsWrapper,
-              meta: { requiresAuth: true },
-              children: [
-                {
-                  path: "",
-                  name: "Settings",
-                  component: Settings,
-                  meta: { requiresAuth: true },
-                },
-                {
-                  path: "profile",
-                  name: "Profile",
-                  component: () =>
-                    import("../views/app/settings/profile/Profile.vue"),
-                  meta: { requiresAuth: true },
-                },
-                {
-                  path: "security",
-                  name: "Security",
-                  component: () =>
-                    import("../views/app/settings/security/Security.vue"),
-                  meta: { requiresAuth: true },
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: "first-steps",
-          name: "FirstSteps",
-          component: () => import("../views/app/FirstSteps.vue"),
-          meta: { requiresAuth: true },
-        },
-      ],
-    },
-  ],
+  routes,
 });
 
 router.beforeEach(async (to, _from) => {
   const store = useUserStore();
 
-  if (to.meta.requiresAuth && !store.token && to.name !== "Welcome") {
+  if (to.meta.requiresAuth && !store.token) {
+    console.log(
+      "Redirecting to Welcome page because user is not authenticated"
+    );
     return { name: "Welcome" };
-  } else if (store.token && to.name === "Welcome") {
-    return { name: "App" };
+  }
+
+  if (store.token && to.name === "Welcome") {
+    console.log("Redirecting logged in user to app");
+    return { path: "/app" };
+  }
+
+  if (store.firstVisit && to.path === "/app") {
+    return { path: "/app/first-steps" };
   }
 
   return true;
