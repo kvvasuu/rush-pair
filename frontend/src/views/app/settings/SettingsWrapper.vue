@@ -24,10 +24,7 @@
         <span class="text-xl hidden md:block select-none">Settings</span>
       </button>
     </header>
-    <RouterView
-      v-slot="{ Component }"
-      class="absolute top-0 w-full h-[calc(100%-4rem)]"
-    >
+    <RouterView v-slot="{ Component }">
       <Transition name="slide-fade" mode="out-in">
         <component :is="Component" />
       </Transition>

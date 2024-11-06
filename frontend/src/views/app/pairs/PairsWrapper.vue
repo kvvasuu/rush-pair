@@ -13,17 +13,14 @@
 
       <button
         class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
-        @click="router.push({ name: 'PairsWrapper' })"
+        @click="router.push({ name: 'PairsList' })"
         v-if="route.params.id"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
         <span class="text-xl hidden md:block select-none">Pairs</span>
       </button>
     </header>
-    <RouterView
-      v-slot="{ Component }"
-      class="absolute top-0 w-full h-[calc(100%-4rem)]"
-    >
+    <RouterView v-slot="{ Component }">
       <Transition name="slide-fade" mode="out-in">
         <component :is="Component" />
       </Transition>

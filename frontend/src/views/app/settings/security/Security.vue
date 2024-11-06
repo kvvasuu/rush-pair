@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import UserAvatar from "../../../../components/containers/UserAvatar.vue";
+import UserAvatar from "../../../../components/UserAvatar.vue";
 import DeleteAccountOverlay from "./DeleteAccountOverlay.vue";
 import PasswordChangeOverlay from "./PasswordChangeOverlay.vue";
 import { useUserStore } from "../../../../stores/userStore";

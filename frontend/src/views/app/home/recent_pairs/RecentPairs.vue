@@ -74,7 +74,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "../../../../stores/userStore.ts";
 import { useRouter } from "vue-router";
-import PairAvatar from "./PairAvatar.vue";
+import PairAvatar from "../../../../components/PairAvatar.vue";
 
 const router = useRouter();
 const userStore = useUserStore();

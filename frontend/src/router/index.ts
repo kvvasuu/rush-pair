@@ -6,6 +6,7 @@ import Stars from "../views/app/Stars.vue";
 import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
 import Settings from "../views/app/settings/Settings.vue";
 import PairsWrapper from "../views/app/pairs/PairsWrapper.vue";
+import PairsList from "../views/app/pairs/PairsList.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,10 +48,24 @@ const router = createRouter({
               meta: { requiresAuth: true },
             },
             {
-              path: "pairs/:id?",
+              path: "pairs",
               name: "PairsWrapper",
               component: PairsWrapper,
               meta: { requiresAuth: true },
+              children: [
+                {
+                  path: "",
+                  name: "PairsList",
+                  component: PairsList,
+                  meta: { requiresAuth: true },
+                },
+                {
+                  path: ":id",
+                  name: "PairChat",
+                  component: () => import("../views/app/pairs/PairChat.vue"),
+                  meta: { requiresAuth: true },
+                },
+              ],
             },
             {
               path: "settings",
