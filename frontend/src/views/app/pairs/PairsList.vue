@@ -24,10 +24,15 @@
           v-for="pair in userStore.pairs"
           @click="goToPair(pair.id)"
         >
-          <PairAvatar :pair="pair"></PairAvatar>
-          <div class="w-full h-full flex flex-col items-start justify-center">
+          <PairAvatar
+            :pair="pair"
+            class="min-w-[72px] max-w-[72px]"
+          ></PairAvatar>
+          <div
+            class="w-full h-full flex flex-col items-start justify-center whitespace-nowrap"
+          >
             <p
-              class="w-full px-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none"
+              class="w-full pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none"
             >
               {{ pair.name || "Anonymous user" }}
             </p>
@@ -46,7 +51,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import PairAvatar from "../../../components/PairAvatar.vue";
 
 const router = useRouter();

@@ -19,6 +19,11 @@
         <i class="fa-solid fa-angle-left text-4xl"></i>
         <span class="text-xl hidden md:block select-none">Pairs</span>
       </button>
+      <PairAvatar
+        class="absolute right-4 min-w-10 max-w-10 md:hidden"
+        :pair="pairImage"
+        v-if="route.params.id"
+      ></PairAvatar>
     </header>
     <RouterView v-slot="{ Component }">
       <Transition name="slide-fade" mode="out-in">
@@ -32,6 +37,7 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
+import PairAvatar from "../../../components/PairAvatar.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -44,6 +50,12 @@ const pairName = computed(() => {
       userStore.pairs.filter((el) => el.id === route.params.id)[0].name ||
       "Anonymous user"
     );
+  }
+});
+
+const pairImage = computed(() => {
+  if (route.params.id) {
+    return userStore.pairs.filter((el) => el.id === route.params.id)[0];
   }
 });
 </script>

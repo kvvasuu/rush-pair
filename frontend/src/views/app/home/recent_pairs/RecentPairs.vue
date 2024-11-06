@@ -24,7 +24,7 @@
           v-for="pair in userStore.pairs"
           :pair="pair"
           :key="pair?.id"
-          class="snap-start"
+          class="snap-start min-w-[72px] max-w-[72px] cursor-pointer"
           :title="pair?.name"
           @click="goToPair(pair.id)"
         ></PairAvatar>

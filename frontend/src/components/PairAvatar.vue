@@ -1,9 +1,9 @@
 <template>
-  <div class="rounded-full cursor-pointer pair select-none">
+  <div class="rounded-full pair select-none">
     <img
       :src="avatarSrc"
       alt="pair-avatar"
-      class="aspect-square min-w-[72px] max-w-[72px] rounded-full border-slate-200 dark:border-neutral-900 border-[2px]"
+      class="aspect-square w-full rounded-full"
       draggable="false"
       @error="setDefaultAvatar"
     />
