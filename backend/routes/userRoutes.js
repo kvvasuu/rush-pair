@@ -7,6 +7,7 @@ import path from "path";
 import { __dirname } from "../app.js";
 import fs from "fs";
 import sharp from "sharp";
+import calculateYearsSince from "../utils.js";
 
 const userRoutes = express.Router();
 
@@ -154,13 +155,18 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
         const pairedUser = await User.findOne({ email: el.email });
         if (!pairedUser) return null;
 
+        const age = calculateYearsSince(pairedUser.birthdate);
+
         return el.isVisible
           ? {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
               name: pairedUser.name,
               imageUrl: pairedUser.imageUrl,
+              age: age,
               isVisible: true,
+              city: pairedUser.city,
+              gender: pairedUser.gender,
             }
           : {
               id: pairedUser.id,
@@ -172,21 +178,6 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
 
     const data = pairedWith.filter((el) => el !== null);
     res.json({ pairedWith: data });
-  } catch (error) {
-    res.status(500).json({ msg: "Server error" });
-  }
-});
-
-userRoutes.get("/get-user-info/:id", authenticateToken, async (req, res) => {
-  try {
-    const pair = await Pair.findOne({ id: req.params.id });
-
-    if (!pair) return;
-
-    const userInfo = await User.findOne({ email: pair.email });
-    if (!userInfo) return;
-
-    res.json(userInfo);
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }

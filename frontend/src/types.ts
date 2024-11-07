@@ -9,11 +9,15 @@ interface User {
   imageUrl?: string;
 }
 
-interface Pair {
+interface PairInfo {
   id: string;
   name?: string;
-  imageUrl?: string;
+  age?: number;
+  gender?: "male" | "female" | "other";
   pairedAt: number;
+  imageUrl?: string;
+  isVisible: boolean;
+  city?: string;
 }
 
 interface UserStoreState extends User {
@@ -24,7 +28,11 @@ interface UserStoreState extends User {
     theme: "dark" | "light";
     language: string;
   };
-  pairs: Array<Pair> | [];
+  pairs: Array<PairInfo> | [];
 }
 
-export type { User, UserStoreState, Pair };
+interface ChatStoreState {
+  pairInfo: PairInfo;
+}
+
+export type { User, UserStoreState, ChatStoreState, PairInfo };

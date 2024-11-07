@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-4 overflow-y-auto"
+    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)] pt-4 overflow-y-auto"
   >
     <div
       class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none"
@@ -14,7 +14,7 @@
       <input
         id="search-input"
         type="text"
-        class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-14 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-xl placeholder:text-neutral-600 rounded-lg"
+        class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-14 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-xl placeholder:text-neutral-600 rounded-lg"
         autocomplete="off"
         v-model="searchValue"
         placeholder="Search..."
