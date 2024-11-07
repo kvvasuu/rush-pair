@@ -6,9 +6,7 @@
         class="w-4/5 flex flex-col items-center justify-center py-20"
       >
         <div class="w-4/5 h-full" v-if="isUploaded">
-          <div
-            class="w-full aspect-square relative overflow-hidden rounded-full"
-          >
+          <div class="w-full aspect-square relative overflow-hidden">
             <div
               class="absolute min-w-full min-h-full"
               :style="{

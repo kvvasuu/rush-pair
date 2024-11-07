@@ -177,4 +177,19 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
   }
 });
 
+userRoutes.get("/get-user-info/:id", authenticateToken, async (req, res) => {
+  try {
+    const pair = await Pair.findOne({ id: req.params.id });
+
+    if (!pair) return;
+
+    const userInfo = await User.findOne({ email: pair.email });
+    if (!userInfo) return;
+
+    res.json(userInfo);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 export default userRoutes;

@@ -13,7 +13,10 @@
 
       <button
         class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
-        @click="router.push({ name: 'PairsList' })"
+        @click="
+          router.push({ name: 'PairsList' });
+          isProfileExpanded = false;
+        "
         v-if="route.params.id"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
@@ -60,7 +63,7 @@ const pairImage = computed(() => {
   }
 });
 
-const isProfileExpanded = ref(true);
+const isProfileExpanded = ref(false);
 
 const toggleExpandProfile = () => {
   isProfileExpanded.value = !isProfileExpanded.value;
