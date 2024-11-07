@@ -18,6 +18,7 @@ interface PairInfo {
   imageUrl?: string;
   isVisible: boolean;
   city?: string;
+  description?: string;
 }
 
 interface UserStoreState extends User {

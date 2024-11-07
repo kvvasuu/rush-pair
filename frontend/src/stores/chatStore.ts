@@ -16,6 +16,7 @@ export const useChatStore = defineStore("chatStore", {
       imageUrl: "",
       isVisible: false,
       city: "",
+      description: "",
     },
   }),
   actions: {
@@ -24,10 +25,8 @@ export const useChatStore = defineStore("chatStore", {
         const userStore = useUserStore();
         const pair = userStore.pairs.find((pair) => pair.id === id);
         if (pair) {
-          setTimeout(() => {
-            this.pairInfo = { ...pair };
-            resolve(true);
-          }, 2000);
+          this.pairInfo = { ...pair };
+          resolve(true);
         } else {
           reject();
         }
