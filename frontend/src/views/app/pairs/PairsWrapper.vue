@@ -20,21 +20,22 @@
         <span class="text-xl hidden md:block select-none">Pairs</span>
       </button>
       <PairAvatar
-        class="absolute right-4 min-w-10 max-w-10 md:hidden"
+        class="absolute right-4 min-w-10 max-w-10 lg:hidden cursor-pointer"
         :pair="pairImage"
         v-if="route.params.id"
+        @click="toggleExpandProfile"
       ></PairAvatar>
     </header>
     <RouterView v-slot="{ Component }">
       <Transition name="slide-fade" mode="out-in">
-        <component :is="Component" />
+        <component :isProfileExpanded="isProfileExpanded" :is="Component" />
       </Transition>
     </RouterView>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
 import PairAvatar from "../../../components/PairAvatar.vue";
@@ -58,6 +59,12 @@ const pairImage = computed(() => {
     return userStore.pairs.filter((el) => el.id === route.params.id)[0];
   }
 });
+
+const isProfileExpanded = ref(true);
+
+const toggleExpandProfile = () => {
+  isProfileExpanded.value = !isProfileExpanded.value;
+};
 </script>
 
 <style scoped>

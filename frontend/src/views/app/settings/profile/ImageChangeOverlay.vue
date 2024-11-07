@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import UserAvatar from "../../../../components/containers/UserAvatar.vue";
+import UserAvatar from "../../../../components/UserAvatar.vue";
 import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";

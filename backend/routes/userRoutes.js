@@ -160,10 +160,12 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
               pairedAt: el.pairedAt,
               name: pairedUser.name,
               imageUrl: pairedUser.imageUrl,
+              isVisible: true,
             }
           : {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
+              isVisible: false,
             };
       })
     );

@@ -30,8 +30,6 @@ import { useRoute } from "vue-router";
 const userStore = useUserStore();
 const route = useRoute();
 
-console.log(route.path);
-
 onBeforeMount(() => {
   document.documentElement.setAttribute("data-theme", userStore.settings.theme);
 });
