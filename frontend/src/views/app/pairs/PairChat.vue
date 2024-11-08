@@ -47,19 +47,22 @@
           <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
             chatStore.pairInfo.age
           }}</span>
-          <!-- <i
-            class="fa-solid fa-mars text-xl ml-2 text-slate-600 dark:text-neutral-500"
+        </p>
+        <p class="text-slate-600 dark:text-neutral-500 text-sm">
+          <i class="fa-solid fa-location-dot mr-1 text-xs w-3"></i>
+          <span>{{ chatStore.pairInfo.city || "Unknown location" }}</span>
+        </p>
+        <p class="text-slate-600 dark:text-neutral-500 text-sm">
+          <i
+            class="fa-solid fa-mars mr-1 text-xs w-3"
             v-if="chatStore.pairInfo.gender === 'male'"
           ></i>
           <i
-            class="fa-solid fa-venus text-xl ml-2 text-slate-600 dark:text-neutral-500"
+            class="fa-solid fa-venus mr-1 text-xs w-3"
             v-else-if="chatStore.pairInfo.gender === 'female'"
           >
-          </i> -->
-        </p>
-        <p class="text-slate-600 dark:text-neutral-500 text-sm">
-          <i class="fa-solid fa-location-dot mr-1 text-xs"></i>
-          <span>{{ chatStore.pairInfo.city || "Unknown location" }}</span>
+          </i>
+          <span class="capitalize">{{ chatStore.pairInfo.gender }}</span>
         </p>
         <p
           class="text-slate-600 dark:text-neutral-500 text-base text-justify mt-3 leading-5"
