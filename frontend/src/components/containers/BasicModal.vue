@@ -1,11 +1,11 @@
 <template>
   <div
     class="absolute z-50 bg-black/40 w-full h-full flex items-center justify-center"
-    @click="closeModal"
+    @mousedown="closeModal"
   >
     <Transition name="pop-up">
       <section
-        @click.stop=""
+        @mousedown.stop=""
         v-if="isVisible"
         class="w-full md:max-w-[28rem] h-full md:max-h-[42rem] bg-slate-50 md:rounded-lg p-12 relative"
       >

@@ -5,10 +5,14 @@
         id="image-preview"
         class="w-4/5 flex flex-col items-center justify-center py-20"
       >
-        <div class="w-4/5 h-full" v-if="isUploaded">
+        <div class="w-4/5 h-full relative" v-if="isUploaded">
+          <div
+            class="img-overlay absolute z-20 w-full h-full bg-white/25 pointer-events-none"
+          ></div>
+
           <div class="w-full aspect-square relative overflow-hidden">
             <div
-              class="absolute min-w-full min-h-full"
+              class="absolute min-w-full min-h-full cursor-move"
               :style="{
                 width: `${scale}%`,
                 height: 'auto',
@@ -122,8 +126,8 @@ const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.files && target.files[0]) {
     imageFile.value = target.files[0];
-    isUploaded.value = true;
     imageFileUrl.value = URL.createObjectURL(imageFile.value);
+    isUploaded.value = true;
   } else {
     isUploaded.value = false;
   }
@@ -209,7 +213,6 @@ const imageRef = ref<HTMLElement | null>(null);
 
 const startDrag = (event: MouseEvent | TouchEvent) => {
   isDragging.value = true;
-  document.body.style.cursor = "move";
   if ("touches" in event) {
     lastMousePosition.value = {
       x: event.touches[0].clientX,
@@ -280,7 +283,6 @@ const onMove = (event: MouseEvent | TouchEvent) => {
 
 const stopDrag = () => {
   isDragging.value = false;
-  document.body.style.cursor = "default";
 };
 
 onMounted(() => {
@@ -297,3 +299,11 @@ onBeforeUnmount(() => {
   document.removeEventListener("touchend", stopDrag);
 });
 </script>
+
+<style>
+.img-overlay {
+  mask-image: radial-gradient(circle, transparent 71%, black 69%);
+  mask-position: center;
+  mask-size: 100% 100%;
+}
+</style>
