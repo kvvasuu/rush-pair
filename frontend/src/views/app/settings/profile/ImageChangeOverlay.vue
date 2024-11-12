@@ -22,7 +22,7 @@
               <img
                 :src="imageFileUrl"
                 alt="ProfileImage"
-                class="h-full w-full"
+                class="h-full w-full select-none"
                 draggable="false"
               />
             </div>
@@ -46,7 +46,16 @@
             @change="previewImage"
           />
         </label>
-        <div class="mt-8 w-full max-w-56 select-none" v-if="isUploaded">
+        <div
+          class="mt-8 w-full flex gap-4 flex-row items-center max-w-72 select-none"
+          v-if="isUploaded"
+        >
+          <button
+            class="rounded-full p-2 flex items-center justify-center select-none text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
+            @click="scaleDown"
+          >
+            <i class="fa-solid fa-minus h-4 w-4"></i>
+          </button>
           <input
             id="minmax-range"
             type="range"
@@ -54,8 +63,14 @@
             max="200"
             v-model="scale"
             @input="calculateImagePosition(position.x, position.y)"
-            class="w-full h-2 bg-neutral-100 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 select-none"
+            class="w-full h-2 bg-neutral-100 rounded-lg cursor-pointer dark:bg-gray-700 select-none"
           />
+          <button
+            class="rounded-full p-2 flex items-center justify-center select-none text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
+            @click="scaleUp"
+          >
+            <i class="fa-solid fa-plus h-4 w-4"></i>
+          </button>
         </div>
         <button
           class="mt-12 rounded-lg py-3 select-none px-8 text-xl text-neutral-200 dark:text-neutral-300 bg-blue-600 hover:bg-blue-500 dark:bg-blue-800 dark:hover:bg-blue-700 transition-all cursor-pointer"
@@ -90,10 +105,18 @@ const isUploaded = ref(false);
 const imageFile = ref<File | null>(null);
 const imageFileUrl = ref<string>("");
 
-const scale = ref(150);
+const scale = ref(100);
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
+
+const scaleUp = () => {
+  if (scale.value < 200) scale.value = Math.ceil((scale.value + 10) / 10) * 10;
+};
+
+const scaleDown = () => {
+  if (scale.value > 100) scale.value = Math.ceil((scale.value - 10) / 10) * 10;
+};
 
 const previewImage = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -186,6 +209,7 @@ const imageRef = ref<HTMLElement | null>(null);
 
 const startDrag = (event: MouseEvent | TouchEvent) => {
   isDragging.value = true;
+  document.body.style.cursor = "move";
   if ("touches" in event) {
     lastMousePosition.value = {
       x: event.touches[0].clientX,
@@ -256,6 +280,7 @@ const onMove = (event: MouseEvent | TouchEvent) => {
 
 const stopDrag = () => {
   isDragging.value = false;
+  document.body.style.cursor = "default";
 };
 
 onMounted(() => {
