@@ -8,10 +8,9 @@ const pairSchema = new mongoose.Schema({
   },
   pairedWith: [
     {
-      email: {
+      id: {
         type: String,
         required: true,
-        unique: true,
       },
       pairedAt: {
         type: Number,

@@ -152,10 +152,8 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
 
     const pairedWith = await Promise.all(
       pairs.pairedWith.map(async (el) => {
-        const pairedUser = await User.findOne({ email: el.email });
+        const pairedUser = await User.findById(el.id);
         if (!pairedUser) return null;
-
-        const age = calculateYearsSince(pairedUser.birthdate);
 
         return el.isVisible
           ? {
@@ -163,10 +161,7 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
               pairedAt: el.pairedAt,
               name: pairedUser.name,
               imageUrl: pairedUser.imageUrl,
-              age: age,
               isVisible: true,
-              city: pairedUser.city,
-              gender: pairedUser.gender,
             }
           : {
               id: pairedUser.id,
@@ -178,6 +173,39 @@ userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
 
     const data = pairedWith.filter((el) => el !== null);
     res.json({ pairedWith: data });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+userRoutes.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
+  try {
+    const pairChatUser = await User.findById(req.params.id);
+
+    if (!pairChatUser) {
+      return res.json({ pairChatUser: [] });
+    }
+
+    const age = calculateYearsSince(pairChatUser.birthdate);
+
+    console.log(pairChatUser);
+    const data = req.query.isVisible
+      ? {
+          id: pairChatUser.id,
+          name: pairChatUser.name,
+          imageUrl: pairChatUser.imageUrl,
+          age: age,
+          isVisible: true,
+          city: pairChatUser.city,
+          gender: pairChatUser.gender,
+          description: pairChatUser.description,
+        }
+      : {
+          id: pairChatUser.id,
+          isVisible: false,
+        };
+
+    res.json({ pairChatUser: data });
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }

@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { ChatStoreState } from "../types";
 import { useUserStore } from "./userStore";
-/* import axios from "axios";
+import axios from "axios";
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL; */
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useChatStore = defineStore("chatStore", {
   state: (): ChatStoreState => ({
@@ -21,16 +21,20 @@ export const useChatStore = defineStore("chatStore", {
   }),
   actions: {
     async openChat(id: string) {
-      return new Promise((resolve, reject) => {
-        const userStore = useUserStore();
-        const pair = userStore.pairs.find((pair) => pair.id === id);
-        if (pair) {
-          this.pairInfo = { ...pair };
-          resolve(true);
-        } else {
-          reject();
-        }
-      });
+      const userStore = useUserStore();
+
+      const pair = userStore.pairs.filter((pair) => pair.id === id)[0];
+
+      try {
+        const res = await axios.get(`${SERVER_URL}/user/get-pair-chat/${id}`, {
+          headers: {
+            Authorization: `Bearer ${userStore.token}`,
+            isVisible: pair.isVisible,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
     },
     closeChat() {
       this.$reset();
