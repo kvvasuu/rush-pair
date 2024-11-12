@@ -12,7 +12,6 @@ export const useChatStore = defineStore("chatStore", {
       name: "",
       age: 16,
       gender: "other",
-      pairedAt: 0,
       imageUrl: "",
       isVisible: false,
       city: "",
@@ -32,6 +31,8 @@ export const useChatStore = defineStore("chatStore", {
             isVisible: pair.isVisible,
           },
         });
+
+        this.pairInfo = { ...res.data.pairChatUser };
       } catch (error) {
         console.log(error);
       }

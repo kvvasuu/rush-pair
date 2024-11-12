@@ -188,8 +188,7 @@ userRoutes.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
 
     const age = calculateYearsSince(pairChatUser.birthdate);
 
-    console.log(pairChatUser);
-    const data = req.query.isVisible
+    const data = req.get("isVisible")
       ? {
           id: pairChatUser.id,
           name: pairChatUser.name,

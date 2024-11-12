@@ -14,7 +14,6 @@ interface PairInfo {
   name?: string;
   age?: number;
   gender?: "male" | "female" | "other";
-  pairedAt: number;
   imageUrl?: string;
   isVisible: boolean;
   city?: string;
