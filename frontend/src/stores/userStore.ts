@@ -102,7 +102,6 @@ export const useUserStore = defineStore("userStore", {
             {
               headers: {
                 Authorization: `Bearer ${this.token}`,
-                "Content-Type": "application/json",
               },
             }
           )
@@ -130,7 +129,7 @@ export const useUserStore = defineStore("userStore", {
         try {
           await axios.patch(
             `${SERVER_URL}/user/change-settings`,
-            { email: this.email, settings },
+            { settings },
             {
               headers: {
                 Authorization: `Bearer ${this.token}`,
@@ -146,14 +145,11 @@ export const useUserStore = defineStore("userStore", {
     async getPairs() {
       if (this.token) {
         try {
-          const res = await axios.get(
-            `${SERVER_URL}/user/get-pairs/${this.email}`,
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            }
-          );
+          const res = await axios.get(`${SERVER_URL}/user/get-pairs`, {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          });
           this.pairs = res.data.pairedWith || [];
         } catch (error) {}
       }

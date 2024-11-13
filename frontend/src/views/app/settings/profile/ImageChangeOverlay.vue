@@ -174,7 +174,6 @@ const changeImage = async () => {
       const fileName = userStore.email.replace(/[@.]/g, "_");
 
       formData.append("profilePicture", blob as Blob, fileName);
-      formData.append("email", userStore.email);
       if (userStore.imageUrl) {
         formData.append("oldImageName", userStore.imageUrl);
       }
@@ -189,7 +188,6 @@ const changeImage = async () => {
         .then((res) => {
           userStore.imageUrl = res.data.imageUrl;
           isUploaded.value = false;
-          console.log(res);
           close();
         })
         .catch((err) => {

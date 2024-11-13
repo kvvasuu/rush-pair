@@ -10,7 +10,6 @@ const JWT_SECRET = "bTz8Kj%T&v9#LvD8j!7M@c4Hy92Xm&N^4tQZ2$wYFzRqS3GpJpP!";
 
 export const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1] || req.query.token;
-
   if (!token) {
     return res.status(403).json({ msg: "Token not provided" });
   }
@@ -19,7 +18,6 @@ export const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ msg: "Invalid token" });
     }
-
     req.user = decoded;
     next();
   });

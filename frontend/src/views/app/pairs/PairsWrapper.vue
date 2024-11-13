@@ -51,7 +51,7 @@ const userStore = useUserStore();
 const pairName = computed(() => {
   if (route.params.id) {
     return (
-      userStore.pairs.filter((el) => el.id === route.params.id)[0].name ||
+      userStore.pairs.find((el) => el.id === route.params.id)?.name ||
       "Anonymous user"
     );
   }
@@ -59,7 +59,7 @@ const pairName = computed(() => {
 
 const pairImage = computed(() => {
   if (route.params.id) {
-    return userStore.pairs.filter((el) => el.id === route.params.id)[0];
+    return userStore.pairs.find((el) => el.id === route.params.id) || "";
   }
 });
 

@@ -23,8 +23,8 @@ app.use(
   express.static(path.join(__dirname, "uploads"))
 );
 app.use(express.json());
-app.use(cors());
-app.use(sessionMiddleware);
+
+/* app.use(sessionMiddleware); */
 
 mongoose
   .connect(MONGODB_KEY)
@@ -34,6 +34,8 @@ mongoose
   .catch((err) => {
     console.log("Error. Not connected to MongoDB:", err.message);
   });
+
+app.use(cors());
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);

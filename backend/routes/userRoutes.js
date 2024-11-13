@@ -1,5 +1,5 @@
 import express from "express";
-import authenticateToken from "./auth.js";
+import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import multer from "multer";
@@ -30,7 +30,7 @@ userRoutes.put(
   imageUpload.single("profilePicture"),
   async (req, res) => {
     try {
-      const user = await User.findOne({ email: req.body.email });
+      const user = await User.findOne({ email: req.user.user.email });
 
       if (!user) {
         return res.status(404).json({ msg: "User not found." });
@@ -80,7 +80,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
     const { name, birthdate, gender, country, city, phoneNumber } =
       req.body.userData;
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.user.user.email });
 
     if (!user) {
       return res.status(404).json({ msg: "User not found." });
@@ -124,7 +124,7 @@ userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
     }
 
     const user = await User.findOneAndUpdate(
-      { email: req.body.email },
+      { email: req.user.user.email },
       { $set: updateQuery },
       { new: true, runValidators: true }
     );
@@ -142,9 +142,9 @@ userRoutes.patch("/change-settings", authenticateToken, async (req, res) => {
   }
 });
 
-userRoutes.get("/get-pairs/:email", authenticateToken, async (req, res) => {
+userRoutes.get("/get-pairs/", authenticateToken, async (req, res) => {
   try {
-    const pairs = await Pair.findOne({ email: req.params.email });
+    const pairs = await Pair.findOne({ email: req.user.user.email });
 
     if (!pairs) {
       return res.json({ pairedWith: [] });
@@ -185,10 +185,14 @@ userRoutes.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
     if (!pairChatUser) {
       return res.json({ pairChatUser: [] });
     }
+    const pair = await Pair.findOne({ email: req.user.user.email });
+    const isVisible = pair.pairedWith.find(
+      (pair) => pair.id === req.params.id
+    ).isVisible;
 
     const age = calculateYearsSince(pairChatUser.birthdate);
 
-    const data = req.get("isVisible")
+    const data = isVisible
       ? {
           id: pairChatUser.id,
           name: pairChatUser.name,

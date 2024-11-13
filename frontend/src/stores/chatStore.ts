@@ -22,13 +22,15 @@ export const useChatStore = defineStore("chatStore", {
     async openChat(id: string) {
       const userStore = useUserStore();
 
-      const pair = userStore.pairs.filter((pair) => pair.id === id)[0];
+      const pair = userStore.pairs.find((pair) => pair.id === id);
 
+      if (!pair) {
+        return;
+      }
       try {
         const res = await axios.get(`${SERVER_URL}/user/get-pair-chat/${id}`, {
           headers: {
             Authorization: `Bearer ${userStore.token}`,
-            isVisible: pair.isVisible,
           },
         });
 
