@@ -86,12 +86,12 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "User not found." });
     }
 
-    user.name = name.trim || user.name;
+    user.name = name.trim() || user.name;
     user.birthdate = birthdate || user.birthdate;
     user.gender = gender || user.gender;
-    user.country = country.trim || user.country;
-    user.city = city.trim || user.city;
-    user.phoneNumber = phoneNumber.trim || user.phoneNumber;
+    user.country = country.trim() || user.country;
+    user.city = city.trim() || user.city;
+    user.phoneNumber = phoneNumber.trim() || user.phoneNumber;
     user.firstVisit = user.firstVisit && false;
     user.imageUrl = user.imageUrl;
 

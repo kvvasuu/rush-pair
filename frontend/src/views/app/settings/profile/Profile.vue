@@ -160,7 +160,14 @@ import ImageChangeOverlay from "./ImageChangeOverlay.vue";
 const mainStore = useMainStore();
 const userStore = useUserStore();
 
-const details = reactive({ ...userStore.$state });
+const details = reactive({
+  name: userStore.name,
+  birthdate: userStore.birthdate,
+  phoneNumber: userStore.phoneNumber,
+  city: userStore.city,
+  country: userStore.country,
+  gender: userStore.gender,
+});
 
 const birthdateInputRef = ref();
 
@@ -168,13 +175,18 @@ const imageKey = ref(0);
 
 const isSavePossible = computed(() => {
   return (
-    JSON.stringify(details) !== JSON.stringify(userStore.$state) &&
-    !!details.name &&
-    !!details.birthdate &&
-    !mainStore.isLoading &&
-    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/gi.test(
-      details.phoneNumber
-    )
+    details.name !== userStore.name ||
+    details.birthdate !== userStore.birthdate ||
+    details.city !== userStore.city ||
+    details.country !== userStore.country ||
+    (details.phoneNumber !== userStore.phoneNumber &&
+      !!details.name &&
+      !!details.birthdate &&
+      !mainStore.isLoading &&
+      (/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{3,6}$/gi.test(
+        details.phoneNumber
+      ) ||
+        details.phoneNumber == ""))
   );
 });
 
