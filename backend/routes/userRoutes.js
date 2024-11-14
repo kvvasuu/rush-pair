@@ -161,7 +161,7 @@ userRoutes.get("/get-pairs/", authenticateToken, async (req, res) => {
           ? {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
-              name: pairedUser.name,
+              name: el.name || pairedUser.name,
               imageUrl: pairedUser.imageUrl,
               isVisible: true,
             }
@@ -169,6 +169,7 @@ userRoutes.get("/get-pairs/", authenticateToken, async (req, res) => {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
               isVisible: false,
+              name: el.name,
             };
       })
     );
@@ -187,17 +188,15 @@ userRoutes.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
     if (!pairChatUser) {
       return res.json({ pairChatUser: [] });
     }
-    const pair = await Pair.findOne({ email: req.user.user.email });
-    const isVisible = pair.pairedWith.find(
-      (pair) => pair.id === req.params.id
-    ).isVisible;
+    const pairs = await Pair.findOne({ email: req.user.user.email });
+    const pair = pairs.pairedWith.find((pair) => pair.id === req.params.id);
 
     const age = calculateYearsSince(pairChatUser.birthdate);
 
-    const data = isVisible
+    const data = pair.isVisible
       ? {
           id: pairChatUser.id,
-          name: pairChatUser.name,
+          name: pair.name || pairChatUser.name,
           imageUrl: pairChatUser.imageUrl,
           age: age,
           isVisible: true,
@@ -208,6 +207,7 @@ userRoutes.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
       : {
           id: pairChatUser.id,
           isVisible: false,
+          name: pair.name,
         };
 
     res.json({ pairChatUser: data });

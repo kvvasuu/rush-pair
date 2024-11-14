@@ -14,6 +14,7 @@ export const useChatStore = defineStore("chatStore", {
       isVisible: false,
       city: "",
       description: "",
+      pairedAt: 0,
     },
   }),
   actions: {

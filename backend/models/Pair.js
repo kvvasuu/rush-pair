@@ -12,6 +12,10 @@ const pairSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      name: {
+        type: String,
+        required: false,
+      },
       pairedAt: {
         type: Number,
         default: () => Date.now(),

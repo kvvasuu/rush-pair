@@ -27,55 +27,25 @@
     </div>
     <div class="w-full h-full mt-2">
       <ul class="w-full">
-        <li
-          class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100 dark:hover:bg-neutral-700 transition-all relative"
+        <PairListElement
           v-for="pair in userStore.pairs"
-          @click="goToPair(pair.id)"
-        >
-          <PairAvatar
-            :pair="pair"
-            class="min-w-[72px] max-w-[72px]"
-          ></PairAvatar>
-          <div
-            class="w-full h-full flex flex-col items-start justify-center whitespace-nowrap"
-          >
-            <p
-              class="w-full pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none"
-            >
-              {{ pair.name || "Anonymous user" }}
-            </p>
-            <p
-              class="w-full px-6 text-sm text-slate-600 dark:text-neutral-500 select-none"
-            >
-              {{ pairedAt(pair.pairedAt) }}
-            </p>
-          </div>
-        </li>
+          :pair="pair"
+          :currently-edited-nickname-id="currentlyEditedNicknameId"
+          @edited-nickname-id="(id: string) => currentlyEditedNicknameId = id"
+        ></PairListElement>
       </ul>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
 import { ref } from "vue";
-import PairAvatar from "../../../components/PairAvatar.vue";
+import PairListElement from "./PairListElement.vue";
 
-const router = useRouter();
 const userStore = useUserStore();
 
 const searchValue = ref("");
 
-const goToPair = (id: string) => {
-  router.push(`/app/pairs/${id}`);
-};
-
-const pairedAt = (timestamp: number) => {
-  const date = new Date(timestamp * 1000);
-  const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const year = date.getFullYear();
-  return `${day}-${month}-${year}`;
-};
+const currentlyEditedNicknameId = ref("");
 </script>

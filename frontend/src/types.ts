@@ -19,6 +19,7 @@ interface PairInfo {
   isVisible: boolean;
   city?: string;
   description?: string;
+  pairedAt: number;
 }
 
 interface UserStoreState extends User {
