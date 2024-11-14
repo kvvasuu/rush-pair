@@ -12,7 +12,7 @@ interface User {
 
 interface PairInfo {
   id: string;
-  name?: string;
+  name: string;
   age?: number;
   gender?: "male" | "female" | "other";
   imageUrl?: string;

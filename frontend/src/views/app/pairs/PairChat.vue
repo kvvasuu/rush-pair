@@ -66,18 +66,20 @@
       ></PairAvatar>
       <Transition name="slide" mode="out-in">
         <div
-          class="w-full h-full py-6 px-8 relative flex flex-col overflow-y-auto"
+          class="w-full h-full py-6 px-8 relative overflow-y-auto"
           v-if="!isSettingsVisible"
         >
-          <p
-            class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl"
+          <div
+            class="flex justify-start text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
           >
-            <span>{{ chatStore.pairInfo.name || "Anonymous" }}</span>
+            <span class="truncate max-w-72"
+              >{{ chatStore.pairInfo.name || "Anonymous" }}
+            </span>
 
             <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
               chatStore.pairInfo.age
             }}</span>
-          </p>
+          </div>
           <p class="text-slate-600 dark:text-neutral-500 text-sm">
             <i class="fa-solid fa-location-dot mr-1 text-xs w-3"></i>
             <span>{{ chatStore.pairInfo.city || "Unknown location" }}</span>
@@ -204,7 +206,7 @@ const editNickname = () => {
 };
 
 const saveNickname = () => {
-  if (name.value?.length <= 0) {
+  if (chatStore.pairInfo.name.length <= 0) {
     return;
   }
   isEditingNickname.value = false;
