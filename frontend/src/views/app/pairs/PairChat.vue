@@ -24,9 +24,7 @@
       <div
         class="w-full h-80 flex flex-row overflow-hidden relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
         v-if="props.isProfileExpanded"
-      >
-        <div class="p-8"></div>
-      </div>
+      ></div>
     </Transition>
 
     <div class="flex-1 lg:h-full w-full flex flex-col lg:flex-col justify-end">
