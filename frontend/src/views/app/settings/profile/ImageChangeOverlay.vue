@@ -7,7 +7,7 @@
       >
         <div class="w-4/5 h-full relative" v-if="isUploaded">
           <div
-            class="img-overlay absolute z-20 w-full h-full bg-white/25 pointer-events-none"
+            class="img-overlay absolute z-20 w-full h-full bg-neutral-300/25 pointer-events-none"
           ></div>
 
           <div class="w-full aspect-square relative overflow-hidden">
@@ -115,11 +115,11 @@ const mainStore = useMainStore();
 const userStore = useUserStore();
 
 const scaleUp = () => {
-  if (scale.value < 200) scale.value = Math.ceil((scale.value + 10) / 10) * 10;
+  if (scale.value < 200) scale.value = Math.ceil((+scale.value + 10) / 10) * 10;
 };
 
 const scaleDown = () => {
-  if (scale.value > 100) scale.value = Math.ceil((scale.value - 10) / 10) * 10;
+  if (scale.value > 100) scale.value = Math.ceil((+scale.value - 10) / 10) * 10;
 };
 
 const previewImage = (event: Event) => {
@@ -180,11 +180,7 @@ const changeImage = async () => {
 
       mainStore.isLoading = true;
       axios
-        .put(`${SERVER_URL}/user/update-image`, formData, {
-          headers: {
-            Authorization: `Bearer ${userStore.token}`,
-          },
-        })
+        .put(`${SERVER_URL}/user/update-image`, formData)
         .then((res) => {
           userStore.imageUrl = res.data.imageUrl;
           isUploaded.value = false;

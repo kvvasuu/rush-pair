@@ -3,8 +3,6 @@ import { ChatStoreState } from "../types";
 import { useUserStore } from "./userStore";
 import axios from "axios";
 
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-
 export const useChatStore = defineStore("chatStore", {
   state: (): ChatStoreState => ({
     pairInfo: {
@@ -28,13 +26,14 @@ export const useChatStore = defineStore("chatStore", {
         return;
       }
       try {
-        const res = await axios.get(`${SERVER_URL}/user/get-pair-chat/${id}`, {
-          headers: {
-            Authorization: `Bearer ${userStore.token}`,
-          },
-        });
+        const res = await axios.get(`/user/get-pair-chat/${id}`);
 
-        this.pairInfo = { ...res.data.pairChatUser };
+        if (res.status === 200) {
+          this.pairInfo = { ...res.data.pairChatUser };
+          return true;
+        } else {
+          return false;
+        }
       } catch (error) {
         console.log(error);
       }

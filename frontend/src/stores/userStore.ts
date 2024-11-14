@@ -26,6 +26,20 @@ export const useUserStore = defineStore("userStore", {
     pairs: [],
   }),
   actions: {
+    initAxios() {
+      axios.defaults.baseURL = SERVER_URL;
+      axios.interceptors.request.use(
+        (config) => {
+          if (this.token) {
+            config.headers.Authorization = `Bearer ${this.token}`;
+          }
+          return config;
+        },
+        (error) => {
+          return Promise.reject(error);
+        }
+      );
+    },
     setToken(token: string) {
       this.token = token;
       localStorage.setItem("token", token);
@@ -37,12 +51,9 @@ export const useUserStore = defineStore("userStore", {
       }
 
       if (token) {
+        this.initAxios();
         try {
-          const res = await axios.get(`${SERVER_URL}/auth/verify-token`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const res = await axios.get("/auth/verify-token");
 
           this.setToken(token);
           const {
@@ -96,18 +107,10 @@ export const useUserStore = defineStore("userStore", {
 
       return new Promise((resolve, reject) => {
         axios
-          .put(
-            `${SERVER_URL}/user/update-profile`,
-            {
-              email: this.email,
-              userData: user,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            }
-          )
+          .put("/user/update-profile", {
+            email: this.email,
+            userData: user,
+          })
           .then((res) => {
             this.name = res.data.user.name;
             this.birthdate = res.data.user.birthdate;
@@ -131,15 +134,7 @@ export const useUserStore = defineStore("userStore", {
     async changeSettings(settings: {}) {
       if (this.token) {
         try {
-          await axios.patch(
-            `${SERVER_URL}/user/change-settings`,
-            { settings },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            }
-          );
+          await axios.patch("/user/change-settings", { settings });
           this.settings = { ...this.settings, ...settings };
         } catch (error) {
           throw error;
@@ -149,11 +144,7 @@ export const useUserStore = defineStore("userStore", {
     async getPairs() {
       if (this.token) {
         try {
-          const res = await axios.get(`${SERVER_URL}/user/get-pairs`, {
-            headers: {
-              Authorization: `Bearer ${this.token}`,
-            },
-          });
+          const res = await axios.get("/user/get-pairs");
           this.pairs = res.data.pairedWith || [];
         } catch (error) {}
       }

@@ -131,19 +131,11 @@ const changePassword = async () => {
   if (isPasswordValid.value) {
     store.isLoading = true;
     try {
-      const res = await axios.post(
-        `${SERVER_URL}/auth/change-password`,
-        {
-          email: userStore.email,
-          oldPassword: password.value,
-          newPassword: newPassword.value,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${userStore.token}`,
-          },
-        }
-      );
+      const res = await axios.post(`${SERVER_URL}/auth/change-password`, {
+        email: userStore.email,
+        oldPassword: password.value,
+        newPassword: newPassword.value,
+      });
       console.log(res);
       isPasswordChanged.value = true;
     } catch (error) {

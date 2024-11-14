@@ -114,18 +114,10 @@ const isAccountDeleted = ref(false);
 const deleteAccount = async () => {
   try {
     store.isLoading = true;
-    const res = await axios.post(
-      `${SERVER_URL}/auth/delete-account`,
-      {
-        email: userStore.email,
-        password: password.value,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${userStore.token}`,
-        },
-      }
-    );
+    const res = await axios.post(`${SERVER_URL}/auth/delete-account`, {
+      email: userStore.email,
+      password: password.value,
+    });
     console.log(res);
     isAccountDeleted.value = true;
     setTimeout(() => {

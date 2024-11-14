@@ -1,7 +1,24 @@
 <template>
   <div
+    class="absolute top-16 flex items-center justify-center w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)]"
+    v-if="isLoading"
+  >
+    <BasicSpinner></BasicSpinner>
+  </div>
+  <div
+    class="absolute top-16 flex flex-col gap-4 items-center justify-center w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)] px-4"
+    v-else-if="cannotGetPair"
+  >
+    <i
+      class="fa-solid fa-triangle-exclamation text-neutral-400 dark:text-neutral-500 select-none text-5xl"
+    ></i>
+    <p class="text-neutral-400 dark:text-neutral-500 select-none text-center">
+      Something went wrong. Try again later...
+    </p>
+  </div>
+  <div
     class="absolute top-16 flex flex-col lg:flex-row items-center justify-start w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)]"
-    v-if="!isLoading"
+    v-else
   >
     <Transition name="expand">
       <div
@@ -73,12 +90,6 @@
       </div>
     </div>
   </div>
-  <div
-    class="absolute top-16 flex items-center justify-center w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)]"
-    v-else
-  >
-    <BasicSpinner></BasicSpinner>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -96,16 +107,18 @@ const message = ref("");
 
 const isLoading = ref(true);
 
+const cannotGetPair = ref(false);
+
 onBeforeMount(async () => {
-  await chatStore.openChat(route.params.id as string).then(() => {
-    isLoading.value = false;
-  });
+  const success = await chatStore.openChat(route.params.id as string);
+  success ? (cannotGetPair.value = false) : (cannotGetPair.value = true);
+  isLoading.value = false;
 });
 
 onBeforeRouteLeave(() => {
   setTimeout(() => {
     chatStore.closeChat();
-  }, 1000);
+  }, 500);
 });
 </script>
 
