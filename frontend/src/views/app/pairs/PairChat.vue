@@ -66,13 +66,13 @@
       ></PairAvatar>
       <Transition name="slide" mode="out-in">
         <div
-          class="w-full h-full py-6 px-8 relative overflow-y-auto"
+          class="flex flex-col w-full h-full py-6 px-8 relative overflow-y-auto"
           v-if="!isSettingsVisible"
         >
           <div
             class="flex justify-start text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
           >
-            <span class="truncate max-w-72"
+            <span class="truncate max-w-72" :title="chatStore.pairInfo.name"
               >{{ chatStore.pairInfo.name || "Anonymous" }}
             </span>
 
@@ -145,8 +145,11 @@
                   v-if="!isEditingNickname"
                 ></i>
                 <i
-                  class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full"
-                  v-else-if="chatStore.pairInfo.name.length <= 0"
+                  class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full bg-neutral-400/10"
+                  v-else-if="
+                    chatStore.pairInfo.name.length <= 0 ||
+                    chatStore.pairInfo.name === tempNickname
+                  "
                 ></i>
                 <i
                   class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -205,11 +208,17 @@ const editNickname = () => {
   isEditingNickname.value = true;
 };
 
-const saveNickname = () => {
-  if (chatStore.pairInfo.name.length <= 0) {
+const saveNickname = async () => {
+  if (
+    chatStore.pairInfo.name.length <= 0 ||
+    chatStore.pairInfo.name === tempNickname
+  ) {
+    isEditingNickname.value = false;
+    chatStore.pairInfo.name = tempNickname;
     return;
   }
-  isEditingNickname.value = false;
+  const isChanged = await chatStore.changePairNickname();
+  if (isChanged) isEditingNickname.value = false;
 };
 
 onBeforeMount(async () => {

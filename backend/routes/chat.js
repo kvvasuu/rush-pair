@@ -78,4 +78,25 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
   }
 });
 
+chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
+  try {
+    if (!req.body.nickname || req.body?.nickname.length <= 0) {
+      return res.status(404).json({ msg: "No nickname provided." });
+    }
+
+    const result = await Pair.findOneAndUpdate(
+      { email: req.user.user.email, "pairedWith.id": req.params.id },
+      { $set: { "pairedWith.$.name": req.body.nickname } },
+      { new: true, runValidators: true }
+    );
+
+    if (!result) {
+      return res.status(404).json({ msg: "Cannot change name." });
+    }
+    res.status(200).json({ msg: "Nickname changed" });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 export default chat;

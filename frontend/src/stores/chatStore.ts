@@ -39,14 +39,24 @@ export const useChatStore = defineStore("chatStore", {
         console.log(error);
       }
     },
-    async editPairNickname(id: string, nickname: string) {
+    async changePairNickname() {
+      const userStore = useUserStore();
+
       try {
-        const res = await axios.put(`/chat/edit-pair-nickname/${id}`, {
-          nickname: nickname,
-        });
+        const res = await axios.put(
+          `/chat/change-pair-nickname/${this.pairInfo.id}`,
+          {
+            nickname: this.pairInfo.name,
+          }
+        );
 
         if (res.status === 200) {
-          this.pairInfo = { ...res.data.pairChatUser };
+          const pair = userStore.pairs.find(
+            (pair) => pair.id === this.pairInfo.id
+          );
+          if (pair) {
+            pair.name = this.pairInfo.name;
+          }
           return true;
         } else {
           return false;

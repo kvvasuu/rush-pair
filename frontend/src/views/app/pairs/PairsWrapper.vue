@@ -6,7 +6,7 @@
       class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800 shadow z-30"
     >
       <p
-        class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none"
+        class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none min-w-0 max-w-48 min-[400px]:max-w-72 sm:max-w-96 truncate"
       >
         {{ pairName || "Pairs" }}
       </p>
@@ -41,20 +41,17 @@
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
+import { useChatStore } from "../../../stores/chatStore";
 import PairAvatar from "../../../components/PairAvatar.vue";
 
 const router = useRouter();
 const route = useRoute();
 
 const userStore = useUserStore();
+const chatStore = useChatStore();
 
 const pairName = computed(() => {
-  if (route.params.id) {
-    return (
-      userStore.pairs.find((el) => el.id === route.params.id)?.name ||
-      "Anonymous user"
-    );
-  }
+  if (route.params.id) return chatStore.pairInfo.name || "Anonymous";
 });
 
 const pairImage = computed(() => {
