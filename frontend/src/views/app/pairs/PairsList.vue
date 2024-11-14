@@ -30,8 +30,6 @@
         <PairListElement
           v-for="pair in userStore.pairs"
           :pair="pair"
-          :currently-edited-nickname-id="currentlyEditedNicknameId"
-          @edited-nickname-id="(id: string) => currentlyEditedNicknameId = id"
         ></PairListElement>
       </ul>
     </div>
@@ -46,6 +44,4 @@ import PairListElement from "./PairListElement.vue";
 const userStore = useUserStore();
 
 const searchValue = ref("");
-
-const currentlyEditedNicknameId = ref("");
 </script>
