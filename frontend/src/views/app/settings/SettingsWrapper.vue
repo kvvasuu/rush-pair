@@ -3,7 +3,7 @@
     class="w-full h-full flex justify-center relative bg-slate-200 dark:bg-neutral-900 overflow-hidden"
   >
     <header
-      class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800"
+      class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800 z-20"
     >
       <p
         class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none"
