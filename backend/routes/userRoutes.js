@@ -77,7 +77,7 @@ userRoutes.put(
 
 userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
   try {
-    const { name, birthdate, gender, country, city, phoneNumber } =
+    const { name, birthdate, gender, country, city, phoneNumber, description } =
       req.body.userData;
 
     const user = await User.findOne({ email: req.user.user.email });
@@ -94,6 +94,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
     user.phoneNumber = phoneNumber.trim() || user.phoneNumber;
     user.firstVisit = user.firstVisit && false;
     user.imageUrl = user.imageUrl;
+    user.description = description || user.description;
 
     await user.save();
 
@@ -108,6 +109,7 @@ userRoutes.put("/update-profile", authenticateToken, async (req, res) => {
         phoneNumber: user.phoneNumber,
         firstVisit: user.firstVisit,
         imageUrl: user.imageUrl,
+        description: user.description,
       },
     });
   } catch (error) {

@@ -17,6 +17,7 @@ export const useUserStore = defineStore("userStore", {
     phoneNumber: "",
     firstVisit: true,
     imageUrl: "",
+    description: "",
     settings: {
       notifications: true,
       theme: "light",
@@ -55,6 +56,7 @@ export const useUserStore = defineStore("userStore", {
             phoneNumber,
             imageUrl,
             settings,
+            description,
           } = { ...res.data.user };
 
           this.name = name || "";
@@ -67,6 +69,7 @@ export const useUserStore = defineStore("userStore", {
           this.phoneNumber = phoneNumber || "";
           this.imageUrl = imageUrl || "";
           this.settings = settings || this.settings;
+          this.description = description || "";
           try {
             this.getPairs();
           } catch (error) {
@@ -114,6 +117,7 @@ export const useUserStore = defineStore("userStore", {
             this.phoneNumber = res.data.user.phoneNumber;
             this.imageUrl = res.data.user.imageUrl;
             this.firstVisit = res.data.user.firstVisit;
+            this.description = res.data.user.description;
             resolve("Details updated");
           })
           .catch((err) => {

@@ -7,6 +7,7 @@ interface User {
   phoneNumber: string;
   firstVisit?: boolean;
   imageUrl?: string;
+  description?: string;
 }
 
 interface PairInfo {
