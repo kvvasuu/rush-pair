@@ -2,14 +2,13 @@
   <div
     class="fixed left-0 top-0 w-16 xl:w-56 h-full hidden md:flex bg-neutral-100 dark:bg-neutral-800 flex-col items-center justify-start border-r-[1px] border-neutral-300 dark:border-neutral-750"
   >
-    <div class="w-full px-3 py-5 max-w-20">
-      <img
+    <RouterLink to="/app" class="w-full px-3 py-5 max-w-20"
+      ><img
         src="/logo_sygnet.png"
         alt="RushPair"
         class="w-full h-full"
         draggable="false"
-      />
-    </div>
+    /></RouterLink>
 
     <nav
       class="w-full h-full flex flex-col items-center justify-start mt-8 gap-2"
