@@ -5,18 +5,14 @@
     :title="`${pair.name}, paired at: ${pairedAt}`"
   >
     <PairAvatar :pair="pair" class="min-w-[72px] max-w-[72px]"></PairAvatar>
-    <div
-      class="h-full flex flex-col items-start justify-center whitespace-nowrap"
-    >
+    <div class="h-full flex flex-col items-start justify-center mr-4 min-w-0">
       <p
-        class="pl-6 flex items-center text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none"
+        class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"
       >
         {{ pair.name }}
       </p>
 
-      <p
-        class="w-full px-6 text-sm text-slate-600 dark:text-neutral-500 select-none"
-      >
+      <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
         {{ pairedAt }}
       </p>
     </div>

@@ -91,6 +91,21 @@ button {
   }
 }
 
+.pop-up-fast-enter-active {
+  animation: pop-up 0.2s;
+}
+.pop-up-fast-leave-active {
+  animation: pop-up 0.2s reverse;
+}
+@keyframes pop-up {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .slide-from-bottom-enter-active {
   transition: all 0.3s ease-out;
 }

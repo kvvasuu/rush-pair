@@ -45,11 +45,13 @@
           placeholder="Type a message"
           autocomplete="off"
         /><button
-          class="w-20 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all"
+          class="w-20 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
           :title="message ? `Send message` : `Send heart`"
         >
-          <i class="fa-solid fa-paper-plane text-2xl" v-if="message"></i>
-          <i class="fa-solid fa-heart text-2xl" v-else></i>
+          <Transition name="pop-up-fast" mode="out-in">
+            <i class="fa-solid fa-paper-plane" v-if="message"></i>
+            <i class="fa-solid fa-heart" v-else></i>
+          </Transition>
         </button>
       </div>
     </div>
@@ -70,7 +72,7 @@
           <p
             class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
           >
-            <span>{{ chatStore.pairInfo.name || "Anonymous" }}</span>
+            <span>{{ name || "Anonymous" }}</span>
 
             <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
               chatStore.pairInfo.age
@@ -107,40 +109,49 @@
               class="fa-solid fa-ellipsis text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
             ></i>
           </button>
-
-          <!-- <div class="flex items-center justify-center ">
-          <input
-            type="text"
-            v-model="name"
-            class="max-w-40 ml-6 h-8 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
-          />
-          <button
-            class="ml-2 text-slate-400 dark:text-neutral-500 group"
-            :title="!isEditingNickname ? `Edit nickname` : `Save nickname`"
-            @click.stop="
-              () => (isEditingNickname ? saveNickname() : editNickname())
-            "
-          >
-            <i
-              class="fa-solid fa-pencil flex items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
-              v-if="!isEditingNickname"
-            ></i>
-            <i
-              class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full"
-              v-else-if="name.length <= 0"
-            ></i>
-            <i
-              class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
-              v-else
-            ></i>
-          </button>
-        </div> -->
         </div>
 
-        <div
-          class="w-full h-full py-6 px-8 relative flex flex-col bg-slate-100 dark:bg-neutral-800"
-          v-else
-        >
+        <div class="w-full h-full py-6 px-8 flex flex-col" v-else>
+          <div class="flex items-center flex-col justify-start">
+            <span
+              class="w-full text-start text-sm text-slate-600 dark:text-neutral-500 select-none"
+              >Nickname:</span
+            >
+            <div class="flex items-center justify-start w-full">
+              <p
+                class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
+                v-if="!isEditingNickname"
+              >
+                {{ name || "Anonymous" }}
+              </p>
+              <input
+                type="text"
+                v-model="name"
+                class="max-w-40 ml-6 h-8 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
+                v-else
+              />
+              <button
+                class="ml-auto mr-0 text-slate-400 dark:text-neutral-500 group"
+                :title="!isEditingNickname ? `Edit nickname` : `Save nickname`"
+                @click.stop="
+                  () => (isEditingNickname ? saveNickname() : editNickname())
+                "
+              >
+                <i
+                  class="fa-solid fa-pencil flex items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+                  v-if="!isEditingNickname"
+                ></i>
+                <i
+                  class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full"
+                  v-else-if="name.length <= 0"
+                ></i>
+                <i
+                  class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+                  v-else
+                ></i>
+              </button>
+            </div>
+          </div>
           <button
             class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
             @click="toggleChatSettings"
@@ -172,7 +183,7 @@ const isLoading = ref(true);
 
 const cannotGetPair = ref(false);
 
-const name = ref(chatStore.pairInfo.name || "");
+const name = ref(chatStore.pairInfo.name as string);
 
 const isSettingsVisible = ref(false);
 
@@ -187,7 +198,7 @@ const editNickname = () => {
 };
 
 const saveNickname = () => {
-  if (name.value.length <= 0) {
+  if (name.value?.length <= 0) {
     return;
   }
   isEditingNickname.value = false;
