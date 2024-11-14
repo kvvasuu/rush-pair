@@ -9,11 +9,41 @@ RushPair is an exciting speed friending app that brings people together for real
 
 ## :eight_pointed_black_star: Features:
 
-...
+#### Registration and Login System :closed_lock_with_key: 
 
-## Getting Started
+The app provides secure user registration and login functionality, using an API built with **Express.js**. Users can create accounts, log in, and manage their sessions easily.
 
-...
+#### Profile Settings :raising_hand:
+
+Users can fully customize their profiles, including:
+- Changing their profile picture
+- Editing personal details (name, email, etc.)
+- Updating their profile description
+
+#### App Settings :wrench:
+
+Users can personalize app settings such as:
+- **Notification preferences**: Enable or disable notifications.
+- **Dark/Light mode**: Switch between dark and light themes.
+
+#### Account Deletion :x:
+
+Users can permanently delete their accounts and remove all associated data from the system.
+
+#### Live Chat :mailbox_with_mail:
+
+The app supports real-time chat with the following features:
+- **Anonymous or revealed chats**: Chats can be anonymous or users can reveal their identities.
+- **Customizable nicknames**: Users can set a nickname for their chat partner.
+- **Profile details**: Users can view their chat partner’s details, including photo, description, and personal information.
+
+#### Backend :computer:
+
+The app uses **MongoDB** and **Mongoose** for database management, ensuring secure and efficient data storage. The API handles user authentication, profile management, and real-time chat functionalities.
+
+#### More coming soon...
+
+
 
 ## Technologies:
 
@@ -31,9 +61,18 @@ Before you run app you need to set up envioronmental variables which are URLs us
 
 Create .env file in frontend folder with variable called "VITE_SERVER_URL" e.g. "VITE_SERVER_URL=http://localhost:3000" which is backend server URL - default "http://localhost:3000".
 
-Create .env file in backend folder with variable called "MONGODB_KEY" e.g. "mongodb+srv://RushPairUser:<db_password>@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair" which is MongoDB URL. If you want to run this app you should connect to your MongoDB database.
+Create .env file in backend folder with variable called "MONGODB_KEY" e.g.:
+```
+mongodb+srv://RushPairUser:<db_password>@rushpair.jt6i9.mongodb.net/?retryWrites=true&w=majority&appName=Rushpair
+```
+which is MongoDB URL. If you want to run this app you should connect to your MongoDB database.
 
-This repository is using Concurrently to run both frontend and backend at the same time with one npm script - "start": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"", so there is no need to run them separately. Just use "npm run start" in main package folder.
+This repository is using Concurrently to run both frontend and backend at the same time with one npm script - "start": 
+```
+concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"
+```
+so there is no need to run them separately. Just use "npm run start" in main package folder.
+
 
 ```
 # install dependencies
