@@ -70,9 +70,9 @@
           v-if="!isSettingsVisible"
         >
           <p
-            class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
+            class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl"
           >
-            <span>{{ name || "Anonymous" }}</span>
+            <span>{{ chatStore.pairInfo.name || "Anonymous" }}</span>
 
             <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
               chatStore.pairInfo.age
@@ -122,12 +122,13 @@
                 class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
                 v-if="!isEditingNickname"
               >
-                {{ name || "Anonymous" }}
+                {{ chatStore.pairInfo.name || "Anonymous" }}
               </p>
               <input
                 type="text"
-                v-model="name"
-                class="max-w-40 ml-6 h-8 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
+                maxlength="60"
+                v-model="chatStore.pairInfo.name"
+                class="text-2xl w-4/5 font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
                 v-else
               />
               <button
@@ -143,7 +144,7 @@
                 ></i>
                 <i
                   class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full"
-                  v-else-if="name.length <= 0"
+                  v-else-if="chatStore.pairInfo.name.length <= 0"
                 ></i>
                 <i
                   class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -183,17 +184,22 @@ const isLoading = ref(true);
 
 const cannotGetPair = ref(false);
 
-const name = ref(chatStore.pairInfo.name as string);
+let tempNickname = "";
 
 const isSettingsVisible = ref(false);
 
 const isEditingNickname = ref(false);
 
 const toggleChatSettings = () => {
+  if (isEditingNickname.value) {
+    chatStore.pairInfo.name = tempNickname;
+    isEditingNickname.value = false;
+  }
   isSettingsVisible.value = !isSettingsVisible.value;
 };
 
 const editNickname = () => {
+  tempNickname = chatStore.pairInfo.name;
   isEditingNickname.value = true;
 };
 
