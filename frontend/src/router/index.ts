@@ -88,14 +88,10 @@ router.beforeEach(async (to, _from) => {
   const store = useUserStore();
 
   if (to.meta.requiresAuth && !store.token) {
-    console.log(
-      "Redirecting to Welcome page because user is not authenticated"
-    );
     return { name: "Welcome" };
   }
 
   if (store.token && to.name === "Welcome") {
-    console.log("Redirecting logged in user to app");
     return { path: "/app" };
   }
 

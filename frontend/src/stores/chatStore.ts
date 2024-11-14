@@ -39,6 +39,22 @@ export const useChatStore = defineStore("chatStore", {
         console.log(error);
       }
     },
+    async editPairNickname(id: string, nickname: string) {
+      try {
+        const res = await axios.put(`/user/edit-pair-nickname/${id}`, {
+          nickname: nickname,
+        });
+
+        if (res.status === 200) {
+          this.pairInfo = { ...res.data.pairChatUser };
+          return true;
+        } else {
+          return false;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
     closeChat() {
       this.$reset();
     },

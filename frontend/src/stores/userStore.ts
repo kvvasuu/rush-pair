@@ -51,11 +51,11 @@ export const useUserStore = defineStore("userStore", {
       }
 
       if (token) {
+        this.setToken(token);
         this.initAxios();
         try {
           const res = await axios.get("/auth/verify-token");
 
-          this.setToken(token);
           const {
             email,
             name,
