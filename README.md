@@ -21,7 +21,7 @@ RushPair is an exciting speed friending app that brings people together for real
 - Vue (Composition API, Router)
 - Pinia
 - Node.js + Express.js
-- MongoDB
+- MongoDB, Mongoose
 - Photoshop, Illustrator
 - FontAwesome
 
