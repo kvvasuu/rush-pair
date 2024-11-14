@@ -27,7 +27,7 @@ export const useChatStore = defineStore("chatStore", {
         return;
       }
       try {
-        const res = await axios.get(`/user/get-pair-chat/${id}`);
+        const res = await axios.get(`/chat/get-pair-chat/${id}`);
 
         if (res.status === 200) {
           this.pairInfo = { ...res.data.pairChatUser };
@@ -41,7 +41,7 @@ export const useChatStore = defineStore("chatStore", {
     },
     async editPairNickname(id: string, nickname: string) {
       try {
-        const res = await axios.put(`/user/edit-pair-nickname/${id}`, {
+        const res = await axios.put(`/chat/edit-pair-nickname/${id}`, {
           nickname: nickname,
         });
 

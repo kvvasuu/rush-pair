@@ -144,7 +144,7 @@ export const useUserStore = defineStore("userStore", {
     async getPairs() {
       if (this.token) {
         try {
-          const res = await axios.get("/user/get-pairs");
+          const res = await axios.get("/chat/get-pairs");
           this.pairs = res.data.pairedWith || [];
         } catch (error) {}
       }
