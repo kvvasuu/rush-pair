@@ -22,14 +22,34 @@
   >
     <Transition name="expand">
       <div
-        class="w-full h-full sm:h-80 absolute top-0 flex flex-col sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
+        class="w-full h-full sm:h-80 absolute top-0 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
         v-if="props.isProfileExpanded"
       >
-        <PairAvatar
-          :pair="chatStore.pairInfo"
-          :square="true"
-          class="h-full aspect-square z-10"
-        ></PairAvatar>
+        <div
+          class="hidden sm:flex h-full aspect-square justify-center bg-slate-300 dark:bg-neutral-900"
+        >
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            class="h-full aspect-square z-10"
+          ></PairAvatar>
+        </div>
+
+        <div
+          class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden"
+        >
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            class="w-full aspect-square absolute z-20 blur-md"
+          ></PairAvatar>
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            class="h-full aspect-square absolute z-30"
+          ></PairAvatar>
+        </div>
+
         <Transition name="slide" mode="out-in">
           <div
             class="flex flex-col w-full h-full py-6 px-8 relative overflow-y-auto"
@@ -154,7 +174,7 @@
             id="message"
             v-model="message"
             type="text"
-            class="w-full h-full m-0 outline-none p-2 pl-4 pr-14 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 text-neutral-600 dark:text-neutral-400 transition-all shadow z-30"
+            class="w-full h-full m-0 outline-none p-2 pl-4 pr-14 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-700/50 text-neutral-600 dark:text-neutral-400 transition-all shadow z-30"
             placeholder="Type a message"
             autocomplete="off"
           /><button
@@ -362,6 +382,10 @@ onBeforeRouteLeave(() => {
 </script>
 
 <style>
+input {
+  border-radius: 0;
+}
+
 .expand-enter-active,
 .expand-leave-active {
   transition: all 0.5s;
