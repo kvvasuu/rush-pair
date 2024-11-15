@@ -120,7 +120,13 @@
           </div>
           <div class="ms-2">
             <label for="terms" class="text-gray-900"
-              >I agree to the terms and conditions</label
+              >I agree to the
+              <a
+                href="/terms"
+                target="_blank"
+                class="font-bold text-rose-500 underline-offset-2 underline"
+                >terms and conditions</a
+              ></label
             >
             <p
               class="text-xs font-semibold text-red-500"

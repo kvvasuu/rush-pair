@@ -17,6 +17,11 @@ const routes = [
     component: () => import("../views/welcome_screen/WelcomeScreen.vue"),
   },
   {
+    path: "/terms",
+    name: "Terms and Conditions",
+    component: () => import("../views/welcome_screen/TermsAndConditions.vue"),
+  },
+  {
     path: "/app",
     component: AppView,
     meta: { requiresAuth: true },

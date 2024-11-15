@@ -59,6 +59,11 @@
         <Login v-else-if="loginModal" @close="toggleAuthModal('login')"></Login>
       </Teleport>
     </Transition>
+    <footer
+      class="absolute bottom-0 left-0 w-full select-none text-xs text-neutral-900/60 font-semibold text-center"
+    >
+      <p>© 2024 RushPair. All Rights Reserved.</p>
+    </footer>
   </main>
 </template>
 
