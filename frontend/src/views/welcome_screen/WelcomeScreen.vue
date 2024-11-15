@@ -60,7 +60,7 @@
       </Teleport>
     </Transition>
     <footer
-      class="absolute bottom-0 left-0 w-full select-none text-xs text-neutral-900/60 font-semibold text-center"
+      class="absolute bottom-0 left-0 w-full select-none text-xs text-neutral-900/50 font-semibold text-center md:text-right px-2"
     >
       <p>© 2024 RushPair. All Rights Reserved.</p>
     </footer>
