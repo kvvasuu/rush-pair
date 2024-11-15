@@ -51,7 +51,7 @@ const userStore = useUserStore();
 const chatStore = useChatStore();
 
 const pairName = computed(() => {
-  if (route.params.id) return chatStore.pairInfo.name || "Anonymous";
+  if (route.params.id) return chatStore.pairInfo.name || "";
 });
 
 const pairImage = computed(() => {

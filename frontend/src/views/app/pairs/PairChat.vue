@@ -36,7 +36,7 @@
         </div>
 
         <div
-          class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden"
+          class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden z-30"
         >
           <PairAvatar
             :pair="chatStore.pairInfo"
@@ -90,7 +90,7 @@
             <button
               class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
               @click="toggleChatSettings"
-              title="Pair settings"
+              title="Open pair settings"
             >
               <i
                 class="fa-solid fa-ellipsis text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -121,7 +121,12 @@
                 <button
                   class="ml-auto mr-0 text-slate-400 dark:text-neutral-500 group"
                   :title="
-                    !isEditingNickname ? `Edit nickname` : `Save nickname`
+                    !isEditingNickname
+                      ? `Edit nickname`
+                      : chatStore.pairInfo.name.length <= 0 ||
+                        chatStore.pairInfo.name === tempNickname
+                      ? `Discard nickname`
+                      : `Save nickname`
                   "
                   @click.stop="
                     () => (isEditingNickname ? saveNickname() : editNickname())
@@ -148,6 +153,7 @@
             <button
               class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
               @click="toggleChatSettings"
+              title="Close pair settings"
             >
               <i
                 class="fa-solid fa-xmark text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -237,7 +243,7 @@
           <button
             class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
             @click="toggleChatSettings"
-            title="Pair settings"
+            title="Open pair settings"
           >
             <i
               class="fa-solid fa-ellipsis text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -293,6 +299,7 @@
           <button
             class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
             @click="toggleChatSettings"
+            title="Close pair settings"
           >
             <i
               class="fa-solid fa-xmark text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
