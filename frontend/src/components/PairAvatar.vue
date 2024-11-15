@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-full pair select-none">
+  <div class="select-none">
     <img
       :src="avatarSrc"
       alt="pair-avatar"
