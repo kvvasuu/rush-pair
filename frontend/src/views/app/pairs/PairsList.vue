@@ -1,16 +1,19 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)] pt-4 overflow-y-auto"
+    class="absolute top-0 pt-20 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-4rem)] md:h-full overflow-y-auto"
   >
     <div
-      class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none"
+      class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none max-w-[666px]"
       v-if="userStore.pairs?.length <= 0"
     >
       <p class="text-xl">You have no pairs yet.</p>
       <i class="fa-solid fa-handshake-simple text-5xl"></i>
       <p class="text-xl">Start pairing!</p>
     </div>
-    <div class="relative w-[calc(100%-3rem)] flex justify-center" v-else>
+    <div
+      class="relative w-[calc(100%-3rem)] flex justify-center max-w-[666px]"
+      v-else
+    >
       <input
         id="search-input"
         type="text"
@@ -25,7 +28,7 @@
         ><i class="fa-solid fa-magnifying-glass"></i
       ></label>
     </div>
-    <div class="w-full h-full mt-2">
+    <div class="w-full h-full mt-2 max-w-[666px]">
       <ul class="w-full">
         <PairListElement
           v-for="pair in userStore.pairs"

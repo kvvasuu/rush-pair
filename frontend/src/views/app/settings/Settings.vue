@@ -1,8 +1,8 @@
 <template>
   <div
-    class="absolute top-16 flex flex-col items-center justify-start max-w-[666px] w-full h-[calc(100%-8rem)] pt-12 pb-8 overflow-auto"
+    class="absolute top-0 pt-20 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-4rem)] md:h-full overflow-y-auto"
   >
-    <div class="flex flex-col items-center justify-center">
+    <div class="flex flex-col items-center justify-center max-w-[666px]">
       <div class="h-24"><UserAvatar></UserAvatar></div>
 
       <p
@@ -14,7 +14,7 @@
         {{ userStore.email }}
       </p>
     </div>
-    <ol class="mt-8 mb-6 rounded-lg w-4/5">
+    <ol class="mt-8 mb-6 rounded-lg w-4/5 max-w-[666px]">
       <li>
         <RouterLink
           to="/app/settings/profile"
@@ -90,7 +90,7 @@
       </li>
     </ol>
     <button
-      class="mt-auto rounded-lg overflow-hidden min-h-[52px] w-4/5 flex items-center justify-center text-center p-3 text-red-500 font-semibold cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
+      class="mt-auto rounded-lg overflow-hidden min-h-[52px] w-4/5 max-w-[666px] flex items-center justify-center text-center p-3 text-red-500 font-semibold cursor-pointer bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
       @click="logout"
     >
       <div class="relative">

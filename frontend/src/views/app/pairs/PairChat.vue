@@ -341,6 +341,7 @@ const windowWidth = ref(0);
 const checkWindowWidth = () => {
   windowWidth.value = window.innerWidth;
 };
+
 const isProfileExpandedMobile = computed(() => {
   return props.isProfileExpanded && windowWidth.value <= 640;
 });
@@ -349,6 +350,7 @@ onBeforeMount(async () => {
   const success = await chatStore.openChat(route.params.id as string);
   success ? (cannotGetPair.value = false) : (cannotGetPair.value = true);
   isLoading.value = false;
+  checkWindowWidth();
   window.addEventListener("resize", checkWindowWidth);
 });
 
