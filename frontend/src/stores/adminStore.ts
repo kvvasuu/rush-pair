@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+/* import { defineStore } from "pinia";
 import { Player } from "../types";
 
 interface State {
@@ -36,3 +36,4 @@ export const useAdminStore = defineStore("adminStore", {
     },
   },
 });
+ */
