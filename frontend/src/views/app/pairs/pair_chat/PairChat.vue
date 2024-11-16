@@ -20,9 +20,6 @@
     class="absolute top-16 flex flex-col lg:flex-row items-center justify-start w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)]"
     v-else
   >
-    <PairChatSettingTop
-      :is-profile-expanded="props.isProfileExpanded"
-    ></PairChatSettingTop>
     <Transition name="slide-from-bottom">
       <div
         class="flex-1 lg:h-full w-full flex flex-col lg:flex-col justify-end"
@@ -54,6 +51,10 @@
         </div>
       </div>
     </Transition>
+
+    <PairChatSettingTop
+      :is-profile-expanded="props.isProfileExpanded"
+    ></PairChatSettingTop>
     <PairChatSettingsSide></PairChatSettingsSide>
   </div>
 </template>
