@@ -84,9 +84,11 @@ chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "No nickname provided." });
     }
 
+    const nickname = req.body.nickname.trim();
+
     const result = await Pair.findOneAndUpdate(
       { email: req.user.user.email, "pairedWith.id": req.params.id },
-      { $set: { "pairedWith.$.name": req.body.nickname } },
+      { $set: { "pairedWith.$.name": nickname } },
       { new: true, runValidators: true }
     );
 
