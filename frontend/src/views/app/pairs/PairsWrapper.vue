@@ -6,7 +6,7 @@
       class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800 shadow z-30"
     >
       <p
-        class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none min-w-0 max-w-48 min-[400px]:max-w-72 sm:max-w-96 truncate"
+        class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none min-w-0 max-w-52 min-[400px]:max-w-72 sm:max-w-96 truncate"
       >
         {{ pairName || "Pairs" }}
       </p>

@@ -1,0 +1,209 @@
+<template>
+  <Transition name="expand">
+    <div
+      class="w-full h-full sm:h-80 absolute top-0 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
+      v-if="props.isProfileExpanded"
+    >
+      <div
+        class="hidden sm:flex h-full aspect-square justify-center bg-slate-300 dark:bg-neutral-900"
+      >
+        <PairAvatar
+          :pair="chatStore.pairInfo"
+          :square="true"
+          class="h-full aspect-square z-10"
+        ></PairAvatar>
+      </div>
+
+      <div
+        class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden z-30"
+      >
+        <PairAvatar
+          :pair="chatStore.pairInfo"
+          :square="true"
+          class="w-full aspect-square absolute z-20 blur-md"
+        ></PairAvatar>
+        <PairAvatar
+          :pair="chatStore.pairInfo"
+          :square="true"
+          class="h-full aspect-square absolute z-30"
+        ></PairAvatar>
+      </div>
+
+      <Transition name="slide" mode="out-in">
+        <div
+          class="flex flex-col w-full h-full py-6 px-8 relative overflow-y-auto"
+          v-if="!isSettingsVisible"
+        >
+          <div
+            class="flex justify-start text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
+          >
+            <span class="truncate max-w-72" :title="chatStore.pairInfo.name"
+              >{{ chatStore.pairInfo.name || "Anonymous" }}
+            </span>
+
+            <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
+              chatStore.pairInfo.age
+            }}</span>
+          </div>
+          <p class="text-slate-600 dark:text-neutral-500 text-sm">
+            <i class="fa-solid fa-location-dot mr-1 text-xs w-3"></i>
+            <span>{{ chatStore.pairInfo.city || "Unknown location" }}</span>
+          </p>
+          <p class="text-slate-600 dark:text-neutral-500 text-sm">
+            <i
+              class="fa-solid fa-mars mr-1 text-xs w-3"
+              v-if="chatStore.pairInfo.gender === 'male'"
+            ></i>
+            <i
+              class="fa-solid fa-venus mr-1 text-xs w-3"
+              v-else-if="chatStore.pairInfo.gender === 'female'"
+            >
+            </i>
+            <span class="capitalize">{{ chatStore.pairInfo.gender }}</span>
+          </p>
+          <p
+            class="text-slate-600 dark:text-neutral-500 text-base text-justify mt-3 mb-3 leading-5"
+            v-if="chatStore.pairInfo.description"
+            v-html="formatDescription(chatStore.pairInfo.description)"
+          ></p>
+          <button
+            class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
+            @click="toggleChatSettings"
+            title="Open pair settings"
+          >
+            <i
+              class="fa-solid fa-ellipsis text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+            ></i>
+          </button>
+        </div>
+
+        <div class="w-full h-full py-6 px-8 flex flex-col" v-else>
+          <div class="flex items-center flex-col justify-start">
+            <span
+              class="w-full text-start text-sm text-slate-600 dark:text-neutral-500 select-none"
+              >Nickname:</span
+            >
+            <div class="flex items-center justify-start w-full">
+              <p
+                class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
+                v-if="!isEditingNickname"
+              >
+                {{ chatStore.pairInfo.name || "Anonymous" }}
+              </p>
+              <input
+                type="text"
+                maxlength="60"
+                v-model="chatStore.pairInfo.name"
+                class="text-2xl w-4/5 font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
+                v-else
+              />
+              <button
+                class="ml-auto mr-0 text-slate-400 dark:text-neutral-500 group"
+                :title="
+                  !isEditingNickname
+                    ? `Edit nickname`
+                    : chatStore.pairInfo.name.length <= 0 ||
+                      chatStore.pairInfo.name === tempNickname
+                    ? `Discard nickname`
+                    : `Save nickname`
+                "
+                @click.stop="
+                  () => (isEditingNickname ? saveNickname() : editNickname())
+                "
+              >
+                <i
+                  class="fa-solid fa-pencil flex items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+                  v-if="!isEditingNickname"
+                ></i>
+                <i
+                  class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full bg-neutral-400/10"
+                  v-else-if="
+                    chatStore.pairInfo.name.length <= 0 ||
+                    chatStore.pairInfo.name === tempNickname
+                  "
+                ></i>
+                <i
+                  class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+                  v-else
+                ></i>
+              </button>
+            </div>
+          </div>
+          <button
+            class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
+            @click="toggleChatSettings"
+            title="Close pair settings"
+          >
+            <i
+              class="fa-solid fa-xmark text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
+            ></i>
+          </button>
+        </div>
+      </Transition>
+    </div>
+  </Transition>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import PairAvatar from "../../../../components/PairAvatar.vue";
+import { useChatStore } from "../../../../stores/chatStore";
+
+const props = defineProps(["isProfileExpanded"]);
+
+const chatStore = useChatStore();
+
+let tempNickname = "";
+
+const isSettingsVisible = ref(false);
+
+const isEditingNickname = ref(false);
+
+const toggleChatSettings = () => {
+  if (isEditingNickname.value) {
+    chatStore.pairInfo.name = tempNickname;
+    isEditingNickname.value = false;
+  }
+  isSettingsVisible.value = !isSettingsVisible.value;
+};
+
+const editNickname = () => {
+  tempNickname = chatStore.pairInfo.name;
+  isEditingNickname.value = true;
+};
+
+const saveNickname = async () => {
+  if (
+    chatStore.pairInfo.name.length <= 0 ||
+    chatStore.pairInfo.name === tempNickname
+  ) {
+    isEditingNickname.value = false;
+    chatStore.pairInfo.name = tempNickname;
+    return;
+  }
+  const isChanged = await chatStore.changePairNickname();
+  if (isChanged) isEditingNickname.value = false;
+};
+
+const formatDescription = (text: string) => {
+  return text.replace(/\n/g, "<br>");
+};
+</script>
+
+<style scoped>
+input {
+  border-radius: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s;
+}
+
+.slide-enter-from {
+  transform: translateY(100%);
+}
+.slide-leave-to {
+  transform: translateY(-100%);
+}
+</style>

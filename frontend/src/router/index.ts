@@ -48,7 +48,8 @@ const routes = [
           {
             path: ":id",
             name: "PairChat",
-            component: () => import("../views/app/pairs/PairChat.vue"),
+            component: () =>
+              import("../views/app/pairs/pair_chat/PairChat.vue"),
           },
         ],
       },
