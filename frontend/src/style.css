@@ -62,6 +62,7 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -webkit-border-radius: 0px;
 }
 
 /* TRANSITIONS */
