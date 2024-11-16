@@ -55,7 +55,7 @@ export const useChatStore = defineStore("chatStore", {
             (pair) => pair.id === this.pairInfo.id
           );
           if (pair) {
-            pair.name = this.pairInfo.name;
+            pair.name = res.data.nickname;
           }
           return true;
         } else {

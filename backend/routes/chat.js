@@ -95,7 +95,7 @@ chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
     if (!result) {
       return res.status(404).json({ msg: "Cannot change name." });
     }
-    res.status(200).json({ msg: "Nickname changed" });
+    res.status(200).json({ msg: "Nickname changed", nickname: nickname });
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
   }
