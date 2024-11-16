@@ -31,12 +31,14 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
               isVisible: false,
-              name: el.name,
+              name: el.name || "Anonymous",
             };
       })
     );
 
-    const data = pairedWith.filter((el) => el !== null);
+    const data = pairedWith
+      .filter((el) => el !== null)
+      .sort((a, b) => b.pairedAt - a.pairedAt);
     res.json({ pairedWith: data });
   } catch (error) {
     res.status(500).json({ msg: "Server error" });
@@ -69,7 +71,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
       : {
           id: pairChatUser.id,
           isVisible: false,
-          name: pair.name,
+          name: pair.name || "Anonymous",
         };
 
     res.json({ pairChatUser: data });
