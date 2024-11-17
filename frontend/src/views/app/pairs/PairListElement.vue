@@ -1,6 +1,6 @@
 <template>
   <li
-    class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100 dark:hover:bg-neutral-800/75 transition-all relative"
+    class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
     @click="goToPair"
     :title="`${pair.name}, paired at: ${pairedAt}`"
   >
@@ -9,7 +9,7 @@
       <p
         class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"
       >
-        {{ pair.name }}
+        <span v-html="highlightMatch(pair.name)"></span>
       </p>
 
       <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
@@ -17,7 +17,7 @@
       </p>
     </div>
     <i
-      class="ml-auto mr-0 fa-solid fa-masks-theater text-3xl text-slate-400 dark:text-neutral-500"
+      class="ml-auto mr-0 fa-solid fa-masks-theater text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
       title="Anonymous"
       v-if="!pair.isVisible"
     ></i>
@@ -29,7 +29,7 @@ import { useRouter } from "vue-router";
 import { computed } from "vue";
 import PairAvatar from "../../../components/PairAvatar.vue";
 
-const props = defineProps(["pair"]);
+const props = defineProps(["pair", "searchValue"]);
 
 const router = useRouter();
 
@@ -44,4 +44,16 @@ const pairedAt = computed(() => {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 });
+
+const highlightMatch = (text: string) => {
+  if (!props.searchValue || props.searchValue.length < 2) return text;
+  const queryRegex = new RegExp(
+    `(${props.searchValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+    "gi"
+  );
+  return text.replace(
+    queryRegex,
+    `<strong class="font-bold text-rose-500 dark:text-rose-400 bg-neutral-500/20">$1</strong>`
+  );
+};
 </script>
