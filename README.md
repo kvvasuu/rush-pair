@@ -16,6 +16,7 @@ Login: test@test.com
 Password: 222222
 
 #### Keep in mind that the application is still in the development phase and currently has only a few features.
+#### Additionally, because it is deployed on the free Render plan, the server goes to sleep and when trying to wake it up, the first request may take longer (up to a minute), give it a moment.
 
 ## :eight_pointed_black_star: Features:
 
