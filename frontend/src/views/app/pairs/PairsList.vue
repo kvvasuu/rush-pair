@@ -19,6 +19,7 @@
         type="text"
         class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-14 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-xl placeholder:text-neutral-600 rounded-lg"
         autocomplete="off"
+        @keyup="search"
         v-model="searchValue"
         placeholder="Search..."
       />
@@ -31,8 +32,10 @@
     <div class="w-full h-full mt-2 max-w-[666px]">
       <ul class="w-full">
         <PairListElement
-          v-for="pair in userStore.pairs"
+          v-for="pair in pairsList"
+          :key="pair.id"
           :pair="pair"
+          :search-value="searchValue"
         ></PairListElement>
       </ul>
     </div>
@@ -43,8 +46,23 @@
 import { useUserStore } from "../../../stores/userStore";
 import { ref } from "vue";
 import PairListElement from "./PairListElement.vue";
+import { PairInfo } from "../../../types";
 
 const userStore = useUserStore();
 
 const searchValue = ref("");
+const pairsList = ref<PairInfo[]>(userStore.pairs);
+
+const search = () => {
+  if (searchValue.value) {
+    const lowerCaseQuery = searchValue.value.toLowerCase();
+    if (searchValue.value.length >= 2) {
+      pairsList.value = userStore.pairs
+        .filter((pair) => pair.name.toLowerCase().includes(lowerCaseQuery))
+        .slice(0, 10);
+    }
+  } else {
+    pairsList.value = userStore.pairs;
+  }
+};
 </script>
