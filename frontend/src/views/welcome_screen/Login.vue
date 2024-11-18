@@ -112,10 +112,14 @@ const login = async () => {
   if (email.value && password.value) {
     isLoading.value = true;
     await axios
-      .post(`${SERVER_URL}/auth/login`, {
-        email: email.value,
-        password: password.value,
-      })
+      .post(
+        `${SERVER_URL}/auth/login`,
+        {
+          email: email.value,
+          password: password.value,
+        },
+        { timeout: 10000 }
+      )
       .then((res) => {
         const token = res.data.token;
         store.setToken(token);
