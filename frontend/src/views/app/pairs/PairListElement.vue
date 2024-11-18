@@ -1,6 +1,6 @@
 <template>
   <li
-    class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
+    class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer rounded-md hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
     @click="goToPair"
     :title="`${pair.name}, paired at: ${pairedAt}`"
   >
