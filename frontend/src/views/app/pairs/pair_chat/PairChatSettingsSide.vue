@@ -101,7 +101,7 @@
           </div>
         </div>
         <button
-          class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-3 py-1 text-xl self-center mt-auto mb-4"
+          class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl self-center mt-auto mb-4"
           @click="toggleReportOverlay"
           title="Report"
         >
@@ -174,7 +174,7 @@ const formatDescription = (text: string) => {
   return text.replace(/\n/g, "<br>");
 };
 
-const isReportOverlayVisible = ref(true);
+const isReportOverlayVisible = ref(false);
 
 const toggleReportOverlay = () => {
   isReportOverlayVisible.value = !isReportOverlayVisible.value;
