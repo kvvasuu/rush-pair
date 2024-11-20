@@ -174,7 +174,7 @@ const formatDescription = (text: string) => {
   return text.replace(/\n/g, "<br>");
 };
 
-const isReportOverlayVisible = ref(true);
+const isReportOverlayVisible = ref(false);
 
 const toggleReportOverlay = () => {
   isReportOverlayVisible.value = !isReportOverlayVisible.value;
