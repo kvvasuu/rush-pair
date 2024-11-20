@@ -1,7 +1,7 @@
 <template>
   <BasicOverlay @close="close">
     <div
-      class="flex flex-col items-center justify-start w-full h-full px-12 pt-10 pb-6"
+      class="flex flex-col items-center justify-start w-full h-full px-12 pt-20 pb-10"
     >
       <div class="flex flex-col items-center justify-center mb-8">
         <i
@@ -10,11 +10,69 @@
         <h2 class="text-red-500 text-2xl font-semibold">Report</h2>
         <h4
           class="text-xs font-semibold text-neutral-500 dark:text-neutral-500"
-          v-if="chatStore.pairInfo.name !== 'Anonymous'"
         >
-          We won't tell {{ chatStore.pairInfo.name }}
+          We won't tell
+          <span v-if="chatStore.pairInfo.name !== 'Anonymous'">{{
+            chatStore.pairInfo.name
+          }}</span>
+          <span v-else>anyone</span>
         </h4>
       </div>
+
+      <ul
+        class="w-full sm:w-4/5 text-sm font-medium bg-neutral-50 dark:bg-neutral-800 rounded-lg"
+        v-if="step === 0"
+      >
+        <li
+          class="w-full rounded-t-lg border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0"
+        >
+          <label for="list-radio-fake" class="w-full h-full py-5 px-5 flex">
+            <input
+              id="list-radio-fake"
+              type="radio"
+              value="fake"
+              name="list-radio"
+              class="w-5 h-5 mr-3"
+            />
+            <div class="flex-col">
+              <p
+                class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
+              >
+                Fake profile
+              </p>
+              <p class="text-xs text-neutral-700 dark:text-gray-300">
+                The user is pretending to be someone else or providing false
+                information.
+              </p>
+            </div>
+          </label>
+        </li>
+        <li
+          class="w-full rounded-b-lg border-[1px] border-neutral-300 dark:border-neutral-700"
+        >
+          <label
+            for="list-radio-offensive"
+            class="w-full h-full py-5 px-5 flex"
+          >
+            <input
+              id="list-radio-offensive"
+              type="radio"
+              value=""
+              name="list-radio"
+              class="w-5 h-5 mr-3"
+            />
+            <div class="flex-col">
+              <p class="text-lg font-semibold text-gray-900 dark:text-gray-300">
+                Offensive content
+              </p>
+              <p class="text-xs text-gray-900 dark:text-gray-300">
+                Messages contain offensive language, hate speech, vulgarity, or
+                insults.
+              </p>
+            </div>
+          </label>
+        </li>
+      </ul>
 
       <div class="flex items-center w-full justify-center mb-8 mt-auto gap-4">
         <button
@@ -113,7 +171,9 @@ const chatStore = useChatStore();
 const store = useMainStore();
 
 /* const message = ref(""); */
-const reportType = ref<"fake" | "hate" | "behavior" | "other" | null>(null);
+const reportType = ref<
+  "fake" | "spam" | "offensive" | "behavior" | "other" | null
+>(null);
 
 const step = ref(0);
 const isSent = ref(false);

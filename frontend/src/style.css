@@ -55,7 +55,7 @@ body {
   justify-content: center;
 }
 
-input:not(input[type="checkbox"], input[type="range"]),
+input:not(input[type="checkbox"], input[type="range"], input[type="radio"]),
 textarea,
 select,
 button {
