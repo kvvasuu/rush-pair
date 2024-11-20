@@ -63,6 +63,7 @@ The app uses **MongoDB** and **Mongoose** for database management, ensuring secu
 - Pinia
 - Node.js + Express.js
 - MongoDB, Mongoose
+- socket.io
 - Photoshop, Illustrator
 - FontAwesome
 
