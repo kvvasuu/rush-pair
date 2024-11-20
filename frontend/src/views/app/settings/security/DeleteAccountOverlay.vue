@@ -56,7 +56,7 @@
               Keep account
             </button>
             <button
-              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-500/75 transition-all"
+              class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 transition-all"
               @click="deleteAccount"
               :class="{ 'hover:bg-red-500 cursor-default': store.isLoading }"
               :disabled="store.isLoading"

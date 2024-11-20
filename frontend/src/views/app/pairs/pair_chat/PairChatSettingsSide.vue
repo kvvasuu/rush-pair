@@ -40,7 +40,7 @@
           <span class="capitalize">{{ chatStore.pairInfo.gender }}</span>
         </p>
         <p
-          class="text-slate-600 dark:text-neutral-500 text-base text-justify mt-3 mb-3 leading-5"
+          class="text-slate-600 dark:text-neutral-500 text-base text-justify mt-3 mb-8 leading-5"
           v-if="chatStore.pairInfo.description"
           v-html="formatDescription(chatStore.pairInfo.description)"
         ></p>
@@ -101,7 +101,15 @@
           </div>
         </div>
         <button
-          class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
+          class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-3 py-1 text-xl self-center mt-auto mb-4"
+          @click="toggleReportOverlay"
+          title="Report"
+        >
+          <i class="fa-solid fa-triangle-exclamation mr-2"></i
+          ><span>Report</span>
+        </button>
+        <button
+          class="text-slate-400 dark:text-neutral-500 group self-center mb-0"
           @click="toggleChatSettings"
           title="Close pair settings"
         >
@@ -111,12 +119,21 @@
         </button>
       </div>
     </Transition>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="main">
+        <PairReportOverlay
+          v-if="isReportOverlayVisible"
+          @close="toggleReportOverlay"
+        ></PairReportOverlay>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
 
 const chatStore = useChatStore();
@@ -155,6 +172,12 @@ const saveNickname = async () => {
 
 const formatDescription = (text: string) => {
   return text.replace(/\n/g, "<br>");
+};
+
+const isReportOverlayVisible = ref(true);
+
+const toggleReportOverlay = () => {
+  isReportOverlayVisible.value = !isReportOverlayVisible.value;
 };
 </script>
 

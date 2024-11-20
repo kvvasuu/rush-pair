@@ -7,6 +7,17 @@
 
 RushPair is an exciting speed friending app that brings people together for real-life interactions. Meet new people in a fun, fast-paced environment where anonymity is key. Each round, you’ll have 3 minutes to chat with a randomly selected partner. If you both click, the match is revealed at the end of the game. Discover connections naturally, one conversation at a time.
 
+The application has been deployed on Render - https://rush-pair-front.onrender.com.
+
+Use these login credentials to fully test the application with dummy data, etc.:
+
+Login: test@test.com
+
+Password: 222222
+
+#### Keep in mind that the application is still in the development phase and currently has only a few features.
+#### Additionally, because it is deployed on the free Render plan, the server goes to sleep and when trying to wake it up, the first request may take longer (up to a minute), give it a moment.
+
 ## :eight_pointed_black_star: Features:
 
 #### Registration and Login System :closed_lock_with_key: 
@@ -52,6 +63,7 @@ The app uses **MongoDB** and **Mongoose** for database management, ensuring secu
 - Pinia
 - Node.js + Express.js
 - MongoDB, Mongoose
+- socket.io
 - Photoshop, Illustrator
 - FontAwesome
 
