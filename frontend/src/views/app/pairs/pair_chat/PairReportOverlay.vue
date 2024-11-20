@@ -18,14 +18,14 @@
 
       <div class="flex items-center w-full justify-center mb-8 mt-auto gap-4">
         <button
-          class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+          class="mt-auto mb-4 rounded-lg px-6 sm:px-10 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
           @click="step--"
           v-if="!isSent && step > 0"
         >
           Back
         </button>
         <button
-          class="px-8 py-3 w-full md:w-4/5 font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+          class="mt-auto mb-4 w-full md:w-4/5 rounded-lg sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 transition-all"
           @click="nextStep"
           v-if="!isSent"
         >
@@ -35,12 +35,12 @@
 
       <ol
         id="stepper"
-        class="flex items-center justify-between w-full md:w-4/5 text-sm text-center text-gray-400 min-h-8 select-none mb-0 mt-auto"
+        class="flex items-center justify-between w-full md:w-4/5 text-sm text-center text-gray-400 min-h-8 select-none mb-0"
       >
-        <li class="flex items-center text-blue-500" role="button">
+        <li class="flex items-center text-red-500" role="button">
           <i class="fa-solid fa-circle-check text-2xl" v-if="step >= 1"></i>
           <span
-            class="rounded-full border-blue-500 border-2 font-bold w-6 h-6 flex items-center justify-center"
+            class="rounded-full border-red-500 border-2 font-bold w-6 h-6 flex items-center justify-center"
             v-else
             >1</span
           >
@@ -50,13 +50,13 @@
             class="h-[2px] w-4/5"
             :class="{
               'bg-gray-400': step < 1,
-              'bg-blue-500': step >= 1,
+              'border-red-500': step >= 1,
             }"
           />
         </li>
         <li
           class="flex items-center"
-          :class="{ 'text-blue-500': step >= 1 }"
+          :class="{ 'text-red-500': step >= 1 }"
           role="button"
         >
           <i class="fa-solid fa-circle-check text-2xl" v-if="step >= 2"></i>
@@ -64,7 +64,7 @@
             class="rounded-full border-2 font-bold w-6 h-6 flex items-center justify-center"
             :class="{
               'border-gray-400': step < 1,
-              'border-blue-500': step >= 1,
+              'border-red-500': step >= 1,
             }"
             v-else
             >2</span
@@ -75,13 +75,13 @@
             class="h-[2px] w-4/5"
             :class="{
               'bg-gray-400': step < 2,
-              'bg-blue-500': step >= 2,
+              'border-red-500': step >= 2,
             }"
           />
         </li>
         <li
           class="flex items-center"
-          :class="{ 'text-blue-500': step >= 2 }"
+          :class="{ 'text-red-500': step >= 2 }"
           role="button"
         >
           <i class="fa-solid fa-circle-check text-2xl" v-if="step >= 3"></i>
@@ -89,7 +89,7 @@
             class="rounded-full border-2 font-bold w-6 h-6 flex items-center justify-center"
             :class="{
               'border-gray-400': step < 2,
-              'border-blue-500': step >= 2,
+              'border-red-500': step >= 2,
             }"
             v-else
             >3</span
