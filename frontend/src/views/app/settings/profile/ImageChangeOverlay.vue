@@ -1,9 +1,14 @@
 <template>
   <BasicOverlay @close="close">
-    <div class="flex flex-col items-center justify-start w-full h-full">
+    <div class="flex flex-col items-center justify-start w-full h-full py-12">
+      <div
+        class="flex flex-col items-center justify-center text-2xl font-semibold gap-3 text-neutral-600 dark:text-neutral-300"
+      >
+        <h2>Profile image change</h2>
+      </div>
       <div
         id="image-preview"
-        class="w-4/5 flex flex-col items-center justify-center py-20"
+        class="w-4/5 flex flex-col items-center justify-center pt-10"
       >
         <div class="w-4/5 h-full relative" v-if="isUploaded">
           <div
