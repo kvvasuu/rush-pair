@@ -105,14 +105,14 @@ import { ref } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
-import axios, { isAxiosError } from "axios";
+/* import axios, { isAxiosError } from "axios"; */
 
 const emit = defineEmits(["close"]);
 
 const chatStore = useChatStore();
 const store = useMainStore();
 
-const message = ref("");
+/* const message = ref(""); */
 const reportType = ref<"fake" | "hate" | "behavior" | "other" | null>(null);
 
 const step = ref(0);
