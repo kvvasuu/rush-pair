@@ -24,20 +24,27 @@
         v-if="step === 0"
       >
         <li
-          class="w-full rounded-t-lg border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 has-[:checked]:border-slate-300 has-[:checked]:border-b-[1px]"
+          class="w-full rounded-t-lg border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100"
         >
-          <label for="list-radio-fake" class="w-full h-full py-5 px-5 flex">
+          <label
+            for="list-radio-fake"
+            class="w-full h-full py-5 px-5 flex group"
+          >
             <input
               id="list-radio-fake"
               type="radio"
               value="fake"
               name="list-radio"
-              class="w-5 h-5 mr-3"
+              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
+                :class="{
+                  'text-blue-600 group-hover:text-blue-700':
+                    reportType === 'fake',
+                }"
               >
                 Fake profile
               </p>
@@ -49,7 +56,7 @@
           </label>
         </li>
         <li
-          class="w-full border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 has-[:checked]:border-slate-300 has-[:checked]:border-b-[1px]"
+          class="w-full border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100"
         >
           <label for="list-radio-spam" class="w-full h-full py-5 px-5 flex">
             <input
@@ -57,12 +64,16 @@
               type="radio"
               value="spam"
               name="list-radio"
-              class="w-5 h-5 mr-3"
+              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
+                :class="{
+                  'text-blue-600 group-hover:text-blue-700':
+                    reportType === 'spam',
+                }"
               >
                 Spam
               </p>
@@ -73,7 +84,7 @@
           </label>
         </li>
         <li
-          class="w-full border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 has-[:checked]:border-slate-300 has-[:checked]:border-b-[1px]"
+          class="w-full border-[1px] border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100"
         >
           <label
             for="list-radio-offensive"
@@ -84,12 +95,16 @@
               type="radio"
               value="offensive"
               name="list-radio"
-              class="w-5 h-5 mr-3"
+              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
+                :class="{
+                  'text-blue-600 group-hover:text-blue-700':
+                    reportType === 'offensive',
+                }"
               >
                 Offensive content
               </p>
@@ -101,7 +116,7 @@
           </label>
         </li>
         <li
-          class="w-full rounded-b-lg border-[1px] border-neutral-300 dark:border-neutral-700 has-[:checked]:bg-slate-100 has-[:checked]:border-slate-300 has-[:checked]:border-b-[1px]"
+          class="w-full rounded-b-lg border-[1px] border-neutral-300 dark:border-neutral-700 has-[:checked]:bg-slate-100"
         >
           <label for="list-radio-other" class="w-full h-full py-5 px-5 flex">
             <input
@@ -109,12 +124,16 @@
               type="radio"
               value="other"
               name="list-radio"
-              class="w-5 h-5 mr-3"
+              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
+                :class="{
+                  'text-blue-600 group-hover:text-blue-700':
+                    reportType === 'other',
+                }"
               >
                 Other
               </p>
@@ -135,12 +154,13 @@
           Back
         </button>
         <button
-          class="mt-auto mb-4 w-full md:w-4/5 rounded-lg sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 transition-all"
-          :class="{
-            'bg-red-500/50 hover:bg-red-500/50 cursor-not-allowed':
-              reportType === null ||
-              (step === 1 && reportType === 'other' && !message),
-          }"
+          class="mt-auto mb-4 w-full md:w-4/5 rounded-lg sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold text-neutral-50 dark:text-inherit transition-all"
+          :class="[
+            reportType === null ||
+            (step === 1 && reportType === 'other' && !message)
+              ? 'bg-red-500/50 cursor-not-allowed'
+              : 'bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 cursor-pointer',
+          ]"
           :disabled="reportType === null"
           @click="nextStep"
           v-if="!isSent"
