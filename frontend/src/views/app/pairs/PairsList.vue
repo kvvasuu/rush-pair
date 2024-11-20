@@ -54,7 +54,7 @@ const searchValue = ref("");
 const pairsList = ref<PairInfo[]>(userStore.pairs);
 
 const search = () => {
-  if (searchValue.value) {
+  if (searchValue.value.length > 1) {
     const lowerCaseQuery = searchValue.value.toLowerCase();
     if (searchValue.value.length >= 2) {
       pairsList.value = userStore.pairs

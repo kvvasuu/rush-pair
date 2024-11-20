@@ -111,12 +111,21 @@
         </button>
       </div>
     </Transition>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="main">
+        <PairReportOverlay
+          v-if="isReportOverlayVisible"
+          @close="toggleReportOverlay"
+        ></PairReportOverlay>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
 
 const chatStore = useChatStore();
@@ -155,6 +164,12 @@ const saveNickname = async () => {
 
 const formatDescription = (text: string) => {
   return text.replace(/\n/g, "<br>");
+};
+
+const isReportOverlayVisible = ref(true);
+
+const toggleReportOverlay = () => {
+  isReportOverlayVisible.value = !isReportOverlayVisible.value;
 };
 </script>
 
