@@ -236,28 +236,36 @@
       </div>
 
       <div class="w-full sm:w-4/5 flex flex-col h-full" v-else-if="step === 3">
-        <h2
-          class="font-bold text-center text-neutral-800 dark:text-neutral-400 mb-6"
-        >
-          Thank you for helping us maintain a safe and respectful community.
-        </h2>
+        <div v-if="!showError">
+          <h2
+            class="font-bold text-center text-neutral-800 dark:text-neutral-400 mb-6"
+          >
+            Thank you for helping us maintain a safe and respectful community.
+          </h2>
 
-        <p
-          class="font-semibold text-center text-neutral-700 dark:text-neutral-500"
-        >
-          Reference ID:
-        </p>
-        <p class="font-bold text-2xl text-center text-red-500 mb-6">
-          {{ reportReferenceID }}
-        </p>
+          <p
+            class="font-semibold text-center text-neutral-700 dark:text-neutral-500"
+          >
+            Reference ID:
+          </p>
+          <p class="font-bold text-2xl text-center text-red-500 mb-6">
+            {{ reportReferenceID }}
+          </p>
 
-        <h3
-          class="font-semibold text-center text-neutral-800 dark:text-neutral-400"
-        >
-          Your report will be reviewed by our moderation team.<br />If
-          necessary, we may take appropriate actions, including account
-          restrictions or bans.
-        </h3>
+          <h3
+            class="font-semibold text-center text-neutral-800 dark:text-neutral-400"
+          >
+            Your report will be reviewed by our moderation team.<br />If
+            necessary, we may take appropriate actions, including account
+            restrictions or bans.
+          </h3>
+        </div>
+
+        <div v-else>
+          <h2 class="font-bold text-center text-red-500">
+            Something went wrong. Try again later.
+          </h2>
+        </div>
 
         <button
           class="mt-auto mb-2 sm:mb-8 w-full rounded-lg px-6 sm:px-10 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
@@ -333,7 +341,7 @@ import { useChatStore } from "../../../../stores/chatStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
-/* import axios, { isAxiosError } from "axios"; */
+import axios from "axios";
 
 const emit = defineEmits(["close"]);
 
@@ -349,6 +357,8 @@ const reportTypeMap = {
   offensive: "Offensive content",
   other: "Other",
 };
+
+const showError = ref(false);
 
 const reportReferenceID = ref("231321");
 
@@ -366,22 +376,23 @@ const nextStep = () => {
 };
 
 const sendReport = async () => {
-  console.log("report sent");
-
   if (isConfirmed.value) {
     store.isLoading = true;
-    step.value = 3;
-    setTimeout(() => {
-      store.isLoading = false;
-    }, 1000);
-    /* try {
-      const res = await axios.post(`/auth/change-password`);
-      console.log(res);
+    try {
+      const res = await axios.post(`/chat/report-user`, {
+        userId: chatStore.pairInfo.id,
+        reportType: reportType.value,
+        confirmed: isConfirmed.value,
+        message: message.value,
+      });
+      reportReferenceID.value = res.data.reportReferenceId;
     } catch (error) {
+      showError.value = true;
       console.log(error);
     } finally {
       store.isLoading = false;
-    } */
+      step.value = 3;
+    }
   }
 };
 

@@ -2,6 +2,7 @@ import express from "express";
 import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
+import Report from "../models/Report.js";
 import calculateYearsSince from "../utils.js";
 
 const chat = express.Router();
@@ -99,6 +100,35 @@ chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
     }
     res.status(200).json({ msg: "Nickname changed", nickname: nickname });
   } catch (error) {
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
+chat.post("/report-user", authenticateToken, async (req, res) => {
+  try {
+    if (!req.body.reportType || !req.body.confirmed || !req.body.userId) {
+      return res.status(404).json({ msg: "Invalid information." });
+    }
+
+    const message = req.body.message.trim();
+    const reportedBy = req.user.user.email;
+
+    const { userId, reportType } = req.body;
+
+    const report = new Report({
+      userId: userId,
+      reportedBy: reportedBy,
+      type: reportType,
+      message: message,
+    });
+
+    return await report.save().then((report) => {
+      return res
+        .status(201)
+        .json({ msg: "Report sent.", reportReferenceId: report.referenceId });
+    });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ msg: "Server error" });
   }
 });
