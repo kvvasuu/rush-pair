@@ -35,16 +35,12 @@
               type="radio"
               value="fake"
               name="list-radio"
-              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
+              class="w-5 h-5 mr-3"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
-                :class="{
-                  'text-blue-600 group-hover:text-blue-700':
-                    reportType === 'fake',
-                }"
               >
                 Fake profile
               </p>
@@ -64,16 +60,12 @@
               type="radio"
               value="spam"
               name="list-radio"
-              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
+              class="w-5 h-5 mr-3"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
-                :class="{
-                  'text-blue-600 group-hover:text-blue-700':
-                    reportType === 'spam',
-                }"
               >
                 Spam
               </p>
@@ -95,16 +87,12 @@
               type="radio"
               value="offensive"
               name="list-radio"
-              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
+              class="w-5 h-5 mr-3"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
-                :class="{
-                  'text-blue-600 group-hover:text-blue-700':
-                    reportType === 'offensive',
-                }"
               >
                 Offensive content
               </p>
@@ -124,16 +112,12 @@
               type="radio"
               value="other"
               name="list-radio"
-              class="w-5 h-5 mr-3 accent-blue-600 hover:accent-blue-700"
+              class="w-5 h-5 mr-3"
               v-model="reportType"
             />
             <div class="flex-col">
               <p
                 class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-gray-300"
-                :class="{
-                  'text-blue-600 group-hover:text-blue-700':
-                    reportType === 'other',
-                }"
               >
                 Other
               </p>
