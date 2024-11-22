@@ -16,6 +16,7 @@
           <span v-else>anyone</span>
         </h4>
       </div>
+
       <div
         class="flex items-center justify-center h-full w-full"
         v-if="store.isLoading"
@@ -147,7 +148,7 @@
           </h3>
           <textarea
             id="other-text"
-            class="w-full h-full px-5 py-4 text-neutral-700 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-800 rounded-lg outline-none resize-none"
+            class="w-full h-4/5 px-5 py-4 text-neutral-700 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-800 rounded-lg outline-none resize-none"
             autocomplete="off"
             spellcheck="false"
             v-model="message"
@@ -200,7 +201,7 @@
         <div
           class="flex items-center flex-col w-full justify-center mb-2 sm:mb-8 mt-auto gap-4"
         >
-          <div class="text-xs font-semibold text-center text-neutral-500">
+          <div class="text-xs font-semibold text-center text-neutral-500 mt-3">
             Your report is anonymous, and the user you reported will not be
             notified about your identity.
           </div>
