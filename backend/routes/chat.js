@@ -3,7 +3,7 @@ import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import Report from "../models/Report.js";
-import calculateYearsSince from "../utils.js";
+import { calculateYearsSince, sendEmail } from "../utils.js";
 
 const chat = express.Router();
 
@@ -123,6 +123,13 @@ chat.post("/report-user", authenticateToken, async (req, res) => {
     });
 
     return await report.save().then((report) => {
+      sendEmail({
+        from: "support@rushpair.com",
+        to: "lukaszkwas96@gmail.com", // reportedBy
+        subject: `Report ID: ${report.referenceId}`,
+        html: `<h1> Reported </h1>`,
+      });
+
       return res
         .status(201)
         .json({ msg: "Report sent.", reportReferenceId: report.referenceId });
