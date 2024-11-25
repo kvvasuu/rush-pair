@@ -7,7 +7,7 @@ import path from "path";
 import { __dirname } from "../app.js";
 import fs from "fs";
 import sharp from "sharp";
-import calculateYearsSince from "../utils.js";
+import { calculateYearsSince } from "../utils.js";
 
 const user = express.Router();
 

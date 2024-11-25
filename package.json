@@ -12,6 +12,7 @@
     "server": "npm run dev --prefix backend"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "nodemailer": "^6.9.16"
   }
 }
