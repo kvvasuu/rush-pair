@@ -30,13 +30,24 @@ const reportSchema = new mongoose.Schema({
 reportSchema.pre("validate", async function (next) {
   if (!this.isNew) return next();
 
-  const latestReport = await Report.findOne().sort({ sequenceNumber: -1 });
-  const nextSequence = latestReport ? latestReport.sequenceNumber + 1 : 1;
+  const today = new Date().toISOString().slice(0, 10);
+  const latestReport = await Report.findOne({
+    createdAt: { $gte: new Date(today) },
+  }).sort({ sequenceNumber: -1 });
 
-  this.sequenceNumber = nextSequence;
+  if (
+    latestReport &&
+    latestReport.createdAt.toISOString().slice(0, 10) === today
+  ) {
+    this.sequenceNumber = latestReport.sequenceNumber + 1;
+  } else {
+    this.sequenceNumber = 1;
+  }
 
-  const date = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  this.referenceId = `${date}-${String(nextSequence).padStart(3, "0")}`;
+  this.referenceId = `${today.replace(/-/g, "")}-${String(
+    this.sequenceNumber
+  ).padStart(3, "0")}`;
+
   next();
 });
 
