@@ -36,10 +36,7 @@ const sendEmail = async ({ from, to, subject, html }) => {
     html: html,
   };
 
-  await transporter
-    .sendMail(mailOptions)
-    .then((info) => console.log(info))
-    .catch((error) => console.log(error));
+  await transporter.sendMail(mailOptions).catch((error) => console.log(error));
 };
 
 export { calculateYearsSince, sendEmail };

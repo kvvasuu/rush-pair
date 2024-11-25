@@ -1,9 +1,12 @@
 import express from "express";
+import * as fs from "node:fs/promises";
+import path from "path";
 import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import Report from "../models/Report.js";
 import { calculateYearsSince, sendEmail } from "../utils.js";
+import { __dirname } from "../app.js";
 
 const chat = express.Router();
 
@@ -122,12 +125,22 @@ chat.post("/report-user", authenticateToken, async (req, res) => {
       message: message,
     });
 
+    const htmlTemplate = await fs.readFile(
+      path.join(__dirname, "email_templates/report.html"),
+      "utf-8"
+    );
+
     return await report.save().then((report) => {
+      const html = htmlTemplate.replace(
+        "{{reportIdToReplace}}",
+        report.referenceId
+      );
+
       sendEmail({
         from: "support@rushpair.com",
-        to: "lukaszkwas96@gmail.com", // reportedBy
+        to: "robak1111@gmail.com",
         subject: `Report ID: ${report.referenceId}`,
-        html: `<h1> Reported </h1>`,
+        html: html,
       });
 
       return res
