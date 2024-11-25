@@ -137,7 +137,7 @@ chat.post("/report-user", authenticateToken, async (req, res) => {
       );
 
       sendEmail({
-        from: "support@rushpair.com",
+        from: "RushPair Support Team <support@rushpair.com>",
         to: reportedBy,
         subject: `Report ID: ${report.referenceId}`,
         html: html,
