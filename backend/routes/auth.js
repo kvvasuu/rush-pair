@@ -199,6 +199,48 @@ auth.get("/confirm-email", async (req, res) => {
   }
 });
 
+auth.post("/request-reset-password", async (req, res) => {
+  const email = req.body.email;
+
+  if (!email) {
+    return res.status(400).send("Email is required");
+  }
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const htmlTemplate = await fs.readFile(
+      path.join(__dirname, "email_templates/request_password_reset.html"),
+      "utf-8"
+    );
+
+    const resetToken = jwt.sign(user.email, JWT_SECRET, { expiresIn: "3h" });
+
+    const html = htmlTemplate.replaceAll(
+      "{{requestPasswordReset}}",
+      `${process.env.BASE_URL}/auth/confirm-email?token=${resetToken}`
+    );
+
+    await sendEmail({
+      from: "support@rushpair.com",
+      to: email,
+      subject: `Reset Your Password`,
+      html: html,
+    });
+
+    res
+      .status(201)
+      .json({ msg: `Password reset request has been set to ${email}.` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
 auth.get("/verify-token", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
