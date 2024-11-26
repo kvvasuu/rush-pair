@@ -1,12 +1,20 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
+import * as fs from "node:fs/promises";
+import path from "path";
+import { __dirname } from "../app.js";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
+import { sendEmail } from "../utils.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env" });
 
 const auth = express.Router();
 
-const JWT_SECRET = "bTz8Kj%T&v9#LvD8j!7M@c4Hy92Xm&N^4tQZ2$wYFzRqS3GpJpP!";
+const JWT_SECRET = process.env.JWT_SECRET;
+const EMAIL_SECRET = process.env.EMAIL_SECRET;
 
 export const authenticateToken = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1] || req.query.token;
@@ -59,9 +67,27 @@ auth.post(
           language: "ENG",
         },
       });
+      const htmlTemplate = await fs.readFile(
+        path.join(__dirname, "email_templates/email_confirm.html"),
+        "utf-8"
+      );
 
-      return await user.save().then(() => {
-        return res.status(201).json({ msg: `Created new user "${email}"` });
+      const token = jwt.sign({ email }, EMAIL_SECRET, { expiresIn: "7d" });
+
+      const html = htmlTemplate.replaceAll(
+        "{{emailVerificationCode}}",
+        `${process.env.BASE_URL}/auth/confirm-email?token=${token}`
+      );
+
+      user.save().then(() => {
+        sendEmail({
+          from: "support@rushpair.com",
+          to: email,
+          subject: `Confirm Your Account on RushPair`,
+          html: html,
+        });
+
+        res.status(201).json({ msg: `Created new user "${email}"` });
       });
     } catch (err) {
       console.error(err.message);
@@ -100,6 +126,12 @@ auth.post(
         });
       }
 
+      if (!user.isVerified) {
+        return res.status(409).json({
+          msg: "Account not verified. Check your email address.",
+        });
+      }
+
       const payload = {
         user: {
           email: email,
@@ -116,6 +148,56 @@ auth.post(
     }
   }
 );
+
+auth.get("/confirm-email", async (req, res) => {
+  const token = req.query.token;
+
+  if (!token) {
+    return res
+      .status(400)
+      .send(
+        `<h1 style="width: 100%; text-align: center">Token is missing</h1>`
+      );
+  }
+
+  try {
+    const decoded = jwt.verify(token, EMAIL_SECRET);
+
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send(
+          `<h1 style="width: 100%; text-align: center">User not found</h1>`
+        );
+    }
+
+    if (user.isVerified) {
+      return res
+        .status(200)
+        .send(
+          `<h1 style="width: 100%; text-align: center">Email is already verified</h1>`
+        );
+    }
+
+    user.isVerified = true;
+    await user.save();
+
+    res
+      .status(200)
+      .send(
+        `<h1 style="width: 100%; text-align: center">Email successfully verified!</h1>`
+      );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(400)
+      .send(
+        `<h1 style="width: 100%; text-align: center">Invalid or expired link</h1>`
+      );
+  }
+});
 
 auth.get("/verify-token", async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
