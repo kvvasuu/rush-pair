@@ -33,7 +33,13 @@ mongoose
     console.log("Error. Not connected to MongoDB:", err.message);
   });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
