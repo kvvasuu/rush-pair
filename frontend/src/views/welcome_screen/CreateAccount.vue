@@ -154,7 +154,12 @@
           <p>Registration successful!</p>
           <p>Welcome aboard.</p>
         </h1>
-        <i class="fa-solid fa-check text-5xl text-neutral-700 mt-20"></i>
+
+        <i class="fa-solid fa-check text-5xl text-neutral-700 mt-10 mb-10"></i>
+        <p class="text-md font-semibold text-center">
+          Please check your email and confirm your email address to complete the
+          registration process.
+        </p>
       </header>
 
       <div class="flex flex-col">
