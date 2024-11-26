@@ -138,7 +138,7 @@ auth.post(
         },
       };
 
-      jwt.sign(payload, JWT_SECRET, { expiresIn: "3h" }, (err, token) => {
+      jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" }, (err, token) => {
         if (err) throw err;
         res.json({ token });
       });
