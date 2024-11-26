@@ -1,6 +1,9 @@
 <template>
   <BasicModal @close="closeModal">
-    <div class="w-full h-full flex flex-col items-center pb-6">
+    <div
+      class="w-full h-full flex flex-col items-center pb-6"
+      v-if="isLoginShown"
+    >
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
         <h1 class="text-3xl font-bold text-center mt-6">Login</h1>
@@ -64,15 +67,89 @@
           <span
             v-if="showPasswordError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Password must be at least 6 characters long.</span
+            >Please enter password.</span
           >
         </div>
+
+        <p class="w-full flex justify-end">
+          <button
+            class="font-bold text-sm text-rose-500 bg-transparent border-none"
+            @click.prevent="toggleIsLoginShown"
+          >
+            Forgot password?
+          </button>
+        </p>
+
         <button
           class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
           type="submit"
         >
           Login
         </button>
+      </form>
+    </div>
+
+    <div class="w-full h-full flex flex-col items-center pb-6" v-else>
+      <header class="flex flex-col items-center mb-6">
+        <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
+        <h1 class="text-3xl font-bold text-center mt-6">Reset password</h1>
+        <p class="min-h-6 mt-2 text-center text-red-500 font-semibold">
+          <span v-if="generalError">{{ generalError }}</span>
+        </p>
+      </header>
+
+      <div
+        class="flex items-center justify-center absolute h-full top-0"
+        v-if="isLoading"
+      >
+        <BasicSpinner></BasicSpinner>
+      </div>
+      <form
+        class="w-full h-full flex flex-col items-center justify-center"
+        @submit.prevent=""
+        v-else
+      >
+        <div
+          class="mb-3 w-full flex flex-col items-center relative mt-3"
+          :class="{ 'mb-0': showEmailError }"
+        >
+          <input
+            id="email"
+            placeholder="Email"
+            type="email"
+            v-model="email"
+            @click="showEmailError = false"
+            class="w-full p-4 pl-12 rounded-xl border-2"
+            :class="{ 'border-red-500': showEmailError }"
+          />
+
+          <i
+            class="fa-regular fa-envelope h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
+          ></i>
+          <span
+            v-if="showEmailError"
+            class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
+            >Please provide correct email.</span
+          >
+        </div>
+        <p class="font-semibold text-sm w-full text-center">
+          A link to reset your password will be sent to the provided email
+          address.
+        </p>
+        <div class="flex items-center w-full justify-center gap-4 mt-auto">
+          <button
+            class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+            @click.prevent="toggleIsLoginShown"
+          >
+            Back
+          </button>
+          <button
+            class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
+            @click.prevent="resetPassword"
+          >
+            Reset password
+          </button>
+        </div>
       </form>
     </div>
   </BasicModal>
@@ -89,6 +166,14 @@ import { useUserStore } from "../../stores/userStore";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const store = useUserStore();
+
+const isLoginShown = ref(true);
+const toggleIsLoginShown = () => {
+  showEmailError.value = false;
+  showPasswordError.value = false;
+  generalError.value = "";
+  isLoginShown.value = !isLoginShown.value;
+};
 
 const emit = defineEmits(["close"]);
 const closeModal = () => {
@@ -107,8 +192,25 @@ const showPasswordError = ref(false);
 const isLoading = ref(false);
 const generalError = ref("");
 
+const validateInputs = () => {
+  if (email.value.length == 0) {
+    showEmailError.value = false;
+  }
+  if (/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email.value)) {
+    showEmailError.value = false;
+  } else {
+    showEmailError.value = true;
+  }
+  if (password.value.length == 0) {
+    showPasswordError.value = true;
+  } else {
+    showPasswordError.value = false;
+  }
+};
+
 const login = async () => {
   generalError.value = "";
+  validateInputs();
   if (email.value && password.value) {
     isLoading.value = true;
     await axios
@@ -138,5 +240,29 @@ const login = async () => {
         password.value = "";
       });
   }
+};
+
+const resetPassword = async () => {
+  generalError.value = "";
+  validateInputs();
+  /* if (email.value) {
+    isLoading.value = true;
+    await axios
+      .post(`${SERVER_URL}/auth/request-reset-password`, {
+        email: email.value,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        if (error.response && error.response.data.msg) {
+          generalError.value = error.response.data.msg;
+        } else {
+          generalError.value = "Something went wrong. Try again later.";
+        }
+        console.log(error);
+        isLoading.value = false;
+      });
+  } */
 };
 </script>
