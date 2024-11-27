@@ -1,5 +1,5 @@
 <template>
-  <BasicModal @close="closeModal">
+  <BasicModal :prevent-close="isLoading" @close="closeModal">
     <div
       class="w-full h-full flex flex-col items-center pb-6"
       v-if="isLoginShown"
@@ -107,7 +107,7 @@
       <form
         class="w-full h-full flex flex-col items-center justify-center"
         @submit.prevent=""
-        v-else
+        v-else-if="!passwordResetRequestSent"
       >
         <div
           class="mb-3 w-full flex flex-col items-center relative mt-3"
@@ -151,6 +151,22 @@
           </button>
         </div>
       </form>
+      <div
+        class="w-full h-full flex flex-col items-center justify-center"
+        v-else-if="passwordResetRequestSent"
+      >
+        <i class="fa-solid fa-check text-5xl text-neutral-700 mt-10 mb-10"></i>
+        <p class="text-md font-semibold text-center">
+          A link to reset your password has been sent to the provided email
+          address. Please check your inbox.
+        </p>
+        <button
+          class="px-8 py-3 font-bold text-lg mt-auto bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+          @click.prevent="toggleIsLoginShown"
+        >
+          Back
+        </button>
+      </div>
     </div>
   </BasicModal>
 </template>
@@ -173,7 +189,10 @@ const toggleIsLoginShown = () => {
   showPasswordError.value = false;
   generalError.value = "";
   isLoginShown.value = !isLoginShown.value;
+  passwordResetRequestSent.value = false;
 };
+
+const passwordResetRequestSent = ref(false);
 
 const emit = defineEmits(["close"]);
 const closeModal = () => {
@@ -245,7 +264,7 @@ const login = async () => {
 const resetPassword = async () => {
   generalError.value = "";
   validateInputs();
-  /* if (email.value) {
+  if (email.value) {
     isLoading.value = true;
     await axios
       .post(`${SERVER_URL}/auth/request-reset-password`, {
@@ -253,6 +272,7 @@ const resetPassword = async () => {
       })
       .then((res) => {
         console.log(res);
+        passwordResetRequestSent.value = true;
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
@@ -261,8 +281,10 @@ const resetPassword = async () => {
           generalError.value = "Something went wrong. Try again later.";
         }
         console.log(error);
+      })
+      .finally(() => {
         isLoading.value = false;
       });
-  } */
+  }
 };
 </script>

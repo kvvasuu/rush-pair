@@ -218,11 +218,13 @@ auth.post("/request-reset-password", async (req, res) => {
       "utf-8"
     );
 
-    const resetToken = jwt.sign(user.email, JWT_SECRET, { expiresIn: "3h" });
+    const resetToken = jwt.sign({ email: user.email }, JWT_SECRET, {
+      expiresIn: "3h",
+    });
 
     const html = htmlTemplate.replaceAll(
       "{{requestPasswordReset}}",
-      `${process.env.BASE_URL}/auth/confirm-email?token=${resetToken}`
+      `${process.env.BASE_URL}/auth/reset-password?token=${resetToken}`
     );
 
     await sendEmail({
@@ -238,6 +240,76 @@ auth.post("/request-reset-password", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
+  }
+});
+
+auth.get("/reset-password", async (req, res) => {
+  const token = req.query.token;
+
+  if (!token) {
+    return res
+      .status(400)
+      .send(
+        `<h1 style="width: 100%; text-align: center">Token is missing</h1>`
+      );
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const user = await User.findOne({ email: decoded.email });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send(
+          `<h1 style="width: 100%; text-align: center">User not found</h1>`
+        );
+    }
+
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    let newRandomPassword = "";
+
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      newRandomPassword += charset[randomIndex];
+    }
+
+    user.password = newRandomPassword;
+
+    const htmlTemplate = await fs.readFile(
+      path.join(__dirname, "email_templates/password_reset.html"),
+      "utf-8"
+    );
+
+    const html = htmlTemplate.replaceAll(
+      "{{newRandomPassword}}",
+      newRandomPassword
+    );
+
+    await user.save().then(() => {
+      sendEmail({
+        from: "support@rushpair.com",
+        to: decoded.email,
+        subject: `Your new password`,
+        html: html,
+      });
+
+      res
+        .status(200)
+        .send(
+          `<h1 style="width: 100%; text-align: center">New password has been sent.</h1>`
+        );
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(400)
+      .send(
+        `<h1 style="width: 100%; text-align: center">Invalid or expired link.</h1>`
+      );
   }
 });
 

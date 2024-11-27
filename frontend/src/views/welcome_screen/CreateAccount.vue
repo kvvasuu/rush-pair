@@ -1,5 +1,5 @@
 <template>
-  <BasicModal :prevent-close="preventModalClose" @close="closeModal">
+  <BasicModal :prevent-close="isLoading" @close="closeModal">
     <div
       class="w-full h-full flex flex-col items-center pb-6"
       v-if="!registerComplete"
@@ -119,7 +119,7 @@
             />
           </div>
           <div class="ms-2">
-            <label for="terms" class="text-gray-900"
+            <label for="terms" class="text-sm"
               >I agree to the
               <a
                 href="/terms"
@@ -186,7 +186,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import BasicSpinner from "../../components/BasicSpinner.vue";
 import axios from "axios";
@@ -221,10 +221,6 @@ const isLoading = ref(false);
 const registerComplete = ref(false);
 
 const generalError = ref("");
-
-const preventModalClose = computed(() => {
-  return !!email.value || !!password.value || !!passwordConfirm.value;
-});
 
 //Methods
 const resetForm = () => {

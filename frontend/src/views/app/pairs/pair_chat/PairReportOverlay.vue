@@ -1,7 +1,7 @@
 <template>
   <BasicOverlay @close="close">
     <div
-      class="flex flex-col items-center justify-start w-full h-full px-6 sm:px-12 pt-20 pb-10"
+      class="flex flex-col items-center justify-start w-full h-full px-6 sm:px-12 pt-20 pb-10 overflow-auto"
     >
       <div class="flex flex-col items-center justify-center mb-8">
         <i
