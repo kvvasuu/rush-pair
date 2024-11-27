@@ -212,7 +212,7 @@ auth.post("/request-reset-password", async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ msg: "Account does not exists." });
     }
 
     const htmlTemplate = await fs.readFile(
