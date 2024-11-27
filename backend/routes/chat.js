@@ -5,7 +5,7 @@ import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import Report from "../models/Report.js";
-import { calculateYearsSince, sendEmail } from "../utils.js";
+import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
 
 const chat = express.Router();
@@ -84,28 +84,37 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
   }
 });
 
-chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
-  try {
-    if (!req.body.nickname || req.body?.nickname.length <= 0) {
-      return res.status(404).json({ msg: "No nickname provided." });
+chat.put(
+  "/change-pair-nickname/:id",
+  rateLimiter,
+  authenticateToken,
+  async (req, res) => {
+    try {
+      if (!req.body.nickname || req.body?.nickname.length <= 0) {
+        return res.status(404).json({ msg: "No nickname provided." });
+      }
+
+      const nickname = req.body.nickname.trim();
+
+      if (nickname.length > 50) {
+        return res.status(400).json({ msg: "Nickname is too long." });
+      }
+
+      const result = await Pair.findOneAndUpdate(
+        { email: req.user.user.email, "pairedWith.id": req.params.id },
+        { $set: { "pairedWith.$.name": nickname } },
+        { new: true, runValidators: true }
+      );
+
+      if (!result) {
+        return res.status(404).json({ msg: "Cannot change name." });
+      }
+      res.status(200).json({ msg: "Nickname changed", nickname: nickname });
+    } catch (error) {
+      res.status(500).json({ msg: "Server error" });
     }
-
-    const nickname = req.body.nickname.trim();
-
-    const result = await Pair.findOneAndUpdate(
-      { email: req.user.user.email, "pairedWith.id": req.params.id },
-      { $set: { "pairedWith.$.name": nickname } },
-      { new: true, runValidators: true }
-    );
-
-    if (!result) {
-      return res.status(404).json({ msg: "Cannot change name." });
-    }
-    res.status(200).json({ msg: "Nickname changed", nickname: nickname });
-  } catch (error) {
-    res.status(500).json({ msg: "Server error" });
   }
-});
+);
 
 chat.post("/report-user", authenticateToken, async (req, res) => {
   try {

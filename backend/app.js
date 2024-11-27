@@ -32,7 +32,6 @@ mongoose
   .catch((err) => {
     console.log("Error. Not connected to MongoDB:", err.message);
   });
-
 app.use(
   cors({
     origin: "*",
