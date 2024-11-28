@@ -1,5 +1,7 @@
 <template>
-  <div class="flex-1 lg:h-full w-full flex flex-col lg:flex-col justify-end">
+  <div
+    class="flex-1 h-full w-full flex flex-col lg:flex-col justify-end relative"
+  >
     <div
       class="w-full h-full flex items-center justify-center"
       v-if="isLoading"
@@ -7,7 +9,7 @@
       <BasicSpinner></BasicSpinner>
     </div>
     <div
-      class="w-full flex-1 overflow-y-auto flex flex-col justify-end p-4 gap-1"
+      class="absolute top-0 w-full flex-1 overflow-y-scroll flex flex-col justify-end p-4 gap-1"
     >
       <div
         class="max-w-[80%] rounded-full shadow-sm py-2 px-4"
@@ -65,7 +67,7 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 const message = ref("");
-const messages = ref<Message[] | []>([]);
+const messages = ref<Message[]>([]);
 
 const currentPage = ref(1);
 
@@ -84,9 +86,9 @@ chatSocket.value.on("roomJoined", (room) => {
   }
 });
 
-chatSocket.value.on("getMessage", (message) => {
+chatSocket.value.on("getMessage", (message: Message) => {
   if (message) {
-    console.log(message);
+    messages.value.push(message);
   }
 });
 
@@ -122,7 +124,7 @@ const loadMessages = async () => {
       `${SERVER_URL}/chat/get-messages/${chatId}`,
       {
         headers: { Authorization: `Bearer ${userStore.token}` },
-        params: { page: currentPage.value, limit: 20 },
+        params: { page: currentPage.value, limit: 30 },
       }
     );
 

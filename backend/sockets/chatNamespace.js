@@ -35,7 +35,9 @@ export const setupChatNamespace = (io) => {
         });
 
         await message.save().then(() => {
-          chatNamespace.to(roomId).emit("getMessage", content, sender);
+          chatNamespace
+            .to(roomId)
+            .emit("getMessage", { sender, content, date: message.date });
         });
       } catch (err) {
         console.log(err);

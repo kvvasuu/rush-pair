@@ -132,11 +132,11 @@ chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
 
   try {
     const messages = await Message.find({ chatId })
-      .sort({ createdAt: -1 })
+      .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
-    res.json(messages);
+    res.json(messages.reverse());
   } catch (error) {
     res.status(500).json({ error: "Błąd serwera" });
   }
