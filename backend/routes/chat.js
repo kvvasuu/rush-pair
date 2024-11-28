@@ -6,9 +6,9 @@ import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import ActiveUser from "../models/ActiveUser.js";
 import Report from "../models/Report.js";
+import Message from "../models/Message.js";
 import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
-import { isatty } from "node:tty";
 
 const chat = express.Router();
 
@@ -65,6 +65,8 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
     const pairs = await Pair.findOne({ email: req.user.user.email });
     const pair = pairs.pairedWith.find((pair) => pair.id === req.params.id);
 
+    const isActive = await ActiveUser.exists({ userId: req.params.id });
+
     const age = calculateYearsSince(pairChatUser.birthdate);
 
     const data = pair.isVisible
@@ -77,11 +79,13 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
           city: pairChatUser.city,
           gender: pairChatUser.gender,
           description: pairChatUser.description,
+          isActive: !!isActive,
         }
       : {
           id: pairChatUser.id,
           isVisible: false,
           name: pair.name || "Anonymous",
+          isActive: !!isActive,
         };
 
     res.json({ pairChatUser: data });
@@ -121,6 +125,22 @@ chat.put(
     }
   }
 );
+
+chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
+  const { chatId } = req.params;
+  const { page = 1, limit = 20 } = req.query;
+
+  try {
+    const messages = await Message.find({ chatId })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    res.json(messages);
+  } catch (error) {
+    res.status(500).json({ error: "Błąd serwera" });
+  }
+});
 
 chat.post("/report-user", authenticateToken, async (req, res) => {
   try {

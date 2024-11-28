@@ -1,8 +1,22 @@
 <template>
   <div class="flex-1 lg:h-full w-full flex flex-col lg:flex-col justify-end">
-    <div class="w-full flex-1 overflow-y-auto flex items-center justify-end">
+    <div
+      class="w-full h-full flex items-center justify-center"
+      v-if="isLoading"
+    >
+      <BasicSpinner></BasicSpinner>
+    </div>
+    <div
+      class="w-full flex-1 overflow-y-auto flex flex-col justify-end p-4 gap-1"
+    >
       <div
-        class="max-w-[80%] rounded-full shadow-sm"
+        class="max-w-[80%] rounded-full shadow-sm py-2 px-4"
+        :class="[
+          message.sender === userStore.id
+            ? 'self-end bg-rose-300'
+            : 'self-start bg-blue-200',
+        ]"
+        :title="formatDate(new Date(message.date))"
         v-for="message in messages"
       >
         {{ message.content }}
@@ -34,21 +48,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from "vue";
+import BasicSpinner from "../../../../components/BasicSpinner.vue";
+import { ref, onBeforeUnmount, onBeforeMount } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { io, Socket } from "socket.io-client";
 import { Message } from "../../../../types";
 
+import axios from "axios";
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
 const chatStore = useChatStore();
 const userStore = useUserStore();
+
+const isLoading = ref(true);
 
 const message = ref("");
 const messages = ref<Message[] | []>([]);
 
+const currentPage = ref(1);
+
 const roomId = ref("");
 
-const chatSocket = ref<Socket>(io(`${import.meta.env.VITE_SERVER_URL}/chat`));
+const chatSocket = ref<Socket>(io(`${SERVER_URL}/chat`));
 
 chatSocket.value.emit("joinRoom", {
   userId: userStore.id,
@@ -67,6 +90,49 @@ chatSocket.value.on("getMessage", (message) => {
   }
 });
 
+const formatDate = (date: Date) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  return `${day} ${month} ${year} ${hours}:${minutes}`;
+};
+
+const loadMessages = async () => {
+  const chatId = [userStore.id, chatStore.pairInfo.id].sort().join("-");
+  try {
+    const response = await axios.get(
+      `${SERVER_URL}/chat/get-messages/${chatId}`,
+      {
+        headers: { Authorization: `Bearer ${userStore.token}` },
+        params: { page: currentPage.value, limit: 20 },
+      }
+    );
+
+    messages.value = [...response.data, ...messages.value];
+    currentPage.value++;
+  } catch (error) {
+    console.error("Błąd podczas ładowania wiadomości", error);
+  }
+};
+
 const sendMessage = () => {
   let messageToSend = "";
 
@@ -81,6 +147,11 @@ const sendMessage = () => {
   });
   message.value = "";
 };
+
+onBeforeMount(async () => {
+  await loadMessages();
+  isLoading.value = false;
+});
 
 onBeforeUnmount(() => {
   chatSocket.value.disconnect();

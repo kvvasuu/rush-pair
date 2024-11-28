@@ -1,17 +1,19 @@
 <template>
-  <div class="select-none rounded-full pair relative">
-    <img
-      :src="avatarSrc"
-      alt="pair-avatar"
-      class="aspect-square w-full rounded-full"
-      :class="{ 'rounded-none': props.square }"
-      draggable="false"
-      @error="setDefaultAvatar"
-    />
-    <div
-      class="absolute rounded-full border-2 border-slate-200 dark:border-neutral-900 bg-lime-500 w-5 h-5 z-10 bottom-0 right-0"
-      v-if="isActive"
-    ></div>
+  <div class="select-none rounded-full pair">
+    <div class="relative">
+      <img
+        :src="avatarSrc"
+        alt="pair-avatar"
+        class="aspect-square w-full rounded-full"
+        :class="{ 'rounded-none': props.square }"
+        draggable="false"
+        @error="setDefaultAvatar"
+      />
+      <div
+        class="absolute rounded-full border-2 border-slate-200 dark:border-neutral-900 bg-lime-500 w-[30%] h-[30%] z-10 bottom-0 right-0"
+        v-if="isActive && !square"
+      ></div>
+    </div>
   </div>
 </template>
 
