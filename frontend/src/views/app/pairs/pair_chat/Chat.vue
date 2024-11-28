@@ -1,7 +1,12 @@
 <template>
   <div class="flex-1 lg:h-full w-full flex flex-col lg:flex-col justify-end">
-    <div class="w-full flex-1 overflow-y-auto flex items-center justify-center">
-      Chat
+    <div class="w-full flex-1 overflow-y-auto flex items-center justify-end">
+      <div
+        class="max-w-[80%] rounded-full shadow-sm"
+        v-for="message in messages"
+      >
+        {{ message.content }}
+      </div>
     </div>
     <div class="w-full h-16 relative">
       <input
@@ -38,8 +43,7 @@ const chatStore = useChatStore();
 const userStore = useUserStore();
 
 const message = ref("");
-const userMessages = ref<Message[] | []>([]);
-const pairMessages = ref<Message[] | []>([]);
+const messages = ref<Message[] | []>([]);
 
 const roomId = ref("");
 
@@ -47,7 +51,7 @@ const chatSocket = ref<Socket>(io("http://localhost:3000/chat"));
 
 chatSocket.value.emit("joinRoom", {
   userId: userStore.id,
-  contactId: chatStore.pairInfo.id,
+  pairId: chatStore.pairInfo.id,
 });
 
 chatSocket.value.on("roomJoined", (room) => {
@@ -71,7 +75,7 @@ const sendMessage = () => {
 
   chatSocket.value.emit("sendMessage", {
     roomId: roomId.value,
-    message: messageToSend,
+    content: messageToSend,
     sender: userStore.id,
   });
   message.value = "";
