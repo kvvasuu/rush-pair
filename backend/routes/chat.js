@@ -136,7 +136,7 @@ chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
-    res.json(messages.reverse());
+    res.json(messages);
   } catch (error) {
     res.status(500).json({ error: "Błąd serwera" });
   }

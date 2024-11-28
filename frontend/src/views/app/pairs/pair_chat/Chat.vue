@@ -9,7 +9,8 @@
       <BasicSpinner></BasicSpinner>
     </div>
     <div
-      class="absolute top-0 w-full flex-1 overflow-y-scroll flex flex-col justify-end p-4 gap-1"
+      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto flex flex-col-reverse p-4 gap-1"
+      ref="messagesContainer"
     >
       <div
         class="max-w-[80%] rounded-full shadow-sm py-2 px-4"
@@ -24,7 +25,7 @@
         {{ message.content }}
       </div>
     </div>
-    <div class="w-full h-16 relative">
+    <div class="w-full h-16 absolute">
       <input
         name="message"
         id="message"
@@ -68,6 +69,7 @@ const isLoading = ref(true);
 
 const message = ref("");
 const messages = ref<Message[]>([]);
+const messagesContainer = ref<HTMLDivElement | null>(null);
 
 const currentPage = ref(1);
 
@@ -88,7 +90,11 @@ chatSocket.value.on("roomJoined", (room) => {
 
 chatSocket.value.on("getMessage", (message: Message) => {
   if (message) {
-    messages.value.push(message);
+    messages.value.unshift(message);
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop =
+        messagesContainer.value.scrollHeight + 50;
+    }
   }
 });
 
