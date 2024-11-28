@@ -45,7 +45,7 @@ export const setupChatNamespace = (io) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("Użytkownik rozłączony:", socket.id);
+      console.log("User disconnected:", socket.id);
     });
   });
 };

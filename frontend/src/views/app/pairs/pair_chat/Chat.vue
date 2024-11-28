@@ -4,26 +4,39 @@
   >
     <div
       class="w-full h-full flex items-center justify-center"
-      v-if="isLoading"
+      v-if="isLoading && !state.roomId"
     >
       <BasicSpinner></BasicSpinner>
     </div>
     <div
-      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto flex flex-col-reverse p-4 gap-1"
+      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse p-4 gap-1"
       ref="messagesContainer"
+      v-else
     >
-      <div
-        class="max-w-[80%] rounded-full shadow-sm py-2 px-4"
-        :class="[
-          message.sender === userStore.id
-            ? 'self-end bg-rose-300'
-            : 'self-start bg-blue-200',
-        ]"
-        :title="formatDate(new Date(message.date))"
-        v-for="message in messages"
-      >
-        {{ message.content }}
-      </div>
+      <TransitionGroup name="list">
+        <div
+          v-for="message in messages"
+          class="max-w-[80%] flex items-end justify-start"
+          :key="message.date"
+          :class="[message.sender === userStore.id ? 'self-end' : 'self-start']"
+        >
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            class="w-8 h-8 mr-2"
+            :title="chatStore.pairInfo.name"
+            v-if="message.sender !== userStore.id"
+          ></PairAvatar>
+          <div
+            class="rounded-full shadow-sm py-2 px-4"
+            :class="[
+              message.sender === userStore.id ? 'bg-rose-300' : 'bg-blue-200',
+            ]"
+            :title="formatDate(new Date(message.date))"
+          >
+            {{ message.content }}
+          </div>
+        </div>
+      </TransitionGroup>
     </div>
     <div class="w-full h-16 absolute">
       <input
@@ -52,11 +65,12 @@
 
 <script setup lang="ts">
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
-import { ref, onBeforeUnmount, onBeforeMount } from "vue";
+import { ref, onBeforeUnmount, onBeforeMount, watch } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
-import { io, Socket } from "socket.io-client";
 import { Message } from "../../../../types";
+import { chatSocket, state } from "./chatSocket";
+import PairAvatar from "../../../../components/PairAvatar.vue";
 
 import axios from "axios";
 
@@ -69,33 +83,29 @@ const isLoading = ref(true);
 
 const message = ref("");
 const messages = ref<Message[]>([]);
-const messagesContainer = ref<HTMLDivElement | null>(null);
 
-const currentPage = ref(1);
-
-const roomId = ref("");
-
-const chatSocket = ref<Socket>(io(`${SERVER_URL}/chat`));
-
-chatSocket.value.emit("joinRoom", {
-  userId: userStore.id,
-  pairId: chatStore.pairInfo.id,
-});
-
-chatSocket.value.on("roomJoined", (room) => {
-  if (room) {
-    roomId.value = room;
-  }
-});
-
-chatSocket.value.on("getMessage", (message: Message) => {
-  if (message) {
-    messages.value.unshift(message);
+watch(
+  () => state.message,
+  (newMessage) => {
+    messages.value.unshift(newMessage);
     if (messagesContainer.value) {
       messagesContainer.value.scrollTop =
         messagesContainer.value.scrollHeight + 50;
     }
-  }
+  },
+  { deep: true }
+);
+
+const messagesContainer = ref<HTMLDivElement | null>(null);
+
+const currentPage = ref(1);
+
+if (!state.connected) {
+  chatSocket.connect();
+}
+chatSocket.emit("joinRoom", {
+  userId: userStore.id,
+  pairId: chatStore.pairInfo.id,
 });
 
 const formatDate = (date: Date) => {
@@ -141,6 +151,21 @@ const loadMessages = async () => {
   }
 };
 
+const onScroll = () => {
+  if (messagesContainer.value) {
+    if (
+      Math.abs(messagesContainer.value.scrollTop) +
+        messagesContainer.value.clientHeight >=
+      messagesContainer.value.scrollHeight - 20
+    ) {
+      console.log("Użytkownik dotarł do dołu czatu");
+      /* messagesContainer.value.scrollTop =
+        messagesContainer.value.scrollHeight + 50;
+      loadMessages(); */
+    }
+  }
+};
+
 const sendMessage = () => {
   let messageToSend = "";
 
@@ -148,8 +173,8 @@ const sendMessage = () => {
     ? (messageToSend = "\u2764\uFE0F")
     : (messageToSend = message.value);
 
-  chatSocket.value.emit("sendMessage", {
-    roomId: roomId.value,
+  chatSocket.emit("sendMessage", {
+    roomId: state.roomId,
     content: messageToSend,
     sender: userStore.id,
   });
@@ -159,9 +184,30 @@ const sendMessage = () => {
 onBeforeMount(async () => {
   await loadMessages();
   isLoading.value = false;
+  if (messagesContainer.value)
+    messagesContainer.value.addEventListener("scroll", onScroll);
 });
 
 onBeforeUnmount(() => {
-  chatSocket.value.disconnect();
+  chatSocket.disconnect();
+  messagesContainer.value?.removeEventListener("scroll", onScroll);
 });
 </script>
+
+<style scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+</style>
