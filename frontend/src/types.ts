@@ -23,6 +23,7 @@ interface PairInfo {
 }
 
 interface UserStoreState extends User {
+  id: string;
   email: string;
   token: string;
   settings: {
@@ -37,4 +38,10 @@ interface ChatStoreState {
   pairInfo: PairInfo;
 }
 
-export type { User, UserStoreState, ChatStoreState, PairInfo };
+interface Message {
+  sender: string;
+  content: string;
+  date: string;
+}
+
+export type { User, UserStoreState, ChatStoreState, PairInfo, Message };

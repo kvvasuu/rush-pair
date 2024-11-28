@@ -1,8 +1,7 @@
 import { Server } from "socket.io";
-import sharedSession from "express-socket.io-session";
-import sessionMiddleware from "../session.js";
 import { CLIENT_URL } from "../server.js";
 import ActiveUser from "../models/ActiveUser.js";
+import { setupChatNamespace } from "./chatNamespace.js";
 
 let io;
 
@@ -14,10 +13,8 @@ export const initSocketIO = (server) => {
     },
   });
 
-  io.use(sharedSession(sessionMiddleware, { autoSave: true }));
-
   io.on("connection", async (socket) => {
-    const activeUser = await User.findOne({
+    /* const activeUser = await User.findOne({
       email: socket.handshake.auth.email,
     });
 
@@ -35,15 +32,15 @@ export const initSocketIO = (server) => {
       message: `You have joined queue`,
     });
 
-    console.log("User connected with socketId:", socket.id);
+    console.log("User connected with socketId:", socket.id); */
 
     socket.on("disconnect", async () => {
-      await ActiveUser.deleteOne({ socketId: socket.id });
+      /* await ActiveUser.deleteOne({ socketId: socket.id }); */
       console.log("User disconnected:", socket.id);
     });
   });
 
-  /* setupUserNamespace(io); */
+  setupChatNamespace(io);
 };
 
 export const getIO = () => io;

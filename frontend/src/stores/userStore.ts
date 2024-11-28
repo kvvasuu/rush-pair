@@ -7,6 +7,7 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useUserStore = defineStore("userStore", {
   state: (): UserStoreState => ({
+    id: "",
     email: "",
     token: "",
     name: "",
@@ -57,6 +58,7 @@ export const useUserStore = defineStore("userStore", {
           const res = await axios.get("/auth/verify-token");
 
           const {
+            _id,
             email,
             name,
             birthdate,
@@ -70,6 +72,7 @@ export const useUserStore = defineStore("userStore", {
             description,
           } = { ...res.data.user };
 
+          this.id = _id;
           this.name = name || "";
           this.email = email;
           this.firstVisit = firstVisit;
