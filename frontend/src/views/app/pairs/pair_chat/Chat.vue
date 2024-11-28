@@ -18,6 +18,7 @@
         placeholder="Type a message"
         autocomplete="off"
         spellcheck="false"
+        @keydown.enter="sendMessage"
       /><button
         class="w-20 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
         :title="message ? `Send message` : `Send heart`"
@@ -33,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onBeforeUnmount } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { io, Socket } from "socket.io-client";
@@ -47,7 +48,7 @@ const messages = ref<Message[] | []>([]);
 
 const roomId = ref("");
 
-const chatSocket = ref<Socket>(io("http://localhost:3000/chat"));
+const chatSocket = ref<Socket>(io(`${import.meta.env.VITE_SERVER_URL}/chat`));
 
 chatSocket.value.emit("joinRoom", {
   userId: userStore.id,
@@ -80,4 +81,8 @@ const sendMessage = () => {
   });
   message.value = "";
 };
+
+onBeforeUnmount(() => {
+  chatSocket.value.disconnect();
+});
 </script>

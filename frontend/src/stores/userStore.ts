@@ -2,8 +2,11 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { User, UserStoreState } from "../types";
 import { useMainStore } from ".";
+import { io } from "socket.io-client";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const socket = io(SERVER_URL, { autoConnect: false });
 
 export const useUserStore = defineStore("userStore", {
   state: (): UserStoreState => ({
@@ -89,6 +92,10 @@ export const useUserStore = defineStore("userStore", {
           } catch (error) {
             console.log(error);
           }
+
+          socket.connect();
+          socket.emit("login", this.id);
+
           this.router.replace("/app");
         } catch (error) {
           localStorage.removeItem("token");
@@ -97,10 +104,12 @@ export const useUserStore = defineStore("userStore", {
     },
     async logout() {
       localStorage.removeItem("token");
+      socket.emit("logout");
       const store = useMainStore();
       store.$reset();
       document.documentElement.setAttribute("data-theme", "light");
       this.$reset();
+
       this.router.replace("/");
     },
     async updateUser(user: User) {

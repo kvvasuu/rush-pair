@@ -4,9 +4,11 @@ import path from "path";
 import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
+import ActiveUser from "../models/ActiveUser.js";
 import Report from "../models/Report.js";
 import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
+import { isatty } from "node:tty";
 
 const chat = express.Router();
 
@@ -21,6 +23,8 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
     const pairedWith = await Promise.all(
       pairs.pairedWith.map(async (el) => {
         const pairedUser = await User.findById(el.id);
+        const isActive = await ActiveUser.exists({ userId: el.id });
+
         if (!pairedUser) return null;
 
         return el.isVisible
@@ -30,12 +34,14 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
               name: el.name || pairedUser.name,
               imageUrl: pairedUser.imageUrl,
               isVisible: true,
+              isActive: !!isActive,
             }
           : {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
               isVisible: false,
               name: el.name || "Anonymous",
+              isActive: !!isActive,
             };
       })
     );

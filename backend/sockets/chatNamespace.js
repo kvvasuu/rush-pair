@@ -36,7 +36,6 @@ export const setupChatNamespace = (io) => {
 
         await message.save().then(() => {
           chatNamespace.to(roomId).emit("getMessage", content, sender);
-          console.log(message);
         });
       } catch (err) {
         console.log(err);

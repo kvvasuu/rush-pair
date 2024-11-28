@@ -20,6 +20,7 @@ interface PairInfo {
   city?: string;
   description?: string;
   pairedAt: number;
+  isActive: boolean;
 }
 
 interface UserStoreState extends User {

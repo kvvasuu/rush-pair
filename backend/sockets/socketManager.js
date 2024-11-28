@@ -14,29 +14,56 @@ export const initSocketIO = (server) => {
   });
 
   io.on("connection", async (socket) => {
-    /* const activeUser = await User.findOne({
-      email: socket.handshake.auth.email,
+    socket.on("login", async (userId) => {
+      try {
+        let activeUser = await ActiveUser.findOne({
+          socketId: socket.id,
+        });
+
+        if (!activeUser) {
+          activeUser = new ActiveUser({
+            userId: userId,
+            isAvailable: false,
+            socketId: socket.id,
+          });
+          await activeUser.save();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     });
 
-    if (!activeUser) {
-      socket.disconnect();
-    }
-
-    await ActiveUser.updateOne(
-      { email: socket.handshake.auth.email },
-      { $set: { socketId: socket.id, isAvailable: true } }
-    );
-
-    socket.emit("userAvailable", {
-      action: "joined",
-      message: `You have joined queue`,
+    socket.on("logout", async () => {
+      try {
+        await ActiveUser.findOneAndDelete({ socketId: socket.id });
+      } catch (error) {
+        console.log(error);
+      }
     });
 
-    console.log("User connected with socketId:", socket.id); */
+    /* socket.on("startPairing", async (userId) => {
+      try {
+        await ActiveUser.findOneAndUpdate(
+          { userId: userId },
+          { $set: { isAvailable: true } },
+          { new: true, runValidators: true }
+        );
+
+        socket.emit("userAvailable", {
+          action: "joined",
+          message: `You have joined queue`,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }); */
 
     socket.on("disconnect", async () => {
-      /* await ActiveUser.deleteOne({ socketId: socket.id }); */
-      console.log("User disconnected:", socket.id);
+      try {
+        await ActiveUser.findOneAndDelete({ socketId: socket.id });
+      } catch (error) {
+        console.log(error);
+      }
     });
   });
 
