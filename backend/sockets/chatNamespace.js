@@ -43,9 +43,5 @@ export const setupChatNamespace = (io) => {
         console.log(err);
       }
     });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
   });
 };

@@ -37,6 +37,12 @@ interface UserStoreState extends User {
 
 interface ChatStoreState {
   pairInfo: PairInfo;
+  currentPage: number;
+  messages: Message[];
+  isLoading: boolean;
+  connected: boolean;
+  roomId: string;
+  newMessage: Message | null;
 }
 
 interface Message {

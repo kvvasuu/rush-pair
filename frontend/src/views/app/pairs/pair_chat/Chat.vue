@@ -4,7 +4,7 @@
   >
     <div
       class="w-full h-full flex items-center justify-center"
-      v-if="isLoading && !state.roomId"
+      v-if="isLoading && !chatStore.roomId"
     >
       <BasicSpinner></BasicSpinner>
     </div>
@@ -15,19 +15,19 @@
     >
       <TransitionGroup name="list">
         <div
-          v-for="message in messages"
-          class="max-w-[80%] flex items-end justify-start"
+          v-for="message in chatStore.messages"
+          class="max-w-[85%] flex items-end justify-start"
           :key="message.date"
           :class="[message.sender === userStore.id ? 'self-end' : 'self-start']"
         >
           <PairAvatar
             :pair="chatStore.pairInfo"
-            class="w-8 h-8 mr-2"
+            class="w-8 h-8 mr-2 shrink-0"
             :title="chatStore.pairInfo.name"
             v-if="message.sender !== userStore.id"
           ></PairAvatar>
           <div
-            class="rounded-full shadow-sm py-2 px-4"
+            class="rounded-3xl shadow-sm py-2 px-4"
             :class="[
               message.sender === userStore.id ? 'bg-rose-300' : 'bg-blue-200',
             ]"
@@ -38,6 +38,15 @@
         </div>
       </TransitionGroup>
     </div>
+    <Transition name="fade">
+      <button
+        class="absolute bottom-20 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-neutral-500/60 hover:text-neutral-600 transition-all drop-shadow-2xl"
+        v-if="showScrollButton"
+        @click="scrollToBottom"
+      >
+        <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
+      </button>
+    </Transition>
     <div class="w-full h-16 absolute">
       <input
         name="message"
@@ -65,16 +74,10 @@
 
 <script setup lang="ts">
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
-import { ref, onBeforeUnmount, onBeforeMount, watch } from "vue";
+import { ref, onBeforeUnmount, onBeforeMount, onMounted, watch } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
-import { Message } from "../../../../types";
-import { chatSocket, state } from "./chatSocket";
 import PairAvatar from "../../../../components/PairAvatar.vue";
-
-import axios from "axios";
-
-const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -82,31 +85,12 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 const message = ref("");
-const messages = ref<Message[]>([]);
-
-watch(
-  () => state.message,
-  (newMessage) => {
-    messages.value.unshift(newMessage);
-    if (messagesContainer.value) {
-      messagesContainer.value.scrollTop =
-        messagesContainer.value.scrollHeight + 50;
-    }
-  },
-  { deep: true }
-);
-
 const messagesContainer = ref<HTMLDivElement | null>(null);
 
-const currentPage = ref(1);
-
-if (!state.connected) {
-  chatSocket.connect();
-}
-chatSocket.emit("joinRoom", {
-  userId: userStore.id,
-  pairId: chatStore.pairInfo.id,
-});
+const sendMessage = async () => {
+  await chatStore.sendMessage(message.value);
+  message.value = "";
+};
 
 const formatDate = (date: Date) => {
   const months = [
@@ -133,65 +117,58 @@ const formatDate = (date: Date) => {
   return `${day} ${month} ${year} ${hours}:${minutes}`;
 };
 
-const loadMessages = async () => {
-  const chatId = [userStore.id, chatStore.pairInfo.id].sort().join("-");
-  try {
-    const response = await axios.get(
-      `${SERVER_URL}/chat/get-messages/${chatId}`,
-      {
-        headers: { Authorization: `Bearer ${userStore.token}` },
-        params: { page: currentPage.value, limit: 30 },
-      }
-    );
-
-    messages.value = [...response.data, ...messages.value];
-    currentPage.value++;
-  } catch (error) {
-    console.error("Błąd podczas ładowania wiadomości", error);
+const showScrollButton = ref(false);
+const scrollToBottom = () => {
+  if (messagesContainer.value) {
+    messagesContainer.value.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 };
 
-const onScroll = () => {
-  if (messagesContainer.value) {
+const onScroll = async () => {
+  if (messagesContainer.value && !chatStore.isLoading) {
     if (
       Math.abs(messagesContainer.value.scrollTop) +
         messagesContainer.value.clientHeight >=
-      messagesContainer.value.scrollHeight - 20
+      messagesContainer.value.scrollHeight - 30
     ) {
-      console.log("Użytkownik dotarł do dołu czatu");
-      /* messagesContainer.value.scrollTop =
-        messagesContainer.value.scrollHeight + 50;
-      loadMessages(); */
+      await chatStore.loadMessages();
     }
+    Math.abs(messagesContainer.value.scrollTop) > 100
+      ? (showScrollButton.value = true)
+      : (showScrollButton.value = false);
   }
 };
 
-const sendMessage = () => {
-  let messageToSend = "";
-
-  !message.value
-    ? (messageToSend = "\u2764\uFE0F")
-    : (messageToSend = message.value);
-
-  chatSocket.emit("sendMessage", {
-    roomId: state.roomId,
-    content: messageToSend,
-    sender: userStore.id,
-  });
-  message.value = "";
-};
+watch(
+  () => chatStore.newMessage,
+  () => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTop =
+        messagesContainer.value.scrollHeight + 50;
+    }
+  },
+  { deep: true }
+);
 
 onBeforeMount(async () => {
-  await loadMessages();
+  if (!chatStore.connected) {
+    chatStore.connectToSocket();
+  }
   isLoading.value = false;
-  if (messagesContainer.value)
-    messagesContainer.value.addEventListener("scroll", onScroll);
 });
 
-onBeforeUnmount(() => {
-  chatSocket.disconnect();
-  messagesContainer.value?.removeEventListener("scroll", onScroll);
-});
+onMounted(() => {
+  if (messagesContainer.value) {
+    messagesContainer.value.addEventListener("scroll", onScroll);
+  }
+}),
+  onBeforeUnmount(() => {
+    chatStore.disconnectFromSocket();
+    messagesContainer.value?.removeEventListener("scroll", onScroll);
+  });
 </script>
 
 <style scoped>
