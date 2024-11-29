@@ -20,9 +20,11 @@ interface PairInfo {
   city?: string;
   description?: string;
   pairedAt: number;
+  isActive: boolean;
 }
 
 interface UserStoreState extends User {
+  id: string;
   email: string;
   token: string;
   settings: {
@@ -35,6 +37,18 @@ interface UserStoreState extends User {
 
 interface ChatStoreState {
   pairInfo: PairInfo;
+  currentPage: number;
+  messages: Message[];
+  isLoading: boolean;
+  connected: boolean;
+  roomId: string;
+  newMessage: Message | null;
 }
 
-export type { User, UserStoreState, ChatStoreState, PairInfo };
+interface Message {
+  sender: string;
+  content: string;
+  date: string;
+}
+
+export type { User, UserStoreState, ChatStoreState, PairInfo, Message };

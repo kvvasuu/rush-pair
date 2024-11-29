@@ -1,15 +1,16 @@
 import express from "express";
 import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
-import Pair from "../models/Pair.js";
 import multer from "multer";
 import path from "path";
 import { __dirname } from "../app.js";
 import fs from "fs";
 import sharp from "sharp";
-import { calculateYearsSince } from "../utils.js";
+import { rateLimiter } from "../utils.js";
 
 const user = express.Router();
+
+user.use(rateLimiter);
 
 const imagesStorage = multer.diskStorage({
   destination: (req, file, cb) => {

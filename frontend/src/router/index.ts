@@ -7,6 +7,7 @@ import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
 import Settings from "../views/app/settings/Settings.vue";
 import PairsWrapper from "../views/app/pairs/PairsWrapper.vue";
 import PairsList from "../views/app/pairs/PairsList.vue";
+import PairChat from "../views/app/pairs/pair_chat/PairChat.vue";
 
 const routes = [
   { path: "/:pathMatch(.*)*", redirect: "/" },
@@ -48,8 +49,7 @@ const routes = [
           {
             path: ":id",
             name: "PairChat",
-            component: () =>
-              import("../views/app/pairs/pair_chat/PairChat.vue"),
+            component: PairChat,
           },
         ],
       },

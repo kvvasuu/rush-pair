@@ -50,6 +50,8 @@ import { PairInfo } from "../../../types";
 
 const userStore = useUserStore();
 
+userStore.getPairs();
+
 const searchValue = ref("");
 const pairsList = ref<PairInfo[]>(userStore.pairs);
 

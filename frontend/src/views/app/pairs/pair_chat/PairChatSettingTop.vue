@@ -1,7 +1,7 @@
 <template>
   <Transition name="expand">
     <div
-      class="w-full h-full sm:h-80 absolute top-0 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
+      class="w-full h-full sm:h-80 absolute top-0 z-10 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
       v-if="props.isProfileExpanded"
     >
       <div

@@ -4,7 +4,7 @@ import * as fs from "node:fs/promises";
 import path from "path";
 import { __dirname } from "../app.js";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
-import { sendEmail } from "../utils.js";
+import { sendEmail, rateLimiter } from "../utils.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import dotenv from "dotenv";
@@ -39,6 +39,7 @@ auth.post(
       min: 6,
     }),
   ],
+  rateLimiter,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -102,6 +103,7 @@ auth.post(
     check("email", "Provide correct email").isEmail(),
     check("password", "Password is required").exists(),
   ],
+  rateLimiter,
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -210,7 +212,7 @@ auth.post("/request-reset-password", async (req, res) => {
     let user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ msg: "Account does not exists." });
     }
 
     const htmlTemplate = await fs.readFile(

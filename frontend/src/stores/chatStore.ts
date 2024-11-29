@@ -1,7 +1,13 @@
 import { defineStore } from "pinia";
 import { ChatStoreState } from "../types";
 import { useUserStore } from "./userStore";
+import { io, Socket } from "socket.io-client";
+import { Message } from "../types";
 import axios from "axios";
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const chatSocket: Socket = io(`${SERVER_URL}/chat`, { autoConnect: false });
 
 export const useChatStore = defineStore("chatStore", {
   state: (): ChatStoreState => ({
@@ -15,7 +21,14 @@ export const useChatStore = defineStore("chatStore", {
       city: "",
       description: "",
       pairedAt: 0,
+      isActive: false,
     },
+    currentPage: 1,
+    messages: [],
+    newMessage: null,
+    isLoading: false,
+    connected: false,
+    roomId: "",
   }),
   actions: {
     async openChat(id: string) {
@@ -67,6 +80,86 @@ export const useChatStore = defineStore("chatStore", {
     },
     closeChat() {
       this.$reset();
+    },
+    async loadMessages(): Promise<boolean> {
+      const userStore = useUserStore();
+      this.isLoading = true;
+      const chatId = [userStore.id, this.pairInfo.id].sort().join("-");
+      try {
+        const response = await axios.get(
+          `${SERVER_URL}/chat/get-messages/${chatId}`,
+          {
+            headers: { Authorization: `Bearer ${userStore.token}` },
+            params: { page: this.currentPage, limit: 20 },
+          }
+        );
+        if (response.data.length > 0) {
+          this.messages = [...this.messages, ...response.data];
+          this.currentPage++;
+          this.isLoading = false;
+          return true;
+        } else {
+          this.isLoading = false;
+          return false;
+        }
+      } catch (error) {
+        console.error("Error while loading messages from server: ", error);
+        return false;
+      }
+    },
+    async sendMessage(message: string) {
+      const userStore = useUserStore();
+
+      let messageToSend = "";
+
+      !message ? (messageToSend = "\u2764\uFE0F") : (messageToSend = message);
+
+      chatSocket.emit("sendMessage", {
+        roomId: this.roomId,
+        content: messageToSend,
+        sender: userStore.id,
+      });
+    },
+    bindEvents() {
+      if (!chatSocket.hasListeners("connect")) {
+        chatSocket.on("connect", () => {
+          this.connected = true;
+        });
+      }
+
+      if (!chatSocket.hasListeners("disconnect")) {
+        chatSocket.on("disconnect", () => {
+          this.connected = false;
+        });
+      }
+
+      if (!chatSocket.hasListeners("roomJoined")) {
+        chatSocket.on("roomJoined", (room) => {
+          this.roomId = room;
+        });
+      }
+      if (!chatSocket.hasListeners("getMessage")) {
+        chatSocket.on("getMessage", (message: Message) => {
+          this.messages.unshift(message);
+          this.newMessage = message;
+        });
+      }
+    },
+    async connectToSocket() {
+      const userStore = useUserStore();
+
+      chatSocket.connect();
+      this.bindEvents();
+
+      chatSocket.emit("joinRoom", {
+        userId: userStore.id,
+        pairId: this.pairInfo.id,
+      });
+
+      await this.loadMessages();
+    },
+    disconnectFromSocket() {
+      chatSocket.disconnect();
     },
   },
 });

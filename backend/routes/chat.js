@@ -4,8 +4,10 @@ import path from "path";
 import { authenticateToken } from "./auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
+import ActiveUser from "../models/ActiveUser.js";
 import Report from "../models/Report.js";
-import { calculateYearsSince, sendEmail } from "../utils.js";
+import Message from "../models/Message.js";
+import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
 
 const chat = express.Router();
@@ -21,6 +23,8 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
     const pairedWith = await Promise.all(
       pairs.pairedWith.map(async (el) => {
         const pairedUser = await User.findById(el.id);
+        const isActive = await ActiveUser.exists({ userId: el.id });
+
         if (!pairedUser) return null;
 
         return el.isVisible
@@ -30,12 +34,14 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
               name: el.name || pairedUser.name,
               imageUrl: pairedUser.imageUrl,
               isVisible: true,
+              isActive: !!isActive,
             }
           : {
               id: pairedUser.id,
               pairedAt: el.pairedAt,
               isVisible: false,
               name: el.name || "Anonymous",
+              isActive: !!isActive,
             };
       })
     );
@@ -59,6 +65,8 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
     const pairs = await Pair.findOne({ email: req.user.user.email });
     const pair = pairs.pairedWith.find((pair) => pair.id === req.params.id);
 
+    const isActive = await ActiveUser.exists({ userId: req.params.id });
+
     const age = calculateYearsSince(pairChatUser.birthdate);
 
     const data = pair.isVisible
@@ -71,11 +79,13 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
           city: pairChatUser.city,
           gender: pairChatUser.gender,
           description: pairChatUser.description,
+          isActive: !!isActive,
         }
       : {
           id: pairChatUser.id,
           isVisible: false,
           name: pair.name || "Anonymous",
+          isActive: !!isActive,
         };
 
     res.json({ pairChatUser: data });
@@ -84,26 +94,51 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
   }
 });
 
-chat.put("/change-pair-nickname/:id", authenticateToken, async (req, res) => {
+chat.put(
+  "/change-pair-nickname/:id",
+  rateLimiter,
+  authenticateToken,
+  async (req, res) => {
+    try {
+      if (!req.body.nickname || req.body?.nickname.length <= 0) {
+        return res.status(404).json({ msg: "No nickname provided." });
+      }
+
+      const nickname = req.body.nickname.trim();
+
+      if (nickname.length > 50) {
+        return res.status(400).json({ msg: "Nickname is too long." });
+      }
+
+      const result = await Pair.findOneAndUpdate(
+        { email: req.user.user.email, "pairedWith.id": req.params.id },
+        { $set: { "pairedWith.$.name": nickname } },
+        { new: true, runValidators: true }
+      );
+
+      if (!result) {
+        return res.status(404).json({ msg: "Cannot change name." });
+      }
+      res.status(200).json({ msg: "Nickname changed", nickname: nickname });
+    } catch (error) {
+      res.status(500).json({ msg: "Server error" });
+    }
+  }
+);
+
+chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
+  const { chatId } = req.params;
+  const { page = 1, limit = 20 } = req.query;
+
   try {
-    if (!req.body.nickname || req.body?.nickname.length <= 0) {
-      return res.status(404).json({ msg: "No nickname provided." });
-    }
+    const messages = await Message.find({ chatId })
+      .sort({ date: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
 
-    const nickname = req.body.nickname.trim();
-
-    const result = await Pair.findOneAndUpdate(
-      { email: req.user.user.email, "pairedWith.id": req.params.id },
-      { $set: { "pairedWith.$.name": nickname } },
-      { new: true, runValidators: true }
-    );
-
-    if (!result) {
-      return res.status(404).json({ msg: "Cannot change name." });
-    }
-    res.status(200).json({ msg: "Nickname changed", nickname: nickname });
+    res.json(messages);
   } catch (error) {
-    res.status(500).json({ msg: "Server error" });
+    res.status(500).json({ error: "Błąd serwera" });
   }
 });
 

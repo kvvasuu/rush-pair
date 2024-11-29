@@ -1,4 +1,13 @@
 import nodemailer from "nodemailer";
+import { rateLimit } from "express-rate-limit";
+
+const rateLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 30,
+  message: { msg: "Too many requests. Please try again later." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 const calculateYearsSince = (dateString) => {
   const givenDate = new Date(dateString);
@@ -39,4 +48,4 @@ const sendEmail = async ({ from, to, subject, html }) => {
   await transporter.sendMail(mailOptions).catch((error) => console.log(error));
 };
 
-export { calculateYearsSince, sendEmail };
+export { calculateYearsSince, sendEmail, rateLimiter };

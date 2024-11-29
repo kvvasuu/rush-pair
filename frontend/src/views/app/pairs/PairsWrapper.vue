@@ -5,11 +5,16 @@
     <header
       class="flex justify-center items-center w-full h-16 relative bg-slate-200 dark:bg-neutral-800 shadow z-30"
     >
-      <p
-        class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none min-w-0 max-w-52 min-[400px]:max-w-72 sm:max-w-96 truncate"
+      <div
+        class="text-slate-700 dark:text-neutral-300 text-xl font-semibold min-w-0 max-w-52 min-[400px]:max-w-72 sm:max-w-96 relative"
       >
-        {{ pairName || "Pairs" }}
-      </p>
+        <p class="w-full select-none truncate">{{ pairName || "Pairs" }}</p>
+
+        <div
+          class="hidden lg:block absolute rounded-full border-2 border-slate-200 dark:border-neutral-800 bg-lime-500 w-4 h-4 z-10 top-0 -right-5"
+          v-if="chatStore.pairInfo.isActive"
+        ></div>
+      </div>
 
       <button
         class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
@@ -25,6 +30,7 @@
       <PairAvatar
         class="absolute right-4 min-w-10 max-w-10 lg:hidden cursor-pointer"
         :pair="pairImage"
+        :is-active="chatStore.pairInfo.isActive"
         v-if="route.params.id"
         @click="toggleExpandProfile"
       ></PairAvatar>
