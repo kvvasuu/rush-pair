@@ -27,9 +27,11 @@
             v-if="message.sender !== userStore.id"
           ></PairAvatar>
           <div
-            class="rounded-3xl shadow-sm py-2 px-4"
+            class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-300"
             :class="[
-              message.sender === userStore.id ? 'bg-rose-300' : 'bg-blue-200',
+              message.sender === userStore.id
+                ? 'bg-rose-300 dark:bg-rose-500/20'
+                : 'bg-blue-200 dark:bg-blue-600/20',
             ]"
             :title="formatDate(new Date(message.date))"
           >
@@ -40,13 +42,17 @@
     </div>
     <Transition name="fade">
       <button
-        class="absolute bottom-20 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-neutral-500/60 hover:text-neutral-600 transition-all drop-shadow-2xl"
+        class="absolute bottom-20 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
         v-if="showScrollButton"
         @click="scrollToBottom"
       >
+        <p v-if="!!newMessagesCount" class="absolute -top-6 w-96 font-semibold">
+          You have {{ newMessagesCount }} new messages
+        </p>
         <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
       </button>
     </Transition>
+
     <div class="w-full h-16 absolute">
       <input
         name="message"
@@ -74,7 +80,14 @@
 
 <script setup lang="ts">
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
-import { ref, onBeforeUnmount, onBeforeMount, onMounted, watch } from "vue";
+import {
+  ref,
+  onBeforeUnmount,
+  onBeforeMount,
+  onMounted,
+  watch,
+  nextTick,
+} from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
@@ -118,6 +131,8 @@ const formatDate = (date: Date) => {
 };
 
 const showScrollButton = ref(false);
+const newMessagesCount = ref(0);
+
 const scrollToBottom = () => {
   if (messagesContainer.value) {
     messagesContainer.value.scrollTo({
@@ -134,8 +149,19 @@ const onScroll = async () => {
         messagesContainer.value.clientHeight >=
       messagesContainer.value.scrollHeight - 30
     ) {
-      await chatStore.loadMessages();
+      const oldScrollHeight = messagesContainer.value.scrollTop;
+      const result = await chatStore.loadMessages();
+
+      nextTick(() => {
+        if (messagesContainer.value && result) {
+          messagesContainer.value.scrollTop = oldScrollHeight;
+        }
+      });
     }
+
+    if (Math.abs(messagesContainer.value.scrollTop) < 50)
+      newMessagesCount.value = 0;
+
     Math.abs(messagesContainer.value.scrollTop) > 100
       ? (showScrollButton.value = true)
       : (showScrollButton.value = false);
@@ -144,10 +170,14 @@ const onScroll = async () => {
 
 watch(
   () => chatStore.newMessage,
-  () => {
+  (newMessage) => {
     if (messagesContainer.value) {
-      messagesContainer.value.scrollTop =
-        messagesContainer.value.scrollHeight + 50;
+      if (newMessage?.sender === userStore.id) {
+        messagesContainer.value.scrollTop =
+          messagesContainer.value.scrollHeight + 50;
+      } else {
+        newMessagesCount.value++;
+      }
     }
   },
   { deep: true }

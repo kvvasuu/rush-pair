@@ -81,7 +81,7 @@ export const useChatStore = defineStore("chatStore", {
     closeChat() {
       this.$reset();
     },
-    async loadMessages() {
+    async loadMessages(): Promise<boolean> {
       const userStore = useUserStore();
       this.isLoading = true;
       const chatId = [userStore.id, this.pairInfo.id].sort().join("-");
@@ -95,13 +95,16 @@ export const useChatStore = defineStore("chatStore", {
         );
         if (response.data.length > 0) {
           this.messages = [...this.messages, ...response.data];
+          this.currentPage++;
+          this.isLoading = false;
+          return true;
+        } else {
+          this.isLoading = false;
+          return false;
         }
-
-        this.currentPage++;
-
-        this.isLoading = false;
       } catch (error) {
-        console.error("Błąd podczas ładowania wiadomości", error);
+        console.error("Error while loading messages from server: ", error);
+        return false;
       }
     },
     async sendMessage(message: string) {

@@ -11,7 +11,7 @@
         <p class="w-full select-none truncate">{{ pairName || "Pairs" }}</p>
 
         <div
-          class="hidden lg:block absolute rounded-full border-2 border-slate-200 dark:border-neutral-900 bg-lime-500 w-4 h-4 z-10 top-0 -right-5"
+          class="hidden lg:block absolute rounded-full border-2 border-slate-200 dark:border-neutral-800 bg-lime-500 w-4 h-4 z-10 top-0 -right-5"
           v-if="chatStore.pairInfo.isActive"
         ></div>
       </div>
