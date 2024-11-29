@@ -27,7 +27,7 @@
             v-if="message.sender !== userStore.id"
           ></PairAvatar>
           <div
-            class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-300"
+            class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-200"
             :class="[
               message.sender === userStore.id
                 ? 'bg-rose-300 dark:bg-rose-500/20'
