@@ -9,7 +9,7 @@
       <BasicSpinner></BasicSpinner>
     </div>
     <div
-      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse p-4 gap-1"
+      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-4 pt-6 gap-1"
       ref="messagesContainer"
       v-else
     >
