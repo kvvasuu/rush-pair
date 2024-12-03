@@ -40,7 +40,7 @@ auth.post(
     }),
   ],
   rateLimiter,
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -91,8 +91,7 @@ auth.post(
         res.status(201).json({ msg: `Created new user "${email}"` });
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error");
+      next(error);
     }
   }
 );
@@ -104,7 +103,7 @@ auth.post(
     check("password", "Password is required").exists(),
   ],
   rateLimiter,
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -145,8 +144,7 @@ auth.post(
         res.json({ token });
       });
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server error");
+      next(err);
     }
   }
 );
@@ -192,7 +190,6 @@ auth.get("/confirm-email", async (req, res) => {
         `<h1 style="width: 100%; text-align: center">Email successfully verified!</h1>`
       );
   } catch (error) {
-    console.error(error);
     res
       .status(400)
       .send(
@@ -201,7 +198,7 @@ auth.get("/confirm-email", async (req, res) => {
   }
 });
 
-auth.post("/request-reset-password", async (req, res) => {
+auth.post("/request-reset-password", async (req, res, next) => {
   const email = req.body.email;
 
   if (!email) {
@@ -240,8 +237,7 @@ auth.post("/request-reset-password", async (req, res) => {
       .status(201)
       .json({ msg: `Password reset request has been set to ${email}.` });
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
+    next(error);
   }
 });
 
@@ -349,7 +345,7 @@ auth.post(
       min: 6,
     }),
   ],
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -374,7 +370,7 @@ auth.post(
         return res.status(200).json({ msg: "Password changed successfully." });
       });
     } catch (err) {
-      res.status(500).send("Server error");
+      next(error);
     }
   }
 );
@@ -382,7 +378,7 @@ auth.post(
 auth.post(
   "/delete-account",
   [check("password", "Password is required").notEmpty()],
-  async (req, res) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ msg: errors.array()[0].msg });
@@ -405,7 +401,7 @@ auth.post(
 
       res.status(200).json({ msg: "User deleted successfully." });
     } catch (err) {
-      res.status(500).send("Server error.");
+      next(error);
     }
   }
 );

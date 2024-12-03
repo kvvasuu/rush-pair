@@ -18,9 +18,8 @@
       >
         <BasicSpinner></BasicSpinner>
       </div>
-      <form
+      <section
         class="w-full h-full flex flex-col items-center justify-center"
-        @submit.prevent="login"
         v-else
       >
         <div
@@ -33,6 +32,7 @@
             type="email"
             v-model="email"
             @click="showEmailError = false"
+            @keyup.enter="login"
             class="w-full p-4 pl-12 rounded-xl border-2"
             :class="{ 'border-red-500': showEmailError }"
           />
@@ -56,6 +56,7 @@
             type="password"
             v-model="password"
             @click="showPasswordError = false"
+            @keyup.enter="login"
             class="w-full p-4 pl-12 rounded-xl border-2"
             :class="{ 'border-red-500': showPasswordError }"
           />
@@ -74,7 +75,7 @@
         <p class="w-full flex justify-end">
           <button
             class="font-bold text-sm text-rose-500 bg-transparent border-none"
-            @click.prevent="toggleIsLoginShown"
+            @click="toggleIsLoginShown"
           >
             Forgot password?
           </button>
@@ -82,11 +83,11 @@
 
         <button
           class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
-          type="submit"
+          @click="login"
         >
           Login
         </button>
-      </form>
+      </section>
     </div>
 
     <div class="w-full h-full flex flex-col items-center pb-6" v-else>
@@ -104,9 +105,8 @@
       >
         <BasicSpinner></BasicSpinner>
       </div>
-      <form
+      <section
         class="w-full h-full flex flex-col items-center justify-center"
-        @submit.prevent=""
         v-else-if="!passwordResetRequestSent"
       >
         <div
@@ -139,18 +139,18 @@
         <div class="flex items-center w-full justify-center gap-4 mt-auto">
           <button
             class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
-            @click.prevent="toggleIsLoginShown"
+            @click="toggleIsLoginShown"
           >
             Back
           </button>
           <button
             class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
-            @click.prevent="resetPassword"
+            @click="resetPassword"
           >
             Reset password
           </button>
         </div>
-      </form>
+      </section>
       <div
         class="w-full h-full flex flex-col items-center justify-center"
         v-else-if="passwordResetRequestSent"
@@ -162,7 +162,7 @@
         </p>
         <button
           class="px-8 py-3 font-bold text-lg mt-auto bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
-          @click.prevent="toggleIsLoginShown"
+          @click="toggleIsLoginShown"
         >
           Back
         </button>

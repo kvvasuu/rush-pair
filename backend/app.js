@@ -45,6 +45,10 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
 
+app.use((error, req, res, next) => {
+  res.status(500).send(error.message); //Server error middleware
+});
+
 app.use(compression());
 
 export default app;
