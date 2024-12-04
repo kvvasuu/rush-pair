@@ -64,6 +64,7 @@
         autocomplete="off"
         spellcheck="false"
         @keydown.enter="sendMessage"
+        ref="messageInputRef"
       /><button
         class="w-16 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
         :title="message ? `Send message` : `Send heart`"
@@ -74,7 +75,7 @@
           <i class="fa-solid fa-heart" v-else></i>
         </Transition>
       </button>
-      <div class="w-16 h-full top-0 absolute right-16">
+      <div class="w-16 h-full top-0 absolute right-16" v-if="!isTouchDevice">
         <button
           class="w-full h-full absolute text-neutral-600 text-2xl group"
           title="Select emoji"
@@ -82,9 +83,10 @@
         >
           <i
             class="fa-regular fa-face-smile group-hover:bg-neutral-200 p-2 rounded-full transition-all duration-300"
+            :class="{ 'bg-neutral-200': isEmojiSelectorVisible }"
           ></i></button
         ><EmojiPicker
-          class="absolute w-[13.5rem] h-60 -top-56 -left-48 sm:w-[19.5rem] sm:-left-72 bg-slate-100 rounded-br-none shadow-lg"
+          class="absolute w-[13.5rem] h-[19rem] -top-[17.5rem] -left-48 sm:w-[19.5rem] sm:-left-72 bg-slate-100 rounded-br-none shadow-lg"
           @select-emoji="selectEmoji"
           @close="isEmojiSelectorVisible = false"
           v-if="isEmojiSelectorVisible"
@@ -115,6 +117,8 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 const message = ref("");
+const messageInputRef = ref<HTMLDivElement | null>(null);
+
 const messagesContainer = ref<HTMLDivElement | null>(null);
 
 const isEmojiSelectorVisible = ref(false);
@@ -125,6 +129,7 @@ const toggleEmojiSelector = () => {
 
 const selectEmoji = (emoji: string) => {
   message.value += emoji;
+  messageInputRef.value?.focus();
 };
 
 const sendMessage = async () => {
@@ -194,6 +199,10 @@ const onScroll = async () => {
       : (showScrollButton.value = false);
   }
 };
+
+const isTouchDevice = ref(
+  "ontouchstart" in window || navigator.maxTouchPoints > 0
+);
 
 watch(
   () => chatStore.newMessage,

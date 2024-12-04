@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col items-start justify-center rounded-xl p-2"
-    ref="pickerSelector"
+    ref="pickerSelectorRef"
   >
     <div class="w-full relative h-8" v-if="!isLoading">
       <input
@@ -21,16 +21,46 @@
     >
       <BasicSpinner></BasicSpinner>
     </div>
-    <div class="mt-1 w-full h-full flex flex-wrap overflow-y-auto" v-else>
-      <button
-        class="w-8 h-8 select-none text-lg cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        v-for="emoji in emojiList"
-        @click="selectEmoji"
-        :value="emoji.emoji"
-        :title="emoji.name"
+    <div class="mt-1 w-full h-full overflow-y-auto overflow-x-hidden" v-else>
+      <div class="w-full flex flex-col" v-if="searchResult?.length === 0">
+        <div
+          class="w-full flex flex-col mt-1"
+          v-for="(group, key) in emojiList"
+          ref="categoriesRef"
+        >
+          <span
+            class="px-1 mb-0.5 text-xs w-full select-none text-neutral-500"
+            >{{ key }}</span
+          >
+          <div class="w-full grid grid-cols-9 auto-rows-min">
+            <button
+              class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+              v-for="emoji in group"
+              @click="selectEmoji"
+              :value="emoji.emoji"
+              :title="emoji.name"
+            >
+              {{ emoji.emoji }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="w-full grid grid-cols-9 auto-rows-min"
+        v-else
+        id="searchResult"
       >
-        {{ emoji.emoji }}
-      </button>
+        <button
+          class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+          v-for="emoji in searchResult"
+          @click="selectEmoji"
+          :value="emoji.emoji"
+          :title="emoji.name"
+        >
+          {{ emoji.emoji }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -44,11 +74,12 @@ const emit = defineEmits(["selectEmoji", "close"]);
 
 const isLoading = ref(true);
 
-let emojis: Emoji[] = [];
+let emojis: Record<string, Emoji[]> = {};
 
-const emojiList = ref<Emoji[]>([]);
+const emojiList = ref<Record<string, Emoji[]>>({});
 
-const pickerSelector = ref<HTMLElement | null>(null);
+const pickerSelectorRef = ref<HTMLElement | null>(null);
+const categoriesRef = ref<HTMLElement | null>(null);
 
 const selectEmoji = (event: MouseEvent) => {
   const emojiButton = event.target as HTMLButtonElement;
@@ -56,23 +87,24 @@ const selectEmoji = (event: MouseEvent) => {
 };
 
 const searchValue = ref("");
+const searchResult = ref<Emoji[]>([]);
 const search = () => {
   if (searchValue.value.length > 1) {
     const lowerCaseQuery = searchValue.value.toLowerCase();
     if (searchValue.value.length >= 2) {
-      emojiList.value = emojis.filter((emoji) =>
-        emoji.name.toLowerCase().includes(lowerCaseQuery)
-      );
+      searchResult.value = Object.values(emojis)
+        .flat()
+        .filter((emoji) => emoji.name.toLowerCase().includes(lowerCaseQuery));
     }
   } else {
-    emojiList.value = emojis;
+    searchResult.value = [];
   }
 };
 
 const handleClickOutside = (event: MouseEvent) => {
   if (
-    pickerSelector.value &&
-    !pickerSelector.value.contains(event.target as Node)
+    pickerSelectorRef.value &&
+    !pickerSelectorRef.value.contains(event.target as Node)
   ) {
     emit("close");
   }
