@@ -3,7 +3,13 @@
     class="flex flex-col items-start justify-center rounded-xl p-2"
     ref="pickerSelector"
   >
-    <div class="w-full relative h-8">
+    <div
+      class="w-full h-full flex items-center justify-center"
+      v-if="isLoading"
+    >
+      <BasicSpinner></BasicSpinner>
+    </div>
+    <div class="w-full relative h-8" v-else>
       <input
         type="text"
         placeholder="Search for emoji"
@@ -30,8 +36,13 @@
 
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from "vue";
-import emojiList from "./emojiList.json";
+import BasicSpinner from "../BasicSpinner.vue";
+
 const emit = defineEmits(["selectEmoji", "close"]);
+
+const isLoading = ref(true);
+
+const emojiList = ref([]);
 
 const pickerSelector = ref<HTMLElement | null>(null);
 
@@ -49,7 +60,13 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await fetch("/emojiList.json")
+    .then((response) => response.json())
+    .then((data) => {
+      isLoading.value = false;
+      emojiList.value = data;
+    });
   document.addEventListener("click", handleClickOutside);
 });
 onBeforeUnmount(() => {
