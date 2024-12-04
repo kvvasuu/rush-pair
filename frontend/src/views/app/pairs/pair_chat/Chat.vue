@@ -75,6 +75,10 @@
         </Transition>
       </button>
     </div>
+    <EmojiPicker
+      class="absolute w-[13.5rem] h-52 top-1/2 left-1/2 bg-slate-100"
+      @select-emoji="selectEmoji"
+    ></EmojiPicker>
   </div>
 </template>
 
@@ -91,6 +95,7 @@ import {
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import EmojiPicker from "../../../../components/emoji-picker/EmojiPicker.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -99,6 +104,10 @@ const isLoading = ref(true);
 
 const message = ref("");
 const messagesContainer = ref<HTMLDivElement | null>(null);
+
+const selectEmoji = (emoji: string) => {
+  message.value += emoji;
+};
 
 const sendMessage = async () => {
   await chatStore.sendMessage(message.value);
