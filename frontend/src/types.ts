@@ -45,10 +45,16 @@ interface ChatStoreState {
   newMessage: Message | null;
 }
 
+interface Emoji {
+  emoji: string;
+  name: string;
+  group: string;
+}
+
 interface Message {
   sender: string;
   content: string;
   date: string;
 }
 
-export type { User, UserStoreState, ChatStoreState, PairInfo, Message };
+export type { User, UserStoreState, ChatStoreState, PairInfo, Message, Emoji };

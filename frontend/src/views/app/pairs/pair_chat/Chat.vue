@@ -107,7 +107,7 @@ import {
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
-import EmojiPicker from "../../../../components/emoji_picker/EmojiPicker.vue";
+import EmojiPicker from "../../../../components/EmojiPicker.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
