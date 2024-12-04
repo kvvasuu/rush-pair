@@ -25,4 +25,13 @@ const selectEmoji = (event: MouseEvent) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+::-webkit-scrollbar-track {
+  background: #ececec;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #d1d1d1;
+}
+</style>
