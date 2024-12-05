@@ -122,11 +122,6 @@ button {
 
 /**/
 
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 7px;
-}
-
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.5);
@@ -134,11 +129,15 @@ button {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f1f1f100;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #d1d1d1;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -12,7 +12,7 @@ import { __dirname } from "../app.js";
 
 const chat = express.Router();
 
-chat.get("/get-pairs/", authenticateToken, async (req, res) => {
+chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
   try {
     const pairs = await Pair.findOne({ email: req.user.user.email });
 
@@ -51,11 +51,11 @@ chat.get("/get-pairs/", authenticateToken, async (req, res) => {
       .sort((a, b) => b.pairedAt - a.pairedAt);
     res.json({ pairedWith: data });
   } catch (error) {
-    res.status(500).json({ msg: "Server error" });
+    next(error);
   }
 });
 
-chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
+chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
   try {
     const pairChatUser = await User.findById(req.params.id);
 
@@ -90,7 +90,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res) => {
 
     res.json({ pairChatUser: data });
   } catch (error) {
-    res.status(500).json({ msg: "Server error" });
+    next(error);
   }
 });
 
@@ -98,7 +98,7 @@ chat.put(
   "/change-pair-nickname/:id",
   rateLimiter,
   authenticateToken,
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       if (!req.body.nickname || req.body?.nickname.length <= 0) {
         return res.status(404).json({ msg: "No nickname provided." });
@@ -121,12 +121,12 @@ chat.put(
       }
       res.status(200).json({ msg: "Nickname changed", nickname: nickname });
     } catch (error) {
-      res.status(500).json({ msg: "Server error" });
+      next(error);
     }
   }
 );
 
-chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
+chat.get("/get-messages/:chatId", authenticateToken, async (req, res, next) => {
   const { chatId } = req.params;
   const { page = 1, limit = 20 } = req.query;
 
@@ -138,11 +138,11 @@ chat.get("/get-messages/:chatId", authenticateToken, async (req, res) => {
 
     res.json(messages);
   } catch (error) {
-    res.status(500).json({ error: "Błąd serwera" });
+    next(error);
   }
 });
 
-chat.post("/report-user", authenticateToken, async (req, res) => {
+chat.post("/report-user", authenticateToken, async (req, res, next) => {
   try {
     if (!req.body.reportType || !req.body.confirmed || !req.body.userId) {
       return res.status(404).json({ msg: "Invalid information." });
@@ -183,8 +183,7 @@ chat.post("/report-user", authenticateToken, async (req, res) => {
         .json({ msg: "Report sent.", reportReferenceId: report.referenceId });
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: "Server error" });
+    next(error);
   }
 });
 

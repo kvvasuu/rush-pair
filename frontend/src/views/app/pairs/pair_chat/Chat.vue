@@ -9,7 +9,7 @@
       <BasicSpinner></BasicSpinner>
     </div>
     <div
-      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse p-4 gap-1"
+      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-4 pt-6 gap-1"
       ref="messagesContainer"
       v-else
     >
@@ -64,8 +64,9 @@
         autocomplete="off"
         spellcheck="false"
         @keydown.enter="sendMessage"
+        ref="messageInputRef"
       /><button
-        class="w-20 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
+        class="w-16 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
         :title="message ? `Send message` : `Send heart`"
         @click="sendMessage"
       >
@@ -74,6 +75,23 @@
           <i class="fa-solid fa-heart" v-else></i>
         </Transition>
       </button>
+      <div class="w-16 h-full top-0 absolute right-16" v-if="!isTouchDevice">
+        <button
+          class="w-full h-full absolute text-neutral-600 text-2xl group"
+          title="Select emoji"
+          @click.stop="toggleEmojiSelector"
+        >
+          <i
+            class="fa-regular fa-face-smile group-hover:bg-neutral-200 p-2 rounded-full transition-all duration-300"
+            :class="{ 'bg-neutral-200': isEmojiSelectorVisible }"
+          ></i></button
+        ><EmojiPicker
+          class="absolute h-[19rem] -top-[17.5rem] w-[19.5rem] -left-72 bg-slate-100 rounded-br-none shadow-lg"
+          @select-emoji="selectEmoji"
+          @close="isEmojiSelectorVisible = false"
+          v-if="isEmojiSelectorVisible"
+        ></EmojiPicker>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +109,7 @@ import {
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import EmojiPicker from "../../../../components/EmojiPicker.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -98,7 +117,20 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 const message = ref("");
+const messageInputRef = ref<HTMLDivElement | null>(null);
+
 const messagesContainer = ref<HTMLDivElement | null>(null);
+
+const isEmojiSelectorVisible = ref(false);
+
+const toggleEmojiSelector = () => {
+  isEmojiSelectorVisible.value = !isEmojiSelectorVisible.value;
+};
+
+const selectEmoji = (emoji: string) => {
+  message.value += emoji;
+  messageInputRef.value?.focus();
+};
 
 const sendMessage = async () => {
   await chatStore.sendMessage(message.value);
@@ -167,6 +199,10 @@ const onScroll = async () => {
       : (showScrollButton.value = false);
   }
 };
+
+const isTouchDevice = ref(
+  "ontouchstart" in window || navigator.maxTouchPoints > 0
+);
 
 watch(
   () => chatStore.newMessage,

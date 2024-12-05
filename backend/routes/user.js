@@ -29,7 +29,7 @@ user.put(
   "/update-image",
   authenticateToken,
   imageUpload.single("profilePicture"),
-  async (req, res) => {
+  async (req, res, next) => {
     try {
       const user = await User.findOne({ email: req.user.user.email });
 
@@ -71,12 +71,12 @@ user.put(
         imageUrl: user.imageUrl,
       });
     } catch (error) {
-      res.status(500).json({ msg: "Server error" });
+      next(error);
     }
   }
 );
 
-user.put("/update-profile", authenticateToken, async (req, res) => {
+user.put("/update-profile", authenticateToken, async (req, res, next) => {
   try {
     const { name, birthdate, gender, country, city, phoneNumber, description } =
       req.body.userData;
@@ -114,11 +114,11 @@ user.put("/update-profile", authenticateToken, async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ msg: "Server error" });
+    next(error);
   }
 });
 
-user.patch("/change-settings", authenticateToken, async (req, res) => {
+user.patch("/change-settings", authenticateToken, async (req, res, next) => {
   try {
     const updateQuery = {};
 
@@ -141,7 +141,7 @@ user.patch("/change-settings", authenticateToken, async (req, res) => {
       settings: req.body.settings,
     });
   } catch (error) {
-    res.status(500).json({ msg: "Server error" });
+    next(error);
   }
 });
 

@@ -50,7 +50,7 @@ The app supports real-time chat with the following features:
 
 #### Backend :computer:
 
-The app uses **MongoDB** and **Mongoose** for database management, ensuring secure and efficient data storage. The API handles user authentication, profile management, and real-time chat functionalities.
+The app uses **MongoDB** and **Mongoose** for database management, ensuring secure and efficient data storage. The REST API handles user authentication, profile management, and real-time chat functionalities.
 
 #### More coming soon...
 
