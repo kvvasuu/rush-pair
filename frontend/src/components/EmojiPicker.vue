@@ -23,6 +23,7 @@
     </div>
     <div
       class="mt-1 w-full h-52 overflow-y-auto overflow-x-hidden"
+      :class="{ 'h-[15.75rem]': searchResult?.length > 0 }"
       ref="emojiListRef"
       v-else
     >
@@ -223,7 +224,6 @@ const cleanupObserver = () => {
 
 watch(categoriesButtonsRef, (newVal) => {
   if (newVal) {
-    console.log("dupa");
     initializeObserver();
   } else {
     cleanupObserver();
