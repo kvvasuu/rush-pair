@@ -59,7 +59,7 @@
         id="message"
         v-model="message"
         type="text"
-        class="w-full h-full m-0 outline-none p-2 pl-4 pr-14 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-700/50 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700 transition-all shadow z-30"
+        class="w-full h-full m-0 outline-none p-2 pl-4 pr-14 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700 transition-all shadow z-30"
         placeholder="Type a message"
         autocomplete="off"
         spellcheck="false"
@@ -82,11 +82,13 @@
           @click.stop="toggleEmojiSelector"
         >
           <i
-            class="fa-regular fa-face-smile group-hover:bg-neutral-200 p-2 rounded-full transition-all duration-300"
-            :class="{ 'bg-neutral-200': isEmojiSelectorVisible }"
+            class="fa-regular fa-face-smile group-hover:bg-neutral-200 dark:group-hover:bg-neutral-800 p-2 rounded-full transition-all duration-300"
+            :class="{
+              'bg-neutral-200 dark:bg-neutral-800': isEmojiSelectorVisible,
+            }"
           ></i></button
         ><EmojiPicker
-          class="absolute h-[19rem] -top-[17.5rem] w-[19.5rem] -left-72 bg-slate-100 rounded-br-none shadow-lg"
+          class="absolute h-[19rem] -top-[17.5rem] w-[19.5rem] -left-72 rounded-br-none shadow-lg"
           @select-emoji="selectEmoji"
           @close="isEmojiSelectorVisible = false"
           v-if="isEmojiSelectorVisible"
