@@ -86,7 +86,7 @@
             :class="{ 'bg-neutral-200': isEmojiSelectorVisible }"
           ></i></button
         ><EmojiPicker
-          class="absolute w-[13.5rem] h-[19rem] -top-[17.5rem] -left-48 sm:w-[19.5rem] sm:-left-72 bg-slate-100 rounded-br-none shadow-lg"
+          class="absolute w-[13.5rem] h-[18.5rem] -top-[17.5rem] -left-48 sm:w-[19.5rem] sm:-left-72 bg-slate-100 rounded-br-none shadow-lg"
           @select-emoji="selectEmoji"
           @close="isEmojiSelectorVisible = false"
           v-if="isEmojiSelectorVisible"

@@ -21,7 +21,7 @@
     >
       <BasicSpinner></BasicSpinner>
     </div>
-    <div class="mt-1 w-full h-full overflow-y-auto overflow-x-hidden" v-else>
+    <div class="mt-1 w-full h-52 overflow-y-auto overflow-x-hidden" v-else>
       <div class="w-full flex flex-col" v-if="searchResult?.length === 0">
         <div
           class="w-full flex flex-col mt-1"
@@ -62,6 +62,74 @@
         </button>
       </div>
     </div>
+    <div
+      class="w-full h-8 mt-2 grid grid-cols-9 text-lg"
+      v-if="!isLoading && searchResult?.length === 0"
+    >
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 0 }"
+        @click="scrollToCategory(0)"
+      >
+        <i class="fa-solid fa-face-smile-beam"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 1 }"
+        @click="scrollToCategory(1)"
+      >
+        <i class="fa-solid fa-child"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 2 }"
+        @click="scrollToCategory(2)"
+      >
+        <i class="fa-solid fa-horse"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 3 }"
+        @click="scrollToCategory(3)"
+      >
+        <i class="fa-solid fa-utensils"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 4 }"
+        @click="scrollToCategory(4)"
+      >
+        <i class="fa-solid fa-earth-americas"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 5 }"
+        @click="scrollToCategory(5)"
+      >
+        <i class="fa-solid fa-basketball"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 6 }"
+        @click="scrollToCategory(6)"
+      >
+        <i class="fa-solid fa-lightbulb"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 7 }"
+        @click="scrollToCategory(7)"
+      >
+        <i class="fa-solid fa-question"></i>
+      </button>
+      <button
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+        :class="{ 'text-rose-600': activeCategory === 8 }"
+        @click="scrollToCategory(8)"
+      >
+        <i class="fa-solid fa-flag"></i>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -79,7 +147,18 @@ let emojis: Record<string, Emoji[]> = {};
 const emojiList = ref<Record<string, Emoji[]>>({});
 
 const pickerSelectorRef = ref<HTMLElement | null>(null);
-const categoriesRef = ref<HTMLElement | null>(null);
+
+const categoriesRef = ref<HTMLElement[] | null>(null);
+const activeCategory = ref(0);
+const scrollToCategory = (categoryIndex: number) => {
+  if (categoriesRef.value) {
+    categoriesRef.value[categoryIndex].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    activeCategory.value = categoryIndex;
+  }
+};
 
 const selectEmoji = (event: MouseEvent) => {
   const emojiButton = event.target as HTMLButtonElement;

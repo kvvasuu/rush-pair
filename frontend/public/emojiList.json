@@ -1087,17 +1087,6 @@
     { "name": "Family", "emoji": "👪" },
     { "name": "Footprints", "emoji": "👣" }
   ],
-  "Component": [
-    { "name": "Light skin tone", "emoji": "🏻" },
-    { "name": "Medium-light skin tone", "emoji": "🏼" },
-    { "name": "Medium skin tone", "emoji": "🏽" },
-    { "name": "Medium-dark skin tone", "emoji": "🏾" },
-    { "name": "Dark skin tone", "emoji": "🏿" },
-    { "name": "Red hair", "emoji": "🦰" },
-    { "name": "Curly hair", "emoji": "🦱" },
-    { "name": "White hair", "emoji": "🦳" },
-    { "name": "Bald", "emoji": "🦲" }
-  ],
   "Animals & Nature": [
     { "name": "Monkey face", "emoji": "🐵" },
     { "name": "Monkey", "emoji": "🐒" },
