@@ -21,12 +21,18 @@
     >
       <BasicSpinner></BasicSpinner>
     </div>
-    <div class="mt-1 w-full h-52 overflow-y-auto overflow-x-hidden" v-else>
+    <div
+      class="mt-1 w-full h-52 overflow-y-auto overflow-x-hidden"
+      ref="emojiListRef"
+      v-else
+    >
       <div class="w-full flex flex-col" v-if="searchResult?.length === 0">
         <div
           class="w-full flex flex-col mt-1"
-          v-for="(group, key) in emojiList"
+          v-for="(group, key, index) in emojiList"
+          :key="key"
           ref="categoriesRef"
+          :id="`emoji-picker-category-${index}`"
         >
           <span
             class="px-1 mb-0.5 text-xs w-full select-none text-neutral-500"
@@ -67,67 +73,13 @@
       v-if="!isLoading && searchResult?.length === 0"
     >
       <button
+        v-for="(category, index) in categoriesList"
         class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 0 }"
-        @click="scrollToCategory(0)"
+        :class="{ 'text-rose-600': activeCategory === index }"
+        @click="scrollToCategory(index)"
+        :title="category.name"
       >
-        <i class="fa-solid fa-face-smile-beam"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 1 }"
-        @click="scrollToCategory(1)"
-      >
-        <i class="fa-solid fa-child"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 2 }"
-        @click="scrollToCategory(2)"
-      >
-        <i class="fa-solid fa-horse"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 3 }"
-        @click="scrollToCategory(3)"
-      >
-        <i class="fa-solid fa-utensils"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 4 }"
-        @click="scrollToCategory(4)"
-      >
-        <i class="fa-solid fa-earth-americas"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 5 }"
-        @click="scrollToCategory(5)"
-      >
-        <i class="fa-solid fa-basketball"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 6 }"
-        @click="scrollToCategory(6)"
-      >
-        <i class="fa-solid fa-lightbulb"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 7 }"
-        @click="scrollToCategory(7)"
-      >
-        <i class="fa-solid fa-question"></i>
-      </button>
-      <button
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === 8 }"
-        @click="scrollToCategory(8)"
-      >
-        <i class="fa-solid fa-flag"></i>
+        <i :class="category.icon"></i>
       </button>
     </div>
   </div>
@@ -150,15 +102,65 @@ const pickerSelectorRef = ref<HTMLElement | null>(null);
 
 const categoriesRef = ref<HTMLElement[] | null>(null);
 const activeCategory = ref(0);
+const categoriesList = [
+  {
+    name: "Smileys & Emotion",
+    icon: "fa-solid fa-face-smile-beam",
+  },
+  {
+    name: "People & Body",
+    icon: "fa-solid fa-child",
+  },
+  {
+    name: "Animals & Nature",
+    icon: "fa-solid fa-horse",
+  },
+  {
+    name: "Food & Drink",
+    icon: "fa-solid fa-utensils",
+  },
+  {
+    name: "Travel & Places",
+    icon: "fa-solid fa-earth-americas",
+  },
+  {
+    name: "Activities",
+    icon: "fa-solid fa-basketball",
+  },
+  {
+    name: "Objects",
+    icon: "fa-solid fa-lightbulb",
+  },
+  {
+    name: "Symbols",
+    icon: "fa-solid fa-question",
+  },
+  {
+    name: "Flags",
+    icon: "fa-solid fa-flag",
+  },
+];
 const scrollToCategory = (categoryIndex: number) => {
   if (categoriesRef.value) {
     categoriesRef.value[categoryIndex].scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-    activeCategory.value = categoryIndex;
   }
 };
+
+const emojiListRef = ref<HTMLElement | null>(null);
+const observeElement = (entries: IntersectionObserverEntry[]) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      console.log(entry.target.id.replace("emoji-picker-category-", ""));
+      activeCategory.value = parseInt(
+        entry.target.id.replace("emoji-picker-category-", "")
+      );
+    }
+  });
+};
+let observer: IntersectionObserver | null = null;
 
 const selectEmoji = (event: MouseEvent) => {
   const emojiButton = event.target as HTMLButtonElement;
@@ -197,10 +199,22 @@ onMounted(async () => {
       emojis = data;
       emojiList.value = data;
     });
+
   document.addEventListener("click", handleClickOutside);
+
+  observer = new IntersectionObserver(observeElement, {
+    root: emojiListRef.value,
+    threshold: 0.01,
+  });
+
+  if (categoriesRef.value)
+    categoriesRef.value.forEach((div) => {
+      observer?.observe(div);
+    });
 });
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
+  observer?.disconnect();
 });
 </script>
 
