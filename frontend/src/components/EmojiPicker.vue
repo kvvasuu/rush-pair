@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-start justify-center rounded-xl p-2"
+    class="flex flex-col items-start justify-start rounded-xl p-2"
     ref="pickerSelectorRef"
   >
     <div class="w-full relative h-8" v-if="!isLoading">
@@ -71,11 +71,12 @@
     <div
       class="w-full h-8 mt-2 grid grid-cols-9 text-lg"
       v-if="!isLoading && searchResult?.length === 0"
+      ref="categoriesButtonsRef"
     >
       <button
         v-for="(category, index) in categoriesList"
         class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-rose-600': activeCategory === index }"
+        :class="{ 'text-blue-500': activeCategory === index }"
         @click="scrollToCategory(index)"
         :title="category.name"
       >
@@ -86,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import BasicSpinner from "./BasicSpinner.vue";
 import type { Emoji } from "../types";
 
@@ -101,6 +102,7 @@ const emojiList = ref<Record<string, Emoji[]>>({});
 const pickerSelectorRef = ref<HTMLElement | null>(null);
 
 const categoriesRef = ref<HTMLElement[] | null>(null);
+const categoriesButtonsRef = ref<HTMLElement[] | null>(null);
 const activeCategory = ref(0);
 const categoriesList = [
   {
@@ -153,7 +155,6 @@ const emojiListRef = ref<HTMLElement | null>(null);
 const observeElement = (entries: IntersectionObserverEntry[]) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      console.log(entry.target.id.replace("emoji-picker-category-", ""));
       activeCategory.value = parseInt(
         entry.target.id.replace("emoji-picker-category-", "")
       );
@@ -202,19 +203,36 @@ onMounted(async () => {
 
   document.addEventListener("click", handleClickOutside);
 
-  observer = new IntersectionObserver(observeElement, {
-    root: emojiListRef.value,
-    threshold: 0.01,
-  });
-
-  if (categoriesRef.value)
-    categoriesRef.value.forEach((div) => {
-      observer?.observe(div);
-    });
+  initializeObserver();
 });
+
+const initializeObserver = () => {
+  if (emojiListRef.value && categoriesRef.value) {
+    observer = new IntersectionObserver(observeElement, {
+      root: emojiListRef.value,
+      threshold: 0.01,
+    });
+    categoriesRef.value.forEach((div) => observer?.observe(div));
+  }
+};
+
+const cleanupObserver = () => {
+  observer?.disconnect();
+  observer = null;
+};
+
+watch(categoriesButtonsRef, (newVal) => {
+  if (newVal) {
+    console.log("dupa");
+    initializeObserver();
+  } else {
+    cleanupObserver();
+  }
+});
+
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
-  observer?.disconnect();
+  cleanupObserver();
 });
 </script>
 
