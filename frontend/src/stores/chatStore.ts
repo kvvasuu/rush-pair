@@ -90,7 +90,7 @@ export const useChatStore = defineStore("chatStore", {
           `${SERVER_URL}/chat/get-messages/${chatId}`,
           {
             headers: { Authorization: `Bearer ${userStore.token}` },
-            params: { page: this.currentPage, limit: 20 },
+            params: { page: this.currentPage, limit: 50 },
           }
         );
         if (response.data.length > 0) {

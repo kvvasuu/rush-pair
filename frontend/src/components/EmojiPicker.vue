@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col items-start justify-start rounded-xl p-2"
+    class="flex flex-col items-start justify-start rounded-xl p-2 bg-slate-100 dark:bg-zinc-900"
     ref="pickerSelectorRef"
   >
     <div class="w-full relative h-8" v-if="!isLoading">
@@ -12,7 +12,7 @@
         @keyup="search"
       />
       <i
-        class="fa-solid fa-magnifying-glass absolute h-8 top-0 left-2 flex items-center text-neutral-300"
+        class="fa-solid fa-magnifying-glass absolute h-8 top-0 left-2 flex items-center text-neutral-300 dark:text-neutral-600"
       ></i>
     </div>
     <div
@@ -27,7 +27,10 @@
       ref="emojiListRef"
       v-else
     >
-      <div class="w-full flex flex-col" v-if="searchResult?.length === 0">
+      <div
+        class="w-full flex flex-col"
+        v-if="searchResult?.length === 0 && searchValue.length < 2"
+      >
         <div
           class="w-full flex flex-col mt-1"
           v-for="(group, key, index) in emojiList"
@@ -41,7 +44,7 @@
           >
           <div class="w-full grid grid-cols-9 auto-rows-min">
             <button
-              class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+              class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-lg"
               v-for="emoji in group"
               @click="selectEmoji"
               :value="emoji.emoji"
@@ -59,7 +62,7 @@
         id="searchResult"
       >
         <button
-          class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
+          class="w-8 h-8 select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-lg"
           v-for="emoji in searchResult"
           @click="selectEmoji"
           :value="emoji.emoji"
@@ -71,13 +74,17 @@
     </div>
     <div
       class="w-full h-8 mt-2 grid grid-cols-9 text-lg"
-      v-if="!isLoading && searchResult?.length === 0"
+      v-if="!isLoading && searchResult?.length === 0 && searchValue.length < 2"
       ref="categoriesButtonsRef"
     >
       <button
         v-for="(category, index) in categoriesList"
-        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 rounded-lg"
-        :class="{ 'text-blue-500': activeCategory === index }"
+        class="select-none text-xl cursor-pointer flex items-center justify-center m-0 p-0.5 shrink-0 grow-0 hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-lg"
+        :class="[
+          activeCategory === index
+            ? 'text-blue-500 dark:text-blue-600'
+            : 'text-neutral-500 dark:text-neutral-600',
+        ]"
         @click="scrollToCategory(index)"
         :title="category.name"
       >
@@ -238,11 +245,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 ::-webkit-scrollbar-track {
-  background: #ececec;
+  background: #ececec11;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-track:hover {
-  background: #d1d1d1;
+  background: #d1d1d122;
 }
 </style>
