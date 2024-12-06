@@ -27,7 +27,10 @@
       ref="emojiListRef"
       v-else
     >
-      <div class="w-full flex flex-col" v-if="searchResult?.length === 0">
+      <div
+        class="w-full flex flex-col"
+        v-if="searchResult?.length === 0 && searchValue.length < 2"
+      >
         <div
           class="w-full flex flex-col mt-1"
           v-for="(group, key, index) in emojiList"
@@ -71,7 +74,7 @@
     </div>
     <div
       class="w-full h-8 mt-2 grid grid-cols-9 text-lg"
-      v-if="!isLoading && searchResult?.length === 0"
+      v-if="!isLoading && searchResult?.length === 0 && searchValue.length < 2"
       ref="categoriesButtonsRef"
     >
       <button
