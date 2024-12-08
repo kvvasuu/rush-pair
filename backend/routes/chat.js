@@ -1,7 +1,7 @@
 import express from "express";
 import * as fs from "node:fs/promises";
 import path from "path";
-import { authenticateToken } from "./auth.js";
+import { authenticateToken } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
 import ActiveUser from "../models/ActiveUser.js";
