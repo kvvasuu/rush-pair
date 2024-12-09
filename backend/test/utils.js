@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import sinon from "sinon";
 
 import { calculateYearsSince } from "../utils.js";
 
