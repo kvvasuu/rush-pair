@@ -2,7 +2,8 @@
   <div role="status" class="flex items-center justify-center">
     <svg
       aria-hidden="true"
-      class="w-8 h-8 text-transparent animate-spin fill-neutral-400"
+      class="w-8 h-8 text-transparent animate-spin"
+      :class="[props.color ? props.color : 'fill-neutral-400']"
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -19,3 +20,7 @@
     <span class="sr-only">Loading...</span>
   </div>
 </template>
+
+<script setup>
+const props = defineProps(["color"]);
+</script>

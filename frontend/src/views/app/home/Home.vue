@@ -15,10 +15,12 @@
       v-else-if="!isLoading && !isDrawing"
     ></RecentPairs>
     <DrawPair
-      class="absolute w-full h-64 top-[calc(50%-8rem)] sm:h-[30rem] sm:top-[calc(50%-15rem)]"
-      :class="{
-        'h-full sm:h-full top-0 sm:top-0': isEnlarged,
-      }"
+      class="absolute w-full"
+      :class="[
+        isEnlarged
+          ? 'h-full sm:h-full top-0 sm:top-0'
+          : 'h-64 top-[calc(50%-8rem)] sm:h-[30rem] sm:top-[calc(50%-15rem)]',
+      ]"
       @start-drawing="startDrawing"
       @stop-drawing="stopDrawing"
     ></DrawPair>

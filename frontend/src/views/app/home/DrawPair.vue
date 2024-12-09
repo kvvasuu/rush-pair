@@ -2,14 +2,14 @@
   <div class="flex flex-col items-center justify-center">
     <Transition name="fade" mode="out-in">
       <div
-        class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-12 shadow-md"
+        class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-6 sm:p-12 shadow-md"
         v-if="!isDrawing"
       >
         <div
-          class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full p-12 shadow-md"
+          class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full p-6 sm:p-12 shadow-md"
         >
           <button
-            class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full shadow-top border-slate-100 dark:border-stone-800 border-8 group"
+            class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full shadow-top border-slate-100 dark:border-stone-800 border-4 sm:border-8 group"
             @click="startDrawing"
             :disabled="mainStore.isDrawing"
           >
@@ -29,7 +29,9 @@
                     class="absolute bg-red-500 w-full h-full"
                   ></div>
                 </Transition>
-                <p class="text-slate-100 font-bold text-3xl drop-shadow-md">
+                <p
+                  class="text-slate-100 font-bold text-xl sm:text-3xl drop-shadow-md"
+                >
                   Rush for Pair!
                 </p>
               </div>
@@ -37,17 +39,29 @@
           </button>
         </div>
       </div>
-      <div v-else class="bg-red-500 w-full h-full flex flex-col">
-        <div class="w-full flex justify-start items-center h-16 px-4">
+      <div
+        v-else
+        class="bg-red-500 w-full h-full py-24 flex flex-col items-center justify-center"
+      >
+        <div
+          class="h-full w-full flex flex-col items-center justify-center gap-8"
+        >
+          <BasicSpinner
+            :color="'fill-neutral-100'"
+            class="w-full flex justify-center items-center"
+          ></BasicSpinner>
+          <p class="text-neutral-100 font-semibold animate-pulse select-none">
+            Searching...
+          </p>
+        </div>
+
+        <div class="w-full flex justify-center">
           <button
             @click="stopDrawing"
-            class="flex items-center justify-center text-3xl text-neutral-100 hover:text-neutral-200 dark:text-neutral-700 dark:hover:text-neutral-600 font-semibold gap-1 transition-colors"
+            class="flex items-center border-neutral-100 border-2 py-2 px-6 rounded-xl justify-center text-xl text-neutral-100 hover:text-neutral-200 dark:text-neutral-700 dark:hover:text-neutral-600 font-semibold gap-1 transition-colors"
           >
-            <i class="fa-solid fa-angle-left text-4xl"></i><span>Back</span>
+            <span>Stop searching</span>
           </button>
-        </div>
-        <div clas="h-full w-full flex justify-center items-center">
-          <BasicSpinner></BasicSpinner>
         </div>
       </div>
     </Transition>
