@@ -1,18 +1,20 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full w-full">
+  <div class="flex flex-col items-center justify-center">
     <Transition name="fade" mode="out-in">
       <div
-        class="rounded-full bg-slate-100 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-12 shadow-md"
+        class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-12 shadow-md"
         v-if="!isDrawing"
       >
-        <div class="rounded-full bg-slate-100 w-full h-full p-12 shadow-md">
+        <div
+          class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full p-12 shadow-md"
+        >
           <button
-            class="rounded-full bg-slate-100 w-full h-full shadow-top border-slate-100 border-8 group"
+            class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full shadow-top border-slate-100 dark:border-stone-800 border-8 group"
             @click="startDrawing"
             :disabled="mainStore.isDrawing"
           >
             <div
-              class="rounded-full bg-red-500 w-full h-full shadow-inner shadow-red-950/25 p-4"
+              class="rounded-full bg-red-500 dark:bg-red-600/60 w-full h-full shadow-inner shadow-red-950/25 p-4"
             >
               <div
                 class="rounded-full bg-red-500 w-full h-full shadow-top flex items-center justify-center transition-all duration-150"
@@ -35,12 +37,18 @@
           </button>
         </div>
       </div>
-      <div
-        v-else
-        class="bg-red-500 w-full h-full flex flex-col justify-center gap-4"
-      >
-        <BasicSpinner></BasicSpinner>
-        <button @click="stopDrawing">Back</button>
+      <div v-else class="bg-red-500 w-full h-full flex flex-col">
+        <div class="w-full flex justify-start items-center h-16 px-4">
+          <button
+            @click="stopDrawing"
+            class="flex items-center justify-center text-3xl text-neutral-100 hover:text-neutral-200 dark:text-neutral-700 dark:hover:text-neutral-600 font-semibold gap-1 transition-colors"
+          >
+            <i class="fa-solid fa-angle-left text-4xl"></i><span>Back</span>
+          </button>
+        </div>
+        <div clas="h-full w-full flex justify-center items-center">
+          <BasicSpinner></BasicSpinner>
+        </div>
       </div>
     </Transition>
   </div>

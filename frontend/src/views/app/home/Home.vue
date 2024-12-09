@@ -15,7 +15,10 @@
       v-else-if="!isLoading && !isDrawing"
     ></RecentPairs>
     <DrawPair
-      class="absolute h-[100%-4rem]"
+      class="absolute w-full h-64 top-[calc(50%-8rem)] sm:h-[30rem] sm:top-[calc(50%-15rem)]"
+      :class="{
+        'h-full sm:h-full top-0 sm:top-0': isEnlarged,
+      }"
       @start-drawing="startDrawing"
       @stop-drawing="stopDrawing"
     ></DrawPair>
@@ -34,7 +37,10 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 const isDrawing = ref(false);
 
+const isEnlarged = ref(false);
+
 const startDrawing = () => {
+  isEnlarged.value = true;
   setTimeout(() => {
     isDrawing.value = true;
   }, 1200);
@@ -42,6 +48,9 @@ const startDrawing = () => {
 
 const stopDrawing = () => {
   isDrawing.value = false;
+  setTimeout(() => {
+    isEnlarged.value = false;
+  }, 500);
 };
 
 onMounted(async () => {
