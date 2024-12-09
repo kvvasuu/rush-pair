@@ -9,9 +9,8 @@ const rateLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-const calculateYearsSince = (dateString) => {
+const calculateYearsSince = (dateString, today = new Date()) => {
   const givenDate = new Date(dateString);
-  const today = new Date();
 
   let yearsDifference = today.getFullYear() - givenDate.getFullYear();
 
