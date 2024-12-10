@@ -21,6 +21,8 @@
   </div>
 </template>
 
-<script setup>
-const props = defineProps(["color"]);
+<script setup lang="ts">
+const props = defineProps({
+  color: String,
+});
 </script>

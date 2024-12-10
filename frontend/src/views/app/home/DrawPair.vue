@@ -45,6 +45,7 @@
       >
         <div
           class="h-full w-full flex flex-col items-center justify-center gap-8"
+          v-if="isSearching"
         >
           <BasicSpinner
             :color="'fill-neutral-100'"
@@ -54,13 +55,23 @@
             Searching...
           </p>
         </div>
+        <div
+          class="h-full w-full flex flex-col items-center justify-center text-center"
+          v-else
+        >
+          <p class="text-neutral-100 font-semibold select-none">
+            Something went wrong...
+          </p>
+          <p class="text-neutral-100 text-sm select-none">Try again later.</p>
+        </div>
 
         <div class="w-full flex justify-center">
           <button
             @click="stopDrawing"
             class="flex items-center border-neutral-100 border-2 py-2 px-6 rounded-xl justify-center text-xl text-neutral-100 hover:text-neutral-200 dark:text-neutral-700 dark:hover:text-neutral-600 font-semibold gap-1 transition-colors"
           >
-            <span>Stop searching</span>
+            <span v-if="isSearching">Stop searching</span>
+            <span v-else>Back</span>
           </button>
         </div>
       </div>
@@ -72,18 +83,37 @@
 import { onBeforeUnmount, ref } from "vue";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
 import { useMainStore } from "../../../stores";
+import axios from "axios";
+import { useUserStore } from "../../../stores/userStore";
 
 const emit = defineEmits(["startDrawing", "stopDrawing"]);
 
 const mainStore = useMainStore();
+const userStore = useUserStore();
 
 const isDrawing = ref(false);
+const isSearching = ref(false);
+
+const startSearching = async () => {
+  isSearching.value = true;
+  try {
+    const res = await axios.post(`/chat/rush-pair`, {
+      userId: userStore.id,
+    });
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isSearching.value = false;
+  }
+};
 
 const startDrawing = () => {
   emit("startDrawing");
   mainStore.isDrawing = true;
   setTimeout(() => {
     isDrawing.value = true;
+    startSearching();
   }, 1200);
 };
 
