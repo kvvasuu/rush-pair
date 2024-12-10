@@ -6,7 +6,7 @@ import path from "path";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import chatRoutes from "./routes/chat.js";
-import { authenticateToken } from "./routes/auth.js";
+import { authenticateToken } from "./middleware/auth.js";
 import dotenv from "dotenv";
 import compression from "compression";
 

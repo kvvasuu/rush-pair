@@ -15,6 +15,9 @@ export default {
       colors: {
         "neutral-750": "#313131",
       },
+      boxShadow: {
+        top: "0px 2px 5px 1px rgba(0, 0, 0, 0.2)",
+      },
     },
   },
   plugins: [],

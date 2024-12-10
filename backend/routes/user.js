@@ -1,5 +1,5 @@
 import express from "express";
-import { authenticateToken } from "./auth.js";
+import { authenticateToken } from "../middleware/auth.js";
 import User from "../models/User.js";
 import multer from "multer";
 import path from "path";
