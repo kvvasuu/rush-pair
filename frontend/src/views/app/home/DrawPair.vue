@@ -30,7 +30,7 @@
                   ></div>
                 </Transition>
                 <p
-                  class="text-slate-100 font-bold text-xl sm:text-3xl drop-shadow-md"
+                  class="text-slate-100 dark:text-neutral-700 font-bold text-xl sm:text-3xl drop-shadow-md"
                 >
                   Rush for Pair!
                 </p>
@@ -48,10 +48,16 @@
           v-if="isSearching"
         >
           <BasicSpinner
-            :color="'fill-neutral-100'"
+            :color="
+              userStore.settings.theme === 'dark'
+                ? 'fill-neutral-700'
+                : 'fill-neutral-100'
+            "
             class="w-full flex justify-center items-center"
           ></BasicSpinner>
-          <p class="text-neutral-100 font-semibold animate-pulse select-none">
+          <p
+            class="text-neutral-100 dark:text-neutral-700 font-semibold animate-pulse select-none"
+          >
             Searching...
           </p>
         </div>
@@ -59,16 +65,20 @@
           class="h-full w-full flex flex-col items-center justify-center text-center"
           v-else
         >
-          <p class="text-neutral-100 font-semibold select-none">
+          <p
+            class="text-neutral-100 dark:text-neutral-700 font-semibold select-none"
+          >
             Something went wrong...
           </p>
-          <p class="text-neutral-100 text-sm select-none">Try again later.</p>
+          <p class="text-neutral-100 dark:text-neutral-700 text-sm select-none">
+            Try again later.
+          </p>
         </div>
 
         <div class="w-full flex justify-center">
           <button
             @click="stopDrawing"
-            class="flex items-center border-neutral-100 border-2 py-2 px-6 rounded-xl justify-center text-xl text-neutral-100 hover:text-neutral-200 dark:text-neutral-700 dark:hover:text-neutral-600 font-semibold gap-1 transition-colors"
+            class="flex items-center text-red-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
           >
             <span v-if="isSearching">Stop searching</span>
             <span v-else>Back</span>
@@ -104,7 +114,9 @@ const startSearching = async () => {
   } catch (error) {
     console.log(error);
   } finally {
-    isSearching.value = false;
+    setTimeout(() => {
+      isSearching.value = false;
+    }, 2000);
   }
 };
 
