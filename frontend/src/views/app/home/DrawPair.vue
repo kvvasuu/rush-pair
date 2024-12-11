@@ -68,10 +68,13 @@
           <p
             class="text-neutral-100 dark:text-neutral-700 font-semibold select-none"
           >
-            Something went wrong...
+            {{ mainStore.socketMessage }}
           </p>
-          <p class="text-neutral-100 dark:text-neutral-700 text-sm select-none">
-            Try again later.
+          <p
+            v-if="!mainStore.pairId"
+            class="text-neutral-100 dark:text-neutral-700 text-sm select-none"
+          >
+            Try again later or wait for others :D
           </p>
         </div>
 
@@ -90,13 +93,15 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, ref } from "vue";
+import { onBeforeUnmount, ref, watch } from "vue";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
 import { useMainStore } from "../../../stores";
-import axios from "axios";
 import { useUserStore } from "../../../stores/userStore";
+import { useRouter } from "vue-router";
 
 const emit = defineEmits(["startDrawing", "stopDrawing"]);
+
+const router = useRouter();
 
 const mainStore = useMainStore();
 const userStore = useUserStore();
@@ -106,18 +111,7 @@ const isSearching = ref(false);
 
 const startSearching = async () => {
   isSearching.value = true;
-  try {
-    const res = await axios.post(`/chat/rush-pair`, {
-      userId: userStore.id,
-    });
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    setTimeout(() => {
-      isSearching.value = false;
-    }, 2000);
-  }
+  userStore.startDrawingAPair();
 };
 
 const startDrawing = () => {
@@ -133,10 +127,34 @@ const stopDrawing = () => {
   isDrawing.value = false;
   emit("stopDrawing");
   mainStore.isDrawing = false;
+  userStore.stopDrawingAPair();
 };
+
+watch(
+  () => mainStore.pairId,
+  async (pairId) => {
+    setTimeout(() => {
+      isSearching.value = false;
+    }, 1000);
+
+    await userStore.getPairs();
+    router.push(`/app/pairs/${pairId}`);
+  },
+  { deep: true }
+);
+watch(
+  () => mainStore.isEmpty,
+  () => {
+    setTimeout(() => {
+      isSearching.value = false;
+    }, 10000);
+  },
+  { deep: true }
+);
 
 onBeforeUnmount(() => {
   mainStore.isDrawing = false;
+  userStore.stopDrawingAPair();
 });
 </script>
 

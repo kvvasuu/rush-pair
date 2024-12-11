@@ -187,4 +187,28 @@ chat.post("/report-user", authenticateToken, async (req, res, next) => {
   }
 });
 
+/* chat.post("/draw-pair", authenticateToken, async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId) {
+      throw new Error("No user ID provided");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw new Error("Invalid user ID");
+    }
+
+    const activeUser = await ActiveUser.findOneAndUpdate(
+      { userId: userId },
+      { $set: { isAvailable: true } },
+      { new: true }
+    );
+
+    return res.status(201).json({ activeUser: activeUser });
+  } catch (error) {
+    next(error);
+  }
+}); */
+
 export default chat;
