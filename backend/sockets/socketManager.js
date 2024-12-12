@@ -52,7 +52,7 @@ export const initSocketIO = (server) => {
         await ActiveUser.findOneAndUpdate(
           { userId: userId },
           { $set: { isAvailable: true } },
-          { new: true }
+          { upsert: true, new: true }
         );
 
         const user = await User.findOne({ _id: userId }).select("email");
@@ -61,69 +61,79 @@ export const initSocketIO = (server) => {
           message: `You have joined queue.`,
         });
 
-        const pair = await Pair.findOne({ email: user.email });
+        const pairs = await Pair.findOne({ email: user.email });
 
         let pairedUserIds = [];
-        if (pair) pairedUserIds = pair?.pairedWith?.map((p) => p.id);
+        if (pairs) pairedUserIds = pairs?.pairedWith?.map((p) => p.id);
 
-        const randomUser = await ActiveUser.aggregate([
+        const randomUser = await ActiveUser.findOneAndUpdate(
           {
-            $match: {
-              isAvailable: true,
-              $and: [
-                {
-                  userId: { $ne: new mongoose.Types.ObjectId(userId) },
+            isAvailable: true,
+            $and: [
+              {
+                userId: { $ne: new mongoose.Types.ObjectId(userId) },
+              },
+              {
+                userId: {
+                  $nin: pairedUserIds.map(
+                    (id) => new mongoose.Types.ObjectId(id)
+                  ),
                 },
-                {
-                  userId: {
-                    $nin: pairedUserIds.map(
-                      (id) => new mongoose.Types.ObjectId(id)
-                    ),
-                  },
-                },
-              ],
-            },
+              },
+            ],
           },
-          { $sample: { size: 1 } },
-        ]);
+          { $set: { isAvailable: false } },
+          { new: true }
+        );
 
-        if (randomUser.length === 0) {
+        if (!randomUser) {
           socket.emit("emptyQueue", {
             message: `There are no active users to pair.`,
           });
           return;
         }
 
-        await ActiveUser.updateMany(
-          { userId: { $in: [userId, randomUser[0].userId] } },
+        await ActiveUser.updateOne(
+          { userId: userId },
           { $set: { isAvailable: false } }
         );
 
         const pairedUser = await User.findOne({
-          _id: randomUser[0].userId,
+          _id: randomUser.userId,
         }).select("email");
+
+        if (!pairedUser) {
+          socket.emit("emptyQueue", {
+            message: `There are no active users to pair.`,
+          });
+          return;
+        }
 
         await Pair.updateOne(
           { email: user.email },
-          { $push: { pairedWith: { id: randomUser[0].userId.toString() } } },
+          {
+            $addToSet: { pairedWith: { id: randomUser.userId.toString() } },
+          },
           { upsert: true }
         );
 
         await Pair.updateOne(
           { email: pairedUser.email },
-          { $push: { pairedWith: { id: userId.toString() } } },
+          { $addToSet: { pairedWith: { id: userId.toString() } } },
           { upsert: true }
         );
 
         socket.emit("paired", {
-          pairId: randomUser[0].userId,
-          message: `Paired with ${randomUser[0].userId}`,
+          pairId: randomUser.userId,
+          message: `Paired with ${randomUser.userId}`,
         });
 
-        socket.to(randomUser[0].socketId).emit("paired", {
-          pairId: userId,
-          message: `Paired with ${userId}`,
-        });
+        if (randomUser.socketId) {
+          socket.to(randomUser.socketId).emit("paired", {
+            pairId: userId,
+            message: `Paired with ${userId}`,
+          });
+        }
       } catch (error) {
         console.log(error);
       }

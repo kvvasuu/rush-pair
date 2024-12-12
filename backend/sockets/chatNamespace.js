@@ -1,5 +1,7 @@
 import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
+import mongoose from "mongoose";
+import ActiveUser from "../models/ActiveUser.js";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");
@@ -41,6 +43,27 @@ export const setupChatNamespace = (io) => {
         });
       } catch (err) {
         console.log(err);
+      }
+    });
+
+    socket.on("askForReveal", async (ids) => {
+      try {
+        const { userId, pairId } = ids;
+
+        if (
+          !userId ||
+          !pairId ||
+          !mongoose.Types.ObjectId.isValid(userId) ||
+          !mongoose.Types.ObjectId.isValid(pairId)
+        ) {
+          return;
+        }
+
+        const pair = await ActiveUser.findOne({ userId: pairId });
+
+        io.to(pair.socketId).emit("askedForReveal", pairId);
+      } catch (error) {
+        console.log(error);
       }
     });
   });
