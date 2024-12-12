@@ -2,18 +2,21 @@
   <div
     class="hidden lg:flex flex-col items-center justify-start w-2/5 max-w-[25rem] h-full overflow-hidden relative box-border bg-slate-300 dark:bg-neutral-800/20"
   >
-    <div class="w-full aspect-square relative group">
+    <div class="w-full aspect-square relative group z-10">
       <PairAvatar
         :pair="chatStore.pairInfo"
         :square="true"
         class="z-10"
       ></PairAvatar>
       <div
-        class="w-full flex justify-center items-center aspect-square absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+        class="w-full flex flex-col justify-center items-center gap-4 aspect-square absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
         v-if="!chatStore.pairInfo.isVisible"
         @click="chatStore.askForReveal"
       >
-        <p class="font-bold text-3xl text-neutral-200">Reveal?</p>
+        <i
+          class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+        ></i>
+        <p class="font-bold text-3xl text-neutral-200 animate-pulse">Reveal?</p>
       </div>
     </div>
 
