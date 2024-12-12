@@ -17,7 +17,7 @@
               class="rounded-full bg-red-500 dark:bg-red-600/60 w-full h-full shadow-inner shadow-red-950/25 p-4"
             >
               <div
-                class="rounded-full bg-red-500 w-full h-full shadow-top flex items-center justify-center transition-all duration-150"
+                class="rounded-full bg-red-500 w-full h-full shadow-top p-1 flex items-center justify-center transition-all duration-150"
                 :class="{
                   'animate-pulse group-active:animate-none group-active:scale-[98%] group-active:shadow-[0_1px_6px_2px_rgba(0,0,0,0.3)]':
                     !mainStore.isDrawing,
@@ -32,7 +32,7 @@
                 <p
                   class="text-slate-100 dark:text-neutral-700 font-bold text-xl sm:text-3xl drop-shadow-md"
                 >
-                  Rush for Pair!
+                  {{ buttonTitle }}
                 </p>
               </div>
             </div>
@@ -41,11 +41,12 @@
       </div>
       <div
         v-else
-        class="bg-red-500 w-full h-full py-24 flex flex-col items-center justify-center"
+        class="bg-red-500 w-full h-full flex flex-col items-center justify-center"
+        :class="{ 'bg-red-900': mainStore.pairId }"
       >
         <div
-          class="h-full w-full flex flex-col items-center justify-center gap-8"
-          v-if="isSearching"
+          class="h-full w-full mt-24 flex flex-col items-center justify-center gap-8"
+          v-if="isSearching && !mainStore.pairId"
         >
           <BasicSpinner
             :color="
@@ -62,11 +63,19 @@
           </p>
         </div>
         <div
-          class="h-full w-full flex flex-col items-center justify-center text-center"
-          v-else
+          class="h-full w-full mt-24 flex flex-col items-center justify-center text-center"
+          v-else-if="!mainStore.pairId"
         >
+          <BasicSpinner
+            :color="
+              userStore.settings.theme === 'dark'
+                ? 'fill-neutral-700'
+                : 'fill-neutral-100'
+            "
+            class="w-full flex justify-center items-center"
+          ></BasicSpinner>
           <p
-            class="text-neutral-100 dark:text-neutral-700 font-semibold select-none"
+            class="text-neutral-100 dark:text-neutral-700 font-semibold select-none mt-8"
           >
             {{ mainStore.socketMessage }}
           </p>
@@ -74,11 +83,33 @@
             v-if="!mainStore.pairId"
             class="text-neutral-100 dark:text-neutral-700 text-sm select-none"
           >
-            Try again later or wait for others :D
+            Try again later or wait for others.
           </p>
         </div>
+        <Transition name="pop-up">
+          <div
+            class="w-full absolute sm:relative top-0 h-[calc(100%-4rem)] overflow-hidden sm:w-2/3 sm:h-2/3 flex flex-col items-center justify-start py-24 px-4 sm:py-16 sm:px-16 bg-red-500 sm:rounded-2xl shadow-lg text-neutral-100 dark:text-neutral-700"
+            v-if="mainStore.pairId"
+          >
+            <i class="fa-solid fa-comments text-8xl mt-8"></i>
+            <p class="font-semibold text-center text-3xl select-none mt-10">
+              {{ pairedTite }}
+            </p>
+            <button
+              @click="router.push(`/app/pairs/${mainStore.pairId}`)"
+              class="flex items-center mb-0 mt-auto justify-self-end text-red-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
+            >
+              <span>Start chatting</span>
+            </button>
+            <div class="w-full absolute bottom-0 left-0 h-">
+              <div
+                class="bg-neutral-200 dark:bg-neutral-700 h-2 loading-animation"
+              ></div>
+            </div>
+          </div>
+        </Transition>
 
-        <div class="w-full flex justify-center">
+        <div class="w-full flex justify-center mb-24" v-if="!mainStore.pairId">
           <button
             @click="stopDrawing"
             class="flex items-center text-red-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
@@ -109,6 +140,34 @@ const userStore = useUserStore();
 const isDrawing = ref(false);
 const isSearching = ref(false);
 
+const displayPairedTitle = () => {
+  const pairedTitles = [
+    "You've Been Paired!",
+    "Success! Your Chat Awaits.",
+    "Pair Found! Get Ready to Chat.",
+  ];
+
+  const titleIndex = Math.floor(Math.random() * pairedTitles.length);
+  return pairedTitles[titleIndex];
+};
+const pairedTite = displayPairedTitle();
+
+const displayButtonTitle = () => {
+  const buttonTitles = [
+    "Rush for Pair!",
+    "Find a Pair!",
+    "Match Me Now!",
+    "Find Someone!",
+    "Let's Pair Up!",
+    "Get Matched!",
+  ];
+
+  const titleIndex = Math.floor(Math.random() * buttonTitles.length);
+  return buttonTitles[titleIndex];
+};
+
+const buttonTitle = displayButtonTitle();
+
 const startSearching = async () => {
   isSearching.value = true;
   userStore.startDrawingAPair();
@@ -138,7 +197,9 @@ watch(
     }, 1000);
 
     await userStore.getPairs();
-    router.push(`/app/pairs/${pairId}`);
+    setTimeout(() => {
+      router.push(`/app/pairs/${pairId}`);
+    }, 6000);
   },
   { deep: true }
 );
@@ -174,5 +235,19 @@ onBeforeUnmount(() => {
 .start-drawing-leave-to {
   transform: scale(100%);
   border-radius: 0%;
+}
+.loading-animation {
+  border-top-right-radius: 10rem;
+  border-bottom-right-radius: 10rem;
+  animation: loading 5500ms linear 1 forwards;
+}
+
+@keyframes loading {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
 }
 </style>
