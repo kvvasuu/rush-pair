@@ -241,7 +241,10 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     const userPair = user.pairedWith.find((p) => p.id === userId);
     const pairPair = pair.pairedWith.find((p) => p.id === pairId);
 
-    if (userPair?.askedForReveal && pairPair?.askedForReveal) {
+    if (
+      (userPair?.askedForReveal && pairPair?.askedForReveal) ||
+      (userPair?.hasBeenAskedForReveal && pairPair?.hasBeenAskedForReveal)
+    ) {
       await Pair.updateOne(
         { email: pairEmail.email, "pairedWith.id": userId },
         {
