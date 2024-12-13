@@ -88,7 +88,7 @@
         </div>
         <Transition name="pop-up">
           <div
-            class="w-full absolute sm:relative top-0 h-[calc(100%-4rem)] overflow-hidden sm:w-2/3 sm:h-2/3 flex flex-col items-center justify-start py-24 px-4 sm:py-16 sm:px-16 bg-red-500 sm:rounded-2xl shadow-lg text-neutral-100 dark:text-neutral-700"
+            class="w-full absolute sm:relative top-0 h-[calc(100%-4rem)] overflow-hidden sm:w-2/3 sm:h-2/3 flex flex-col items-center justify-start py-24 px-4 sm:py-16 sm:px-16 bg-main-gradient dark:bg-main-gradient-dark sm:rounded-2xl shadow-lg text-neutral-100 dark:text-neutral-700"
             v-if="mainStore.pairId"
           >
             <i class="fa-solid fa-comments text-8xl mt-8"></i>
