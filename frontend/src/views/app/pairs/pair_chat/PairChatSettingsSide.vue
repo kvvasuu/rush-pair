@@ -9,14 +9,52 @@
         class="z-10"
       ></PairAvatar>
       <div
-        class="w-full flex flex-col justify-center items-center gap-4 aspect-square absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
-        v-if="!chatStore.pairInfo.isVisible"
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+        v-if="
+          !chatStore.pairInfo.isVisible &&
+          !chatStore.pairInfo.askedForReveal &&
+          !chatStore.pairInfo.hasBeenAskedForReveal
+        "
         @click="chatStore.askForReveal"
       >
         <i
           class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
         ></i>
-        <p class="font-bold text-3xl text-neutral-200 animate-pulse">Reveal?</p>
+        <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+          Ask for reveal?
+        </p>
+      </div>
+      <div
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all"
+        v-else-if="
+          !chatStore.pairInfo.isVisible &&
+          !chatStore.pairInfo.askedForReveal &&
+          chatStore.pairInfo.hasBeenAskedForReveal
+        "
+      >
+        <p class="font-bold text-xl text-neutral-200 animate-pulse">
+          Waiting for response...
+        </p>
+        <i
+          class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+        ></i>
+      </div>
+      <div
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
+        v-else-if="
+          !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+        "
+        @click="chatStore.askForReveal"
+      >
+        <p class="font-bold text-xl text-neutral-200 animate-pulse">
+          Identity reveal requested!
+        </p>
+        <i
+          class="fa-regular fa-eye text-5xl text-neutral-200 animate-pulse"
+        ></i>
+        <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+          Reveal too?
+        </p>
       </div>
     </div>
 

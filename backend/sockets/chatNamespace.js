@@ -45,26 +45,5 @@ export const setupChatNamespace = (io) => {
         console.log(err);
       }
     });
-
-    socket.on("askForReveal", async (ids) => {
-      try {
-        const { userId, pairId } = ids;
-
-        if (
-          !userId ||
-          !pairId ||
-          !mongoose.Types.ObjectId.isValid(userId) ||
-          !mongoose.Types.ObjectId.isValid(pairId)
-        ) {
-          return;
-        }
-
-        const pair = await ActiveUser.findOne({ userId: pairId });
-
-        io.to(pair.socketId).emit("askedForReveal", pairId);
-      } catch (error) {
-        console.log(error);
-      }
-    });
   });
 };

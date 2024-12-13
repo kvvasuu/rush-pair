@@ -1,6 +1,7 @@
 import express from "express";
 import * as fs from "node:fs/promises";
 import path from "path";
+import mongoose from "mongoose";
 import { authenticateToken } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
@@ -9,6 +10,7 @@ import Report from "../models/Report.js";
 import Message from "../models/Message.js";
 import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
+import { getIO } from "../sockets/socketManager.js";
 
 const chat = express.Router();
 
@@ -80,12 +82,16 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           gender: pairChatUser.gender,
           description: pairChatUser.description,
           isActive: !!isActive,
+          askedForReveal: pair.askedForReveal || false,
+          hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
         }
       : {
           id: pairChatUser.id,
           isVisible: false,
           name: pair.name || "Anonymous",
           isActive: !!isActive,
+          askedForReveal: pair.askedForReveal || false,
+          hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
         };
 
     res.json({ pairChatUser: data });
@@ -187,28 +193,77 @@ chat.post("/report-user", authenticateToken, async (req, res, next) => {
   }
 });
 
-/* chat.post("/draw-pair", authenticateToken, async (req, res, next) => {
+chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
   try {
-    const { userId } = req.body;
+    const { userId, pairId } = req.body;
 
-    if (!userId) {
-      throw new Error("No user ID provided");
+    if (
+      !userId ||
+      !pairId ||
+      !mongoose.Types.ObjectId.isValid(userId) ||
+      !mongoose.Types.ObjectId.isValid(pairId)
+    ) {
+      throw new Error("Invalid IDs");
     }
 
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-      throw new Error("Invalid user ID");
-    }
+    const io = getIO();
 
-    const activeUser = await ActiveUser.findOneAndUpdate(
-      { userId: userId },
-      { $set: { isAvailable: true } },
-      { new: true }
+    const userEmail = await User.findOne({ _id: userId }).select("email");
+    const pairEmail = await User.findOne({ _id: pairId }).select("email");
+
+    const pair = await Pair.updateOne(
+      { email: userEmail.email, "pairedWith.id": pairId },
+      {
+        $set: { "pairedWith.$.hasBeenAskedForReveal": true },
+      }
     );
 
-    return res.status(201).json({ activeUser: activeUser });
+    if (!pair) {
+      throw new Error("Pair not found");
+    }
+
+    const user = await Pair.updateOne(
+      { email: pairEmail.email, "pairedWith.id": userId },
+      {
+        $set: { "pairedWith.$.askedForReveal": true },
+      }
+    );
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    /* const user = await Pair.updateOne(
+      {
+        email: pairEmail.email,
+        "pairedWith.id": userId,
+        "pairedWith.0.askedForReveal": true,
+      },
+      {
+        $set: { "pairedWith.$.isVisible": true },
+      }
+    ); */
+
+    const socketId = await ActiveUser.findOne({ userId: pairId });
+
+    if (user) {
+      console.log("notvisible");
+      //Not visible
+      if (socketId) {
+        io.to(socketId.socketId).emit("askedForReveal");
+      }
+    } else {
+      console.log("visible");
+      //Both visible
+      if (socketId) {
+        io.to(socketId.socketId).emit("setPairVisible");
+      }
+    }
+
+    return res.status(201).json({ hasBeenAskedForReveal: true });
   } catch (error) {
     next(error);
   }
-}); */
+});
 
 export default chat;

@@ -5,6 +5,7 @@ import { io, Socket } from "socket.io-client";
 import { Message } from "../types";
 import axios from "axios";
 import { socket } from "./userStore";
+import { useRouter } from "vue-router";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -23,6 +24,8 @@ export const useChatStore = defineStore("chatStore", {
       description: "",
       pairedAt: 0,
       isActive: false,
+      askedForReveal: false,
+      hasBeenAskedForReveal: false,
     },
     currentPage: 1,
     messages: [],
@@ -146,13 +149,22 @@ export const useChatStore = defineStore("chatStore", {
         });
       }
       if (!socket.hasListeners("askedForReveal")) {
-        socket.on("askedForReveal", (userId) => {
-          console.log(userId);
+        socket.on("askedForReveal", () => {
+          this.pairInfo.askedForReveal = true;
+        });
+      }
+      if (!socket.hasListeners("setPairVisible")) {
+        socket.on("setPairVisible", async () => {
+          const router = useRouter();
+          console.log("dupa");
+          await this.openChat(this.pairInfo.id);
+          router.replace(`/app/pairs/${this.pairInfo.id}`);
         });
       }
     },
     removeEvents() {
       socket.removeAllListeners("askedForReveal");
+      socket.removeAllListeners("setPairVisible");
     },
     async connectToSocket() {
       const userStore = useUserStore();
@@ -171,12 +183,20 @@ export const useChatStore = defineStore("chatStore", {
       chatSocket.disconnect();
       this.removeEvents();
     },
-    askForReveal() {
+    async askForReveal() {
       const userStore = useUserStore();
-      chatSocket.emit("askForReveal", {
-        userId: userStore.id,
-        pairId: this.pairInfo.id,
-      });
+      try {
+        const res = await axios.post(`/chat/ask-for-reveal`, {
+          userId: userStore.id,
+          pairId: this.pairInfo.id,
+        });
+
+        console.log(res);
+
+        if (res) this.pairInfo.hasBeenAskedForReveal = true;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });

@@ -25,6 +25,14 @@ const pairSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
       },
+      askedForReveal: {
+        type: Boolean,
+        default: false,
+      },
+      hasBeenAskedForReveal: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });

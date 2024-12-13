@@ -171,4 +171,9 @@ export const initSocketIO = (server) => {
   setupChatNamespace(io);
 };
 
-export const getIO = () => io;
+export const getIO = () => {
+  if (!io) {
+    throw new Error("Socket.io not initialized!");
+  }
+  return io;
+};
