@@ -21,5 +21,8 @@
 import { useAvatar } from "../composables/avatar.ts";
 const props = defineProps(["pair", "square", "isActive"]);
 
-const { setDefaultAvatar, avatarSrc } = useAvatar(props.pair?.imageUrl || "");
+const { setDefaultAvatar, avatarSrc } = useAvatar(
+  props.pair.imageUrl,
+  !props.pair.isVisible
+);
 </script>

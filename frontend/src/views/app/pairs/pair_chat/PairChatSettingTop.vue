@@ -74,6 +74,7 @@
           <PairAvatar
             :pair="chatStore.pairInfo"
             :square="true"
+            :key="chatStore.pairInfo.imageUrl"
             class="w-full aspect-square absolute z-20 blur-md"
           ></PairAvatar>
           <PairAvatar
