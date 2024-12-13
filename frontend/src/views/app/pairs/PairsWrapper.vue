@@ -31,6 +31,7 @@
         class="absolute right-4 min-w-10 max-w-10 lg:hidden cursor-pointer"
         :pair="pairImage"
         :is-active="chatStore.pairInfo.isActive"
+        :key="chatStore.pairInfo.imageUrl"
         v-if="route.params.id"
         @click="toggleExpandProfile"
       ></PairAvatar>

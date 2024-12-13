@@ -211,55 +211,70 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     const userEmail = await User.findOne({ _id: userId }).select("email");
     const pairEmail = await User.findOne({ _id: pairId }).select("email");
 
-    const pair = await Pair.updateOne(
+    const pair = await Pair.findOneAndUpdate(
       { email: userEmail.email, "pairedWith.id": pairId },
       {
         $set: { "pairedWith.$.hasBeenAskedForReveal": true },
-      }
+      },
+      { new: true }
     );
 
     if (!pair) {
       throw new Error("Pair not found");
     }
 
-    const user = await Pair.updateOne(
+    const user = await Pair.findOneAndUpdate(
       { email: pairEmail.email, "pairedWith.id": userId },
       {
         $set: { "pairedWith.$.askedForReveal": true },
-      }
+      },
+      { new: true }
     );
 
     if (!user) {
       throw new Error("User not found");
     }
 
-    /* const user = await Pair.updateOne(
-      {
-        email: pairEmail.email,
-        "pairedWith.id": userId,
-        "pairedWith.0.askedForReveal": true,
-      },
-      {
-        $set: { "pairedWith.$.isVisible": true },
-      }
-    ); */
+    const userSocketId = await ActiveUser.findOne({ userId: userId });
+    const pairSocketId = await ActiveUser.findOne({ userId: pairId });
 
-    const socketId = await ActiveUser.findOne({ userId: pairId });
+    const userPair = user.pairedWith.find((p) => p.id === userId);
+    const pairPair = pair.pairedWith.find((p) => p.id === pairId);
 
-    if (user) {
-      console.log("notvisible");
-      //Not visible
-      if (socketId) {
-        io.to(socketId.socketId).emit("askedForReveal");
+    if (userPair?.askedForReveal && pairPair?.askedForReveal) {
+      await Pair.updateOne(
+        { email: pairEmail.email, "pairedWith.id": userId },
+        {
+          $unset: {
+            "pairedWith.$.askedForReveal": "",
+            "pairedWith.$.hasBeenAskedForReveal": "",
+            "pairedWith.$.name": "",
+          },
+          $set: { "pairedWith.$.isVisible": true },
+        }
+      );
+
+      await Pair.updateOne(
+        { email: userEmail.email, "pairedWith.id": pairId },
+        {
+          $unset: {
+            "pairedWith.$.askedForReveal": "",
+            "pairedWith.$.hasBeenAskedForReveal": "",
+            "pairedWith.$.name": "",
+          },
+          $set: { "pairedWith.$.isVisible": true },
+        }
+      );
+
+      if (userSocketId && pairSocketId) {
+        io.to(userSocketId.socketId).emit("setPairVisible");
+        io.to(pairSocketId.socketId).emit("setPairVisible");
       }
     } else {
-      console.log("visible");
-      //Both visible
-      if (socketId) {
-        io.to(socketId.socketId).emit("setPairVisible");
+      if (pairSocketId) {
+        io.to(pairSocketId.socketId).emit("askedForReveal");
       }
     }
-
     return res.status(201).json({ hasBeenAskedForReveal: true });
   } catch (error) {
     next(error);

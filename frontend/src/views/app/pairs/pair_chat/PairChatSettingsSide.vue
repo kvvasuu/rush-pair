@@ -6,6 +6,7 @@
       <PairAvatar
         :pair="chatStore.pairInfo"
         :square="true"
+        :key="chatStore.pairInfo.imageUrl"
         class="z-10"
       ></PairAvatar>
       <div

@@ -5,7 +5,6 @@ import { io, Socket } from "socket.io-client";
 import { Message } from "../types";
 import axios from "axios";
 import { socket } from "./userStore";
-import { useRouter } from "vue-router";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -155,10 +154,7 @@ export const useChatStore = defineStore("chatStore", {
       }
       if (!socket.hasListeners("setPairVisible")) {
         socket.on("setPairVisible", async () => {
-          const router = useRouter();
-          console.log("dupa");
           await this.openChat(this.pairInfo.id);
-          router.replace(`/app/pairs/${this.pairInfo.id}`);
         });
       }
     },
@@ -190,8 +186,6 @@ export const useChatStore = defineStore("chatStore", {
           userId: userStore.id,
           pairId: this.pairInfo.id,
         });
-
-        console.log(res);
 
         if (res) this.pairInfo.hasBeenAskedForReveal = true;
       } catch (error) {
