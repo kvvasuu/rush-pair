@@ -23,7 +23,12 @@
     <i
       class="ml-auto mr-0 fa-solid fa-masks-theater text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
       title="Anonymous"
-      v-if="!pair.isVisible"
+      v-if="!pair.isVisible && !pair.askedForReveal"
+    ></i>
+    <i
+      class="ml-auto mr-0 fa-solid fa-eye text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
+      title="Asked for reveal"
+      v-else-if="!pair.isVisible && pair.askedForReveal"
     ></i>
   </li>
 </template>

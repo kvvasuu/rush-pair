@@ -37,6 +37,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               imageUrl: pairedUser.imageUrl,
               isVisible: true,
               isActive: !!isActive,
+              askedForReveal: el.askedForReveal,
             }
           : {
               id: pairedUser.id,
@@ -44,6 +45,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               isVisible: false,
               name: el.name || "Anonymous",
               isActive: !!isActive,
+              askedForReveal: el.askedForReveal,
             };
       })
     );
