@@ -1,11 +1,11 @@
 
 # RushPair <img src="https://raw.githubusercontent.com/kvvasuu/rush-pair/main/frontend/public/favicon.ico" alt="icon" width="24"/>
 
-![App demo](https://raw.githubusercontent.com/kvvasuu/rush-pair/main/demo.png "App demo")
+![App demo](https://raw.githubusercontent.com/kvvasuu/rush-pair/main/demo.gif "App demo")
 
 ## :globe_with_meridians: General info
 
-RushPair is an exciting speed friending app that brings people together for real-life interactions. Meet new people in a fun, fast-paced environment where anonymity is key. Each round, you’ll have 3 minutes to chat with a randomly selected partner. If you both click, the match is revealed at the end of the game. Discover connections naturally, one conversation at a time.
+**RushPair** is an app that randomly pairs users for anonymous conversations until both parties express a desire to get to know each other. The goal is to create natural connections, one conversation at a time.
 
 The application has been deployed on Render - https://rush-pair-front.onrender.com.
 
@@ -48,13 +48,20 @@ The app supports real-time chat with the following features:
 - **Customizable nicknames**: Users can set a nickname for their chat partner.
 - **Profile details**: Users can view their chat partner’s details, including photo, description, and personal information.
 
+#### User Pairing System :two_hearts:
+The app features a unique system for matching users for live chat sessions:
+
+- **Random pairing**: Users are randomly paired for conversations, which is anonymous at first.
+- **Mutual match**: If both users choose to reveal their identities after the conversation, a mutual match is created, allowing for continued interaction.
+
 #### Backend :computer:
 
 The app uses **MongoDB** and **Mongoose** for database management, ensuring secure and efficient data storage. The REST API handles user authentication, profile management, and real-time chat functionalities.
+Additionally, Socket.IO is used to enable real-time communication between users, making live chat and pairing interactions seamless and dynamic.
 
 #### More coming soon...
 
-
+This version highlights the pairing system and should give users a clear understanding of how the matching process works in your app.
 
 ## Technologies:
 

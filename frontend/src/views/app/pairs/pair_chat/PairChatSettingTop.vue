@@ -7,26 +7,128 @@
       <div
         class="hidden sm:flex h-full aspect-square justify-center bg-slate-300 dark:bg-neutral-900"
       >
-        <PairAvatar
-          :pair="chatStore.pairInfo"
-          :square="true"
-          class="h-full aspect-square z-10"
-        ></PairAvatar>
+        <div class="h-full aspect-square relative group z-10">
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            :key="chatStore.pairInfo.imageUrl"
+            class="z-10"
+          ></PairAvatar>
+          <div
+            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
+            v-if="
+              !chatStore.pairInfo.isVisible &&
+              !chatStore.pairInfo.askedForReveal &&
+              !chatStore.pairInfo.hasBeenAskedForReveal
+            "
+            @click="chatStore.askForReveal"
+          >
+            <i
+              class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+            ></i>
+            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+              Ask for reveal?
+            </p>
+          </div>
+          <div
+            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur"
+            v-else-if="
+              !chatStore.pairInfo.isVisible &&
+              !chatStore.pairInfo.askedForReveal &&
+              chatStore.pairInfo.hasBeenAskedForReveal
+            "
+          >
+            <p class="font-bold text-xl text-neutral-200 animate-pulse">
+              Waiting for response...
+            </p>
+            <i
+              class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+            ></i>
+          </div>
+          <div
+            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
+            v-else-if="
+              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+            "
+            @click="chatStore.askForReveal"
+          >
+            <p class="font-bold text-xl text-neutral-200 animate-pulse">
+              Identity reveal requested!
+            </p>
+            <i
+              class="fa-regular fa-eye text-5xl text-neutral-200 animate-pulse"
+            ></i>
+            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+              Reveal too?
+            </p>
+          </div>
+        </div>
       </div>
 
       <div
-        class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden z-30"
+        class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden"
       >
-        <PairAvatar
-          :pair="chatStore.pairInfo"
-          :square="true"
-          class="w-full aspect-square absolute z-20 blur-md"
-        ></PairAvatar>
-        <PairAvatar
-          :pair="chatStore.pairInfo"
-          :square="true"
-          class="h-full aspect-square absolute z-30"
-        ></PairAvatar>
+        <div class="h-full aspect-square absolute group">
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            class="w-full aspect-square absolute z-20 blur-md"
+          ></PairAvatar>
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            :square="true"
+            :key="chatStore.pairInfo.imageUrl"
+            class="w-full aspect-square absolute z-30"
+          ></PairAvatar>
+          <div
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            v-if="
+              !chatStore.pairInfo.isVisible &&
+              !chatStore.pairInfo.askedForReveal &&
+              !chatStore.pairInfo.hasBeenAskedForReveal
+            "
+            @click="chatStore.askForReveal"
+          >
+            <i
+              class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+            ></i>
+            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+              Ask for reveal?
+            </p>
+          </div>
+          <div
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            v-else-if="
+              !chatStore.pairInfo.isVisible &&
+              !chatStore.pairInfo.askedForReveal &&
+              chatStore.pairInfo.hasBeenAskedForReveal
+            "
+          >
+            <p class="font-bold text-xl text-neutral-200 animate-pulse">
+              Waiting for response...
+            </p>
+            <i
+              class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+            ></i>
+          </div>
+          <div
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            v-else-if="
+              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+            "
+            @click="chatStore.askForReveal"
+          >
+            <p class="font-bold text-xl text-neutral-200 animate-pulse">
+              Identity reveal requested!
+            </p>
+            <i
+              class="fa-regular fa-eye text-5xl text-neutral-200 animate-pulse"
+            ></i>
+            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+              Reveal too?
+            </p>
+          </div>
+        </div>
       </div>
 
       <Transition name="slide" mode="out-in">

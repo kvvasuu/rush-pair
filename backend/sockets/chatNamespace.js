@@ -1,5 +1,7 @@
 import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
+import mongoose from "mongoose";
+import ActiveUser from "../models/ActiveUser.js";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");

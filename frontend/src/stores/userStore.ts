@@ -6,7 +6,7 @@ import { io } from "socket.io-client";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-const socket = io(SERVER_URL, { autoConnect: false });
+export const socket = io(SERVER_URL, { autoConnect: false });
 
 export const useUserStore = defineStore("userStore", {
   state: (): UserStoreState => ({
@@ -160,6 +160,51 @@ export const useUserStore = defineStore("userStore", {
           this.pairs = res.data.pairedWith || [];
         } catch (error) {}
       }
+    },
+    bindEvents() {
+      const mainStore = useMainStore();
+
+      if (!socket.hasListeners("joinedPairing")) {
+        socket.on("joinedPairing", (data) => {
+          mainStore.socketMessage = data.message;
+        });
+      }
+
+      if (!socket.hasListeners("emptyQueue")) {
+        socket.on("emptyQueue", (data) => {
+          mainStore.socketMessage = data.message;
+          mainStore.isEmpty = true;
+        });
+      }
+      if (!socket.hasListeners("leftPairing")) {
+        socket.on("leftPairing", (data) => {
+          mainStore.socketMessage = data.message;
+        });
+      }
+      if (!socket.hasListeners("paired")) {
+        socket.on("paired", (data) => {
+          mainStore.pairId = data.pairId;
+          mainStore.socketMessage = data.message;
+        });
+      }
+    },
+    removeEvents() {
+      socket.removeAllListeners("joinedPairing");
+      socket.removeAllListeners("emptyQueue");
+      socket.removeAllListeners("leftPairing");
+      socket.removeAllListeners("paired");
+    },
+    async startDrawingAPair() {
+      this.bindEvents();
+      socket.emit("startPairing", this.id);
+    },
+    async stopDrawingAPair() {
+      socket.emit("stopPairing", this.id);
+      this.removeEvents();
+      const mainStore = useMainStore();
+      mainStore.socketMessage = "";
+      mainStore.isEmpty = false;
+      mainStore.pairId = "";
     },
   },
 });

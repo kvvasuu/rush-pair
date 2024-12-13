@@ -5,6 +5,7 @@ const pairSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    ref: "User",
   },
   pairedWith: [
     {
@@ -18,9 +19,17 @@ const pairSchema = new mongoose.Schema({
       },
       pairedAt: {
         type: Number,
-        default: () => Date.now(),
+        default: () => Math.floor(Date.now() / 1000),
       },
       isVisible: {
+        type: Boolean,
+        default: false,
+      },
+      askedForReveal: {
+        type: Boolean,
+        default: false,
+      },
+      hasBeenAskedForReveal: {
         type: Boolean,
         default: false,
       },

@@ -1,6 +1,7 @@
 import express from "express";
 import * as fs from "node:fs/promises";
 import path from "path";
+import mongoose from "mongoose";
 import { authenticateToken } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Pair from "../models/Pair.js";
@@ -9,6 +10,7 @@ import Report from "../models/Report.js";
 import Message from "../models/Message.js";
 import { calculateYearsSince, sendEmail, rateLimiter } from "../utils.js";
 import { __dirname } from "../app.js";
+import { getIO } from "../sockets/socketManager.js";
 
 const chat = express.Router();
 
@@ -80,12 +82,16 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           gender: pairChatUser.gender,
           description: pairChatUser.description,
           isActive: !!isActive,
+          askedForReveal: pair.askedForReveal || false,
+          hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
         }
       : {
           id: pairChatUser.id,
           isVisible: false,
           name: pair.name || "Anonymous",
           isActive: !!isActive,
+          askedForReveal: pair.askedForReveal || false,
+          hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
         };
 
     res.json({ pairChatUser: data });
@@ -182,6 +188,97 @@ chat.post("/report-user", authenticateToken, async (req, res, next) => {
         .status(201)
         .json({ msg: "Report sent.", reportReferenceId: report.referenceId });
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
+  try {
+    const { userId, pairId } = req.body;
+
+    if (
+      !userId ||
+      !pairId ||
+      !mongoose.Types.ObjectId.isValid(userId) ||
+      !mongoose.Types.ObjectId.isValid(pairId)
+    ) {
+      throw new Error("Invalid IDs");
+    }
+
+    const io = getIO();
+
+    const userEmail = await User.findOne({ _id: userId }).select("email");
+    const pairEmail = await User.findOne({ _id: pairId }).select("email");
+
+    const pair = await Pair.findOneAndUpdate(
+      { email: userEmail.email, "pairedWith.id": pairId },
+      {
+        $set: { "pairedWith.$.hasBeenAskedForReveal": true },
+      },
+      { new: true }
+    );
+
+    if (!pair) {
+      throw new Error("Pair not found");
+    }
+
+    const user = await Pair.findOneAndUpdate(
+      { email: pairEmail.email, "pairedWith.id": userId },
+      {
+        $set: { "pairedWith.$.askedForReveal": true },
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const userSocketId = await ActiveUser.findOne({ userId: userId });
+    const pairSocketId = await ActiveUser.findOne({ userId: pairId });
+
+    const userPair = user.pairedWith.find((p) => p.id === userId);
+    const pairPair = pair.pairedWith.find((p) => p.id === pairId);
+
+    if (
+      (userPair?.askedForReveal && pairPair?.askedForReveal) ||
+      (userPair?.hasBeenAskedForReveal && pairPair?.hasBeenAskedForReveal)
+    ) {
+      await Pair.updateOne(
+        { email: pairEmail.email, "pairedWith.id": userId },
+        {
+          $unset: {
+            "pairedWith.$.askedForReveal": "",
+            "pairedWith.$.hasBeenAskedForReveal": "",
+            "pairedWith.$.name": "",
+          },
+          $set: { "pairedWith.$.isVisible": true },
+        }
+      );
+
+      await Pair.updateOne(
+        { email: userEmail.email, "pairedWith.id": pairId },
+        {
+          $unset: {
+            "pairedWith.$.askedForReveal": "",
+            "pairedWith.$.hasBeenAskedForReveal": "",
+            "pairedWith.$.name": "",
+          },
+          $set: { "pairedWith.$.isVisible": true },
+        }
+      );
+
+      if (userSocketId && pairSocketId) {
+        io.to(userSocketId.socketId).emit("setPairVisible");
+        io.to(pairSocketId.socketId).emit("setPairVisible");
+      }
+    } else {
+      if (pairSocketId) {
+        io.to(pairSocketId.socketId).emit("askedForReveal");
+      }
+    }
+    return res.status(201).json({ hasBeenAskedForReveal: true });
   } catch (error) {
     next(error);
   }

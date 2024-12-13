@@ -2,11 +2,63 @@
   <div
     class="hidden lg:flex flex-col items-center justify-start w-2/5 max-w-[25rem] h-full overflow-hidden relative box-border bg-slate-300 dark:bg-neutral-800/20"
   >
-    <PairAvatar
-      :pair="chatStore.pairInfo"
-      :square="true"
-      class="z-10"
-    ></PairAvatar>
+    <div class="w-full aspect-square relative group z-10">
+      <PairAvatar
+        :pair="chatStore.pairInfo"
+        :square="true"
+        :key="chatStore.pairInfo.imageUrl"
+        class="z-10"
+      ></PairAvatar>
+      <div
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all cursor-pointer"
+        v-if="
+          !chatStore.pairInfo.isVisible &&
+          !chatStore.pairInfo.askedForReveal &&
+          !chatStore.pairInfo.hasBeenAskedForReveal
+        "
+        @click="chatStore.askForReveal"
+      >
+        <i
+          class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+        ></i>
+        <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+          Ask for reveal?
+        </p>
+      </div>
+      <div
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur opacity-0 group-hover:opacity-100 transition-all"
+        v-else-if="
+          !chatStore.pairInfo.isVisible &&
+          !chatStore.pairInfo.askedForReveal &&
+          chatStore.pairInfo.hasBeenAskedForReveal
+        "
+      >
+        <p class="font-bold text-xl text-neutral-200 animate-pulse">
+          Waiting for response...
+        </p>
+        <i
+          class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
+        ></i>
+      </div>
+      <div
+        class="w-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
+        v-else-if="
+          !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+        "
+        @click="chatStore.askForReveal"
+      >
+        <p class="font-bold text-xl text-neutral-200 animate-pulse">
+          Identity reveal requested!
+        </p>
+        <i
+          class="fa-regular fa-eye text-5xl text-neutral-200 animate-pulse"
+        ></i>
+        <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+          Reveal too?
+        </p>
+      </div>
+    </div>
+
     <Transition name="slide" mode="out-in">
       <div
         class="flex flex-col w-full h-full py-6 px-8 relative overflow-y-auto"
@@ -73,6 +125,7 @@
               maxlength="60"
               v-model="chatStore.pairInfo.name"
               class="text-2xl w-4/5 font-semibold text-slate-700 dark:text-neutral-300 select-none bg-transparent border-b-[1px] border-neutral-400 dark:border-neutral-500 outline-none"
+              @keyup.enter="saveNickname"
               v-else
             />
             <button

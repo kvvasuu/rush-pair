@@ -21,6 +21,8 @@ interface PairInfo {
   description?: string;
   pairedAt: number;
   isActive: boolean;
+  askedForReveal: boolean;
+  hasBeenAskedForReveal: boolean;
 }
 
 interface UserStoreState extends User {

@@ -4,6 +4,7 @@ import { useUserStore } from "./userStore";
 import { io, Socket } from "socket.io-client";
 import { Message } from "../types";
 import axios from "axios";
+import { socket } from "./userStore";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -22,6 +23,8 @@ export const useChatStore = defineStore("chatStore", {
       description: "",
       pairedAt: 0,
       isActive: false,
+      askedForReveal: false,
+      hasBeenAskedForReveal: false,
     },
     currentPage: 1,
     messages: [],
@@ -144,6 +147,20 @@ export const useChatStore = defineStore("chatStore", {
           this.newMessage = message;
         });
       }
+      if (!socket.hasListeners("askedForReveal")) {
+        socket.on("askedForReveal", () => {
+          this.pairInfo.askedForReveal = true;
+        });
+      }
+      if (!socket.hasListeners("setPairVisible")) {
+        socket.on("setPairVisible", async () => {
+          await this.openChat(this.pairInfo.id);
+        });
+      }
+    },
+    removeEvents() {
+      socket.removeAllListeners("askedForReveal");
+      socket.removeAllListeners("setPairVisible");
     },
     async connectToSocket() {
       const userStore = useUserStore();
@@ -160,6 +177,20 @@ export const useChatStore = defineStore("chatStore", {
     },
     disconnectFromSocket() {
       chatSocket.disconnect();
+      this.removeEvents();
+    },
+    async askForReveal() {
+      const userStore = useUserStore();
+      try {
+        const res = await axios.post(`/chat/ask-for-reveal`, {
+          userId: userStore.id,
+          pairId: this.pairInfo.id,
+        });
+
+        if (res) this.pairInfo.hasBeenAskedForReveal = true;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
