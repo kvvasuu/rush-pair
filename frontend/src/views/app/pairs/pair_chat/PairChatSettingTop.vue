@@ -31,7 +31,7 @@
             </p>
           </div>
           <div
-            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur"
+            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur text-center"
             v-else-if="
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
@@ -46,7 +46,7 @@
             ></i>
           </div>
           <div
-            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
+            class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer text-center"
             v-else-if="
               !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
             "
@@ -68,7 +68,9 @@
       <div
         class="sm:hidden h-full w-full relative flex justify-center bg-slate-300 dark:bg-neutral-900 overflow-hidden"
       >
-        <div class="h-full aspect-square absolute group">
+        <div
+          class="h-full w-full flex justify-center aspect-square absolute group"
+        >
           <PairAvatar
             :pair="chatStore.pairInfo"
             :square="true"
@@ -78,10 +80,10 @@
             :pair="chatStore.pairInfo"
             :square="true"
             :key="chatStore.pairInfo.imageUrl"
-            class="w-full aspect-square absolute z-30"
+            class="h-full aspect-square absolute z-30"
           ></PairAvatar>
           <div
-            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-if="
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
@@ -97,7 +99,7 @@
             </p>
           </div>
           <div
-            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center"
             v-else-if="
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
@@ -112,7 +114,7 @@
             ></i>
           </div>
           <div
-            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40"
+            class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-else-if="
               !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
             "
