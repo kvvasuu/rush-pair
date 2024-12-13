@@ -1,7 +1,7 @@
 
 # RushPair <img src="https://raw.githubusercontent.com/kvvasuu/rush-pair/main/frontend/public/favicon.ico" alt="icon" width="24"/>
 
-![App demo](https://raw.githubusercontent.com/kvvasuu/rush-pair/main/demo.png "App demo")
+![App demo](https://raw.githubusercontent.com/kvvasuu/rush-pair/main/demo.gif "App demo")
 
 ## :globe_with_meridians: General info
 
