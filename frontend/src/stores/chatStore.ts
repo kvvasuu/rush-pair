@@ -8,7 +8,13 @@ import { socket } from "./userStore";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-const chatSocket: Socket = io(`${SERVER_URL}/chat`, { autoConnect: false });
+const chatSocket: Socket = io(`${SERVER_URL}/chat`, {
+  autoConnect: false,
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+});
 
 export const useChatStore = defineStore("chatStore", {
   state: (): ChatStoreState => ({
@@ -153,8 +159,8 @@ export const useChatStore = defineStore("chatStore", {
         });
       }
       if (!socket.hasListeners("setPairVisible")) {
-        socket.on("setPairVisible", async () => {
-          await this.openChat(this.pairInfo.id);
+        socket.on("setPairVisible", () => {
+          this.openChat(this.pairInfo.id);
         });
       }
     },

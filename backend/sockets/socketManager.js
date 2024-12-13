@@ -13,9 +13,13 @@ export const initSocketIO = (server) => {
       origin: "*",
       methods: ["GET", "POST"],
     },
+    pingTimeout: 60000,
+    pingInterval: 25000,
+    connectionStateRecovery: {},
   });
 
   io.on("connection", async (socket) => {
+    console.log("Connection");
     socket.on("login", async (userId) => {
       try {
         let activeUser = await ActiveUser.findOne({
@@ -160,6 +164,7 @@ export const initSocketIO = (server) => {
     });
 
     socket.on("disconnect", async () => {
+      console.log("Disconnection");
       try {
         await ActiveUser.findOneAndDelete({ socketId: socket.id });
       } catch (error) {

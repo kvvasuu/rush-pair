@@ -4,7 +4,7 @@
   >
     <div
       class="w-full h-full flex items-center justify-center"
-      v-if="isLoading && !chatStore.roomId"
+      v-if="chatStore.isLoading && !chatStore.roomId"
     >
       <BasicSpinner></BasicSpinner>
     </div>
@@ -100,14 +100,7 @@
 
 <script setup lang="ts">
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
-import {
-  ref,
-  onBeforeUnmount,
-  onBeforeMount,
-  onMounted,
-  watch,
-  nextTick,
-} from "vue";
+import { ref, onBeforeUnmount, onMounted, watch, nextTick } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
@@ -115,8 +108,6 @@ import EmojiPicker from "../../../../components/EmojiPicker.vue";
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
-
-const isLoading = ref(true);
 
 const message = ref("");
 const messageInputRef = ref<HTMLDivElement | null>(null);
@@ -221,20 +212,12 @@ watch(
   { deep: true }
 );
 
-onBeforeMount(async () => {
-  if (!chatStore.connected) {
-    chatStore.connectToSocket();
-  }
-  isLoading.value = false;
-});
-
 onMounted(() => {
   if (messagesContainer.value) {
     messagesContainer.value.addEventListener("scroll", onScroll);
   }
 }),
   onBeforeUnmount(() => {
-    chatStore.disconnectFromSocket();
     messagesContainer.value?.removeEventListener("scroll", onScroll);
   });
 </script>

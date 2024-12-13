@@ -1,12 +1,11 @@
 import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
-import mongoose from "mongoose";
-import ActiveUser from "../models/ActiveUser.js";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");
 
   chatNamespace.on("connection", (socket) => {
+    console.log("Chat connection");
     socket.on("joinRoom", async ({ userId, pairId }) => {
       const roomId = [userId, pairId].sort().join("-");
 
@@ -44,6 +43,9 @@ export const setupChatNamespace = (io) => {
       } catch (err) {
         console.log(err);
       }
+    });
+    socket.on("disconnect", async () => {
+      console.log("Chat disconnection");
     });
   });
 };

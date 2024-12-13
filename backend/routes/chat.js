@@ -271,6 +271,7 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
         }
       );
 
+      console.log(userSocketId, pairSocketId);
       if (userSocketId && pairSocketId) {
         io.to(userSocketId.socketId).emit("setPairVisible");
         io.to(pairSocketId.socketId).emit("setPairVisible");

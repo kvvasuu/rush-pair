@@ -26,17 +26,19 @@
     ></DrawPair>
     <section
       class="mb-24 sm:mb-12 mt-auto text-neutral-400 dark:text-neutral-600 select-none"
-      v-if="!isLoading && !isDrawing"
+      v-if="!isDrawing"
     >
-      <p class="text-center font-bold text-lg mb-1">How it works:</p>
-      <p class="font-semibold text-sm">
+      <p class="text-center font-bold text-base sm:text-lg mb-1">
+        How it works:
+      </p>
+      <p class="font-semibold text-xs sm:text-sm">
         <span class="mr-1 w-3 inline-block text-right">1.</span>Click that
         button
       </p>
-      <p class="font-semibold text-sm">
+      <p class="font-semibold text-xs sm:text-sm">
         <span class="mr-1 w-3 inline-block text-right">2.</span>Chat anonymously
       </p>
-      <p class="font-semibold text-sm">
+      <p class="font-semibold text-xs sm:text-sm">
         <span class="mr-1 w-3 inline-block text-right">3.</span>Reveal if you
         wish!
       </p>

@@ -59,6 +59,9 @@ const isProfileExpandedMobile = computed(() => {
 
 onBeforeMount(async () => {
   const success = await chatStore.openChat(route.params.id as string);
+  if (!chatStore.connected) {
+    chatStore.connectToSocket();
+  }
   success ? (cannotGetPair.value = false) : (cannotGetPair.value = true);
   isLoading.value = false;
   checkWindowWidth();
@@ -66,6 +69,7 @@ onBeforeMount(async () => {
 });
 
 onBeforeRouteLeave(() => {
+  chatStore.disconnectFromSocket();
   setTimeout(() => {
     chatStore.closeChat();
   }, 500);
