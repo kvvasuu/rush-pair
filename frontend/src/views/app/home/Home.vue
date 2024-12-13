@@ -1,7 +1,7 @@
 <template>
   <main
     class="flex flex-col items-center h-full relative w-full"
-    :class="{ 'bg-red-500': isDrawing }"
+    :class="{ 'bg-main-gradient': isDrawing }"
   >
     <div
       class="h-28 w-full flex items-center justify-center"
@@ -24,6 +24,23 @@
       @start-drawing="startDrawing"
       @stop-drawing="stopDrawing"
     ></DrawPair>
+    <section
+      class="mb-24 sm:mb-12 mt-auto text-neutral-400 dark:text-neutral-600 select-none"
+      v-if="!isLoading && !isDrawing"
+    >
+      <p class="text-center font-bold text-lg mb-1">How it works:</p>
+      <p class="font-semibold text-sm">
+        <span class="mr-1 w-3 inline-block text-right">1.</span>Click that
+        button
+      </p>
+      <p class="font-semibold text-sm">
+        <span class="mr-1 w-3 inline-block text-right">2.</span>Chat anonymously
+      </p>
+      <p class="font-semibold text-sm">
+        <span class="mr-1 w-3 inline-block text-right">3.</span>Reveal if you
+        wish!
+      </p>
+    </section>
   </main>
 </template>
 

@@ -2,35 +2,35 @@
   <div class="flex flex-col items-center justify-center">
     <Transition name="fade" mode="out-in">
       <div
-        class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-6 sm:p-12 shadow-md"
+        class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full max-w-64 max-h-64 sm:max-w-[30rem] sm:max-h-[30rem] p-3 sm:p-8 shadow-md"
         v-if="!isDrawing"
       >
         <div
-          class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full p-6 sm:p-12 shadow-md"
+          class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full p-2 sm:p-6 shadow-md"
         >
           <button
-            class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full shadow-top border-slate-100 dark:border-stone-800 border-4 sm:border-8 group"
+            class="rounded-full bg-slate-100 dark:bg-neutral-800 w-full h-full shadow-top border-slate-100 dark:border-stone-900 border-4 sm:border-8 group"
             @click="startDrawing"
             :disabled="mainStore.isDrawing"
           >
             <div
-              class="rounded-full bg-red-500 dark:bg-red-600/60 w-full h-full shadow-inner shadow-red-950/25 p-4"
+              class="rounded-full bg-main-gradient dark:bg-main-gradient-dark w-full h-full shadow-inner shadow-red-950/25 p-4"
             >
               <div
-                class="rounded-full bg-red-500 w-full h-full shadow-top p-1 flex items-center justify-center transition-all duration-150"
+                class="rounded-full bg-main-gradient w-full h-full shadow-top p-1 flex items-center justify-center transition-all duration-150"
                 :class="{
-                  'animate-pulse group-active:animate-none group-active:scale-[98%] group-active:shadow-[0_1px_6px_2px_rgba(0,0,0,0.3)]':
+                  'group-active:animate-none group-active:scale-[98%] group-hover:scale-[101%] group-active:shadow-[0_1px_6px_2px_rgba(0,0,0,0.3)]':
                     !mainStore.isDrawing,
                 }"
               >
                 <Transition name="start-drawing">
                   <div
                     v-if="mainStore.isDrawing"
-                    class="absolute bg-red-500 w-full h-full"
+                    class="absolute bg-main-gradient w-full h-full"
                   ></div>
                 </Transition>
                 <p
-                  class="text-slate-100 dark:text-neutral-700 font-bold text-xl sm:text-3xl drop-shadow-md"
+                  class="text-slate-100 dark:text-neutral-800 font-bold text-xl sm:text-3xl drop-shadow-md"
                 >
                   {{ buttonTitle }}
                 </p>
@@ -41,8 +41,8 @@
       </div>
       <div
         v-else
-        class="bg-red-500 w-full h-full flex flex-col items-center justify-center"
-        :class="{ 'bg-red-900': mainStore.pairId }"
+        class="bg-main-gradient w-full h-full flex flex-col items-center justify-center"
+        :class="{ 'bg-main-gradient-dark': mainStore.pairId }"
       >
         <div
           class="h-full w-full mt-24 flex flex-col items-center justify-center gap-8"
@@ -97,7 +97,7 @@
             </p>
             <button
               @click="router.push(`/app/pairs/${mainStore.pairId}`)"
-              class="flex items-center mb-0 mt-auto justify-self-end text-red-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
+              class="flex items-center mb-0 mt-auto justify-self-end text-rose-600 dark:text-rose-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
             >
               <span>Start chatting</span>
             </button>
@@ -112,7 +112,7 @@
         <div class="w-full flex justify-center mb-24" v-if="!mainStore.pairId">
           <button
             @click="stopDrawing"
-            class="flex items-center text-red-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
+            class="flex items-center text-rose-600 dark:text-rose-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
           >
             <span v-if="isSearching">Stop searching</span>
             <span v-else>Back</span>
