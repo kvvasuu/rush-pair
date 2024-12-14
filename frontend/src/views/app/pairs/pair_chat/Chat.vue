@@ -216,10 +216,10 @@ onMounted(() => {
   if (messagesContainer.value) {
     messagesContainer.value.addEventListener("scroll", onScroll);
   }
-}),
-  onBeforeUnmount(() => {
-    messagesContainer.value?.removeEventListener("scroll", onScroll);
-  });
+});
+onBeforeUnmount(() => {
+  messagesContainer.value?.removeEventListener("scroll", onScroll);
+});
 </script>
 
 <style scoped>
