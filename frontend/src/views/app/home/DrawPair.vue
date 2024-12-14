@@ -104,7 +104,7 @@
             </button>
             <div class="w-full absolute bottom-0 left-0 h-">
               <div
-                class="bg-neutral-200 dark:bg-neutral-700 h-2 loading-animation"
+                class="dark:bg-neutral-400 bg-neutral-700 h-2 loading-animation"
               ></div>
             </div>
           </div>

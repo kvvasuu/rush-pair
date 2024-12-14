@@ -44,7 +44,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "../../../stores/userStore";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import PairListElement from "./PairListElement.vue";
 import { PairInfo } from "../../../types";
 
@@ -53,7 +53,7 @@ const userStore = useUserStore();
 userStore.getPairs();
 
 const searchValue = ref("");
-const pairsList = ref<PairInfo[]>(userStore.pairs);
+const pairsList = ref<PairInfo[]>([...userStore.pairs]);
 
 const search = () => {
   if (searchValue.value.length > 1) {
@@ -67,4 +67,10 @@ const search = () => {
     pairsList.value = userStore.pairs;
   }
 };
+watch(
+  () => userStore.pairs,
+  (newPairs) => {
+    pairsList.value = [...newPairs];
+  }
+);
 </script>

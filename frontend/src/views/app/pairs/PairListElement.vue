@@ -6,6 +6,7 @@
   >
     <PairAvatar
       :pair="pair"
+      :key="pair.imageUrl"
       :is-active="pair.isActive"
       class="min-w-[72px] max-w-[72px]"
     ></PairAvatar>
