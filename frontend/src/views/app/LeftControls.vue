@@ -49,7 +49,7 @@
       <RouterLink to="/app/pairs" class="menu-link">
         <div class="w-12 flex justify-center items-center">
           <i
-            class="fa-solid fa-handshake-simple text-3xl transition-all duration-150"
+            class="fa-solid fa-comments text-3xl transition-all duration-150"
             :class="{
               'text-rose-500': route.path.startsWith('/app/pairs'),
             }"

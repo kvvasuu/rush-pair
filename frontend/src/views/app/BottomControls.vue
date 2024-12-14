@@ -30,7 +30,7 @@
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
         <i
-          class="fa-solid fa-handshake-simple text-3xl transition-all duration-150"
+          class="fa-solid fa-comments text-3xl transition-all duration-150"
           :class="{
             'text-rose-500': route.path.startsWith('/app/pairs'),
           }"

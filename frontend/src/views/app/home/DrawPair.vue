@@ -86,18 +86,19 @@
             Try again later or wait for others.
           </p>
         </div>
-        <Transition name="pop-up">
+        <Transition name="fade">
           <div
-            class="w-full absolute sm:relative top-0 h-[calc(100%-4rem)] overflow-hidden sm:w-2/3 sm:h-2/3 flex flex-col items-center justify-start py-24 px-4 sm:py-16 sm:px-16 bg-main-gradient dark:bg-main-gradient-dark sm:rounded-2xl shadow-lg text-neutral-100 dark:text-neutral-700"
+            class="w-full absolute sm:relative top-0 h-[calc(100%-4rem)] overflow-hidden sm:w-2/3 sm:h-2/3 flex flex-col items-center justify-start py-24 px-4 sm:py-16 sm:px-16 bg-slate-200 dark:bg-neutral-800 sm:rounded-2xl shadow-lg dark:text-neutral-300 text-slate-700"
             v-if="mainStore.pairId"
           >
-            <i class="fa-solid fa-comments text-8xl mt-8"></i>
-            <p class="font-semibold text-center text-3xl select-none mt-10">
-              {{ pairedTite }}
-            </p>
+            <i class="fa-solid fa-comments text-8xl mt-8 text-red-500"></i>
+            <p
+              class="font-semibold text-center text-3xl select-none mt-10"
+              v-html="pairedTite"
+            ></p>
             <button
               @click="router.push(`/app/pairs/${mainStore.pairId}`)"
-              class="flex items-center mb-0 mt-auto justify-self-end text-rose-600 dark:text-rose-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
+              class="flex items-center mb-0 mt-auto justify-self-end text-neutral-50 dark:text-neutral-800 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
             >
               <span>Start chatting</span>
             </button>
@@ -143,8 +144,8 @@ const isSearching = ref(false);
 const displayPairedTitle = () => {
   const pairedTitles = [
     "You've Been Paired!",
-    "Success! Your Chat Awaits.",
-    "Pair Found! Get Ready to Chat.",
+    "Success!</br>Your Chat Awaits.",
+    "Pair Found!</br>Get Ready to Chat.",
   ];
 
   const titleIndex = Math.floor(Math.random() * pairedTitles.length);

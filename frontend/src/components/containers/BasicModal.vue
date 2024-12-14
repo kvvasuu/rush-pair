@@ -7,7 +7,7 @@
       <section
         @mousedown.stop=""
         v-if="isVisible"
-        class="w-full md:max-w-[28rem] h-full md:max-h-[42rem] bg-slate-50 md:rounded-lg p-12 relative"
+        class="w-full md:max-w-[28rem] h-full md:max-h-[42rem] bg-slate-50 dark:bg-neutral-800 md:rounded-lg p-12 relative"
       >
         <slot></slot>
         <button
