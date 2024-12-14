@@ -178,8 +178,6 @@ export const useChatStore = defineStore("chatStore", {
         userId: userStore.id,
         pairId: this.pairInfo.id,
       });
-
-      await this.loadMessages();
     },
     disconnectFromSocket() {
       chatSocket.disconnect();

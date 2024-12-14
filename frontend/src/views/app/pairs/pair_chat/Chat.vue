@@ -4,7 +4,7 @@
   >
     <div
       class="w-full h-full flex items-center justify-center"
-      v-if="chatStore.isLoading && !chatStore.roomId"
+      v-if="isLoading && !chatStore.roomId"
     >
       <BasicSpinner></BasicSpinner>
     </div>
@@ -109,6 +109,8 @@ import EmojiPicker from "../../../../components/EmojiPicker.vue";
 const chatStore = useChatStore();
 const userStore = useUserStore();
 
+const isLoading = ref(true);
+
 const message = ref("");
 const messageInputRef = ref<HTMLDivElement | null>(null);
 
@@ -212,11 +214,14 @@ watch(
   { deep: true }
 );
 
-onMounted(() => {
+onMounted(async () => {
+  await chatStore.loadMessages();
+  isLoading.value = false;
   if (messagesContainer.value) {
     messagesContainer.value.addEventListener("scroll", onScroll);
   }
 });
+
 onBeforeUnmount(() => {
   messagesContainer.value?.removeEventListener("scroll", onScroll);
 });
