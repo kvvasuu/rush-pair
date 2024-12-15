@@ -2,7 +2,9 @@
   <div
     class="flex-1 h-full w-full flex flex-col lg:flex-col justify-end relative"
   >
-    <ChatMessagesList></ChatMessagesList>
+    <ChatMessagesList
+      @send-sample-message="(msg) => (message = msg)"
+    ></ChatMessagesList>
 
     <div class="w-full h-16 absolute">
       <input
@@ -10,7 +12,8 @@
         id="message"
         v-model="message"
         type="text"
-        class="w-full h-full m-0 outline-none p-2 pl-4 pr-14 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700 transition-all shadow z-30"
+        class="w-full h-full m-0 outline-none p-2 pl-4 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700 transition-all shadow z-30"
+        :class="[isTouchDevice ? 'pr-14' : 'pr-32']"
         placeholder="Type a message"
         autocomplete="off"
         spellcheck="false"
@@ -80,21 +83,3 @@ const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0
 );
 </script>
-
-<style scoped>
-.list-move,
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.list-leave-active {
-  position: absolute;
-}
-</style>
