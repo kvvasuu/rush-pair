@@ -217,11 +217,9 @@ const showDate = (index: number) => {
   if (index === chatStore.messages.length - 1) return true;
   if (index === 0) return false;
   if (chatStore.messages) {
-    const prevMessageDate = new Date(
-      chatStore.messages[index - 1].date
-    ).getTime();
+    const prevMessageDate = new Date(chatStore.messages[index].date).getTime();
     const currentMessageDate = new Date(
-      chatStore.messages[index].date
+      chatStore.messages[index + 1].date
     ).getTime();
     const timeDifference = (prevMessageDate - currentMessageDate) / 60000;
     return timeDifference > 10;

@@ -75,7 +75,13 @@ const selectEmoji = (emoji: string) => {
 };
 
 const sendMessage = async () => {
-  await chatStore.sendMessage(message.value);
+  let messageToSend = "";
+
+  !message.value
+    ? (messageToSend = "\u2764\uFE0F")
+    : (messageToSend = message.value);
+
+  await chatStore.sendMessage(messageToSend);
   message.value = "";
 };
 

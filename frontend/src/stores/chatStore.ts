@@ -119,13 +119,9 @@ export const useChatStore = defineStore("chatStore", {
     async sendMessage(message: string) {
       const userStore = useUserStore();
 
-      let messageToSend = "";
-
-      !message ? (messageToSend = "\u2764\uFE0F") : (messageToSend = message);
-
       chatSocket.emit("sendMessage", {
         roomId: this.roomId,
-        content: messageToSend,
+        content: message,
         sender: userStore.id,
       });
     },
