@@ -2,9 +2,20 @@
   <div
     class="flex-1 h-full w-full flex flex-col lg:flex-col justify-end relative"
   >
-    <ChatMessagesList
-      @send-sample-message="(msg) => (message = msg)"
-    ></ChatMessagesList>
+    <div
+      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse gap-1"
+    >
+      <div
+        class="w-full h-full flex items-center justify-center"
+        v-if="isLoading || !chatStore.roomId"
+      >
+        <BasicSpinner></BasicSpinner>
+      </div>
+      <ChatMessagesList
+        v-else
+        @send-sample-message="(msg) => (message = msg)"
+      ></ChatMessagesList>
+    </div>
 
     <div class="w-full h-16 absolute">
       <input
@@ -53,15 +64,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import EmojiPicker from "../../../../components/EmojiPicker.vue";
 import ChatMessagesList from "./ChatMessagesList.vue";
+import BasicSpinner from "../../../../components/BasicSpinner.vue";
 
 const chatStore = useChatStore();
 
 const message = ref("");
 const messageInputRef = ref<HTMLDivElement | null>(null);
+
+const isLoading = ref(true);
 
 const isEmojiSelectorVisible = ref(false);
 
@@ -84,6 +98,12 @@ const sendMessage = async () => {
   await chatStore.sendMessage(messageToSend);
   message.value = "";
 };
+
+onMounted(async () => {
+  await chatStore.loadMessages();
+
+  isLoading.value = false;
+});
 
 const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0

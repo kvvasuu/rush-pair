@@ -7,6 +7,7 @@ const pairSchema = new mongoose.Schema({
     unique: true,
     ref: "User",
   },
+  /* userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, */
   pairedWith: [
     {
       id: {
@@ -32,6 +33,10 @@ const pairSchema = new mongoose.Schema({
       hasBeenAskedForReveal: {
         type: Boolean,
         default: false,
+      },
+      unreadMessagesCount: {
+        type: Number,
+        default: 0,
       },
     },
   ],

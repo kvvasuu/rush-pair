@@ -1,100 +1,90 @@
 <template>
   <div
-    class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse gap-1"
+    class="w-full h-full overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-4 pt-6 gap-1"
     ref="messagesContainer"
   >
     <div
-      class="w-full h-full flex items-center justify-center"
-      v-if="isLoading || !chatStore.roomId"
+      class="px-4 sm:px-0 w-full flex flex-col items-center justify-center gap-3 text-center mt-6"
+      v-if="!chatStore.isLoading && showSampleMessage()"
     >
-      <BasicSpinner></BasicSpinner>
-    </div>
-    <div
-      class="w-full h-full overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-4 pt-6 gap-1"
-      v-else
-    >
-      <div
-        class="px-4 sm:px-0 w-full flex flex-col items-center justify-center gap-3 text-center mt-6"
-        v-if="showSampleMessage()"
+      <p
+        class="text-xs text-neutral-500 select-none"
+        v-if="chatStore?.messages?.length === 0"
       >
-        <p
-          class="text-xs text-neutral-500 select-none"
-          v-if="chatStore?.messages?.length === 0"
+        Why not start by saying 'Hi' or use the button below to ask something
+        interesting, or roll for a random message!
+      </p>
+      <p class="text-xs text-neutral-500 select-none" v-else>
+        Long time no see! It's been a while since we last chatted. Ready to
+        catch up?
+      </p>
+      <div class="flex gap-1 items-center">
+        <button
+          class="rounded-3xl flex-grow-0 shadow-sm py-2 px-3 bg-slate-100 hover:bg-slate-100/50 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 group transition-all"
+          title="Roll the dice!"
+          @click="getRandomSampleMessage"
         >
-          Why not start by saying 'Hi' or use the button below to ask something
-          interesting, or roll for a random message!
-        </p>
-        <p class="text-xs text-neutral-500 select-none" v-else>
-          Long time no see! It's been a while since we last chatted. Ready to
-          catch up?
-        </p>
-        <div class="flex gap-1 items-center">
-          <button
-            class="rounded-3xl flex-grow-0 shadow-sm py-2 px-3 bg-slate-100 hover:bg-slate-100/50 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 group transition-all"
-            title="Roll the dice!"
-            @click="getRandomSampleMessage"
+          <i
+            class="fa-solid fa-dice text-rose-500 group-hover:text-rose-600 group-hover:-rotate-12 group-hover:scale-105 transition-all"
+          ></i>
+        </button>
+        <button
+          class="rounded-3xl shadow-sm py-2 px-6 bg-slate-100 hover:bg-slate-100/50 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-slate-800 dark:text-neutral-400 transition-all"
+          :title="sampleMessage"
+          @click="emit('sendSampleMessage', sampleMessage)"
+        >
+          {{ sampleMessage }}
+        </button>
+      </div>
+    </div>
+    <TransitionGroup name="list">
+      <div
+        v-for="(message, index) in chatStore.messages"
+        class="w-full flex flex-col items-center justify-start"
+        :key="message.date"
+      >
+        <div
+          v-if="showDate(index)"
+          class="text-xs font-semibold text-neutral-500 select-none mb-2 mt-4"
+        >
+          {{ formatDate(new Date(message.date)) }}
+        </div>
+        <div
+          class="max-w-[85%] flex items-end justify-start"
+          :class="[message.sender === userStore.id ? 'self-end' : 'self-start']"
+        >
+          <PairAvatar
+            :pair="chatStore.pairInfo"
+            class="w-8 h-8 mr-2 shrink-0"
+            :title="chatStore.pairInfo.name"
+            v-if="message.sender !== userStore.id"
+          ></PairAvatar>
+          <div
+            class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
+            :class="[
+              message.sender === userStore.id
+                ? 'bg-rose-300 dark:bg-rose-500/20'
+                : 'bg-blue-200 dark:bg-blue-600/20',
+            ]"
+            :title="formatDate(new Date(message.date))"
           >
-            <i
-              class="fa-solid fa-dice text-rose-500 group-hover:text-rose-600 group-hover:-rotate-12 group-hover:scale-105 transition-all"
-            ></i>
-          </button>
-          <button
-            class="rounded-3xl shadow-sm py-2 px-6 bg-slate-100 hover:bg-slate-100/50 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-slate-800 dark:text-neutral-400 transition-all"
-            :title="sampleMessage"
-            @click="emit('sendSampleMessage', sampleMessage)"
-          >
-            {{ sampleMessage }}
-          </button>
+            {{ message.content }}
+          </div>
         </div>
       </div>
-      <TransitionGroup name="list">
-        <div
-          v-for="(message, index) in chatStore.messages"
-          class="w-full flex flex-col items-center justify-start"
-          :key="message.date"
-        >
-          <div
-            v-if="showDate(index)"
-            class="text-xs font-semibold text-neutral-500 select-none mb-2 mt-4"
-          >
-            {{ formatDate(new Date(message.date)) }}
-          </div>
-          <div
-            class="max-w-[85%] flex items-end justify-start"
-            :class="[
-              message.sender === userStore.id ? 'self-end' : 'self-start',
-            ]"
-          >
-            <PairAvatar
-              :pair="chatStore.pairInfo"
-              class="w-8 h-8 mr-2 shrink-0"
-              :title="chatStore.pairInfo.name"
-              v-if="message.sender !== userStore.id"
-            ></PairAvatar>
-            <div
-              class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
-              :class="[
-                message.sender === userStore.id
-                  ? 'bg-rose-300 dark:bg-rose-500/20'
-                  : 'bg-blue-200 dark:bg-blue-600/20',
-              ]"
-              :title="formatDate(new Date(message.date))"
-            >
-              {{ message.content }}
-            </div>
-          </div>
-        </div>
-      </TransitionGroup>
-    </div>
+    </TransitionGroup>
   </div>
   <Transition name="fade">
     <button
-      class="absolute bottom-20 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
+      class="absolute bottom-6 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
       v-if="showScrollButton"
       @click="scrollToBottom"
     >
-      <p v-if="!!newMessagesCount" class="absolute -top-6 w-96 font-semibold">
-        You have {{ newMessagesCount }} new messages
+      <p
+        class="absolute -top-6 w-96 font-semibold"
+        v-if="!!chatStore.unreadMessagesCount"
+      >
+        You have {{ chatStore.unreadMessagesCount }} new messages
       </p>
       <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
     </button>
@@ -105,15 +95,12 @@
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { ref, nextTick, onMounted, onBeforeUnmount } from "vue";
-import BasicSpinner from "../../../../components/BasicSpinner.vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 
 const emit = defineEmits(["sendSampleMessage"]);
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
-
-const isLoading = ref(true);
 
 const messagesContainer = ref<HTMLDivElement | null>(null);
 
@@ -178,7 +165,7 @@ const formatDate = (date: Date) => {
     dateNow.getMonth() === date.getMonth() &&
     Math.floor(dateNow.getDate() / 7) === Math.floor(date.getDate() / 7);
 
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const months = [
     "Jan",
@@ -198,7 +185,7 @@ const formatDate = (date: Date) => {
   const day = date.getDate().toString().padStart(2, "0");
   const month = months[date.getMonth()];
   const year = date.getFullYear();
-  const dayOfWeek = days[date.getDay() - 1];
+  const dayOfWeek = days[date.getDay()];
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
 
@@ -227,7 +214,6 @@ const showDate = (index: number) => {
 };
 
 const showScrollButton = ref(false);
-const newMessagesCount = ref(0);
 
 const scrollToBottom = () => {
   if (messagesContainer.value) {
@@ -256,7 +242,7 @@ const onScroll = async () => {
     }
 
     if (Math.abs(messagesContainer.value.scrollTop) < 50)
-      newMessagesCount.value = 0;
+      chatStore.unreadMessagesCount = 0;
 
     Math.abs(messagesContainer.value.scrollTop) > 100
       ? (showScrollButton.value = true)
@@ -265,14 +251,12 @@ const onScroll = async () => {
 };
 
 onMounted(async () => {
-  await chatStore.loadMessages();
-
-  isLoading.value = false;
   if (messagesContainer.value) {
     messagesContainer.value.addEventListener("scroll", onScroll);
   }
 
   getRandomSampleMessage();
+  chatStore.unreadMessagesCount = 0;
 });
 
 onBeforeUnmount(() => {

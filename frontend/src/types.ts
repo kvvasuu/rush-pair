@@ -44,7 +44,7 @@ interface ChatStoreState {
   isLoading: boolean;
   connected: boolean;
   roomId: string;
-  newMessage: Message | null;
+  unreadMessagesCount: number;
 }
 
 interface Emoji {
@@ -57,6 +57,7 @@ interface Message {
   sender: string;
   content: string;
   date: string;
+  isRead?: boolean;
 }
 
 export type { User, UserStoreState, ChatStoreState, PairInfo, Message, Emoji };
