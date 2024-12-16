@@ -82,9 +82,9 @@
     >
       <p
         class="absolute -top-6 w-96 font-semibold"
-        v-if="!!chatStore.unreadMessagesCount"
+        v-if="!!chatStore.pairInfo.unreadMessagesCount"
       >
-        You have {{ chatStore.unreadMessagesCount }} new messages
+        You have {{ chatStore.pairInfo.unreadMessagesCount }} new messages
       </p>
       <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
     </button>
@@ -242,7 +242,7 @@ const onScroll = async () => {
     }
 
     if (Math.abs(messagesContainer.value.scrollTop) < 50)
-      chatStore.unreadMessagesCount = 0;
+      chatStore.pairInfo.unreadMessagesCount = 0;
 
     Math.abs(messagesContainer.value.scrollTop) > 100
       ? (showScrollButton.value = true)
@@ -256,7 +256,11 @@ onMounted(async () => {
   }
 
   getRandomSampleMessage();
-  chatStore.unreadMessagesCount = 0;
+  chatStore.pairInfo.unreadMessagesCount = 0;
+  const pairIndex = userStore.pairs.findIndex(
+    (pair) => pair.id === chatStore.pairInfo.id
+  );
+  userStore.pairs[pairIndex].unreadMessagesCount = 0;
 });
 
 onBeforeUnmount(() => {

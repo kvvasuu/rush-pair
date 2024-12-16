@@ -4,12 +4,33 @@
     @click="goToPair"
     :title="`${pair.name}, paired at: ${pairedAt}`"
   >
-    <PairAvatar
-      :pair="pair"
-      :key="pair.imageUrl"
-      :is-active="pair.isActive"
-      class="min-w-[72px] max-w-[72px]"
-    ></PairAvatar>
+    <div class="relative">
+      <PairAvatar
+        :pair="pair"
+        :key="pair.imageUrl"
+        :is-active="pair.isActive"
+        class="min-w-[72px] max-w-[72px]"
+      ></PairAvatar>
+      <div
+        v-if="!!pair.unreadMessagesCount"
+        class="absolute right-0 top-0 font-semibold text-neutral-100 rounded-full bg-rose-600 shadow-md"
+        :title="`You have ${pair.unreadMessagesCount} unread messages.`"
+      >
+        <div
+          v-if="pair.unreadMessagesCount < 100"
+          class="w-5 aspect-square flex items-center justify-center text-xs"
+        >
+          {{ pair.unreadMessagesCount }}
+        </div>
+        <div
+          v-else
+          class="w-5 aspect-square flex items-center justify-center text-[0.5rem]"
+        >
+          99+
+        </div>
+      </div>
+    </div>
+
     <div class="h-full flex flex-col items-start justify-center mr-4 min-w-0">
       <p
         class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"

@@ -38,6 +38,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               isVisible: true,
               isActive: !!isActive,
               askedForReveal: el.askedForReveal,
+              unreadMessagesCount: el.unreadMessagesCount,
             }
           : {
               id: pairedUser.id,
@@ -46,6 +47,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               name: el.name || "Anonymous",
               isActive: !!isActive,
               askedForReveal: el.askedForReveal,
+              unreadMessagesCount: el.unreadMessagesCount,
             };
       })
     );

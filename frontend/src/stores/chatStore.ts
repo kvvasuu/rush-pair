@@ -31,10 +31,11 @@ export const useChatStore = defineStore("chatStore", {
       isActive: false,
       askedForReveal: false,
       hasBeenAskedForReveal: false,
+      unreadMessagesCount: 0,
     },
     currentPage: 1,
     messages: [],
-    unreadMessagesCount: 0,
+
     isLoading: false,
     connected: false,
     roomId: "",
@@ -147,7 +148,8 @@ export const useChatStore = defineStore("chatStore", {
       if (!chatSocket.hasListeners("getMessage")) {
         chatSocket.on("getMessage", (message: Message) => {
           this.messages.unshift(message);
-          if (message.sender === this.pairInfo.id) this.unreadMessagesCount++;
+          if (message.sender === this.pairInfo.id)
+            this.pairInfo.unreadMessagesCount++;
         });
       }
       if (!socket.hasListeners("askedForReveal")) {

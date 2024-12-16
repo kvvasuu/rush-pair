@@ -23,6 +23,7 @@ interface PairInfo {
   isActive: boolean;
   askedForReveal: boolean;
   hasBeenAskedForReveal: boolean;
+  unreadMessagesCount: number;
 }
 
 interface UserStoreState extends User {
@@ -44,7 +45,6 @@ interface ChatStoreState {
   isLoading: boolean;
   connected: boolean;
   roomId: string;
-  unreadMessagesCount: number;
 }
 
 interface Emoji {
