@@ -13,21 +13,12 @@
       ></PairAvatar>
       <div
         v-if="!!pair.unreadMessagesCount"
-        class="absolute right-0 top-0 font-semibold text-neutral-100 rounded-full bg-rose-600 shadow-md"
-        :title="`You have ${pair.unreadMessagesCount} unread messages.`"
+        class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
+        :title="`You have ${pair.unreadMessagesCount} unread message${
+          pair.unreadMessagesCount === 1 ? '' : 's'
+        }.`"
       >
-        <div
-          v-if="pair.unreadMessagesCount < 100"
-          class="w-5 aspect-square flex items-center justify-center text-xs"
-        >
-          {{ pair.unreadMessagesCount }}
-        </div>
-        <div
-          v-else
-          class="w-5 aspect-square flex items-center justify-center text-[0.5rem]"
-        >
-          99+
-        </div>
+        {{ pair.unreadMessagesCount < 100 ? pair.unreadMessagesCount : "99+" }}
       </div>
     </div>
 

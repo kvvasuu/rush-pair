@@ -29,6 +29,11 @@ export const useUserStore = defineStore("userStore", {
     },
     pairs: [],
   }),
+  getters: {
+    getAllUnreadMessages(): number {
+      return this.pairs.reduce((a, b) => a + b.unreadMessagesCount, 0);
+    },
+  },
   actions: {
     initAxios() {
       axios.defaults.baseURL = SERVER_URL;

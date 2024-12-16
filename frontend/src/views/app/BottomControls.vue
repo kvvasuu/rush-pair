@@ -27,14 +27,29 @@
       </RouterLink>
       <RouterLink
         to="/app/pairs"
-        class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
+        class="relative max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
       >
-        <i
-          class="fa-solid fa-comments text-3xl transition-all duration-150"
-          :class="{
-            'text-rose-500': route.path.startsWith('/app/pairs'),
-          }"
-        ></i>
+        <div class="w-12 flex justify-center items-center relative">
+          <i
+            class="fa-solid fa-comments text-3xl transition-all duration-150"
+            :class="{
+              'text-rose-500': route.path.startsWith('/app/pairs'),
+            }"
+          ></i>
+          <div
+            v-if="!!userStore.getAllUnreadMessages"
+            class="absolute -right-1 -top-2 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
+            :title="`You have ${userStore.getAllUnreadMessages} unread message${
+              userStore.getAllUnreadMessages === 1 ? '' : 's'
+            }.`"
+          >
+            {{
+              userStore.getAllUnreadMessages < 100
+                ? userStore.getAllUnreadMessages
+                : "99+"
+            }}
+          </div>
+        </div>
       </RouterLink>
       <RouterLink
         to="/app/settings"
@@ -55,6 +70,9 @@
 import { useRoute } from "vue-router";
 import { RouterLink } from "vue-router";
 import { computed } from "vue";
+import { useUserStore } from "../../stores/userStore";
+
+const userStore = useUserStore();
 
 const route = useRoute();
 
