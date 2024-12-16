@@ -127,6 +127,20 @@ export const useChatStore = defineStore("chatStore", {
         receiver: this.pairInfo.id,
       });
     },
+    setMessagesStatusToRead() {
+      const userStore = useUserStore();
+
+      this.pairInfo.unreadMessagesCount = 0;
+      const pairIndex = userStore.pairs.findIndex(
+        (pair) => pair.id === this.pairInfo.id
+      );
+      userStore.pairs[pairIndex].unreadMessagesCount = 0;
+
+      chatSocket.emit("readMessages", {
+        userId: userStore.id,
+        pairId: this.pairInfo.id,
+      });
+    },
     bindEvents() {
       if (!chatSocket.hasListeners("connect")) {
         chatSocket.on("connect", () => {

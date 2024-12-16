@@ -20,15 +20,33 @@
         ref="horizontalSlider"
         v-else
       >
-        <PairAvatar
-          v-for="pair in userStore.pairs"
-          :pair="pair"
-          :key="pair?.id"
-          :is-active="pair.isActive"
-          class="snap-start min-w-[72px] max-w-[72px] cursor-pointer"
-          :title="pair?.name"
-          @click="goToPair(pair.id)"
-        ></PairAvatar>
+        <div class="relative" v-for="pair in userStore.pairs" :key="pair?.id">
+          <PairAvatar
+            :pair="pair"
+            :is-active="pair.isActive"
+            class="snap-start min-w-[72px] max-w-[72px] cursor-pointer"
+            :title="pair?.name"
+            @click="goToPair(pair.id)"
+          ></PairAvatar>
+          <div
+            v-if="!!pair.unreadMessagesCount"
+            class="absolute right-0 top-0 font-semibold text-neutral-100 rounded-full bg-rose-600 shadow-md"
+            :title="`You have ${pair.unreadMessagesCount} unread messages.`"
+          >
+            <div
+              v-if="pair.unreadMessagesCount < 100"
+              class="w-5 aspect-square flex items-center justify-center text-xs"
+            >
+              {{ pair.unreadMessagesCount }}
+            </div>
+            <div
+              v-else
+              class="w-5 aspect-square flex items-center justify-center text-[0.5rem]"
+            >
+              99+
+            </div>
+          </div>
+        </div>
 
         <button
           class="h-full px-2 absolute left-0 top-0 items-center justify-center rounded-full text-xl text-neutral-200/90 hover:text-neutral-100/90 transition-all cursor-pointer outline-none"

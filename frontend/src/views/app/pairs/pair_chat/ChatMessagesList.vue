@@ -241,8 +241,11 @@ const onScroll = async () => {
       });
     }
 
-    if (Math.abs(messagesContainer.value.scrollTop) < 50)
-      chatStore.pairInfo.unreadMessagesCount = 0;
+    if (
+      Math.abs(messagesContainer.value.scrollTop) < 50 &&
+      !!chatStore.pairInfo.unreadMessagesCount
+    )
+      chatStore.setMessagesStatusToRead();
 
     Math.abs(messagesContainer.value.scrollTop) > 100
       ? (showScrollButton.value = true)
@@ -256,11 +259,7 @@ onMounted(async () => {
   }
 
   getRandomSampleMessage();
-  chatStore.pairInfo.unreadMessagesCount = 0;
-  const pairIndex = userStore.pairs.findIndex(
-    (pair) => pair.id === chatStore.pairInfo.id
-  );
-  userStore.pairs[pairIndex].unreadMessagesCount = 0;
+  chatStore.setMessagesStatusToRead();
 });
 
 onBeforeUnmount(() => {

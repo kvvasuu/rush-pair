@@ -64,6 +64,22 @@ export const setupChatNamespace = (io) => {
         console.log(err);
       }
     });
+
+    socket.on("readMessages", async ({ userId, pairId }) => {
+      try {
+        const userEmail = await User.findById(userId, "email");
+
+        await Pair.findOneAndUpdate(
+          { email: userEmail.email, "pairedWith.id": pairId },
+          {
+            $set: { "pairedWith.$.unreadMessagesCount": 0 },
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    });
+
     socket.on("disconnect", async () => {
       console.log("Chat disconnection");
     });
