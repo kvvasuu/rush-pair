@@ -13,6 +13,7 @@
       </div>
       <ChatMessagesList
         v-else
+        ref="chatMessagesList"
         @send-sample-message="(msg) => (message = msg)"
       ></ChatMessagesList>
     </div>
@@ -75,6 +76,10 @@ const chatStore = useChatStore();
 const message = ref("");
 const messageInputRef = ref<HTMLDivElement | null>(null);
 
+const chatMessagesList = ref<InstanceType<typeof ChatMessagesList> | null>(
+  null
+);
+
 const isLoading = ref(true);
 
 const isEmojiSelectorVisible = ref(false);
@@ -97,6 +102,11 @@ const sendMessage = async () => {
 
   await chatStore.sendMessage(messageToSend);
   message.value = "";
+  setTimeout(() => {
+    if (chatMessagesList.value) {
+      chatMessagesList.value.scrollToBottom();
+    }
+  }, 100);
 };
 
 onMounted(async () => {

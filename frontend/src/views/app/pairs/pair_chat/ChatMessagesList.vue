@@ -265,6 +265,10 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   messagesContainer.value?.removeEventListener("scroll", onScroll);
 });
+
+defineExpose({
+  scrollToBottom: scrollToBottom,
+});
 </script>
 
 <style scoped>
