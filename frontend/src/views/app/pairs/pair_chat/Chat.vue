@@ -29,6 +29,8 @@
         placeholder="Type a message"
         autocomplete="off"
         spellcheck="false"
+        v-debounce:300ms="handleTyping"
+        @input="onInput"
         @keydown.enter="sendMessage"
         ref="messageInputRef"
       /><button
@@ -70,6 +72,9 @@ import { useChatStore } from "../../../../stores/chatStore";
 import EmojiPicker from "../../../../components/EmojiPicker.vue";
 import ChatMessagesList from "./ChatMessagesList.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
+import vueDebounce from "vue-debounce";
+
+const vDebounce = vueDebounce({ lock: true });
 
 const chatStore = useChatStore();
 
@@ -107,6 +112,22 @@ const sendMessage = async () => {
       chatMessagesList.value.scrollToBottom();
     }
   }, 100);
+};
+
+const typingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
+
+const handleTyping = () => {
+  chatStore.startTyping();
+};
+
+const onInput = () => {
+  if (typingTimeout.value !== null) {
+    clearTimeout(typingTimeout.value);
+  }
+
+  typingTimeout.value = setTimeout(() => {
+    chatStore.stopTyping();
+  }, 1000);
 };
 
 onMounted(async () => {

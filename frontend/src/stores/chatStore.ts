@@ -141,6 +141,14 @@ export const useChatStore = defineStore("chatStore", {
         pairId: this.pairInfo.id,
       });
     },
+    startTyping() {
+      console.log("typing");
+      chatSocket.emit("typing");
+    },
+    stopTyping() {
+      console.log("stoptyping");
+      chatSocket.emit("stopTyping");
+    },
     bindEvents() {
       if (!chatSocket.hasListeners("connect")) {
         chatSocket.on("connect", () => {
