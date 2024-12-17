@@ -34,7 +34,7 @@ export const setupChatNamespace = (io) => {
             $set: { "pairedWith.$.unreadMessagesCount": 0 },
           }
         );
-        chatNamespace.to(roomId).emit("roomJoined", roomId);
+        chatNamespace.to(roomId).emit("roomJoined", roomId, userId);
       } catch (err) {
         console.log(err);
       }
