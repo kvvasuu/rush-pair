@@ -326,13 +326,16 @@ const computeMessageStyle = (sender: string, index: number) => {
 
 const showAvatar = (sender: string, index: number) => {
   if (chatStore.messages) {
-    if (
-      sender === chatStore.pairInfo.id &&
-      chatStore.messages[index].sender === sender &&
-      chatStore.messages[index - 1]?.sender !== sender
-    ) {
-      return true;
-    }
+    const isDateBelow = calculateDateBetween(
+      chatStore.messages[index]?.date,
+      chatStore.messages[index - 1]?.date
+    );
+    return (
+      (sender === chatStore.pairInfo.id &&
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index - 1]?.sender !== sender) ||
+      (sender === chatStore.pairInfo.id && isDateBelow)
+    );
   }
 };
 
