@@ -181,22 +181,24 @@ export const useChatStore = defineStore("chatStore", {
           this.openChat(this.pairInfo.id);
         });
       }
-      if (!socket.hasListeners("typing")) {
-        socket.on("typing", () => {
-          this.isTyping = true;
-          console.log("startTyping");
+      if (!chatSocket.hasListeners("startTyping")) {
+        chatSocket.on("startTyping", (pairId) => {
+          const userStore = useUserStore();
+          if (pairId === userStore.id) this.isTyping = true;
         });
       }
-      if (!socket.hasListeners("stopTyping")) {
-        socket.on("stopTyping", () => {
-          this.isTyping = false;
-          console.log("stopTyping");
+      if (!chatSocket.hasListeners("stopTyping")) {
+        chatSocket.on("stopTyping", (pairId) => {
+          const userStore = useUserStore();
+          if (pairId === userStore.id) this.isTyping = false;
         });
       }
     },
     removeEvents() {
       socket.removeAllListeners("askedForReveal");
       socket.removeAllListeners("setPairVisible");
+      chatSocket.removeAllListeners("startTyping");
+      chatSocket.removeAllListeners("stopTyping");
     },
     async connectToSocket() {
       const userStore = useUserStore();

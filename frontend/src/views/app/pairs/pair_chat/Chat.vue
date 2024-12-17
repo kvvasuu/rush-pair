@@ -126,7 +126,7 @@ const onInput = () => {
   typingTimeout.value = setTimeout(() => {
     chatStore.stopTyping();
     isTyping.value = false;
-  }, 1000);
+  }, 2000);
 };
 
 onMounted(async () => {

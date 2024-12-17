@@ -83,9 +83,12 @@ export const setupChatNamespace = (io) => {
     });
 
     socket.on("startTyping", (pairId) => {
-      chatNamespace.to(socket.roomId).emit("typing");
+      chatNamespace.emit("startTyping", pairId);
     });
 
+    socket.on("stopTyping", (pairId) => {
+      chatNamespace.emit("stopTyping", pairId);
+    });
     socket.on("disconnect", async () => {
       console.log("Chat disconnection");
     });

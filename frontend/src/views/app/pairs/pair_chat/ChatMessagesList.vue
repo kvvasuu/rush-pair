@@ -40,16 +40,17 @@
 
     <TransitionGroup name="list">
       <div
-        class="rounded-3xl flex items-center justify-center self-start shadow-sm py-2 w-16 dark:text-neutral-200 text-slate-800 bg-neutral-100 dark:bg-blue-600/20"
+        class="rounded-3xl ml-10 mt-2 flex items-center justify-center self-start shadow-sm py-2 w-16 bg-neutral-100 dark:bg-neutral-800"
         :class="{
-          'absolute z-10 bottom-4 left-[calc(50%-2rem)]': showScrollButton,
+          'absolute z-10 bottom-4 left-[calc(50%-2rem)] ml-0 mt-0':
+            showScrollButton,
         }"
         v-if="chatStore.isTyping"
         key="typing"
       >
-        <div class="dot bg-slate-400 rounded-full"></div>
-        <div class="dot bg-slate-400 rounded-full"></div>
-        <div class="dot bg-slate-400 rounded-full"></div>
+        <div class="dot bg-neutral-400 dark:bg-neutral-500 rounded-full"></div>
+        <div class="dot bg-neutral-400 dark:bg-neutral-500 rounded-full"></div>
+        <div class="dot bg-neutral-400 dark:bg-neutral-500 rounded-full"></div>
       </div>
 
       <div
@@ -328,17 +329,6 @@ defineExpose({
     transform: scale(0.65);
   }
   35% {
-    transform: scale(1);
-  }
-}
-
-@keyframes overall-scale {
-  0%,
-  95% {
-    transform: scale(0);
-  }
-  5%,
-  90% {
     transform: scale(1);
   }
 }
