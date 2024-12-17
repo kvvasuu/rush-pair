@@ -82,6 +82,7 @@
           <PairAvatar
             :pair="chatStore.pairInfo"
             class="w-8 h-8 mr-2 shrink-0"
+            :class="{ 'mb-2': showAvatar(message.sender, index) }"
             :title="chatStore.pairInfo.name"
             v-if="showAvatar(message.sender, index)"
           ></PairAvatar>
