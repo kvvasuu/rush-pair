@@ -190,6 +190,8 @@ const stopDrawing = () => {
   userStore.stopDrawingAPair();
 };
 
+let pairedTimeout: ReturnType<typeof setTimeout> | null = null;
+
 watch(
   () => mainStore.pairId,
   async (pairId) => {
@@ -198,16 +200,19 @@ watch(
     }, 1000);
 
     await userStore.getPairs();
-    setTimeout(() => {
+    pairedTimeout = setTimeout(() => {
       router.push(`/app/pairs/${pairId}`);
     }, 6000);
   },
   { deep: true }
 );
+
+let isEmptyTimeout: ReturnType<typeof setTimeout> | null = null;
+
 watch(
   () => mainStore.isEmpty,
   () => {
-    setTimeout(() => {
+    isEmptyTimeout = setTimeout(() => {
       isSearching.value = false;
     }, 10000);
   },
@@ -217,6 +222,8 @@ watch(
 onBeforeUnmount(() => {
   mainStore.isDrawing = false;
   userStore.stopDrawingAPair();
+  if (isEmptyTimeout) clearTimeout(isEmptyTimeout);
+  if (pairedTimeout) clearTimeout(pairedTimeout);
 });
 </script>
 

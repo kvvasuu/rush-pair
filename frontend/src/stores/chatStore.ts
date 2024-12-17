@@ -35,10 +35,10 @@ export const useChatStore = defineStore("chatStore", {
     },
     currentPage: 1,
     messages: [],
-
     isLoading: false,
     connected: false,
     roomId: "",
+    isTyping: false,
   }),
   actions: {
     async openChat(id: string) {
@@ -121,7 +121,6 @@ export const useChatStore = defineStore("chatStore", {
       const userStore = useUserStore();
 
       chatSocket.emit("sendMessage", {
-        roomId: this.roomId,
         content: message,
         sender: userStore.id,
         receiver: this.pairInfo.id,
@@ -142,12 +141,10 @@ export const useChatStore = defineStore("chatStore", {
       });
     },
     startTyping() {
-      console.log("typing");
-      chatSocket.emit("typing");
+      chatSocket.emit("startTyping", this.pairInfo.id);
     },
     stopTyping() {
-      console.log("stoptyping");
-      chatSocket.emit("stopTyping");
+      chatSocket.emit("stopTyping", this.pairInfo.id);
     },
     bindEvents() {
       if (!chatSocket.hasListeners("connect")) {
@@ -182,6 +179,18 @@ export const useChatStore = defineStore("chatStore", {
       if (!socket.hasListeners("setPairVisible")) {
         socket.on("setPairVisible", () => {
           this.openChat(this.pairInfo.id);
+        });
+      }
+      if (!socket.hasListeners("typing")) {
+        socket.on("typing", () => {
+          this.isTyping = true;
+          console.log("startTyping");
+        });
+      }
+      if (!socket.hasListeners("stopTyping")) {
+        socket.on("stopTyping", () => {
+          this.isTyping = false;
+          console.log("stopTyping");
         });
       }
     },

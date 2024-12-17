@@ -37,7 +37,21 @@
         </button>
       </div>
     </div>
+
     <TransitionGroup name="list">
+      <div
+        class="rounded-3xl flex items-center justify-center self-start shadow-sm py-2 w-16 dark:text-neutral-200 text-slate-800 bg-neutral-100 dark:bg-blue-600/20"
+        :class="{
+          'absolute z-10 bottom-4 left-[calc(50%-2rem)]': showScrollButton,
+        }"
+        v-if="chatStore.isTyping"
+        key="typing"
+      >
+        <div class="dot bg-slate-400 rounded-full"></div>
+        <div class="dot bg-slate-400 rounded-full"></div>
+        <div class="dot bg-slate-400 rounded-full"></div>
+      </div>
+
       <div
         v-for="(message, index) in chatStore.messages"
         class="w-full flex flex-col items-center justify-start"
@@ -76,7 +90,8 @@
   </div>
   <Transition name="fade">
     <button
-      class="absolute bottom-6 left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
+      class="absolute left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
+      :class="[chatStore.isTyping ? 'bottom-14' : 'bottom-6']"
       v-if="showScrollButton"
       @click="scrollToBottom"
     >
@@ -202,7 +217,6 @@ const formatDate = (date: Date) => {
 
 const showDate = (index: number) => {
   if (index === chatStore.messages.length - 1) return true;
-  if (index === 0) return false;
   if (chatStore.messages) {
     const prevMessageDate = new Date(chatStore.messages[index].date).getTime();
     const currentMessageDate = new Date(
@@ -286,5 +300,46 @@ defineExpose({
 
 .list-leave-active {
   position: absolute;
+}
+
+.dot {
+  animation-timing-function: ease-in;
+  animation-iteration-count: infinite;
+  animation-name: dot-scale;
+  animation-duration: 1s;
+
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 5px 0px;
+  transform: scale(0.65);
+
+  &:nth-of-type(2) {
+    animation-delay: 0.15s;
+  }
+  &:nth-of-type(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes dot-scale {
+  0%,
+  70% {
+    transform: scale(0.65);
+  }
+  35% {
+    transform: scale(1);
+  }
+}
+
+@keyframes overall-scale {
+  0%,
+  95% {
+    transform: scale(0);
+  }
+  5%,
+  90% {
+    transform: scale(1);
+  }
 }
 </style>

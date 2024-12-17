@@ -2,7 +2,7 @@ import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
 import Pair from "../models/Pair.js";
 import User from "../models/User.js";
-import mongoose from "mongoose";
+import ActiveUser from "../models/ActiveUser.js";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");
@@ -26,6 +26,8 @@ export const setupChatNamespace = (io) => {
         socket.join(roomId);
         const userEmail = await User.findById(userId, "email");
 
+        socket.roomId = roomId;
+
         await Pair.findOneAndUpdate(
           { email: userEmail.email, "pairedWith.id": pairId },
           {
@@ -38,10 +40,10 @@ export const setupChatNamespace = (io) => {
       }
     });
 
-    socket.on("sendMessage", async ({ roomId, content, sender, receiver }) => {
+    socket.on("sendMessage", async ({ content, sender, receiver }) => {
       try {
         const message = new Message({
-          chatId: roomId,
+          chatId: socket.roomId,
           sender: sender,
           content: content,
         });
@@ -57,7 +59,7 @@ export const setupChatNamespace = (io) => {
           );
 
           chatNamespace
-            .to(roomId)
+            .to(socket.roomId)
             .emit("getMessage", { sender, content, date: message.date });
         });
       } catch (err) {
@@ -78,6 +80,10 @@ export const setupChatNamespace = (io) => {
       } catch (err) {
         console.log(err);
       }
+    });
+
+    socket.on("startTyping", (pairId) => {
+      chatNamespace.to(socket.roomId).emit("typing");
     });
 
     socket.on("disconnect", async () => {

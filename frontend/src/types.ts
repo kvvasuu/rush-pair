@@ -45,6 +45,7 @@ interface ChatStoreState {
   isLoading: boolean;
   connected: boolean;
   roomId: string;
+  isTyping: boolean;
 }
 
 interface Emoji {

@@ -14,7 +14,6 @@
     "pinia": "^2.2.4",
     "socket.io-client": "^4.8.0",
     "vue": "^3.5.10",
-    "vue-debounce": "^5.0.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
