@@ -160,8 +160,11 @@ export const useChatStore = defineStore("chatStore", {
       }
 
       if (!chatSocket.hasListeners("roomJoined")) {
-        chatSocket.on("roomJoined", (room) => {
+        chatSocket.on("roomJoined", (room, userId) => {
           this.roomId = room;
+          if (userId === this.pairInfo.id) {
+            this.pairInfo.isActive = true;
+          }
         });
       }
       if (!chatSocket.hasListeners("getMessage")) {

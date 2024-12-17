@@ -103,6 +103,8 @@ const sendMessage = async () => {
 
   await chatStore.sendMessage(messageToSend);
   message.value = "";
+  chatStore.stopTyping();
+  isTyping.value = false;
   setTimeout(() => {
     if (chatMessagesList.value) {
       chatMessagesList.value.scrollToBottom();

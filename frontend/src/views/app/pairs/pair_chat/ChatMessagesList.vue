@@ -55,7 +55,7 @@
 
       <div
         v-for="(message, index) in chatStore.messages"
-        class="w-full flex flex-col items-center justify-start"
+        class="w-full flex flex-col items-center justify-start msg"
         :key="message.date"
       >
         <div
@@ -65,22 +65,19 @@
           {{ formatDate(new Date(message.date)) }}
         </div>
         <div
-          class="max-w-[85%] flex items-end justify-start"
+          class="max-w-[85%] flex items-end justify-start msg-inner"
           :class="[message.sender === userStore.id ? 'self-end' : 'self-start']"
         >
           <PairAvatar
             :pair="chatStore.pairInfo"
             class="w-8 h-8 mr-2 shrink-0"
             :title="chatStore.pairInfo.name"
-            v-if="message.sender !== userStore.id"
+            v-if="showAvatar(message.sender, index)"
           ></PairAvatar>
+          <div class="w-8 h-8 mr-2 shrink-0" v-else></div>
           <div
-            class="rounded-3xl shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
-            :class="[
-              message.sender === userStore.id
-                ? 'bg-rose-300 dark:bg-rose-500/20'
-                : 'bg-blue-200 dark:bg-blue-600/20',
-            ]"
+            class="shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
+            :class="computeMessageStyle(message.sender, index)"
             :title="formatDate(new Date(message.date))"
           >
             {{ message.content }}
@@ -219,12 +216,115 @@ const formatDate = (date: Date) => {
 const showDate = (index: number) => {
   if (index === chatStore.messages.length - 1) return true;
   if (chatStore.messages) {
-    const prevMessageDate = new Date(chatStore.messages[index].date).getTime();
-    const currentMessageDate = new Date(
+    return calculateDateBetween(
+      chatStore.messages[index].date,
       chatStore.messages[index + 1].date
-    ).getTime();
-    const timeDifference = (prevMessageDate - currentMessageDate) / 60000;
-    return timeDifference > 10;
+    );
+  }
+};
+
+const calculateDateBetween = (prev: string = "0", next: string = "0") => {
+  const prevDate = new Date(prev).getTime();
+  const nextDate = new Date(next).getTime();
+
+  const timeDifference = (prevDate - nextDate) / 60000;
+  return Math.abs(timeDifference) > 10;
+};
+
+const computeMessageStyle = (sender: string, index: number) => {
+  if (chatStore.messages) {
+    let style = "";
+
+    const isDateAbove = calculateDateBetween(
+      chatStore.messages[index]?.date,
+      chatStore.messages[index + 1]?.date
+    );
+    const isDateBelow = calculateDateBetween(
+      chatStore.messages[index]?.date,
+      chatStore.messages[index - 1]?.date
+    );
+
+    if (sender === userStore.id) {
+      style += "bg-rose-300 dark:bg-rose-500/20 rounded-l-3xl ";
+
+      if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index + 1]?.sender !== sender &&
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index - 1]?.sender !== sender
+      ) {
+        style += "rounded-3xl ";
+      } else if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index + 1]?.sender !== sender
+      ) {
+        style += "rounded-t-3xl rounded-l-3xl rounded-br ";
+      } else if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index - 1]?.sender !== sender
+      ) {
+        isDateAbove
+          ? (style += "rounded-3xl ")
+          : (style += "rounded-b-3xl rounded-l-3xl rounded-tr ");
+      } else {
+        if (isDateBelow) {
+          style += "rounded-b-3xl ";
+        }
+        if (isDateAbove) {
+          style += "rounded-t-3xl ";
+        }
+        if (!isDateAbove && !isDateBelow) {
+          style += "rounded-r ";
+        }
+      }
+    } else {
+      style += "bg-blue-200 dark:bg-blue-600/20 rounded-r-3xl ";
+
+      if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index + 1]?.sender !== sender &&
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index - 1]?.sender !== sender
+      ) {
+        style += "rounded-3xl ";
+      } else if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index + 1]?.sender !== sender
+      ) {
+        style += "rounded-t-3xl rounded-r-3xl rounded-bl ";
+      } else if (
+        chatStore.messages[index].sender === sender &&
+        chatStore.messages[index - 1]?.sender !== sender
+      ) {
+        isDateAbove
+          ? (style += "rounded-3xl ")
+          : (style += "rounded-b-3xl rounded-r-3xl rounded-tl ");
+      } else {
+        if (isDateBelow) {
+          style += "rounded-b-3xl ";
+        }
+        if (isDateAbove) {
+          style += "rounded-t-3xl ";
+        }
+        if (!isDateAbove && !isDateBelow) {
+          style += "rounded-l ";
+        }
+      }
+    }
+
+    return style;
+  }
+};
+
+const showAvatar = (sender: string, index: number) => {
+  if (chatStore.messages) {
+    if (
+      sender === chatStore.pairInfo.id &&
+      chatStore.messages[index].sender === sender &&
+      chatStore.messages[index - 1]?.sender !== sender
+    ) {
+      return true;
+    }
   }
 };
 
@@ -301,6 +401,25 @@ defineExpose({
 
 .list-leave-active {
   position: absolute;
+}
+
+.msg {
+  &:first-of-type {
+    .msg-inner {
+      .msg-user {
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+      }
+    }
+  }
+  &:last-of-type {
+    .msg-inner {
+      .msg-user {
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+      }
+    }
+  }
 }
 
 .dot {
