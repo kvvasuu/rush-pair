@@ -169,6 +169,7 @@ export const useChatStore = defineStore("chatStore", {
           this.messages.unshift(message);
           if (message.sender === this.pairInfo.id)
             this.pairInfo.unreadMessagesCount++;
+          this.isTyping = false;
         });
       }
       if (!socket.hasListeners("askedForReveal")) {
