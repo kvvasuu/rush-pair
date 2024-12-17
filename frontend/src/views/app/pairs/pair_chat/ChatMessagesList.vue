@@ -55,7 +55,7 @@
 
       <div
         v-for="(message, index) in chatStore.messages"
-        class="w-full flex flex-col items-center justify-start msg"
+        class="w-full flex flex-col items-center justify-start"
         :key="message.date"
       >
         <div
@@ -65,7 +65,7 @@
           {{ formatDate(new Date(message.date)) }}
         </div>
         <div
-          class="max-w-[85%] flex items-end justify-start msg-inner"
+          class="max-w-[85%] flex items-end justify-start"
           :class="[message.sender === userStore.id ? 'self-end' : 'self-start']"
         >
           <PairAvatar
@@ -258,7 +258,11 @@ const computeMessageStyle = (sender: string, index: number) => {
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index + 1]?.sender !== sender
       ) {
-        style += "rounded-t-3xl rounded-l-3xl rounded-br ";
+        if (isDateBelow) {
+          style += "rounded-t-3xl rounded-b-3xl ";
+        } else {
+          style += "rounded-t-3xl rounded-l-3xl rounded-br ";
+        }
       } else if (
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index - 1]?.sender !== sender
@@ -267,13 +271,13 @@ const computeMessageStyle = (sender: string, index: number) => {
           ? (style += "rounded-3xl ")
           : (style += "rounded-b-3xl rounded-l-3xl rounded-tr ");
       } else {
-        if (isDateBelow) {
-          style += "rounded-b-3xl ";
-        }
-        if (isDateAbove) {
-          style += "rounded-t-3xl ";
-        }
-        if (!isDateAbove && !isDateBelow) {
+        if (isDateAbove && isDateBelow) {
+          style += "rounded-t-3xl rounded-b-3xl ";
+        } else if (isDateBelow) {
+          style += "rounded-b-3xl rounded-tr ";
+        } else if (isDateAbove) {
+          style += "rounded-t-3xl rounded-br ";
+        } else if (!isDateAbove && !isDateBelow) {
           style += "rounded-r ";
         }
       }
@@ -291,7 +295,11 @@ const computeMessageStyle = (sender: string, index: number) => {
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index + 1]?.sender !== sender
       ) {
-        style += "rounded-t-3xl rounded-r-3xl rounded-bl ";
+        if (isDateBelow) {
+          style += "rounded-t-3xl rounded-b-3xl ";
+        } else {
+          style += "rounded-t-3xl rounded-r-3xl rounded-bl ";
+        }
       } else if (
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index - 1]?.sender !== sender
@@ -300,13 +308,13 @@ const computeMessageStyle = (sender: string, index: number) => {
           ? (style += "rounded-3xl ")
           : (style += "rounded-b-3xl rounded-r-3xl rounded-tl ");
       } else {
-        if (isDateBelow) {
-          style += "rounded-b-3xl ";
-        }
-        if (isDateAbove) {
-          style += "rounded-t-3xl ";
-        }
-        if (!isDateAbove && !isDateBelow) {
+        if (isDateAbove && isDateBelow) {
+          style += "rounded-t-3xl rounded-b-3xl ";
+        } else if (isDateBelow) {
+          style += "rounded-b-3xl rounded-tl ";
+        } else if (isDateAbove) {
+          style += "rounded-t-3xl rounded-bl ";
+        } else if (!isDateAbove && !isDateBelow) {
           style += "rounded-l ";
         }
       }
@@ -401,25 +409,6 @@ defineExpose({
 
 .list-leave-active {
   position: absolute;
-}
-
-.msg {
-  &:first-of-type {
-    .msg-inner {
-      .msg-user {
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
-      }
-    }
-  }
-  &:last-of-type {
-    .msg-inner {
-      .msg-user {
-        border-bottom-left-radius: 1rem;
-        border-bottom-right-radius: 1rem;
-      }
-    }
-  }
 }
 
 .dot {
