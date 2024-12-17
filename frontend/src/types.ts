@@ -58,6 +58,8 @@ interface Message {
   sender: string;
   content: string;
   date: string;
+  isRead?: boolean;
+  readAt?: string;
 }
 
 export type { User, UserStoreState, ChatStoreState, PairInfo, Message, Emoji };

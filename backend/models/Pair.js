@@ -7,7 +7,6 @@ const pairSchema = new mongoose.Schema({
     unique: true,
     ref: "User",
   },
-  /* userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, */
   pairedWith: [
     {
       id: {

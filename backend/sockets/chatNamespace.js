@@ -2,7 +2,7 @@ import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
 import Pair from "../models/Pair.js";
 import User from "../models/User.js";
-import ActiveUser from "../models/ActiveUser.js";
+import { now } from "mongoose";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");
@@ -77,6 +77,17 @@ export const setupChatNamespace = (io) => {
             $set: { "pairedWith.$.unreadMessagesCount": 0 },
           }
         );
+
+        const dateNow = Date.now();
+
+        await Message.updateMany(
+          { chatId: socket.roomId, sender: pairId, isRead: false },
+          { $set: { isRead: true, readAt: dateNow } }
+        );
+
+        chatNamespace
+          .to(socket.roomId)
+          .emit("readLastMessage", pairId, dateNow);
       } catch (err) {
         console.log(err);
       }

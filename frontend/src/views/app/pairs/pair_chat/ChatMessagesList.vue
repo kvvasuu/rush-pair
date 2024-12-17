@@ -53,6 +53,17 @@
         <div class="dot bg-neutral-400 dark:bg-neutral-500 rounded-full"></div>
       </div>
 
+      <PairAvatar
+        key="readIndicator"
+        :pair="chatStore.pairInfo"
+        class="w-3 h-3 mr-2 shrink-0 self-end"
+        :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
+        v-if="
+          chatStore.messages[0]?.isRead &&
+          chatStore.messages[0]?.sender === userStore.id
+        "
+      ></PairAvatar>
+
       <div
         v-for="(message, index) in chatStore.messages"
         class="w-full flex flex-col items-center justify-start"
@@ -107,7 +118,7 @@
 <script setup lang="ts">
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
-import { ref, nextTick, onMounted, onBeforeUnmount } from "vue";
+import { ref, nextTick, onMounted, onBeforeUnmount, watch } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 
 const emit = defineEmits(["sendSampleMessage"]);
@@ -253,7 +264,7 @@ const computeMessageStyle = (sender: string, index: number) => {
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index - 1]?.sender !== sender
       ) {
-        style += "rounded-3xl ";
+        style += "rounded-3xl mb-2 ";
       } else if (
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index + 1]?.sender !== sender
@@ -269,7 +280,7 @@ const computeMessageStyle = (sender: string, index: number) => {
       ) {
         isDateAbove
           ? (style += "rounded-3xl ")
-          : (style += "rounded-b-3xl rounded-l-3xl rounded-tr ");
+          : (style += "rounded-b-3xl rounded-l-3xl rounded-tr mb-2 ");
       } else {
         if (isDateAbove && isDateBelow) {
           style += "rounded-t-3xl rounded-b-3xl ";
@@ -290,7 +301,7 @@ const computeMessageStyle = (sender: string, index: number) => {
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index - 1]?.sender !== sender
       ) {
-        style += "rounded-3xl ";
+        style += "rounded-3xl mb-2 ";
       } else if (
         chatStore.messages[index].sender === sender &&
         chatStore.messages[index + 1]?.sender !== sender
@@ -306,7 +317,7 @@ const computeMessageStyle = (sender: string, index: number) => {
       ) {
         isDateAbove
           ? (style += "rounded-3xl ")
-          : (style += "rounded-b-3xl rounded-r-3xl rounded-tl ");
+          : (style += "rounded-b-3xl rounded-r-3xl rounded-tl mb-2 ");
       } else {
         if (isDateAbove && isDateBelow) {
           style += "rounded-t-3xl rounded-b-3xl ";
@@ -379,6 +390,20 @@ const onScroll = async () => {
   }
 };
 
+watch(
+  () => chatStore.pairInfo.unreadMessagesCount,
+  () => {
+    if (messagesContainer.value) {
+      if (
+        Math.abs(messagesContainer.value.scrollTop) < 50 &&
+        !!chatStore.pairInfo.unreadMessagesCount
+      )
+        chatStore.setMessagesStatusToRead();
+    }
+  },
+  { deep: true }
+);
+
 onMounted(async () => {
   if (messagesContainer.value) {
     messagesContainer.value.addEventListener("scroll", onScroll);
@@ -398,6 +423,16 @@ defineExpose({
 </script>
 
 <style scoped>
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
 .list-move,
 .list-enter-active,
 .list-leave-active {

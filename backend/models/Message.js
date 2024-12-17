@@ -18,6 +18,17 @@ const messageSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now,
+    required: false,
+  },
+  isRead: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  readAt: {
+    type: Date,
+    default: null,
+    required: false,
   },
 });
 

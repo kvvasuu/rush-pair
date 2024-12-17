@@ -197,12 +197,22 @@ export const useChatStore = defineStore("chatStore", {
           if (pairId === userStore.id) this.isTyping = false;
         });
       }
+      if (!chatSocket.hasListeners("readLastMessage")) {
+        chatSocket.on("readLastMessage", (pairId, dateNow) => {
+          const userStore = useUserStore();
+          if (pairId === userStore.id) {
+            this.messages[0].isRead = true;
+            this.messages[0].readAt = dateNow;
+          }
+        });
+      }
     },
     removeEvents() {
       socket.removeAllListeners("askedForReveal");
       socket.removeAllListeners("setPairVisible");
       chatSocket.removeAllListeners("startTyping");
       chatSocket.removeAllListeners("stopTyping");
+      chatSocket.removeAllListeners("readLastMessage");
     },
     async connectToSocket() {
       const userStore = useUserStore();
