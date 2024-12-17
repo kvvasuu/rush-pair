@@ -20,6 +20,22 @@ Password: 222222
 
 ## :eight_pointed_black_star: Features:
 
+#### Live Chat :speech_balloon:
+
+The app supports real-time chat with the following features:
+- **Anonymous or revealed chats**: Chats can be anonymous or users can reveal their identities.
+- **Unread messages notifications**: Stay updated with your partner's messages through indicators for unread messages.
+- **Custom emoji picker**: Express yourself with a personalized set of emojis.
+- **Typing indicatior**: See in real time when your chat partner is typing a message.
+- **Customizable nicknames**: Users can set a nickname for their chat partner.
+- **Profile details**: Users can view their chat partner’s details, including photo, description, and personal information.
+
+#### User Pairing System :two_hearts:
+The app features a unique system for matching users for live chat sessions:
+
+- **Random pairing**: Users are randomly paired for conversations, which is anonymous at first.
+- **Mutual match**: If both users choose to reveal their identities after the conversation, a mutual match is created, allowing for continued interaction.
+
 #### Registration and Login System :closed_lock_with_key: 
 
 The app provides secure user registration and login functionality, using an API built with **Express.js**. Users can create accounts, log in, and manage their sessions easily.
@@ -41,18 +57,13 @@ Users can personalize app settings such as:
 
 Users can permanently delete their accounts and remove all associated data from the system.
 
-#### Live Chat :mailbox_with_mail:
+#### Email Functionality :mailbox_with_mail:
+RushPair uses Nodemailer for sending emails to users for various purposes, including:
+- **Registration**: Sending confirmation emails to verify user accounts during the signup process.
+- **Password reset**: Providing secure links to reset forgotten passwords.
+- **Submission confirmations**: Sending notifications to confirm that user reports or other submissions have been received.
 
-The app supports real-time chat with the following features:
-- **Anonymous or revealed chats**: Chats can be anonymous or users can reveal their identities.
-- **Customizable nicknames**: Users can set a nickname for their chat partner.
-- **Profile details**: Users can view their chat partner’s details, including photo, description, and personal information.
-
-#### User Pairing System :two_hearts:
-The app features a unique system for matching users for live chat sessions:
-
-- **Random pairing**: Users are randomly paired for conversations, which is anonymous at first.
-- **Mutual match**: If both users choose to reveal their identities after the conversation, a mutual match is created, allowing for continued interaction.
+This ensures reliable communication with users and enhances the overall user experience.
 
 #### Backend :computer:
 
