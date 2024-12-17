@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-4 pt-6 gap-1"
+    class="w-full h-full overflow-y-auto overflow-x-hidden flex flex-col-reverse px-1 md:px-4 pb-2 pt-6 gap-1"
     ref="messagesContainer"
   >
     <div
@@ -56,7 +56,7 @@
       <PairAvatar
         key="readIndicator"
         :pair="chatStore.pairInfo"
-        class="w-3 h-3 mr-2 shrink-0 self-end"
+        class="w-3 h-3 mr-2 -mt-2 shrink-0 self-end"
         :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
         v-if="
           chatStore.messages[0]?.isRead &&
@@ -430,20 +430,10 @@ defineExpose({
   transform: translateX(30px);
 }
 
-.list-leave-active {
-  position: absolute;
-}
-
 .list-move,
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease;
-}
-
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
 }
 
 .list-leave-active {

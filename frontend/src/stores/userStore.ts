@@ -100,6 +100,7 @@ export const useUserStore = defineStore("userStore", {
 
           socket.connect();
           socket.emit("login", this.id);
+          this.bindEvents();
 
           this.router.replace("/app");
         } catch (error) {
@@ -166,7 +167,7 @@ export const useUserStore = defineStore("userStore", {
         } catch (error) {}
       }
     },
-    bindEvents() {
+    bindPairingEvents() {
       const mainStore = useMainStore();
 
       if (!socket.hasListeners("joinedPairing")) {
@@ -174,7 +175,6 @@ export const useUserStore = defineStore("userStore", {
           mainStore.socketMessage = data.message;
         });
       }
-
       if (!socket.hasListeners("emptyQueue")) {
         socket.on("emptyQueue", (data) => {
           mainStore.socketMessage = data.message;
@@ -193,6 +193,14 @@ export const useUserStore = defineStore("userStore", {
         });
       }
     },
+    bindEvents() {
+      if (!socket.hasListeners("getMessage")) {
+        socket.on("getMessage", (sender) => {
+          const pairIndex = this.pairs.findIndex((pair) => pair.id === sender);
+          this.pairs[pairIndex].unreadMessagesCount++;
+        });
+      }
+    },
     removeEvents() {
       socket.removeAllListeners("joinedPairing");
       socket.removeAllListeners("emptyQueue");
@@ -200,7 +208,7 @@ export const useUserStore = defineStore("userStore", {
       socket.removeAllListeners("paired");
     },
     async startDrawingAPair() {
-      this.bindEvents();
+      this.bindPairingEvents();
       socket.emit("startPairing", this.id);
     },
     async stopDrawingAPair() {

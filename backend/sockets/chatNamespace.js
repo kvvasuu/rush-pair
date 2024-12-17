@@ -2,7 +2,8 @@ import Chat from "../models/Chat.js";
 import Message from "../models/Message.js";
 import Pair from "../models/Pair.js";
 import User from "../models/User.js";
-import { now } from "mongoose";
+import ActiveUser from "../models/ActiveUser.js";
+import { getIO } from "./socketManager.js";
 
 export const setupChatNamespace = (io) => {
   const chatNamespace = io.of("/chat");
@@ -57,6 +58,18 @@ export const setupChatNamespace = (io) => {
               $inc: { "pairedWith.$.unreadMessagesCount": 1 },
             }
           );
+
+          const receiverSocket = await ActiveUser.findOne({
+            userId: receiver,
+          });
+
+          if (receiverSocket) {
+            const rootNamespace = getIO();
+
+            rootNamespace
+              .to(receiverSocket.socketId)
+              .emit("getMessage", sender);
+          }
 
           chatNamespace
             .to(socket.roomId)
