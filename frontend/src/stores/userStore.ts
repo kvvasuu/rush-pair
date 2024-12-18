@@ -31,16 +31,7 @@ export const useUserStore = defineStore("userStore", {
   }),
   getters: {
     getAllUnreadMessages(): number {
-      const unreadMessagesCount = this.pairs.reduce(
-        (a, b) => a + b.unreadMessagesCount,
-        0
-      );
-      unreadMessagesCount > 0
-        ? (document.title = `(${
-            unreadMessagesCount > 99 ? "99+" : unreadMessagesCount
-          }) RUSHPAIR`)
-        : `RUSHPAIR`;
-      return unreadMessagesCount;
+      return this.pairs.reduce((a, b) => a + b.unreadMessagesCount, 0);
     },
   },
   actions: {

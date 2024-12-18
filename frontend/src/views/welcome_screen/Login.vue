@@ -243,8 +243,10 @@ const login = async () => {
       )
       .then((res) => {
         const token = res.data.token;
-        store.setToken(token);
-        store.login();
+        if (token) {
+          store.setToken(token);
+          store.login();
+        }
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {

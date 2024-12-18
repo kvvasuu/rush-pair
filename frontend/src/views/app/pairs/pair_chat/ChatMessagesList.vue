@@ -53,7 +53,7 @@
         <div class="dot bg-neutral-400 dark:bg-neutral-500 rounded-full"></div>
       </div>
 
-      <PairAvatar
+      <!-- <PairAvatar
         key="readIndicator"
         :pair="chatStore.pairInfo"
         class="w-3 h-3 mr-2 -mt-2 shrink-0 self-end"
@@ -62,7 +62,22 @@
           chatStore.messages[0]?.isRead &&
           chatStore.messages[0]?.sender === userStore.id
         "
-      ></PairAvatar>
+      ></PairAvatar> -->
+      <div
+        key="readIndicator"
+        :pair="chatStore.pairInfo"
+        class="mr-2 -mt-2 shrink-0 self-end text-[10px] font-semibold text-neutral-500 select-none"
+        :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
+        v-if="
+          chatStore.messages[0]?.isRead &&
+          chatStore.messages[0]?.sender === userStore.id
+        "
+      >
+        Message read:
+        {{
+          formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))
+        }}
+      </div>
 
       <div
         v-for="(message, index) in chatStore.messages"
