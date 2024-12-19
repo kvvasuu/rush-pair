@@ -101,13 +101,39 @@
             :title="chatStore.pairInfo.name"
             v-if="showAvatar(message.sender, index)"
           ></PairAvatar>
-          <div class="w-8 h-8 mr-2 shrink-0" v-else></div>
           <div
-            class="shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
-            :class="computeMessageStyle(message.sender, index)"
-            :title="formatDate(new Date(message.date))"
-          >
-            {{ message.content }}
+            class="w-8 h-8 mr-2 shrink-0"
+            v-else-if="message.sender !== userStore.id"
+          ></div>
+          <div class="flex group">
+            <div
+              class="flex items-center justify-center mx-1 h-10 w-10 opacity-0 group-hover:opacity-100 transition-all"
+              v-if="message.sender === userStore.id"
+            >
+              <button
+                class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
+              >
+                <i class="fa-solid fa-trash-can text-sm"></i>
+              </button>
+            </div>
+
+            <div
+              class="shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
+              :class="computeMessageStyle(message.sender, index)"
+              :title="formatDate(new Date(message.date))"
+            >
+              {{ message.content }}
+            </div>
+            <div
+              class="flex items-center justify-center mx-1 h-10 w-10 opacity-0 group-hover:opacity-100 transition-all"
+              v-if="message.sender !== userStore.id"
+            >
+              <button
+                class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
+              >
+                <i class="fa-solid fa-trash-can text-sm"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
