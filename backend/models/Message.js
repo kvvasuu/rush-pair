@@ -30,6 +30,11 @@ const messageSchema = new mongoose.Schema({
     default: null,
     required: false,
   },
+  isDeleted: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
 });
 
 const Message = mongoose.model("Message", messageSchema);

@@ -138,15 +138,27 @@ chat.put(
 
 chat.get("/get-messages/:chatId", authenticateToken, async (req, res, next) => {
   const { chatId } = req.params;
-  const { page = 1, limit = 20 } = req.query;
+  const { page = 1, limit = 50 } = req.query;
 
   try {
     const messages = await Message.find({ chatId })
+      .select("sender content date isRead readAt isDeleted date")
       .sort({ date: -1 })
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
-    res.json(messages);
+    const modifiedMessages = [...messages].map((message) => {
+      return !message.isDeleted
+        ? message
+        : {
+            _id: message._id,
+            sender: message.sender,
+            date: message.date,
+            isDeleted: message.isDeleted,
+          };
+    });
+
+    res.json(modifiedMessages);
   } catch (error) {
     next(error);
   }
@@ -287,5 +299,25 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
+
+chat.patch(
+  "/delete-message/:messageId",
+  authenticateToken,
+  async (req, res, next) => {
+    const { messageId } = req.params;
+
+    try {
+      const message = await Message.findOneAndUpdate(
+        { _id: messageId, sender: req.body.sender },
+        { $set: { isDeleted: true } },
+        { new: true }
+      );
+
+      res.json(message);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default chat;

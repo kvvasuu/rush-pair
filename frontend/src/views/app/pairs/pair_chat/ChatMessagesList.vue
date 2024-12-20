@@ -65,12 +65,12 @@
       ></PairAvatar> -->
       <div
         key="readIndicator"
-        :pair="chatStore.pairInfo"
         class="mr-2 -mt-2 shrink-0 self-end text-[10px] font-semibold text-neutral-500 select-none"
         :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
         v-if="
           chatStore.messages[0]?.isRead &&
-          chatStore.messages[0]?.sender === userStore.id
+          chatStore.messages[0]?.sender === userStore.id &&
+          !chatStore.messages[0]?.isDeleted
         "
       >
         Message read:
@@ -108,28 +108,49 @@
           <div class="flex group">
             <div
               class="flex items-center justify-center mx-1 h-10 w-10 opacity-0 group-hover:opacity-100 transition-all"
-              v-if="message.sender === userStore.id"
+              v-if="
+                message.sender === userStore.id &&
+                !message?.isDeleted &&
+                !message?.isRead
+              "
             >
               <button
                 class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
+                @click="deleteMessage(message)"
               >
                 <i class="fa-solid fa-trash-can text-sm"></i>
               </button>
             </div>
 
             <div
+              class="shadow-sm py-2 px-4 text-neutral-400 select-none"
+              :class="
+                computeMessageStyle(message.sender, index, message?.isDeleted)
+              "
+              title="Message deleted."
+              v-if="message?.isDeleted"
+            >
+              Message deleted.
+            </div>
+            <div
               class="shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
               :class="computeMessageStyle(message.sender, index)"
               :title="formatDate(new Date(message.date))"
+              v-else
             >
               {{ message.content }}
             </div>
             <div
               class="flex items-center justify-center mx-1 h-10 w-10 opacity-0 group-hover:opacity-100 transition-all"
-              v-if="message.sender !== userStore.id"
+              v-if="
+                message.sender !== userStore.id &&
+                !message?.isDeleted &&
+                !message?.isRead
+              "
             >
               <button
                 class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
+                @click="deleteMessage(message)"
               >
                 <i class="fa-solid fa-trash-can text-sm"></i>
               </button>
@@ -161,6 +182,7 @@
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { ref, nextTick, onMounted, onBeforeUnmount, watch } from "vue";
+import { Message } from "../../../../types";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 
 const emit = defineEmits(["sendSampleMessage"]);
@@ -284,7 +306,11 @@ const calculateDateBetween = (prev: string = "0", next: string = "0") => {
   return Math.abs(timeDifference) > 10;
 };
 
-const computeMessageStyle = (sender: string, index: number) => {
+const computeMessageStyle = (
+  sender: string,
+  index: number,
+  isDeleted: boolean = false
+) => {
   if (chatStore.messages) {
     let style = "";
 
@@ -298,7 +324,9 @@ const computeMessageStyle = (sender: string, index: number) => {
     );
 
     if (sender === userStore.id) {
-      style += "bg-rose-300 dark:bg-rose-500/20 rounded-l-3xl ";
+      isDeleted
+        ? (style += "bg-neutral-100 dark:bg-neutral-800 rounded-l-3xl ")
+        : (style += "bg-rose-300 dark:bg-rose-500/20 rounded-l-3xl ");
 
       if (
         chatStore.messages[index].sender === sender &&
@@ -430,6 +458,10 @@ const onScroll = async () => {
       ? (showScrollButton.value = true)
       : (showScrollButton.value = false);
   }
+};
+
+const deleteMessage = async (message: Message) => {
+  chatStore.deleteMessage(message);
 };
 
 watch(
