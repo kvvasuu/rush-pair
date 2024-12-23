@@ -58,6 +58,7 @@
         :message="message"
         :index="index"
         :key="message.date"
+        @show-delete-modal="toggleDeleteModal(message)"
       ></MessageBlock>
     </TransitionGroup>
   </div>
@@ -77,12 +78,33 @@
       <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
     </button>
   </Transition>
+  <Transition name="fade" mode="out-in">
+    <Teleport to="body">
+      <ConfirmationModal
+        @close="isDeleteModalVisible = false"
+        @confirm="deleteMessage"
+        v-if="isDeleteModalVisible"
+      >
+        <template v-slot:title>Delete message</template>
+        <template v-slot:content
+          ><p>
+            Deleting this message will permanently remove it if it hasn't been
+            read by the recipient yet.
+          </p>
+          <p>Are you sure you want to proceed?</p></template
+        >
+        <template v-slot:confirm-button> Delete </template>
+      </ConfirmationModal>
+    </Teleport>
+  </Transition>
 </template>
 
 <script setup lang="ts">
 import { useChatStore } from "../../../../stores/chatStore";
 import { ref, nextTick, onMounted, onBeforeUnmount, watch } from "vue";
 import MessageBlock from "./MessageBlock.vue";
+import { Message } from "../../../../types";
+import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 
 const emit = defineEmits(["sendSampleMessage"]);
 
@@ -176,6 +198,22 @@ const onScroll = async () => {
       ? (showScrollButton.value = true)
       : (showScrollButton.value = false);
   }
+};
+
+const isDeleteModalVisible = ref(false);
+const messageToDelete = ref<Message | null>(null);
+const toggleDeleteModal = (message: Message) => {
+  if (isDeleteModalVisible.value) {
+    isDeleteModalVisible.value = false;
+    messageToDelete.value = null;
+  } else {
+    isDeleteModalVisible.value = true;
+    messageToDelete.value = message;
+  }
+};
+
+const deleteMessage = async () => {
+  if (messageToDelete.value) chatStore.deleteMessage(messageToDelete.value);
 };
 
 watch(

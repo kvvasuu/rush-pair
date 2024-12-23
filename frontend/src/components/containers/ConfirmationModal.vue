@@ -69,9 +69,9 @@ const closeModal = () => {
 
 const confirm = () => {
   isVisible.value = false;
+  emit("confirm");
   setTimeout(() => {
     emit("close");
-    emit("confirm");
   }, 200);
 };
 </script>

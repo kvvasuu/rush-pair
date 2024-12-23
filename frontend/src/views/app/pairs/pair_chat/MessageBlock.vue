@@ -43,7 +43,7 @@
           <button
             class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
             title="Delete message"
-            @click="showDeleteModal"
+            @click="emit('showDeleteModal', message)"
           >
             <i class="fa-solid fa-trash-can text-sm"></i>
           </button>
@@ -80,36 +80,16 @@
         chatStore.messages[0]?.sender === userStore.id
       "
     ></PairAvatar>
-    <Transition name="fade" mode="out-in">
-      <Teleport to="body">
-        <ConfirmationModal
-          @close="isDeleteModalVisible = false"
-          @confirm="deleteMessage"
-          v-if="isDeleteModalVisible"
-        >
-          <template v-slot:title>Delete message</template>
-          <template v-slot:content
-            ><p>
-              Deleting this message will permanently remove it if it hasn't been
-              read by the recipient yet.
-            </p>
-            <p>Are you sure you want to proceed?</p></template
-          >
-          <template v-slot:confirm-button> Delete </template>
-        </ConfirmationModal>
-      </Teleport>
-    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
-import { ref } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
-import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 
-const props = defineProps(["message", "index"]);
+defineProps(["message", "index"]);
+const emit = defineEmits(["showDeleteModal"]);
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -292,14 +272,5 @@ const showAvatar = (sender: string, index: number) => {
       (sender === chatStore.pairInfo.id && isDateBelow)
     );
   }
-};
-
-const isDeleteModalVisible = ref(false);
-const showDeleteModal = () => {
-  isDeleteModalVisible.value = !isDeleteModalVisible.value;
-};
-
-const deleteMessage = async () => {
-  chatStore.deleteMessage(props.message);
 };
 </script>
