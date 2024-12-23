@@ -80,14 +80,25 @@
         chatStore.messages[0]?.sender === userStore.id
       "
     ></PairAvatar>
-    <Teleport to="body">
-      <ConfirmationModal
-        @close="isDeleteModalVisible = false"
-        v-if="isDeleteModalVisible"
-      >
-        test
-      </ConfirmationModal>
-    </Teleport>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <ConfirmationModal
+          @close="isDeleteModalVisible = false"
+          @confirm="deleteMessage"
+          v-if="isDeleteModalVisible"
+        >
+          <template v-slot:title>Delete message</template>
+          <template v-slot:content
+            ><p>
+              Deleting this message will permanently remove it if it hasn't been
+              read by the recipient yet.
+            </p>
+            <p>Are you sure you want to proceed?</p></template
+          >
+          <template v-slot:confirm-button> Delete </template>
+        </ConfirmationModal>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
@@ -95,11 +106,10 @@
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import { ref } from "vue";
-import { Message } from "../../../../types";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 
-defineProps(["message", "index"]);
+const props = defineProps(["message", "index"]);
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
@@ -289,7 +299,7 @@ const showDeleteModal = () => {
   isDeleteModalVisible.value = !isDeleteModalVisible.value;
 };
 
-const deleteMessage = async (message: Message) => {
-  chatStore.deleteMessage(message);
+const deleteMessage = async () => {
+  chatStore.deleteMessage(props.message);
 };
 </script>
