@@ -3,7 +3,7 @@
     <svg
       aria-hidden="true"
       class="w-8 h-8 text-transparent animate-spin"
-      :class="[props.color ? props.color : 'fill-neutral-400']"
+      :class="[color ? color : 'fill-neutral-400']"
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   color: String,
 });
 </script>

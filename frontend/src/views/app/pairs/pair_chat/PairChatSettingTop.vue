@@ -254,7 +254,7 @@
         </div>
       </Transition>
       <Transition name="fade" mode="out-in">
-        <Teleport to="main">
+        <Teleport to="body">
           <PairReportOverlay
             v-if="isReportOverlayVisible"
             @close="toggleReportOverlay"
