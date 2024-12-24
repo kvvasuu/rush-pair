@@ -227,7 +227,11 @@ export const useChatStore = defineStore("chatStore", {
       if (!chatSocket.hasListeners("readLastMessage")) {
         chatSocket.on("readLastMessage", (pairId, dateNow) => {
           const userStore = useUserStore();
-          if (pairId === userStore.id && !this.messages[0]?.isDeleted) {
+          if (
+            pairId === userStore.id &&
+            this.messages.length > 0 &&
+            !this.messages[0]?.isDeleted
+          ) {
             this.messages[0].isRead = true;
             this.messages[0].readAt = dateNow;
           }

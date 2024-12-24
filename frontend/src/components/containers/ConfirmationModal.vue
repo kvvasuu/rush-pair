@@ -24,7 +24,7 @@
           </button>
         </div>
         <div
-          class="flex flex-col w-full h-full px-3 py-4 gap-1 text-neutral-600 dark:text-neutral-300"
+          class="flex flex-col w-full h-full sm:px-3 py-4 gap-1 text-neutral-600 dark:text-neutral-300"
         >
           <slot name="content"></slot>
         </div>
