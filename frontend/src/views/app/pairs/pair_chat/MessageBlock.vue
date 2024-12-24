@@ -60,7 +60,7 @@
           Message deleted.
         </div>
         <div
-          class="max-w-[85%] shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
+          class="max-w-[85%] shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800 break-words"
           :class="computeMessageStyle(message.sender, index)"
           :title="formatDate(new Date(message.date))"
           v-else

@@ -20,25 +20,20 @@
     </div>
 
     <div
-      class="flex w-full relative items-end break-all h-auto max-h-36 pr-2 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 dark:text-neutral-400 transition-all z-20"
+      class="flex w-full relative items-end h-auto max-h-36 pr-2 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 dark:text-neutral-400 transition-all z-20"
     >
       <p
         name="message"
         id="message"
         contenteditable="true"
-        class="w-full break-all h-auto max-h-36 overflow-y-auto p-4 pr-0 overflow-x-hidden outline-none text-2xl"
+        class="w-full break-words h-full max-h-36 overflow-y-auto p-4 pr-2 overflow-x-hidden outline-none text-2xl message-input"
         autocomplete="off"
         spellcheck="false"
         @input="onInput"
-        @keydown.enter="sendMessage"
+        @keydown.enter="handleEnterPress"
         @paste="handlePaste"
         ref="messageInputRef"
       ></p>
-      <span
-        v-if="isMessagePlaceholderVisible"
-        class="absolute select-none dark:text-neutral-700 text-neutral-300 text-2xl pl-5 p-4 pointer-events-none"
-        >Type a message...</span
-      >
       <div class="w-16 h-16 z-20 relative" v-if="!isTouchDevice">
         <button
           class="w-full h-full text-neutral-600 text-2xl group"
@@ -101,7 +96,6 @@ const selectEmoji = (emoji: string) => {
 
   if (messageInputRef.value) {
     messageInputRef.value.innerText += emoji;
-    isMessagePlaceholderVisible.value = false;
     const windowSelection = window.getSelection();
     if (windowSelection) {
       messageInputRef.value?.focus();
@@ -109,6 +103,14 @@ const selectEmoji = (emoji: string) => {
       windowSelection.collapseToEnd();
     }
   }
+};
+
+const handleEnterPress = (event: KeyboardEvent) => {
+  if (event.shiftKey) {
+    return;
+  }
+  event.preventDefault();
+  sendMessage();
 };
 
 const sendMessage = async () => {
@@ -120,6 +122,11 @@ const sendMessage = async () => {
 
   await chatStore.sendMessage(messageToSend);
   message.value = "";
+
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = "";
+  }
+
   chatStore.stopTyping();
   isTyping.value = false;
   setTimeout(() => {
@@ -129,16 +136,27 @@ const sendMessage = async () => {
   }, 100);
 };
 
-const isMessagePlaceholderVisible = ref(true);
-
 const typingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 const isTyping = ref(false);
 
 const onInput = (event: Event): void => {
   const target = event.target as HTMLElement;
-  if (target) message.value = target.innerText.trim();
 
-  isMessagePlaceholderVisible.value = false;
+  if (target) {
+    let content = target.innerText;
+
+    if (content.length > 800) {
+      target.innerText = content.slice(0, 800);
+      content = target.innerText;
+      const windowSelection = window.getSelection();
+      if (windowSelection) {
+        messageInputRef.value?.focus();
+        windowSelection.selectAllChildren(target);
+        windowSelection.collapseToEnd();
+      }
+    }
+    message.value = content.trim();
+  }
 
   if (!isTyping.value) {
     chatStore.startTyping();
@@ -155,20 +173,33 @@ const onInput = (event: Event): void => {
   }, 2000);
 
   if (target.innerText.trim().length <= 0) {
-    isMessagePlaceholderVisible.value = true;
     target.innerText = "";
   }
 };
 
 const handlePaste = (event: ClipboardEvent): void => {
   event.preventDefault();
-  let plainText = "";
-  if (event.clipboardData) {
-    plainText = event.clipboardData.getData("text/plain");
-  }
 
-  document.execCommand("insertText", false, plainText);
+  const plainText = event.clipboardData?.getData("text/plain") || "";
+  message.value = plainText.slice(0, 800);
+  insertTextAtCursor(plainText.slice(0, 800));
 };
+
+function insertTextAtCursor(text: string): void {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+
+  const range = selection.getRangeAt(0);
+  range.deleteContents();
+
+  const textNode = document.createTextNode(text);
+  range.insertNode(textNode);
+
+  range.setStartAfter(textNode);
+  range.setEndAfter(textNode);
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
 
 onMounted(async () => {
   await chatStore.loadMessages();
@@ -180,3 +211,10 @@ const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0
 );
 </script>
+
+<style lang="postcss" scoped>
+.message-input[contenteditable="true"]:empty::before {
+  @apply pointer-events-none text-neutral-400 dark:text-neutral-700;
+  content: "Type a message...";
+}
+</style>
