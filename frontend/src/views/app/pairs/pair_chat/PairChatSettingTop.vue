@@ -21,7 +21,7 @@
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
             "
-            @click="chatStore.askForReveal"
+            @click="toggleAskModal"
           >
             <i
               class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
@@ -50,7 +50,7 @@
             v-else-if="
               !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
             "
-            @click="chatStore.askForReveal"
+            @click="toggleAskModal"
           >
             <p class="font-bold text-xl text-neutral-200 animate-pulse">
               Identity reveal requested!
@@ -74,7 +74,7 @@
           <PairAvatar
             :pair="chatStore.pairInfo"
             :square="true"
-            :key="chatStore.pairInfo.imageUrl"
+            :key="chatStore.pairInfo.imageUrl + '_under'"
             class="w-full aspect-square absolute z-20 blur-md"
           ></PairAvatar>
           <PairAvatar
@@ -90,7 +90,7 @@
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
             "
-            @click="chatStore.askForReveal"
+            @click="toggleAskModal"
           >
             <i
               class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
@@ -119,7 +119,7 @@
             v-else-if="
               !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
             "
-            @click="chatStore.askForReveal"
+            @click="toggleAskModal"
           >
             <p class="font-bold text-xl text-neutral-200 animate-pulse">
               Identity reveal requested!
@@ -254,11 +254,41 @@
         </div>
       </Transition>
       <Transition name="fade" mode="out-in">
-        <Teleport to="main">
+        <Teleport to="body">
           <PairReportOverlay
             v-if="isReportOverlayVisible"
             @close="toggleReportOverlay"
           ></PairReportOverlay>
+        </Teleport>
+      </Transition>
+      <Transition name="fade" mode="out-in">
+        <Teleport to="body">
+          <ConfirmationModal
+            @close="isAskModalVisible = false"
+            @confirm="askForReveal"
+            v-if="isAskModalVisible"
+          >
+            <template v-slot:title>Reveal?</template>
+            <template v-slot:content
+              ><div
+                v-if="
+                  !chatStore.pairInfo.isVisible &&
+                  !chatStore.pairInfo.askedForReveal &&
+                  !chatStore.pairInfo.hasBeenAskedForReveal
+                "
+              >
+                <p>Curious who you're chatting with?</p>
+                <p>
+                  Send a request to reveal their identity and wait for their
+                  response!
+                </p>
+              </div>
+              <div v-else>
+                <p>Someone's curious about who you are!</p>
+                <p>Do you want to reveal your identity to them?</p>
+              </div>
+            </template>
+          </ConfirmationModal>
         </Teleport>
       </Transition>
     </div>
@@ -270,6 +300,7 @@ import { ref } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
+import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 
 const props = defineProps(["isProfileExpanded"]);
 
@@ -315,6 +346,15 @@ const isReportOverlayVisible = ref(false);
 
 const toggleReportOverlay = () => {
   isReportOverlayVisible.value = !isReportOverlayVisible.value;
+};
+
+const isAskModalVisible = ref(false);
+const toggleAskModal = () => {
+  isAskModalVisible.value = !isAskModalVisible.value;
+};
+
+const askForReveal = () => {
+  chatStore.askForReveal();
 };
 </script>
 

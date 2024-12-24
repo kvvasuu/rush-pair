@@ -14,6 +14,7 @@
       <ChatMessagesList
         v-else
         ref="chatMessagesList"
+        :key="String(chatStore.pairInfo.isVisible)"
         @send-sample-message="(msg) => (message = msg)"
       ></ChatMessagesList>
     </div>

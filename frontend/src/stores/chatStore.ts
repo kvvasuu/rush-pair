@@ -126,6 +126,33 @@ export const useChatStore = defineStore("chatStore", {
         receiver: this.pairInfo.id,
       });
     },
+    async deleteMessage(message: Message) {
+      const userStore = useUserStore();
+      try {
+        const response = await axios.patch(
+          `${SERVER_URL}/chat/delete-message/${message._id}`,
+          {
+            headers: { Authorization: `Bearer ${userStore.token}` },
+            sender: message.sender,
+          }
+        );
+        if (response.status === 200) {
+          const { _id, isDeleted, sender, date } = response.data;
+          let messageToChangeIndex = this.messages.findIndex(
+            (msg) => msg._id === _id
+          );
+          this.messages[messageToChangeIndex] = {
+            _id,
+            isDeleted,
+            sender,
+            content: "",
+            date,
+          };
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     setMessagesStatusToRead() {
       const userStore = useUserStore();
 
@@ -200,7 +227,11 @@ export const useChatStore = defineStore("chatStore", {
       if (!chatSocket.hasListeners("readLastMessage")) {
         chatSocket.on("readLastMessage", (pairId, dateNow) => {
           const userStore = useUserStore();
-          if (pairId === userStore.id) {
+          if (
+            pairId === userStore.id &&
+            this.messages.length > 0 &&
+            !this.messages[0]?.isDeleted
+          ) {
             this.messages[0].isRead = true;
             this.messages[0].readAt = dateNow;
           }

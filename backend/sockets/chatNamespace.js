@@ -42,13 +42,13 @@ export const setupChatNamespace = (io) => {
     });
 
     socket.on("sendMessage", async ({ content, sender, receiver }) => {
-      try {
-        const message = new Message({
-          chatId: socket.roomId,
-          sender: sender,
-          content: content,
-        });
+      const message = new Message({
+        chatId: socket.roomId,
+        sender: sender,
+        content: content,
+      });
 
+      try {
         await message.save().then(async () => {
           const receiverEmail = await User.findById(receiver, "email");
 
@@ -71,9 +71,12 @@ export const setupChatNamespace = (io) => {
               .emit("getMessage", sender);
           }
 
-          chatNamespace
-            .to(socket.roomId)
-            .emit("getMessage", { sender, content, date: message.date });
+          chatNamespace.to(socket.roomId).emit("getMessage", {
+            _id: message._id,
+            sender,
+            content,
+            date: message.date,
+          });
         });
       } catch (err) {
         console.log(err);
@@ -94,7 +97,12 @@ export const setupChatNamespace = (io) => {
         const dateNow = Date.now();
 
         await Message.updateMany(
-          { chatId: socket.roomId, sender: pairId, isRead: false },
+          {
+            chatId: socket.roomId,
+            sender: pairId,
+            isRead: false,
+            isDeleted: false,
+          },
           { $set: { isRead: true, readAt: dateNow } }
         );
 

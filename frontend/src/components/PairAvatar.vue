@@ -5,7 +5,7 @@
         :src="avatarSrc"
         alt="pair-avatar"
         class="aspect-square w-full rounded-full"
-        :class="{ 'rounded-none': props.square }"
+        :class="{ 'rounded-none': square }"
         draggable="false"
         @error="setDefaultAvatar"
       />

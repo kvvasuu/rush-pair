@@ -55,11 +55,13 @@ interface Emoji {
 }
 
 interface Message {
+  _id: string;
   sender: string;
   content: string;
   date: string;
   isRead?: boolean;
   readAt?: string;
+  isDeleted?: boolean;
 }
 
 export type { User, UserStoreState, ChatStoreState, PairInfo, Message, Emoji };
