@@ -26,7 +26,7 @@
         name="message"
         id="message"
         contenteditable="true"
-        class="w-full break-words h-full max-h-36 overflow-y-auto p-4 pr-2 overflow-x-hidden outline-none text-2xl message-input"
+        class="w-full break-all h-full max-h-36 overflow-y-auto p-4 pr-2 overflow-x-hidden outline-none text-2xl message-input"
         autocomplete="off"
         spellcheck="false"
         @input="onInput"
@@ -177,29 +177,35 @@ const onInput = (event: Event): void => {
   }
 };
 
-const handlePaste = (event: ClipboardEvent): void => {
+const handlePaste = (event: ClipboardEvent) => {
   event.preventDefault();
 
   const plainText = event.clipboardData?.getData("text/plain") || "";
   message.value = plainText.slice(0, 800);
-  insertTextAtCursor(plainText.slice(0, 800));
-};
 
-function insertTextAtCursor(text: string): void {
   const selection = window.getSelection();
   if (!selection || selection.rangeCount === 0) return;
 
   const range = selection.getRangeAt(0);
   range.deleteContents();
 
-  const textNode = document.createTextNode(text);
+  const textNode = document.createTextNode(plainText.slice(0, 800));
   range.insertNode(textNode);
 
   range.setStartAfter(textNode);
   range.setEndAfter(textNode);
   selection.removeAllRanges();
   selection.addRange(range);
-}
+};
+
+const placeCaretAtEnd = (el: HTMLElement) => {
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+};
 
 onMounted(async () => {
   await chatStore.loadMessages();
