@@ -70,11 +70,12 @@
           >
             {{ message.content }}
           </div>
-          <Transition name="fade">
+          <Transition name="pop-up-fast">
             <PairAvatar
               key="readIndicator"
               :pair="chatStore.pairInfo"
-              class="w-3 h-3 mr-2 mt-1 shrink-0 self-end"
+              class="w-3 h-3 mr-2 shrink-0 self-end"
+              :class="index === 0 ? '-mt-1' : 'mt-1'"
               :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
               v-if="showReadIndicator"
             ></PairAvatar>
