@@ -15,7 +15,7 @@
         v-else
         ref="chatMessagesList"
         :key="String(chatStore.pairInfo.isVisible)"
-        @send-sample-message="(msg) => (message = msg)"
+        @send-sample-message="getRandomSampleMessage"
       ></ChatMessagesList>
     </div>
 
@@ -92,15 +92,12 @@ const toggleEmojiSelector = () => {
 };
 
 const selectEmoji = (emoji: string) => {
-  message.value += emoji;
-
-  if (messageInputRef.value) {
-    messageInputRef.value.innerText += emoji;
-    const windowSelection = window.getSelection();
-    if (windowSelection) {
-      messageInputRef.value?.focus();
-      windowSelection.selectAllChildren(messageInputRef.value);
-      windowSelection.collapseToEnd();
+  if (message.value.length < 800) {
+    message.value += emoji;
+    if (messageInputRef.value) {
+      messageInputRef.value.innerText += emoji;
+      placeCaretAtEnd(messageInputRef.value);
+      triggerTyping();
     }
   }
 };
@@ -139,6 +136,22 @@ const sendMessage = async () => {
 const typingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 const isTyping = ref(false);
 
+const triggerTyping = () => {
+  if (!isTyping.value) {
+    chatStore.startTyping();
+    isTyping.value = true;
+  }
+
+  if (typingTimeout.value !== null) {
+    clearTimeout(typingTimeout.value);
+  }
+
+  typingTimeout.value = setTimeout(() => {
+    chatStore.stopTyping();
+    isTyping.value = false;
+  }, 2000);
+};
+
 const onInput = (event: Event): void => {
   const target = event.target as HTMLElement;
 
@@ -158,19 +171,7 @@ const onInput = (event: Event): void => {
     message.value = content.trim();
   }
 
-  if (!isTyping.value) {
-    chatStore.startTyping();
-    isTyping.value = true;
-  }
-
-  if (typingTimeout.value !== null) {
-    clearTimeout(typingTimeout.value);
-  }
-
-  typingTimeout.value = setTimeout(() => {
-    chatStore.stopTyping();
-    isTyping.value = false;
-  }, 2000);
+  triggerTyping();
 
   if (target.innerText.trim().length <= 0) {
     target.innerText = "";
@@ -181,21 +182,16 @@ const handlePaste = (event: ClipboardEvent) => {
   event.preventDefault();
 
   const plainText = event.clipboardData?.getData("text/plain") || "";
-  message.value = plainText.slice(0, 800);
+  const currentText = messageInputRef.value?.innerText || "";
 
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) return;
+  const combinedText = (currentText + plainText).slice(0, 800);
 
-  const range = selection.getRangeAt(0);
-  range.deleteContents();
-
-  const textNode = document.createTextNode(plainText.slice(0, 800));
-  range.insertNode(textNode);
-
-  range.setStartAfter(textNode);
-  range.setEndAfter(textNode);
-  selection.removeAllRanges();
-  selection.addRange(range);
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = combinedText;
+    placeCaretAtEnd(messageInputRef.value);
+    message.value = combinedText;
+    triggerTyping();
+  }
 };
 
 const placeCaretAtEnd = (el: HTMLElement) => {
@@ -205,6 +201,14 @@ const placeCaretAtEnd = (el: HTMLElement) => {
   range.collapse(false);
   selection?.removeAllRanges();
   selection?.addRange(range);
+};
+
+const getRandomSampleMessage = (msg: string) => {
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = msg;
+    placeCaretAtEnd(messageInputRef.value);
+    triggerTyping();
+  }
 };
 
 onMounted(async () => {
