@@ -93,7 +93,9 @@
           </p>
           <p>Are you sure you want to proceed?</p></template
         >
-        <template v-slot:confirm-button> Delete </template>
+        <template v-slot:confirm-button>
+          Delete <i class="fa-solid fa-trash-can text-sm ml-1"></i
+        ></template>
       </ConfirmationModal>
     </Teleport>
   </Transition>

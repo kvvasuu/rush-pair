@@ -60,26 +60,29 @@
           Message deleted.
         </div>
         <div
-          class="max-w-[85%] whitespace-pre-wrap break-words shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800"
-          :class="computeMessageStyle(message.sender, index)"
+          class="max-w-[85%] flex flex-col items-end"
           :title="formatDate(new Date(message.date))"
           v-else
         >
-          {{ message.content }}
+          <div
+            class="whitespace-pre-wrap break-all shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800 break-words"
+            :class="computeMessageStyle(message.sender, index)"
+          >
+            {{ message.content }}
+          </div>
+          <Transition name="pop-up-fast">
+            <PairAvatar
+              key="readIndicator"
+              :pair="chatStore.pairInfo"
+              class="w-3 h-3 mr-2 shrink-0 self-end"
+              :class="index === 0 ? '-mt-1' : 'mt-1'"
+              :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
+              v-if="showReadIndicator"
+            ></PairAvatar>
+          </Transition>
         </div>
       </div>
     </div>
-    <PairAvatar
-      key="readIndicator"
-      :pair="chatStore.pairInfo"
-      class="w-3 h-3 mr-2 -mt-1 shrink-0 self-end"
-      :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
-      v-if="
-        chatStore.messages[0]?.date === chatStore.messages[index]?.date &&
-        chatStore.messages[0]?.isRead &&
-        chatStore.messages[0]?.sender === userStore.id
-      "
-    ></PairAvatar>
   </div>
 </template>
 
@@ -87,8 +90,9 @@
 import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import { computed } from "vue";
 
-defineProps(["message", "index"]);
+const props = defineProps(["message", "index"]);
 const emit = defineEmits(["showDeleteModal"]);
 
 const chatStore = useChatStore();
@@ -273,4 +277,11 @@ const showAvatar = (sender: string, index: number) => {
     );
   }
 };
+
+const showReadIndicator = computed(() => {
+  const lastReadIndex = chatStore.messages
+    .map((msg, index) => ({ isRead: msg.isRead, index }))
+    .find((msg) => msg.isRead)?.index;
+  return lastReadIndex === props.index && props.message.sender === userStore.id;
+});
 </script>

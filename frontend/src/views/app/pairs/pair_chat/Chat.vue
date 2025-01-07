@@ -3,7 +3,7 @@
     class="flex-1 h-full w-full flex flex-col lg:flex-col justify-end relative"
   >
     <div
-      class="absolute bottom-16 w-full h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden flex flex-col-reverse gap-1"
+      class="w-full h-full relative overflow-y-auto overflow-x-hidden flex flex-col-reverse gap-1"
     >
       <div
         class="w-full h-full flex items-center justify-center"
@@ -15,37 +15,28 @@
         v-else
         ref="chatMessagesList"
         :key="String(chatStore.pairInfo.isVisible)"
-        @send-sample-message="(msg) => (message = msg)"
+        @send-sample-message="getRandomSampleMessage"
       ></ChatMessagesList>
     </div>
 
-    <div class="w-full h-16 absolute">
-      <input
+    <div
+      class="flex w-full relative items-end h-auto max-h-36 pr-2 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 dark:text-neutral-400 transition-all z-20"
+    >
+      <p
         name="message"
         id="message"
-        v-model="message"
-        type="text"
-        class="w-full h-full m-0 outline-none p-2 pl-4 text-2xl bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700 transition-all shadow z-30"
-        :class="[isTouchDevice ? 'pr-14' : 'pr-32']"
-        placeholder="Type a message"
+        contenteditable="true"
+        class="w-full break-all h-full max-h-36 overflow-y-auto p-4 pr-2 overflow-x-hidden outline-none text-2xl message-input"
         autocomplete="off"
         spellcheck="false"
         @input="onInput"
-        @keydown.enter="sendMessage"
+        @keydown.enter="handleEnterPress"
+        @paste="handlePaste"
         ref="messageInputRef"
-      /><button
-        class="w-16 h-full absolute right-0 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl"
-        :title="message ? `Send message` : `Send heart`"
-        @click="sendMessage"
-      >
-        <Transition name="pop-up-fast" mode="out-in">
-          <i class="fa-solid fa-paper-plane" v-if="message"></i>
-          <i class="fa-solid fa-heart" v-else></i>
-        </Transition>
-      </button>
-      <div class="w-16 h-full top-0 absolute right-16" v-if="!isTouchDevice">
+      ></p>
+      <div class="w-16 h-16 z-20 relative" v-if="!isTouchDevice">
         <button
-          class="w-full h-full absolute text-neutral-600 text-2xl group"
+          class="w-full h-full text-neutral-600 text-2xl group"
           title="Select emoji"
           @click.stop="toggleEmojiSelector"
         >
@@ -62,6 +53,16 @@
           v-if="isEmojiSelectorVisible"
         ></EmojiPicker>
       </div>
+      <button
+        class="w-16 h-16 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl z-20"
+        :title="message ? `Send message` : `Send heart`"
+        @click="sendMessage"
+      >
+        <Transition name="pop-up-fast" mode="out-in">
+          <i class="fa-solid fa-paper-plane" v-if="message"></i>
+          <i class="fa-solid fa-heart" v-else></i>
+        </Transition>
+      </button>
     </div>
   </div>
 </template>
@@ -91,8 +92,22 @@ const toggleEmojiSelector = () => {
 };
 
 const selectEmoji = (emoji: string) => {
-  message.value += emoji;
-  messageInputRef.value?.focus();
+  if (message.value.length < 800) {
+    message.value += emoji;
+    if (messageInputRef.value) {
+      messageInputRef.value.innerText += emoji;
+      placeCaretAtEnd(messageInputRef.value);
+      triggerTyping();
+    }
+  }
+};
+
+const handleEnterPress = (event: KeyboardEvent) => {
+  if (event.shiftKey) {
+    return;
+  }
+  event.preventDefault();
+  sendMessage();
 };
 
 const sendMessage = async () => {
@@ -104,6 +119,11 @@ const sendMessage = async () => {
 
   await chatStore.sendMessage(messageToSend);
   message.value = "";
+
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = "";
+  }
+
   chatStore.stopTyping();
   isTyping.value = false;
   setTimeout(() => {
@@ -116,7 +136,7 @@ const sendMessage = async () => {
 const typingTimeout = ref<ReturnType<typeof setTimeout> | null>(null);
 const isTyping = ref(false);
 
-const onInput = () => {
+const triggerTyping = () => {
   if (!isTyping.value) {
     chatStore.startTyping();
     isTyping.value = true;
@@ -132,6 +152,65 @@ const onInput = () => {
   }, 2000);
 };
 
+const onInput = (event: Event): void => {
+  const target = event.target as HTMLElement;
+
+  if (target) {
+    let content = target.innerText;
+
+    if (content.length > 800) {
+      target.innerText = content.slice(0, 800);
+      content = target.innerText;
+      const windowSelection = window.getSelection();
+      if (windowSelection) {
+        messageInputRef.value?.focus();
+        windowSelection.selectAllChildren(target);
+        windowSelection.collapseToEnd();
+      }
+    }
+    message.value = content.trim();
+  }
+
+  triggerTyping();
+
+  if (target.innerText.trim().length <= 0) {
+    target.innerText = "";
+  }
+};
+
+const handlePaste = (event: ClipboardEvent) => {
+  event.preventDefault();
+
+  const plainText = event.clipboardData?.getData("text/plain") || "";
+  const currentText = messageInputRef.value?.innerText || "";
+
+  const combinedText = (currentText + plainText).slice(0, 800);
+
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = combinedText;
+    placeCaretAtEnd(messageInputRef.value);
+    message.value = combinedText;
+    triggerTyping();
+  }
+};
+
+const placeCaretAtEnd = (el: HTMLElement) => {
+  const range = document.createRange();
+  const selection = window.getSelection();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  selection?.removeAllRanges();
+  selection?.addRange(range);
+};
+
+const getRandomSampleMessage = (msg: string) => {
+  if (messageInputRef.value) {
+    messageInputRef.value.innerText = msg;
+    placeCaretAtEnd(messageInputRef.value);
+    triggerTyping();
+  }
+};
+
 onMounted(async () => {
   await chatStore.loadMessages();
 
@@ -142,3 +221,10 @@ const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0
 );
 </script>
+
+<style lang="postcss" scoped>
+.message-input[contenteditable="true"]:empty::before {
+  @apply pointer-events-none text-neutral-400 dark:text-neutral-700;
+  content: "Type a message...";
+}
+</style>
