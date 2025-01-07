@@ -190,6 +190,9 @@ const handlePaste = (event: ClipboardEvent) => {
     messageInputRef.value.innerText = combinedText;
     placeCaretAtEnd(messageInputRef.value);
     message.value = combinedText;
+    messageInputRef.value.scrollTo({
+      top: messageInputRef.value.scrollHeight,
+    });
     triggerTyping();
   }
 };
