@@ -27,13 +27,13 @@
           class="px-8 py-3 w-full mx-10 md:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
           @click="toggleAuthModal('register')"
         >
-          Create account
+          {{ t("message.createAccount") }}
         </button>
         <button
           class="text-slate-50 md:text-inherit px-8 py-3 w-full mx-10 md:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm md:hidden"
           @click="toggleAuthModal('login')"
         >
-          Login
+          {{ t("message.login") }}
         </button>
       </div>
     </section>
@@ -46,7 +46,7 @@
         class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
         @click="toggleAuthModal('login')"
       >
-        Login
+        {{ t("message.createAccount") }}
       </button>
     </div>
     <Transition name="fade">
@@ -71,6 +71,9 @@
 import CreateAccount from "./CreateAccount.vue";
 import Login from "./Login.vue";
 import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t, locale } = useI18n();
 
 const showUi = ref(false);
 
@@ -87,6 +90,10 @@ const toggleAuthModal = (modalType: string) => {
       loginModal.value = !loginModal.value;
       break;
   }
+};
+
+const changeLanguage = () => {
+  ///
 };
 
 onMounted(() => {

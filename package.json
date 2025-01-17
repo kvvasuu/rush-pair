@@ -10,5 +10,8 @@
     "start": "concurrently \"npm run dev --prefix frontend\" \"npm run start --prefix backend\"",
     "dev": "npm run dev --prefix frontend",
     "server": "npm run dev --prefix backend"
+  },
+  "dependencies": {
+    "vue-i18n": "^10.0.5"
   }
 }
