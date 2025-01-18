@@ -1,5 +1,11 @@
 {
-  "createAccount": "Rejestracja",
-  "login": "Zaloguj",
-  "allRightsReserved": "© 2024 RushPair. Wszelkie prawa zastrzeżone."
+  "createAccount": "Utwórz konto",
+  "login": "Zaloguj się",
+  "allRightsReserved": "© 2024 RushPair. Wszelkie prawa zastrzeżone.",
+  "provideCorrectEmail": "Proszę podać poprawny adres e-mail.",
+  "enterPassword": "Proszę wpisać hasło.",
+  "forgotPassword": "Zapomniałeś hasła?",
+  "resetPassword": "Zresetuj hasło",
+  "resetPasswordLink": "Link do zresetowania hasła zostanie wysłany na podany adres e-mail.",
+  "resetPasswordLinkSent": "Link do zresetowania hasła został wysłany na podany adres e-mail. Sprawdź swoją skrzynkę odbiorczą."
 }

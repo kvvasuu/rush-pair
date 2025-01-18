@@ -6,7 +6,9 @@
     >
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-3xl font-bold text-center mt-6">Login</h1>
+        <h1 class="text-3xl font-bold text-center mt-6">
+          {{ t("welcomeScreen.login") }}
+        </h1>
         <p class="min-h-6 mt-2 text-center text-red-500 font-semibold">
           <span v-if="generalError">{{ generalError }}</span>
         </p>
@@ -43,7 +45,7 @@
           <span
             v-if="showEmailError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please provide correct email.</span
+            >{{ t("welcomeScreen.provideCorrectEmail") }}</span
           >
         </div>
         <div
@@ -68,7 +70,7 @@
           <span
             v-if="showPasswordError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please enter password.</span
+            >{{ t("welcomeScreen.enterPassword") }}</span
           >
         </div>
 
@@ -77,7 +79,7 @@
             class="font-bold text-sm text-rose-500 bg-transparent border-none"
             @click="toggleIsLoginShown"
           >
-            Forgot password?
+            {{ t("welcomeScreen.forgotPassword") }}
           </button>
         </p>
 
@@ -85,7 +87,7 @@
           class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
           @click="login"
         >
-          Login
+          {{ t("welcomeScreen.login") }}
         </button>
       </section>
     </div>
@@ -93,7 +95,9 @@
     <div class="w-full h-full flex flex-col items-center pb-6" v-else>
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-3xl font-bold text-center mt-6">Reset password</h1>
+        <h1 class="text-3xl font-bold text-center mt-6">
+          {{ t("welcomeScreen.resetPassword") }}
+        </h1>
         <p class="min-h-6 mt-2 text-center text-red-500 font-semibold">
           <span v-if="generalError">{{ generalError }}</span>
         </p>
@@ -129,25 +133,24 @@
           <span
             v-if="showEmailError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please provide correct email.</span
+            >{{ t("welcomeScreen.provideCorrectEmail") }}</span
           >
         </div>
         <p class="font-semibold text-sm w-full text-center">
-          A link to reset your password will be sent to the provided email
-          address.
+          {{ t("welcomeScreen.resetPasswordLink") }}
         </p>
         <div class="flex items-center w-full justify-center gap-4 mt-auto">
           <button
             class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
             @click="toggleIsLoginShown"
           >
-            Back
+            {{ t("general.back") }}
           </button>
           <button
             class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
             @click="resetPassword"
           >
-            Reset password
+            {{ t("welcomeScreen.resetPassword") }}
           </button>
         </div>
       </section>
@@ -157,14 +160,13 @@
       >
         <i class="fa-solid fa-check text-5xl text-neutral-700 mt-10 mb-10"></i>
         <p class="text-md font-semibold text-center">
-          A link to reset your password has been sent to the provided email
-          address. Please check your inbox.
+          {{ t("welcomeScreen.resetPasswordLinkSent") }}
         </p>
         <button
           class="px-8 py-3 font-bold text-lg mt-auto bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
           @click="toggleIsLoginShown"
         >
-          Back
+          {{ t("general.back") }}
         </button>
       </div>
     </div>
@@ -176,6 +178,9 @@ import { ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import BasicSpinner from "../../components/BasicSpinner.vue";
 import axios from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 import { useUserStore } from "../../stores/userStore";
 
@@ -252,7 +257,7 @@ const login = async () => {
         if (error.response && error.response.data.msg) {
           generalError.value = error.response.data.msg;
         } else {
-          generalError.value = "Something went wrong. Try again later.";
+          generalError.value = t("general.somethingWentWrong");
         }
         console.log(error);
         isLoading.value = false;
@@ -280,7 +285,7 @@ const resetPassword = async () => {
         if (error.response && error.response.data.msg) {
           generalError.value = error.response.data.msg;
         } else {
-          generalError.value = "Something went wrong. Try again later.";
+          generalError.value = t("general.somethingWentWrong");
         }
         console.log(error);
       })

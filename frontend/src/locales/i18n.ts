@@ -6,20 +6,33 @@ const allMessages = import.meta.glob<{ default: Record<string, string> }>(
 );
 
 const loadLocaleMessages = async (
-  locale: string
+  locale: string,
+  fallbackLocale: string = "en"
 ): Promise<Record<string, any>> => {
   const messages: Record<string, any> = {};
 
-  for (const path in allMessages) {
-    if (path.includes(`/${locale}/`)) {
-      const fileName = path.split("/").pop()?.replace(".json", "");
-      const module = await allMessages[path]();
+  const loadMessagesForLocale = async (localeToLoad: string) => {
+    for (const path in allMessages) {
+      if (path.includes(`/${localeToLoad}/`)) {
+        const fileName = path.split("/").pop()?.replace(".json", "");
+        const module = await allMessages[path]();
 
-      if (fileName) {
-        messages[fileName] = module.default;
+        if (fileName) {
+          if (!messages[fileName]) {
+            messages[fileName] = {};
+          }
+          Object.assign(messages[fileName], module.default);
+        }
       }
     }
+  };
+
+  await loadMessagesForLocale(fallbackLocale);
+
+  if (locale !== fallbackLocale) {
+    await loadMessagesForLocale(locale);
   }
+
   return messages;
 };
 
