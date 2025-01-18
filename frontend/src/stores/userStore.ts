@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { User, UserStoreState } from "../types";
+import { User, UserStoreState, availableLanguages } from "../types";
 import { useMainStore } from ".";
 import { io } from "socket.io-client";
+import { changeLocale } from "../locales/i18n";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -25,7 +26,7 @@ export const useUserStore = defineStore("userStore", {
     settings: {
       notifications: true,
       theme: "light",
-      language: "ENG",
+      language: "en",
     },
     pairs: [],
   }),
@@ -158,6 +159,10 @@ export const useUserStore = defineStore("userStore", {
           throw error;
         }
       }
+    },
+    async changeLanguage(language: availableLanguages) {
+      await this.changeSettings({ language });
+      changeLocale(language);
     },
     async getPairs() {
       if (this.token) {

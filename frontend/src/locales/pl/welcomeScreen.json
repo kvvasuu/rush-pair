@@ -1,6 +1,4 @@
 {
-  "message": {
-    "createAccount": "Rejestracja",
-    "login": "Zaloguj"
-  }
+  "createAccount": "Rejestracja",
+  "login": "Zaloguj"
 }

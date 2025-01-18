@@ -33,10 +33,12 @@ interface UserStoreState extends User {
   settings: {
     notifications: boolean;
     theme: "dark" | "light";
-    language: string;
+    language: availableLanguages;
   };
   pairs: Array<PairInfo> | [];
 }
+
+type availableLanguages = "en" | "pl";
 
 interface ChatStoreState {
   pairInfo: PairInfo;
@@ -46,6 +48,14 @@ interface ChatStoreState {
   connected: boolean;
   roomId: string;
   isTyping: boolean;
+}
+
+interface MainStoreState {
+  isLoading: boolean;
+  isDrawing: boolean;
+  isEmpty: boolean;
+  pairId: string;
+  socketMessage: string;
 }
 
 interface Emoji {
@@ -64,4 +74,13 @@ interface Message {
   isDeleted?: boolean;
 }
 
-export type { User, UserStoreState, ChatStoreState, PairInfo, Message, Emoji };
+export type {
+  User,
+  UserStoreState,
+  ChatStoreState,
+  PairInfo,
+  Message,
+  Emoji,
+  MainStoreState,
+  availableLanguages,
+};

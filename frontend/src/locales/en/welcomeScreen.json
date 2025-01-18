@@ -1,6 +1,4 @@
 {
-  "message": {
-    "createAccount": "Create account",
-    "login": "Login"
-  }
+  "createAccount": "Create account",
+  "login": "Login"
 }
