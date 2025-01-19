@@ -3,17 +3,21 @@
     <div class="w-full h-full flex flex-col items-center">
       <header class="flex flex-col items-center mb-4">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-3xl font-bold text-center mt-6">First steps</h1>
+        <h1 class="text-3xl font-bold text-center mt-6">
+          {{ t("firstSteps.firstSteps") }}
+        </h1>
         <p class="mt-2 text-center font-semibold" v-if="step === 0">
-          You need to provide some personal information.
+          {{ t("firstSteps.providePersonalInfo") }}
         </p>
         <p class="mt-2 text-center font-semibold" v-else-if="step === 1">
-          Additional information.<br />
+          {{ t("firstSteps.additionalInfo") }}<br />
         </p>
         <p class="mt-2 text-center font-semibold" v-else-if="step === 2">
-          Summary<br />
+          {{ t("firstSteps.summary") }}<br />
         </p>
-        <p class="text-xs" v-if="step === 1">Not required.</p>
+        <p class="text-xs" v-if="step === 1">
+          {{ t("firstSteps.notRequired") }}
+        </p>
       </header>
       <form
         class="w-full h-full flex flex-col items-center"
@@ -24,7 +28,7 @@
         <div class="mb-3 w-full flex flex-col items-center relative mt-3">
           <input
             id="name"
-            placeholder="Name"
+            :placeholder="t('general.name')"
             type="text"
             v-model="name"
             @click="showNameError = false"
@@ -39,7 +43,7 @@
           <span
             v-if="showNameError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please enter your name.</span
+            >{{ t("firstSteps.enterName") }}</span
           >
         </div>
         <div class="mb-3 w-full flex flex-col items-center relative">
@@ -64,7 +68,7 @@
           <span
             v-if="showAgeError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please enter your birthdate.</span
+            >{{ t("firstSteps.enerBirthdate") }}</span
           >
         </div>
         <div class="mb-3 w-full flex flex-col items-center relative">
@@ -77,9 +81,9 @@
             :class="{ 'border-red-500': showGenderError }"
             required
           >
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-            <option value="other">Other</option>
+            <option value="female">{{ t("general.female") }}</option>
+            <option value="male">{{ t("general.male") }}</option>
+            <option value="other">{{ t("general.other") }}</option>
           </select>
           <i
             class="fa-solid fa-mars-and-venus h-[60px] flex items-center absolute text-xl left-4 text-neutral-700"
@@ -87,12 +91,12 @@
           <span
             class="absolute left-12 h-[60px] flex items-center pointer-events-none text-gray-400"
             v-if="!gender"
-            >Gender</span
+            >{{ t("general.gender") }}</span
           >
           <span
             v-if="showGenderError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please choose your gender.</span
+            >{{ t("firstSteps.chooseGender") }}</span
           >
         </div>
       </form>
@@ -105,7 +109,7 @@
         <div class="mb-3 w-full flex flex-col items-center relative mt-3">
           <input
             id="country"
-            placeholder="Country"
+            :placeholder="t('general.country')"
             type="text"
             v-model="country"
             class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
@@ -118,7 +122,7 @@
         <div class="mb-3 w-full flex flex-col items-center relative">
           <input
             id="city"
-            placeholder="City"
+            :placeholder="t('general.city')"
             type="text"
             v-model="city"
             class="w-full p-4 pl-12 rounded-xl border-2 placeholder-gray-400"
@@ -131,7 +135,7 @@
         <div class="mb-3 w-full flex flex-col items-center relative">
           <input
             id="phone-number"
-            placeholder="Phone number"
+            :placeholder="t('general.phoneNumber')"
             type="text"
             v-model="phoneNumber"
             @click="showPhoneNumberError = false"
@@ -145,7 +149,7 @@
           <span
             v-if="showPhoneNumberError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Incorrect phone number.</span
+            >{{ t("firstSteps.incorrectPhone") }}</span
           >
         </div>
       </form>
@@ -200,14 +204,14 @@
           @click="step--"
           v-if="!isSent && step > 0"
         >
-          Back
+          {{ t("general.back") }}
         </button>
         <button
           class="px-8 py-3 w-full md:w-4/5 font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm"
           @click="nextStep"
           v-if="!isSent"
         >
-          {{ step < 2 ? "Next" : "Finish" }}
+          {{ step < 2 ? t("general.next") : t("general.finish") }}
         </button>
       </div>
 
@@ -297,6 +301,9 @@ import BasicSpinner from "../../components/BasicSpinner.vue";
 
 import { useUserStore } from "../../stores/userStore";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const router = useRouter();
 const userStore = useUserStore();

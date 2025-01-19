@@ -1,4 +1,23 @@
 {
   "somethingWentWrong": "Coś poszło nie tak. Spróbuj później.",
-  "back": "Wróć"
+  "back": "Wstecz",
+  "next": "Dalej",
+  "finish": "Zakończ",
+  "male": "Mężczyzna",
+  "female": "Kobieta",
+  "other": "Inne",
+  "gender": "Płeć",
+  "name": "Imię",
+  "password": "Hasło",
+  "birthdate": "Data urodzenia",
+  "country": "Kraj",
+  "city": "Miasto",
+  "phoneNumber": "Numer telefonu",
+  "description": "Opis",
+  "settings": "Ustawienia",
+  "notifications": "Powiadomienia",
+  "theme": "Motyw",
+  "light": "Jasny",
+  "dark": "Ciemny",
+  "language": "Język"
 }

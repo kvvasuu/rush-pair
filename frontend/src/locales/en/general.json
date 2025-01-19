@@ -1,4 +1,23 @@
 {
   "somethingWentWrong": "Something went wrong. Try again later.",
-  "back": "Back"
+  "back": "Back",
+  "next": "Next",
+  "finish": "Finish",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "gender": "Gender",
+  "name": "Name",
+  "password": "Password",
+  "birthdate": "Birthdate",
+  "country": "Country",
+  "city": "City",
+  "phoneNumber": "Phone number",
+  "description": "Description",
+  "settings": "Settings",
+  "notifications": "Notifications",
+  "theme": "Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "language": "Language"
 }
