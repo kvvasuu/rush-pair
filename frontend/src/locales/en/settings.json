@@ -1,0 +1,16 @@
+{
+  "changePassword": "Change Password",
+  "passwordChange": "Password Change",
+  "deleteAccount": "Delete Account",
+  "accountDeletion": "Account Deletion",
+  "areYouSure": "Are you sure you want to permanently delete your account?",
+  "cannotBeUndone": "This operation cannot be undone.",
+  "enterPassword": "Please enter your password to confirm.",
+  "keepAccount": "Keep Account",
+  "accountDeleted": "Your account has been successfully deleted.",
+  "soonLoggedOut": "You will be logged out shortly.",
+  "toUpdatePassword": "To update your password, please enter your current password and then choose a new password.",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "passwordChanged": "Your password has been successfully changed."
+}

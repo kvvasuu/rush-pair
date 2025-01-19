@@ -20,7 +20,7 @@
           to="/app/settings/profile"
           class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative rounded-t-lg"
           ><i class="fa-solid fa-user w-10 text-center"></i>
-          <span class="px-1 select-none">Profile</span>
+          <span class="px-1 select-none">{{ t("general.profile") }}</span>
 
           <i
             class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
@@ -34,7 +34,7 @@
         class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative cursor-pointer"
       >
         <i class="fa-solid fa-bell w-10 text-center"></i>
-        <span class="px-1 select-none">Notifications</span>
+        <span class="px-1 select-none">{{ t("general.notifications") }}</span>
 
         <input
           type="checkbox"
@@ -57,7 +57,7 @@
         class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative cursor-pointer"
       >
         <i class="fa-solid fa-eye w-10 text-center"></i>
-        <span class="px-1 select-none">Theme</span>
+        <span class="px-1 select-none">{{ t("general.theme") }}</span>
 
         <input
           type="checkbox"
@@ -82,7 +82,7 @@
           to="/app/settings/security"
           class="flex items-center text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative rounded-b-lg"
           ><i class="fa-solid fa-lock w-10 text-center"></i>
-          <span class="px-1 select-none">Security</span>
+          <span class="px-1 select-none">{{ t("general.security") }}</span>
           <i
             class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
           ></i>
@@ -97,7 +97,7 @@
         <i
           class="fa-solid fa-arrow-right-from-bracket rotate-180 absolute h-full flex items-center -left-6 top-0"
         ></i>
-        <span>Logout</span>
+        <span>{{ t("general.logout") }}</span>
       </div>
     </button>
   </div>
@@ -107,6 +107,9 @@
 import { ref } from "vue";
 import UserAvatar from "../../../components/UserAvatar.vue";
 import { useUserStore } from "../../../stores/userStore";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 

@@ -3,6 +3,7 @@
   "back": "Back",
   "next": "Next",
   "finish": "Finish",
+  "close": "Close",
   "male": "Male",
   "female": "Female",
   "other": "Other",
@@ -19,5 +20,14 @@
   "theme": "Theme",
   "light": "Light",
   "dark": "Dark",
-  "language": "Language"
+  "language": "Language",
+  "home": "Home",
+  "pairs": "Pairs",
+  "stars": "Stars",
+  "unreadMessages": "You have 0 unread messages. | You have one unread message. | You have {count} unread messages.",
+  "workInProgress": "Work in progress.",
+  "profile": "Profile",
+  "security": "Security",
+  "logout": "Logout",
+  "delete": "Delete"
 }
