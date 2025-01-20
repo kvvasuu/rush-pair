@@ -12,5 +12,8 @@
   "toUpdatePassword": "To update your password, please enter your current password and then choose a new password.",
   "oldPassword": "Old Password",
   "newPassword": "New Password",
-  "passwordChanged": "Your password has been successfully changed."
+  "passwordChanged": "Your password has been successfully changed.",
+  "changeImage": "Change Image",
+  "tellAboutYourself": "Tell about yourself",
+  "profileImageChange": "Profile Image Change"
 }

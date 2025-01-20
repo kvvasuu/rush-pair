@@ -29,5 +29,10 @@
   "profile": "Profile",
   "security": "Security",
   "logout": "Logout",
-  "delete": "Delete"
+  "delete": "Delete",
+  "required": "Required",
+  "optional": "Optional",
+  "upload": "Upload",
+  "change": "Change",
+  "save": "Save"
 }

@@ -12,5 +12,8 @@
   "toUpdatePassword": "Aby zaktualizować swoje hasło, wprowadź swoje obecne hasło, a następnie wybierz nowe hasło.",
   "oldPassword": "Stare hasło",
   "newPassword": "Nowe hasło",
-  "passwordChanged": "Twoje hasło zostało pomyślnie zmienione."
+  "passwordChanged": "Twoje hasło zostało pomyślnie zmienione.",
+  "changeImage": "Zmień zdjęcie",
+  "tellAboutYourself": "Opowiedz o sobie",
+  "profileImageChange": "Zmiana zdjęcia profilowego"
 }

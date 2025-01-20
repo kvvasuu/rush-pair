@@ -10,10 +10,10 @@
   "gender": "Płeć",
   "name": "Imię",
   "password": "Hasło",
-  "birthdate": "Data urodzenia",
+  "birthdate": "Urodziny",
   "country": "Kraj",
   "city": "Miasto",
-  "phoneNumber": "Numer telefonu",
+  "phoneNumber": "Telefon",
   "description": "Opis",
   "settings": "Ustawienia",
   "notifications": "Powiadomienia",
@@ -29,5 +29,10 @@
   "profile": "Profil",
   "security": "Bezpieczeństwo",
   "logout": "Wyloguj",
-  "delete": "Usuń"
+  "delete": "Usuń",
+  "required": "Wymagane",
+  "optional": "Opcjonalne",
+  "upload": "Prześlij",
+  "change": "Zmień",
+  "save": "Zapisz"
 }
