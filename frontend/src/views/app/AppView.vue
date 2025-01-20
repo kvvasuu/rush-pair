@@ -26,11 +26,15 @@ import LeftControls from "./LeftControls.vue";
 import { onBeforeMount } from "vue";
 import { useUserStore } from "../../stores/userStore";
 import { useRoute } from "vue-router";
+import { changeLocale } from "../../locales/i18n";
 
 const userStore = useUserStore();
 const route = useRoute();
 
+const language = userStore.settings.language || "en";
+
 onBeforeMount(() => {
   document.documentElement.setAttribute("data-theme", userStore.settings.theme);
+  changeLocale(language)
 });
 </script>

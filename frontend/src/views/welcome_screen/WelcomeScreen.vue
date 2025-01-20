@@ -3,11 +3,12 @@
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
     <div
-      class="logo pointer-events-none h-40"
-      :class="{
-        'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled opacity-95':
-          showUi,
-      }"
+      class="logo h-40 drop-shadow"
+      :class="
+        showUi
+          ? 'hover:scale-105 transition-all cursor-pointer duration-500 opacity-95'
+          : 'pointer-events-none'
+      "
     >
       <a href="https://github.com/kvvasuu/rush-pair" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
@@ -49,6 +50,54 @@
         {{ t("welcomeScreen.login") }}
       </button>
     </div>
+    <div
+      id="language-button"
+      :class="{ show: showUi }"
+      class="absolute top-8 left-8 block"
+    >
+      <button
+        class="flex items-center gap-2 px-4 py-2 font-bold text-md hover:bg-slate-200 border-[1px] rounded-full transition-all drop-shadow-sm"
+        @click="toggleLanguageSelector"
+        :class="showLanguageSelector ? 'bg-slate-200' : 'bg-slate-50'"
+      >
+        <img
+          :src="`/flag-${language.toUpperCase()}.png`"
+          alt="flag"
+          width="20px"
+          class="border-[1px] box-content rounded-sm border-neutral-500"
+        /><span>{{ t("general.language") }}</span>
+      </button>
+      <Transition name="slide-from-left">
+        <ul
+          class="absolute w-32 -bottom-[5.3rem] left-2 flex flex-col items-left font-bold text-md bg-slate-50 border-[1px] rounded-md drop-shadow-sm"
+          v-if="showLanguageSelector"
+          ref="languageSelectorRef"
+        >
+          <li
+            class="flex items-center gap-2 px-3 py-2 hover:bg-slate-200 cursor-pointer transition-all"
+            @click="changeLanguage('en')"
+          >
+            <img
+              src="/flag-EN.png"
+              alt="ENG"
+              class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
+            />
+            <span>English</span>
+          </li>
+          <li
+            class="flex items-center gap-2 px-3 py-2 hover:bg-slate-200 cursor-pointer transition-all"
+            @click="changeLanguage('pl')"
+          >
+            <img
+              src="/flag-PL.png"
+              alt="PL"
+              class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
+            />
+            <span>Polski</span>
+          </li>
+        </ul></Transition
+      >
+    </div>
     <Transition name="fade">
       <Teleport to="body">
         <CreateAccount
@@ -72,13 +121,52 @@ import CreateAccount from "./CreateAccount.vue";
 import Login from "./Login.vue";
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import { changeLocale } from "../../locales/i18n";
+import { availableLanguages } from "../../types";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 const showUi = ref(false);
 
 const registerModal = ref(false);
 const loginModal = ref(false);
+
+const language = ref(localStorage.getItem("locale") || "en");
+locale.value = language.value;
+
+const showLanguageSelector = ref(false);
+const languageSelectorRef = ref<HTMLUListElement | null>(null);
+
+const changeLanguage = (lang: availableLanguages) => {
+  language.value = lang;
+  localStorage.setItem("locale", lang);
+  changeLocale(lang);
+  toggleLanguageSelector();
+};
+
+const toggleLanguageSelector = () => {
+  showLanguageSelector.value = !showLanguageSelector.value;
+
+  if (showLanguageSelector.value) {
+    setTimeout(() => {
+      document.addEventListener("click", handleClickOutside);
+    }, 0);
+  } else {
+    document.removeEventListener("click", handleClickOutside);
+  }
+};
+
+const handleClickOutside = (e: Event) => {
+  if (
+    languageSelectorRef.value &&
+    e.target instanceof Node &&
+    !languageSelectorRef.value.contains(e.target)
+  ) {
+    showLanguageSelector.value = false;
+    document.removeEventListener("click", handleClickOutside);
+    document.removeEventListener("touch", handleClickOutside);
+  }
+};
 
 const toggleAuthModal = (modalType: string) => {
   switch (modalType) {
@@ -113,20 +201,31 @@ onMounted(() => {
 }
 
 #controls-delayed,
-#login-button {
+#login-button,
+#language-button {
   opacity: 0;
   transition: all 1s ease;
   pointer-events: none;
 }
 
 #controls.show #controls-delayed,
-#login-button.show {
+#login-button.show,
+#language-button.show {
   opacity: 1;
   transition-delay: 1s;
   pointer-events: auto;
 }
 
-.enabled {
-  pointer-events: all;
+.slide-from-left-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-from-left-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-from-left-enter-from,
+.slide-from-left-leave-to {
+  transform: translateX(-200%);
 }
 </style>

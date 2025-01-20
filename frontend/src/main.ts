@@ -28,8 +28,7 @@ app.use(router);
 router.isReady().then(() => {
   const locale = localStorage.getItem("locale") || i18nConfig.locale;
   i18n.global.locale.value = locale;
-  loadLocaleMessages(locale).then((messages) => {
-    i18n.global.setLocaleMessage(locale, messages);
+  loadLocaleMessages().then(() => {
     app.mount("#app");
   });
 });

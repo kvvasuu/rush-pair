@@ -47,7 +47,7 @@
           >{{ t("general.gender") }}</span
         >
         <p class="capitalize text-neutral-600 dark:text-neutral-400">
-          {{ details.gender }}
+          {{ t("general." + details.gender) }}
         </p>
         <div
           class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"

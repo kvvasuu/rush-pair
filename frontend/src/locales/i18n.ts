@@ -5,42 +5,38 @@ const allMessages = import.meta.glob<{ default: Record<string, string> }>(
   "./*/*.json"
 );
 
-const loadLocaleMessages = async (
-  locale: string,
-  fallbackLocale: string = "en"
-): Promise<Record<string, any>> => {
-  const messages: Record<string, any> = {};
+const loadLocaleMessages = async (): Promise<void> => {
+  const languages: Record<string, string[]> = {};
 
-  const loadMessagesForLocale = async (localeToLoad: string) => {
-    for (const path in allMessages) {
-      if (path.includes(`/${localeToLoad}/`)) {
-        const fileName = path.split("/").pop()?.replace(".json", "");
-        const module = await allMessages[path]();
-
-        if (fileName) {
-          if (!messages[fileName]) {
-            messages[fileName] = {};
-          }
-          Object.assign(messages[fileName], module.default);
-        }
+  for (const path in allMessages) {
+    const locale = path.match(/\/([a-z]{2})\//i)?.[1];
+    if (locale) {
+      if (!languages[locale]) {
+        languages[locale] = [];
       }
+      languages[locale].push(path);
     }
-  };
-
-  await loadMessagesForLocale(fallbackLocale);
-
-  if (locale !== fallbackLocale) {
-    await loadMessagesForLocale(locale);
   }
 
-  return messages;
+  for (const locale in languages) {
+    const localeMessages: Record<string, any> = {};
+
+    for (const path of languages[locale]) {
+      const fileName = path.split("/").pop()?.replace(".json", "") || "default";
+      const module = await allMessages[path]();
+
+      if (fileName) {
+        localeMessages[fileName] = localeMessages[fileName] || {};
+        Object.assign(localeMessages[fileName], module.default);
+      }
+    }
+
+    i18n.global.setLocaleMessage(locale, localeMessages);
+  }
 };
 
 const changeLocale = (newLocale: availableLanguages) => {
   i18n.global.locale.value = newLocale;
-  loadLocaleMessages(newLocale).then((messages) => {
-    i18n.global.setLocaleMessage(newLocale, messages);
-  });
 };
 
 const i18nConfig = {

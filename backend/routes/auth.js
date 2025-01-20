@@ -50,7 +50,7 @@ auth.post(
         settings: {
           notifications: true,
           theme: "light",
-          language: "ENG",
+          language: "en",
         },
       });
       const htmlTemplate = await fs.readFile(
