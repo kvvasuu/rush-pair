@@ -8,12 +8,12 @@
   "resetPassword": "Zresetuj hasło",
   "resetPasswordLink": "Link do zresetowania hasła zostanie wysłany na podany adres e-mail.",
   "resetPasswordLinkSent": "Link do zresetowania hasła został wysłany na podany adres e-mail. Sprawdź swoją skrzynkę odbiorczą.",
-  "passwordMustBeLong": "Password must be at least 6 characters long.",
-  "passwordsNotTheSame": "Passwords are not the same.",
-  "agreeTerms": "You must agree with terms and conditions",
-  "iAgree": "I agree to the",
-  "terms": "terms and conditions",
-  "success": "Registration successful!",
-  "welcomeAboard": "Welcome aboard.",
-  "checkEmail": "Please check your email and confirm your email address to complete the registration process."
+  "passwordMustBeLong": "Hasło musi mieć co najmniej 6 znaków.",
+  "passwordsNotTheSame": "Hasła nie są takie same.",
+  "agreeTerms": "Musisz zaakceptować regulamin",
+  "iAgree": "Akceptuję",
+  "terms": "regulamin",
+  "success": "Rejestracja zakończona sukcesem!",
+  "welcomeAboard": "Witamy na pokładzie.",
+  "checkEmail": "Proszę sprawdzić swój email i potwierdzić adres email, aby zakończyć proces rejestracji."
 }

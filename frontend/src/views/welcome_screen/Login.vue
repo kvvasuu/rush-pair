@@ -255,7 +255,7 @@ const login = async () => {
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
-          generalError.value = error.response.data.msg;
+          generalError.value = t("serverMessages." + error.response.data.msg);
         } else {
           generalError.value = t("general.somethingWentWrong");
         }
@@ -283,7 +283,7 @@ const resetPassword = async () => {
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
-          generalError.value = error.response.data.msg;
+          generalError.value = t("serverMessages." + error.response.data.msg);
         } else {
           generalError.value = t("general.somethingWentWrong");
         }

@@ -1,4 +1,15 @@
 {
   "joinedQueue": "Dołączyłeś do kolejki.",
-  "noActiveUsers": "Nie ma aktywnych użytkowników do sparowania."
+  "noActiveUsers": "Nie ma aktywnych użytkowników do sparowania.",
+  "emailNotCorrect": "Email jest niepoprawny",
+  "emailTaken": "Podany adres email jest już zarejestrowany w naszym systemie.",
+  "accountNotExists": "Konto nie istnieje.",
+  "accountNotVerified": "Konto niezweryfikowane. Sprawdź swój adres email.",
+  "userNotFound": "Użytkownik nie znaleziony.",
+  "userDeletedSuccessfully": "Użytkownik został pomyślnie usunięty.",
+  "passwordIncorrect": "Hasło jest niepoprawne.",
+  "passwordRequired": "Hasło jest wymagane.",
+  "passwordTooShort": "Hasło musi mieć co najmniej 6 znaków",
+  "passwordChangedSuccesfully": "Hasło zostało pomyślnie zmienione.",
+  "passwordResetLinkSent": "Link do resetowania hasła został wysłany na Twój email."
 }
