@@ -29,18 +29,19 @@
       v-if="!isDrawing"
     >
       <p class="text-center font-bold text-base sm:text-lg mb-1">
-        How it works:
+        {{ t("home.howItWorks") }}
       </p>
       <p class="font-semibold text-xs sm:text-sm">
-        <span class="mr-1 w-3 inline-block text-right">1.</span>Click that
-        button
+        <span class="mr-1 w-3 inline-block text-right">1.</span
+        >{{ t("home.howItWorks1") }}
       </p>
       <p class="font-semibold text-xs sm:text-sm">
-        <span class="mr-1 w-3 inline-block text-right">2.</span>Chat anonymously
+        <span class="mr-1 w-3 inline-block text-right">2.</span
+        >{{ t("home.howItWorks2") }}
       </p>
       <p class="font-semibold text-xs sm:text-sm">
-        <span class="mr-1 w-3 inline-block text-right">3.</span>Reveal if you
-        wish!
+        <span class="mr-1 w-3 inline-block text-right">3.</span
+        >{{ t("home.howItWorks3") }}
       </p>
     </section>
   </main>
@@ -52,6 +53,9 @@ import RecentPairs from "./recent_pairs/RecentPairs.vue";
 import DrawPair from "./DrawPair.vue";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
 import { useUserStore } from "../../../stores/userStore.ts";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 

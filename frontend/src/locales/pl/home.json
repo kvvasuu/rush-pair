@@ -1,0 +1,25 @@
+{
+  "recentPairs": "Ostatnie pary",
+  "noPairsYet": "Nie masz jeszcze żadnych par...",
+  "howItWorks": "Jak to działa:",
+  "howItWorks1": "Kliknij ten przycisk",
+  "howItWorks2": "Czatuj anonimowo",
+  "howItWorks3": "Ujawnij się, jeśli chcesz!",
+  "searching": "Szukanie...",
+  "stopSearching": "Przestań szukać",
+  "startChatting": "Rozpocznij czat",
+  "tryAgain": "Spróbuj ponownie później lub poczekaj na innych...",
+  "buttonTitles": {
+    "title1": "Szukaj pary!",
+    "title2": "Znajdź parę!",
+    "title3": "Dopasuj mnie teraz!",
+    "title4": "Znajdź kogoś!",
+    "title5": "Połączmy się!",
+    "title6": "Dopasuj się!"
+  },
+  "pairedTitles": {
+    "title1": "Zostałeś sparowany!",
+    "title2": "Sukces! Twój czat czeka.",
+    "title3": "Para znaleziona! Przygotuj się do czatu."
+  }
+}

@@ -62,7 +62,7 @@ export const initSocketIO = (server) => {
         const user = await User.findOne({ _id: userId }).select("email");
 
         socket.emit("joinedPairing", {
-          message: `You have joined queue.`,
+          message: `joinedQueue`,
         });
 
         const pairs = await Pair.findOne({ email: user.email });
@@ -92,7 +92,7 @@ export const initSocketIO = (server) => {
 
         if (!randomUser) {
           socket.emit("emptyQueue", {
-            message: `There are no active users to pair.`,
+            message: `noActiveUsers`,
           });
           return;
         }
@@ -108,7 +108,7 @@ export const initSocketIO = (server) => {
 
         if (!pairedUser) {
           socket.emit("emptyQueue", {
-            message: `There are no active users to pair.`,
+            message: `noActiveUsers`,
           });
           return;
         }

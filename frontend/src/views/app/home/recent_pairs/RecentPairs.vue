@@ -5,14 +5,14 @@
     <p
       class="w-full border-b-[1px] border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500 select-none"
     >
-      Recent pairs
+      {{ t("home.recentPairs") }}
     </p>
     <div class="w-full relative flex items-center justify-center min-h-24">
       <p
         v-if="userStore.pairs?.length <= 0"
         class="text-neutral-400 dark:text-neutral-500 select-none"
       >
-        There are no pairs yet...
+        {{ t("home.noPairsYet") }}
       </p>
 
       <div
@@ -25,15 +25,18 @@
             :pair="pair"
             :is-active="pair.isActive"
             class="snap-start min-w-[72px] max-w-[72px] cursor-pointer"
-            :title="pair?.name"
+            :title="
+              pair.unreadMessagesCount
+                ? t('general.unreadMessages', {
+                    count: pair.unreadMessagesCount,
+                  })
+                : pair?.name
+            "
             @click="goToPair(pair.id)"
           ></PairAvatar>
           <div
             v-if="!!pair.unreadMessagesCount"
             class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
-            :title="`You have ${pair.unreadMessagesCount} unread message${
-              pair.unreadMessagesCount === 1 ? '' : 's'
-            }.`"
           >
             {{
               pair.unreadMessagesCount < 100 ? pair.unreadMessagesCount : "99+"
@@ -87,6 +90,9 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useUserStore } from "../../../../stores/userStore.ts";
 import { useRouter } from "vue-router";
 import PairAvatar from "../../../../components/PairAvatar.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const router = useRouter();
 const userStore = useUserStore();
