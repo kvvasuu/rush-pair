@@ -19,8 +19,8 @@ const EMAIL_SECRET = process.env.EMAIL_SECRET;
 auth.post(
   "/register",
   [
-    check("email", "Email is not correct").isEmail(),
-    check("password", "Password must be at least 6 characters long").isLength({
+    check("email", "emailNotCorrect").isEmail(),
+    check("password", "passwordTooShort").isLength({
       min: 6,
     }),
   ],
@@ -39,7 +39,7 @@ auth.post(
       let user = await User.findOne({ email });
       if (user) {
         return res.status(409).json({
-          msg: "The provided email address is already registered in our system.",
+          msg: "emailTaken",
         });
       }
 
@@ -76,7 +76,7 @@ auth.post(
         res.status(201).json({ msg: `Created new user "${email}"` });
       });
     } catch (err) {
-      next(error);
+      next(err);
     }
   }
 );
@@ -84,8 +84,8 @@ auth.post(
 auth.post(
   "/login",
   [
-    check("email", "Provide correct email").isEmail(),
-    check("password", "Password is required").exists(),
+    check("email", "emailNotCorrect").isEmail(),
+    check("password", "passwordRequired").exists(),
   ],
   rateLimiter,
   async (req, res, next) => {
@@ -101,20 +101,20 @@ auth.post(
       let user = await User.findOne({ email });
       if (!user) {
         return res.status(409).json({
-          msg: "Account does not exists.",
+          msg: "accountNotExists",
         });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(409).json({
-          msg: "Incorrect password.",
+          msg: "passwordIncorrect",
         });
       }
 
       if (!user.isVerified) {
         return res.status(409).json({
-          msg: "Account not verified. Check your email address.",
+          msg: "accountNotVerified",
         });
       }
 
@@ -194,7 +194,7 @@ auth.post("/request-reset-password", async (req, res, next) => {
     let user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ msg: "Account does not exists." });
+      return res.status(404).json({ msg: "accountNotExists" });
     }
 
     const htmlTemplate = await fs.readFile(
@@ -218,9 +218,7 @@ auth.post("/request-reset-password", async (req, res, next) => {
       html: html,
     });
 
-    res
-      .status(201)
-      .json({ msg: `Password reset request has been set to ${email}.` });
+    res.status(201).json({ msg: `passwordResetLinkSent` });
   } catch (error) {
     next(error);
   }
@@ -321,12 +319,9 @@ auth.get("/verify-token", async (req, res) => {
 auth.post(
   "/change-password",
   [
-    check("email", "Email is not correct").isEmail(),
-    check("oldPassword", "Old password is required").notEmpty(),
-    check(
-      "newPassword",
-      "New password must be at least 6 characters long"
-    ).isLength({
+    check("email", "emailNotCorrect").isEmail(),
+    check("oldPassword", "passwordRequired").notEmpty(),
+    check("newPassword", "passwordTooShort").isLength({
       min: 6,
     }),
   ],
@@ -341,28 +336,28 @@ auth.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        return res.status(404).json({ msg: "User not found." });
+        return res.status(404).json({ msg: "userNotFound" });
       }
 
       const isMatch = await bcrypt.compare(oldPassword, user.password);
       if (!isMatch) {
-        return res.status(409).json({ msg: "Old password is incorrect." });
+        return res.status(409).json({ msg: "passwordIncorrect" });
       }
 
       user.password = newPassword;
 
       return await user.save().then(() => {
-        return res.status(200).json({ msg: "Password changed successfully." });
+        return res.status(200).json({ msg: "passwordChangedSuccesfully" });
       });
     } catch (err) {
-      next(error);
+      next(err);
     }
   }
 );
 
 auth.post(
   "/delete-account",
-  [check("password", "Password is required").notEmpty()],
+  [check("password", "passwordRequired").notEmpty()],
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -375,18 +370,18 @@ auth.post(
     try {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        return res.status(409).json({ msg: "Password is incorrect." });
+        return res.status(409).json({ msg: "passwordIncorrect" });
       }
 
       let deletedUser = await User.findOneAndDelete({ email });
 
       if (!deletedUser) {
-        return res.status(404).json({ msg: "User not found." });
+        return res.status(404).json({ msg: "userNotFound" });
       }
 
-      res.status(200).json({ msg: "User deleted successfully." });
+      res.status(200).json({ msg: "userDeletedSuccessfully" });
     } catch (err) {
-      next(error);
+      next(err);
     }
   }
 );
