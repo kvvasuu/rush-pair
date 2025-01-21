@@ -4,7 +4,7 @@
       <div
         class="flex flex-col items-center justify-center text-2xl font-semibold gap-3 text-neutral-600 dark:text-neutral-300"
       >
-        <h2>Profile image change</h2>
+        <h2>{{ t("settings.profileImageChange") }}</h2>
       </div>
       <div
         id="image-preview"
@@ -46,7 +46,7 @@
           class="mt-12 rounded-lg select-none py-3 px-8 text-xl text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
         >
           <i class="fa-solid fa-cloud-arrow-up"></i>
-          {{ isUploaded ? "Change" : "Upload" }}
+          {{ isUploaded ? t("general.change") : t("general.upload") }}
           <input
             type="file"
             id="uploadFile"
@@ -91,7 +91,7 @@
           }"
           @click="changeImage"
         >
-          Save
+          {{ t("general.save") }}
         </button>
       </div>
     </div>
@@ -105,6 +105,9 @@ import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import axios from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["close"]);
 

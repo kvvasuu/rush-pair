@@ -1,14 +1,8 @@
 import { defineStore } from "pinia";
-interface State {
-  isLoading: boolean;
-  isDrawing: boolean;
-  isEmpty: boolean;
-  pairId: string;
-  socketMessage: string;
-}
+import { MainStoreState } from "../types";
 
 export const useMainStore = defineStore("mainStore", {
-  state: (): State => ({
+  state: (): MainStoreState => ({
     isLoading: false,
     isDrawing: false,
     isEmpty: false,

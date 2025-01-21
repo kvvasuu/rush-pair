@@ -39,9 +39,13 @@
           <div
             v-if="!!userStore.getAllUnreadMessages"
             class="absolute -right-1 -top-2 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
-            :title="`You have ${userStore.getAllUnreadMessages} unread message${
-              userStore.getAllUnreadMessages === 1 ? '' : 's'
-            }.`"
+            :title="
+              userStore.getAllUnreadMessages
+                ? t('general.unreadMessages', {
+                    count: userStore.getAllUnreadMessages,
+                  })
+                : t('general.pairs')
+            "
           >
             {{
               userStore.getAllUnreadMessages < 100
@@ -71,6 +75,9 @@ import { useRoute } from "vue-router";
 import { RouterLink } from "vue-router";
 import { computed } from "vue";
 import { useUserStore } from "../../stores/userStore";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 

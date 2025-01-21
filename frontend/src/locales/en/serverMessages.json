@@ -1,0 +1,15 @@
+{
+  "joinedQueue": "You have joined queue.",
+  "noActiveUsers": "There are no active users to pair.",
+  "emailNotCorrect": "Email is not correct",
+  "emailTaken": "The provided email address is already registered in our system.",
+  "accountNotExists": "Account does not exist.",
+  "accountNotVerified": "Account not verified. Check your email address.",
+  "userNotFound": "User not found.",
+  "userDeletedSuccessfully": "User deleted successfully.",
+  "passwordIncorrect": "Password is incorrect.",
+  "passwordRequired": "Password is required.",
+  "passwordTooShort": "Password must be at least 6 characters long",
+  "passwordChangedSuccesfully": "Password changed successfully.",
+  "passwordResetLinkSent": "Password reset link sent to your email."
+}

@@ -1,0 +1,19 @@
+{
+  "createAccount": "Utwórz konto",
+  "login": "Zaloguj się",
+  "allRightsReserved": "© 2024 RushPair. Wszelkie prawa zastrzeżone.",
+  "provideCorrectEmail": "Proszę podać poprawny adres e-mail.",
+  "enterPassword": "Proszę wpisać hasło.",
+  "forgotPassword": "Zapomniałeś hasła?",
+  "resetPassword": "Zresetuj hasło",
+  "resetPasswordLink": "Link do zresetowania hasła zostanie wysłany na podany adres e-mail.",
+  "resetPasswordLinkSent": "Link do zresetowania hasła został wysłany na podany adres e-mail. Sprawdź swoją skrzynkę odbiorczą.",
+  "passwordMustBeLong": "Hasło musi mieć co najmniej 6 znaków.",
+  "passwordsNotTheSame": "Hasła nie są takie same.",
+  "agreeTerms": "Musisz zaakceptować regulamin",
+  "iAgree": "Akceptuję",
+  "terms": "regulamin",
+  "success": "Rejestracja zakończona sukcesem!",
+  "welcomeAboard": "Witamy na pokładzie.",
+  "checkEmail": "Proszę sprawdzić swój email i potwierdzić adres email, aby zakończyć proces rejestracji."
+}

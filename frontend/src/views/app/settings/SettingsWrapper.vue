@@ -8,7 +8,7 @@
       <p
         class="text-slate-700 dark:text-neutral-300 font-semibold text-xl select-none"
       >
-        {{ route.name }}
+        {{ t("general." + route.name?.toString().toLocaleLowerCase()) }}
       </p>
 
       <button
@@ -21,7 +21,9 @@
         :disabled="mainStore.isLoading"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
-        <span class="text-xl hidden md:block select-none">Settings</span>
+        <span class="text-xl hidden md:block select-none">{{
+          t("general.settings")
+        }}</span>
       </button>
     </header>
     <RouterView v-slot="{ Component }">
@@ -35,6 +37,9 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from "vue-router";
 import { useMainStore } from "../../../stores";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const mainStore = useMainStore();
 

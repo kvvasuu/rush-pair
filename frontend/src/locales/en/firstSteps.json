@@ -1,0 +1,11 @@
+{
+  "firstSteps": "First steps",
+  "providePersonalInfo": "You need to provide some personal information.",
+  "additionalInfo": "Additional information.",
+  "summary": "Summary",
+  "notRequired": "Not required.",
+  "enterName": "Please enter your name.",
+  "enterBirthdate": "Please enter your birthdate.",
+  "chooseGender": "Please choose your gender.",
+  "incorrectPhone": "Incorrect phone number."
+}

@@ -1,0 +1,19 @@
+{
+  "changePassword": "Zmień hasło",
+  "passwordChange": "Zmiana hasła",
+  "deleteAccount": "Usuń konto",
+  "accountDeletion": "Usunięcie konta",
+  "areYouSure": "Czy na pewno chcesz trwale usunąć swoje konto?",
+  "cannotBeUndone": "Tej operacji nie można cofnąć.",
+  "enterPassword": "Proszę podać hasło, aby potwierdzić.",
+  "keepAccount": "Zachowaj konto",
+  "accountDeleted": "Twoje konto zostało pomyślnie usunięte.",
+  "soonLoggedOut": "Wkrótce zostaniesz wylogowany.",
+  "toUpdatePassword": "Aby zaktualizować swoje hasło, wprowadź swoje obecne hasło, a następnie wybierz nowe hasło.",
+  "oldPassword": "Stare hasło",
+  "newPassword": "Nowe hasło",
+  "passwordChanged": "Twoje hasło zostało pomyślnie zmienione.",
+  "changeImage": "Zmień zdjęcie",
+  "tellAboutYourself": "Opowiedz o sobie",
+  "profileImageChange": "Zmiana zdjęcia profilowego"
+}

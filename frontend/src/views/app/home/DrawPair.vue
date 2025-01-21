@@ -59,7 +59,7 @@
           <p
             class="text-neutral-100 dark:text-neutral-700 font-semibold animate-pulse select-none"
           >
-            Searching...
+            {{ t("home.searching") }}
           </p>
         </div>
         <div
@@ -77,13 +77,13 @@
           <p
             class="text-neutral-100 dark:text-neutral-700 font-semibold select-none mt-8"
           >
-            {{ mainStore.socketMessage }}
+            {{ t("serverMessages." + mainStore.socketMessage) }}
           </p>
           <p
             v-if="!mainStore.pairId"
             class="text-neutral-100 dark:text-neutral-700 text-sm select-none"
           >
-            Try again later or wait for others.
+            {{ t("home.tryAgain") }}
           </p>
         </div>
         <Transition name="fade">
@@ -94,13 +94,13 @@
             <i class="fa-solid fa-comments text-8xl mt-8 text-red-500"></i>
             <p
               class="font-semibold text-center text-3xl select-none mt-10"
-              v-html="pairedTite"
+              v-html="pairedTitle"
             ></p>
             <button
               @click="router.push(`/app/pairs/${mainStore.pairId}`)"
               class="flex items-center mb-0 mt-auto justify-self-end text-neutral-50 dark:text-neutral-800 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
             >
-              <span>Start chatting</span>
+              <span>{{ t("general.startChatting") }}</span>
             </button>
             <div class="w-full absolute bottom-0 left-0 h-">
               <div
@@ -115,8 +115,8 @@
             @click="stopDrawing"
             class="flex items-center text-rose-600 dark:text-rose-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
           >
-            <span v-if="isSearching">Stop searching</span>
-            <span v-else>Back</span>
+            <span v-if="isSearching">{{ t("home.stopSearching") }}</span>
+            <span v-else>{{ t("general.back") }}</span>
           </button>
         </div>
       </div>
@@ -130,6 +130,10 @@ import BasicSpinner from "../../../components/BasicSpinner.vue";
 import { useMainStore } from "../../../stores";
 import { useUserStore } from "../../../stores/userStore";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { i18n } from "../../../locales/i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["startDrawing", "stopDrawing"]);
 
@@ -143,28 +147,29 @@ const isSearching = ref(false);
 
 const displayPairedTitle = () => {
   const pairedTitles = [
-    "You've Been Paired!",
-    "Success!</br>Your Chat Awaits.",
-    "Pair Found!</br>Get Ready to Chat.",
+    "pairedTitles.title1",
+    "pairedTitles.title2",
+    "pairedTitles.title3",
   ];
 
-  const titleIndex = Math.floor(Math.random() * pairedTitles.length);
-  return pairedTitles[titleIndex];
+  const randomKey =
+    pairedTitles[Math.floor(Math.random() * pairedTitles.length)];
+  return i18n.global.t("home." + randomKey);
 };
-const pairedTite = displayPairedTitle();
+const pairedTitle = displayPairedTitle();
 
-const displayButtonTitle = () => {
-  const buttonTitles = [
-    "Rush for Pair!",
-    "Find a Pair!",
-    "Match Me Now!",
-    "Find Someone!",
-    "Let's Pair Up!",
-    "Get Matched!",
+const displayButtonTitle = (): string => {
+  const buttonKeys = [
+    "buttonTitles.title1",
+    "buttonTitles.title2",
+    "buttonTitles.title3",
+    "buttonTitles.title4",
+    "buttonTitles.title5",
+    "buttonTitles.title6",
   ];
 
-  const titleIndex = Math.floor(Math.random() * buttonTitles.length);
-  return buttonTitles[titleIndex];
+  const randomKey = buttonKeys[Math.floor(Math.random() * buttonKeys.length)];
+  return i18n.global.t("home." + randomKey);
 };
 
 const buttonTitle = displayButtonTitle();

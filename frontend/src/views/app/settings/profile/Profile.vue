@@ -14,7 +14,9 @@
           <i class="fa-solid fa-camera text-neutral-700"></i>
         </div>
       </div>
-      <p class="text-neutral-600 dark:text-neutral-400 mt-4">Change image</p>
+      <p class="text-neutral-600 dark:text-neutral-400 mt-4">
+        {{ t("settings.changeImage") }}
+      </p>
     </div>
     <ol class="mt-8 rounded-lg w-4/5 max-w-[666px]">
       <li class="relative">
@@ -25,12 +27,12 @@
           autocomplete="off"
           v-model="details.name"
           required
-          placeholder="Required"
+          :placeholder="t('general.required')"
         />
         <label
           for="name"
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >Name</label
+          >{{ t("general.name") }}</label
         >
 
         <div
@@ -42,10 +44,10 @@
       >
         <span
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >Gender</span
+          >{{ t("general.gender") }}</span
         >
         <p class="capitalize text-neutral-600 dark:text-neutral-400">
-          {{ details.gender }}
+          {{ t("general." + details.gender) }}
         </p>
         <div
           class="bottom-0 right-0 w-[calc(100%-22px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
@@ -67,7 +69,7 @@
         <label
           for="birthdate"
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >Birthdate</label
+          >{{ t("general.birthdate") }}</label
         >
       </li>
     </ol>
@@ -80,12 +82,12 @@
           class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-400 dark:placeholder:text-neutral-600 rounded-t-lg"
           autocomplete="off"
           v-model="details.country"
-          placeholder="Optional"
+          :placeholder="t('general.required')"
         />
         <label
           for="name"
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >Country</label
+          >{{ t("general.country") }}</label
         >
 
         <div
@@ -99,12 +101,12 @@
           class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-400 dark:placeholder:text-neutral-600"
           autocomplete="off"
           v-model="details.city"
-          placeholder="Optional"
+          :placeholder="t('general.optional')"
         />
         <label
           for="name"
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >City</label
+          >{{ t("general.city") }}</label
         >
 
         <div
@@ -119,12 +121,12 @@
           class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 pl-32 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-400 dark:placeholder:text-neutral-600 rounded-b-lg"
           autocomplete="off"
           v-model="details.phoneNumber"
-          placeholder="Optional"
+          :placeholder="t('general.optional')"
         />
         <label
           for="name"
           class="absolute left-5 h-full flex items-center top-0 text-neutral-500 dark:text-neutral-400 text-xl"
-          >Phone</label
+          >{{ t("general.phoneNumber") }}</label
         >
       </li>
     </ol>
@@ -136,7 +138,7 @@
         class="text-xl text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-5 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 relative outline-none placeholder:text-base placeholder:text-neutral-400 dark:placeholder:text-neutral-600 rounded-lg resize-none"
         autocomplete="off"
         v-model="details.description"
-        placeholder="Tell about yourself"
+        :placeholder="t('settings.tellAboutYourself')"
         rows="8"
       >
       </textarea>
@@ -151,7 +153,7 @@
       }"
       @click="saveDetails"
     >
-      Save
+      {{ t("general.save") }}
     </button>
     <Transition name="fade" mode="out-in">
       <Teleport to="body">
@@ -170,6 +172,9 @@ import UserAvatar from "../../../../components/UserAvatar.vue";
 import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import ImageChangeOverlay from "./ImageChangeOverlay.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const mainStore = useMainStore();
 const userStore = useUserStore();

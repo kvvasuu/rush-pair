@@ -3,11 +3,12 @@
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
     <div
-      class="logo pointer-events-none h-40"
-      :class="{
-        'hover:scale-105 transition-all drop-shadow cursor-pointer duration-500 enabled opacity-95':
-          showUi,
-      }"
+      class="logo h-40 drop-shadow select-none"
+      :class="
+        showUi
+          ? 'hover:scale-105 transition-all cursor-pointer duration-500 opacity-95'
+          : 'pointer-events-none'
+      "
     >
       <a href="https://github.com/kvvasuu/rush-pair" target="_blank"
         ><img src="/logo.png" alt="Rush Pair" width="200px"
@@ -27,13 +28,13 @@
           class="px-8 py-3 w-full mx-10 md:w-auto font-bold text-lg bg-yellow-400 hover:bg-amber-400 rounded-full transition-all drop-shadow-sm"
           @click="toggleAuthModal('register')"
         >
-          Create account
+          {{ t("welcomeScreen.createAccount") }}
         </button>
         <button
           class="text-slate-50 md:text-inherit px-8 py-3 w-full mx-10 md:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm md:hidden"
           @click="toggleAuthModal('login')"
         >
-          Login
+          {{ t("welcomeScreen.login") }}
         </button>
       </div>
     </section>
@@ -46,8 +47,35 @@
         class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
         @click="toggleAuthModal('login')"
       >
-        Login
+        {{ t("welcomeScreen.login") }}
       </button>
+    </div>
+    <div
+      id="language-button"
+      :class="{ show: showUi }"
+      class="absolute top-8 left-8 block"
+    >
+      <button
+        class="flex items-center gap-2 px-4 py-2 font-bold text-md hover:bg-slate-200 border-[1px] rounded-full transition-all drop-shadow-sm"
+        @click="toggleLanguageSelector"
+        :class="showLanguageSelector ? 'bg-slate-200' : 'bg-slate-50'"
+      >
+        <img
+          :src="`/flag-${language.toUpperCase()}.png`"
+          alt="flag"
+          width="20px"
+          class="border-[1px] box-content rounded-sm border-neutral-500"
+        /><span>{{ t("general.language") }}</span>
+      </button>
+      <Transition name="slide-from-left">
+        <LanguageSelector
+          v-if="showLanguageSelector"
+          @close-selector="toggleLanguageSelector"
+          @change-language="changeLanguage"
+          class="-bottom-[5.3rem] left-2 absolute font-bold"
+        >
+        </LanguageSelector>
+      </Transition>
     </div>
     <Transition name="fade">
       <Teleport to="body">
@@ -62,7 +90,7 @@
     <footer
       class="absolute bottom-0 left-0 w-full select-none text-[0.5rem] md:text-xs text-neutral-900/50 font-semibold text-center md:text-right px-2"
     >
-      <p>© 2024 RushPair. All Rights Reserved.</p>
+      <p>{{ t("welcomeScreen.allRightsReserved") }}</p>
     </footer>
   </main>
 </template>
@@ -70,12 +98,36 @@
 <script setup lang="ts">
 import CreateAccount from "./CreateAccount.vue";
 import Login from "./Login.vue";
+import LanguageSelector from "../../components/LanguageSelector.vue";
 import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import { availableLanguages } from "../../types";
+import { changeLocale } from "../../locales/i18n";
+
+const { t } = useI18n();
 
 const showUi = ref(false);
 
 const registerModal = ref(false);
 const loginModal = ref(false);
+
+const language = ref(localStorage.getItem("locale") || "en");
+
+if (language.value === "pl" || language.value === "en") {
+  changeLocale(language.value);
+}
+
+const changeLanguage = (lang: availableLanguages) => {
+  language.value = lang;
+  localStorage.setItem("locale", lang);
+  changeLocale(lang);
+};
+
+const showLanguageSelector = ref(false);
+
+const toggleLanguageSelector = () => {
+  showLanguageSelector.value = !showLanguageSelector.value;
+};
 
 const toggleAuthModal = (modalType: string) => {
   switch (modalType) {
@@ -110,20 +162,18 @@ onMounted(() => {
 }
 
 #controls-delayed,
-#login-button {
+#login-button,
+#language-button {
   opacity: 0;
   transition: all 1s ease;
   pointer-events: none;
 }
 
 #controls.show #controls-delayed,
-#login-button.show {
+#login-button.show,
+#language-button.show {
   opacity: 1;
   transition-delay: 1s;
   pointer-events: auto;
-}
-
-.enabled {
-  pointer-events: all;
 }
 </style>

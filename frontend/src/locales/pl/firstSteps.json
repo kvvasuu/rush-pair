@@ -1,0 +1,11 @@
+{
+  "firstSteps": "Pierwsze kroki",
+  "providePersonalInfo": "Musisz podać informacje osobiste",
+  "additionalInfo": "Dodatkowe informacje.",
+  "summary": "Podsumowanie",
+  "notRequired": "Nie wymagane.",
+  "enterName": "Proszę podać swoje imię.",
+  "enterBirthdate": "Proszę podać swoją datę urodzenia.",
+  "chooseGender": "Proszę wybrać swoją płeć.",
+  "incorrectPhone": "Nieprawidłowy numer telefonu."
+}

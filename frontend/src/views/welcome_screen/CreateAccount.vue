@@ -6,7 +6,9 @@
     >
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
-        <h1 class="text-3xl font-bold text-center mt-6">Create account</h1>
+        <h1 class="text-3xl font-bold text-center mt-6">
+          {{ t("welcomeScreen.createAccount") }}
+        </h1>
         <p class="min-h-6 mt-2 text-center text-red-500 font-semibold">
           <span v-if="generalError">{{ generalError }}</span>
         </p>
@@ -43,7 +45,7 @@
           <span
             v-if="showEmailError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Please provide correct email.</span
+            >{{ t("welcomeScreen.provideCorrectEmail") }}</span
           >
         </div>
         <div
@@ -73,7 +75,7 @@
           <span
             v-if="showPasswordError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Password must be at least 6 characters long.</span
+            >{{ t("welcomeScreen.passwordMustBeLong") }}</span
           >
         </div>
         <div
@@ -103,7 +105,7 @@
           <span
             v-if="showPasswordConfirmError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >Passwords are not the same.</span
+            >{{ t("welcomeScreen.passwordsNotTheSame") }}</span
           >
         </div>
         <div class="flex min-h-10 w-full justify-center mt-2">
@@ -120,19 +122,19 @@
           </div>
           <div class="ms-2">
             <label for="terms" class="text-sm"
-              >I agree to the
+              >{{ t("welcomeScreen.iAgree") }}
               <a
                 href="/terms"
                 target="_blank"
                 class="font-bold text-rose-500 underline-offset-2 underline"
-                >terms and conditions</a
+                >{{ t("welcomeScreen.terms") }}</a
               ></label
             >
             <p
               class="text-xs font-semibold text-red-500"
               v-if="showCheckboxError"
             >
-              You must agree with terms and conditions
+              {{ t("welcomeScreen.agreeTerms") }}
             </p>
           </div>
         </div>
@@ -140,7 +142,7 @@
           class="px-8 py-3 w-full md:w-auto font-bold text-lg bg-main-gradient hover:bg-main-gradient-dark text-slate-50 rounded-full transition-all drop-shadow-sm mt-auto"
           type="submit"
         >
-          Create account
+          {{ t("welcomeScreen.createAccount") }}
         </button>
       </form>
     </div>
@@ -151,14 +153,15 @@
       <header class="flex flex-col items-center mb-6">
         <img src="/logo_sygnet.png" alt="Rush Pair" width="52px" />
         <h1 class="text-2xl font-bold text-center mt-32 md:mt-20">
-          <p>Registration successful!</p>
-          <p>Welcome aboard.</p>
+          <p>{{ t("welcomeScreen.success") }}</p>
+          <p>
+            {{ t("welcomeScreen.welcomeAboard") }}
+          </p>
         </h1>
 
         <i class="fa-solid fa-check text-5xl text-neutral-700 mt-10 mb-10"></i>
         <p class="text-md font-semibold text-center">
-          Please check your email and confirm your email address to complete the
-          registration process.
+          {{ t("welcomeScreen.checkEmail") }}
         </p>
       </header>
 
@@ -172,13 +175,13 @@
             }
           "
         >
-          Login
+          {{ t("welcomeScreen.login") }}
         </button>
         <button
           class="px-2 py-1 mt-6 text-xs font-semibold"
           @click="() => (registerComplete = false)"
         >
-          Back
+          {{ t("general.back") }}
         </button>
       </div>
     </div>
@@ -190,6 +193,9 @@ import { ref } from "vue";
 import BasicModal from "../../components/containers/BasicModal.vue";
 import BasicSpinner from "../../components/BasicSpinner.vue";
 import axios from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -295,9 +301,9 @@ const register = async () => {
       })
       .catch((error) => {
         if (error.response && error.response.data.msg) {
-          generalError.value = error.response.data.msg;
+          generalError.value = t("serverMessages." + error.response.data.msg);
         } else {
-          generalError.value = "Something went wrong. Try again later.";
+          generalError.value = t("general.somethingWentWrong");
         }
         console.log(error);
       })

@@ -7,7 +7,7 @@
         class="flex flex-col items-center justify-center text-2xl font-semibold mb-8 gap-3 text-neutral-600 dark:text-neutral-300"
       >
         <i class="fa-solid fa-lock text-5xl"></i>
-        <h2>Password Change</h2>
+        <h2>{{ t("settings.passwordChange") }}</h2>
       </div>
       <Transition name="fade" mode="out-in">
         <div
@@ -17,8 +17,7 @@
           <h3
             class="text-slate-700 dark:text-neutral-300 text-center text-sm mb-4 w-4/5"
           >
-            To update your password, please enter your current password and then
-            choose a new password.
+            {{ t("settings.toUpdatePassword") }}
           </h3>
 
           <div class="min-h-6 w-4/5 text-center text-red-500">
@@ -28,7 +27,7 @@
           <div class="my-3 w-full sm:w-4/5 flex flex-col items-center relative">
             <input
               id="password"
-              placeholder="Old password"
+              :placeholder="t('settings.oldPassword')"
               type="password"
               v-model="password"
               @click="errorMessage = ''"
@@ -42,7 +41,7 @@
           <div class="my-3 w-full sm:w-4/5 flex flex-col items-center relative">
             <input
               id="new-password"
-              placeholder="New password"
+              :placeholder="t('settings.newPassword')"
               type="password"
               v-model="newPassword"
               @click="errorMessage = ''"
@@ -66,7 +65,7 @@
               }"
               :disabled="store.isLoading"
             >
-              Change password
+              {{ t("settings.changePassword") }}
             </button>
           </div>
         </div>
@@ -74,7 +73,7 @@
           <h3
             class="text-slate-700 dark:text-neutral-300 text-center text-sm mb-4"
           >
-            Your password has been successfully changed.<br />
+            {{ t("settings.passwordChanged") }}<br />
           </h3>
 
           <div class="w-full sm:w-4/5 flex items-center justify-center mt-4">
@@ -82,7 +81,7 @@
               class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all"
               @click="close"
             >
-              Close
+              {{ t("general.close") }}
             </button>
           </div>
         </div>
@@ -97,6 +96,9 @@ import { useUserStore } from "../../../../stores/userStore";
 import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import axios, { isAxiosError } from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["close"]);
 

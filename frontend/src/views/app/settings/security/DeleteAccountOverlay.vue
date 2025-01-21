@@ -7,7 +7,7 @@
         class="flex flex-col items-center justify-center text-2xl font-semibold text-red-500 mb-8 gap-3"
       >
         <i class="fa-solid fa-trash-can text-5xl text-red-500"></i>
-        <h2>Account Deletion</h2>
+        <h2>{{ t("settings.accountDeletion") }}</h2>
       </div>
       <Transition name="fade" mode="out-in">
         <div
@@ -17,9 +17,9 @@
           <h3
             class="text-slate-700 dark:text-neutral-300 text-center text-sm mb-4"
           >
-            Are you sure you want to permanently delete your account?<br />
-            This action cannot be undone.
-            <p>Please enter your password to confirm.</p>
+            {{ t("settings.areYouSure") }}<br />
+            {{ t("settings.cannotBeUndone") }}
+            <p>{{ t("settings.enterPassword") }}</p>
           </h3>
 
           <div class="min-h-6 w-4/5 text-center text-red-500">
@@ -29,7 +29,7 @@
           <div class="my-3 w-full sm:w-4/5 flex flex-col items-center relative">
             <input
               id="password"
-              placeholder="Password"
+              :placeholder="t('general.password')"
               type="password"
               v-model="password"
               @click="errorMessage = ''"
@@ -53,7 +53,7 @@
               }"
               :disabled="store.isLoading"
             >
-              Keep account
+              {{ t("settings.keepAccount") }}
             </button>
             <button
               class="mt-auto rounded-lg overflow-hidden w-full sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 transition-all"
@@ -61,7 +61,7 @@
               :class="{ 'hover:bg-red-500 cursor-default': store.isLoading }"
               :disabled="store.isLoading"
             >
-              Delete
+              {{ t("general.delete") }}
             </button>
           </div>
         </div>
@@ -69,8 +69,8 @@
           <h3
             class="text-slate-700 dark:text-neutral-300 text-center text-sm mb-4"
           >
-            Your account has been successfully deleted.<br />
-            You will be logged out shortly.
+            {{ t("settings.accountDeleted") }}<br />
+            {{ t("settings.soonLoggedOut") }}
           </h3>
 
           <div class="flex items-center justify-center mt-4">
@@ -82,7 +82,7 @@
               class="mt-auto rounded-lg overflow-hidden w-4/5 flex items-center justify-center text-center p-3 font-semibold cursor-pointer text-neutral-600 dark:text-neutral-400 bg-neutral-50 hover:bg-neutral-100/50 dark:bg-neutral-800 dark:hover:bg-neutral-700/50 transition-all select-none"
               @click="userStore.logout"
             >
-              Log out
+              {{ t("general.logout") }}
             </button>
           </div>
         </div>
@@ -98,6 +98,9 @@ import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
 import axios, { isAxiosError } from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["close"]);
 
@@ -114,11 +117,10 @@ const isAccountDeleted = ref(false);
 const deleteAccount = async () => {
   try {
     store.isLoading = true;
-    const res = await axios.post(`${SERVER_URL}/auth/delete-account`, {
+    await axios.post(`${SERVER_URL}/auth/delete-account`, {
       email: userStore.email,
       password: password.value,
     });
-    console.log(res);
     isAccountDeleted.value = true;
     setTimeout(() => {
       userStore.logout();
