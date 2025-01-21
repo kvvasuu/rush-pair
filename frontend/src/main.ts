@@ -5,7 +5,7 @@ import App from "./App.vue";
 import type { Router } from "vue-router";
 
 import router from "./router/index.ts";
-import { i18n, loadLocaleMessages, i18nConfig } from "./locales/i18n.ts";
+import { i18n, loadLocaleMessages } from "./locales/i18n.ts";
 
 declare module "pinia" {
   export interface PiniaCustomProperties {
@@ -26,8 +26,19 @@ app.use(pinia);
 app.use(router);
 
 router.isReady().then(() => {
-  const locale = localStorage.getItem("locale") || i18nConfig.locale;
-  i18n.global.locale.value = locale;
+  let locale = localStorage.getItem("locale");
+
+  if (!locale) {
+    if (navigator.language.startsWith("pl")) {
+      localStorage.setItem("locale", "pl");
+      locale = "pl";
+    } else {
+      localStorage.setItem("locale", "en");
+      locale = "en";
+    }
+  }
+
+  i18n.global.locale = locale;
   loadLocaleMessages().then(() => {
     app.mount("#app");
   });

@@ -3,7 +3,7 @@
     class="flex flex-col items-center justify-center w-full h-full relative"
   >
     <div
-      class="logo h-40 drop-shadow"
+      class="logo h-40 drop-shadow select-none"
       :class="
         showUi
           ? 'hover:scale-105 transition-all cursor-pointer duration-500 opacity-95'
@@ -68,35 +68,14 @@
         /><span>{{ t("general.language") }}</span>
       </button>
       <Transition name="slide-from-left">
-        <ul
-          class="absolute w-32 -bottom-[5.3rem] left-2 flex flex-col items-left font-bold text-md bg-slate-50 border-[1px] rounded-md drop-shadow-sm"
+        <LanguageSelector
           v-if="showLanguageSelector"
-          ref="languageSelectorRef"
+          @close-selector="toggleLanguageSelector"
+          @change-language="changeLanguage"
+          class="-bottom-[5.3rem] left-2 absolute font-bold"
         >
-          <li
-            class="flex items-center gap-2 px-3 py-2 hover:bg-slate-200 cursor-pointer transition-all"
-            @click="changeLanguage('en')"
-          >
-            <img
-              src="/flag-EN.png"
-              alt="ENG"
-              class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
-            />
-            <span>English</span>
-          </li>
-          <li
-            class="flex items-center gap-2 px-3 py-2 hover:bg-slate-200 cursor-pointer transition-all"
-            @click="changeLanguage('pl')"
-          >
-            <img
-              src="/flag-PL.png"
-              alt="PL"
-              class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
-            />
-            <span>Polski</span>
-          </li>
-        </ul></Transition
-      >
+        </LanguageSelector>
+      </Transition>
     </div>
     <Transition name="fade">
       <Teleport to="body">
@@ -119,12 +98,13 @@
 <script setup lang="ts">
 import CreateAccount from "./CreateAccount.vue";
 import Login from "./Login.vue";
+import LanguageSelector from "../../components/LanguageSelector.vue";
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { changeLocale } from "../../locales/i18n";
 import { availableLanguages } from "../../types";
+import { changeLocale } from "../../locales/i18n";
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const showUi = ref(false);
 
@@ -132,40 +112,21 @@ const registerModal = ref(false);
 const loginModal = ref(false);
 
 const language = ref(localStorage.getItem("locale") || "en");
-locale.value = language.value;
 
-const showLanguageSelector = ref(false);
-const languageSelectorRef = ref<HTMLUListElement | null>(null);
+if (language.value === "pl" || language.value === "en") {
+  changeLocale(language.value);
+}
 
 const changeLanguage = (lang: availableLanguages) => {
   language.value = lang;
   localStorage.setItem("locale", lang);
   changeLocale(lang);
-  toggleLanguageSelector();
 };
+
+const showLanguageSelector = ref(false);
 
 const toggleLanguageSelector = () => {
   showLanguageSelector.value = !showLanguageSelector.value;
-
-  if (showLanguageSelector.value) {
-    setTimeout(() => {
-      document.addEventListener("click", handleClickOutside);
-    }, 0);
-  } else {
-    document.removeEventListener("click", handleClickOutside);
-  }
-};
-
-const handleClickOutside = (e: Event) => {
-  if (
-    languageSelectorRef.value &&
-    e.target instanceof Node &&
-    !languageSelectorRef.value.contains(e.target)
-  ) {
-    showLanguageSelector.value = false;
-    document.removeEventListener("click", handleClickOutside);
-    document.removeEventListener("touch", handleClickOutside);
-  }
 };
 
 const toggleAuthModal = (modalType: string) => {
@@ -214,18 +175,5 @@ onMounted(() => {
   opacity: 1;
   transition-delay: 1s;
   pointer-events: auto;
-}
-
-.slide-from-left-enter-active {
-  transition: all 0.2s ease-out;
-}
-
-.slide-from-left-leave-active {
-  transition: all 0.2s ease-in;
-}
-
-.slide-from-left-enter-from,
-.slide-from-left-leave-to {
-  transform: translateX(-200%);
 }
 </style>

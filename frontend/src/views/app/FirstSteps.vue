@@ -68,7 +68,7 @@
           <span
             v-if="showAgeError"
             class="text-red-500 font-semibold text-xs w-full text-left pl-4 pt-1"
-            >{{ t("firstSteps.enerBirthdate") }}</span
+            >{{ t("firstSteps.enterBirthdate") }}</span
           >
         </div>
         <div class="mb-3 w-full flex flex-col items-center relative">
@@ -173,7 +173,7 @@
           <i
             class="fa-solid fa-mars-and-venus text-xl text-neutral-700 mr-4 w-6"
           ></i
-          >{{ gender }}
+          >{{ t("general." + gender) }}
         </li>
         <li class="w-full" v-if="country">
           <i

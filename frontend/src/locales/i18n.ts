@@ -36,11 +36,10 @@ const loadLocaleMessages = async (): Promise<void> => {
 };
 
 const changeLocale = (newLocale: availableLanguages) => {
-  i18n.global.locale.value = newLocale;
+  i18n.global.locale = newLocale;
 };
 
 const i18nConfig = {
-  legacy: false,
   locale: "pl",
   fallbackLocale: "en",
   messages: {},
