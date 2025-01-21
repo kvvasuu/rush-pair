@@ -176,17 +176,4 @@ onMounted(() => {
   transition-delay: 1s;
   pointer-events: auto;
 }
-
-.slide-from-left-enter-active {
-  transition: all 0.2s ease-out;
-}
-
-.slide-from-left-leave-active {
-  transition: all 0.2s ease-in;
-}
-
-.slide-from-left-enter-from,
-.slide-from-left-leave-to {
-  transform: translateX(-200%);
-}
 </style>

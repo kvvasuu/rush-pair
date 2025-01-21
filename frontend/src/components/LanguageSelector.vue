@@ -63,3 +63,25 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.slide-from-right-enter-active,
+.slide-from-left-leave-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-from-right-leave-active,
+.slide-from-left-enter-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
+  transform: translateX(300%);
+}
+
+.slide-from-left-enter-from,
+.slide-from-left-leave-to {
+  transform: translateX(-200%);
+}
+</style>

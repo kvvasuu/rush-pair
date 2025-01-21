@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-0 pt-20 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-4rem)] md:h-full overflow-y-auto"
+    class="absolute top-0 pt-20 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-4rem)] md:h-full overflow-y-auto overflow-x-hidden"
   >
     <div class="flex flex-col items-center justify-center max-w-[666px]">
       <div class="h-24"><UserAvatar></UserAvatar></div>
@@ -47,12 +47,14 @@
             class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
           ></div>
         </div>
-        <LanguageSelector
-          v-if="showLanguageSelector"
-          @close-selector="toggleLanguageSelector"
-          @change-language="changeLanguage"
-          class="-bottom-[5.3rem] right-1 absolute text-neutral-600 dark:text-neutral-400 font-semibold"
-        ></LanguageSelector>
+        <Transition name="slide-from-right">
+          <LanguageSelector
+            v-if="showLanguageSelector"
+            @close-selector="toggleLanguageSelector"
+            @change-language="changeLanguage"
+            class="-bottom-[5.3rem] right-1 absolute text-neutral-600 dark:text-neutral-400 font-semibold"
+          ></LanguageSelector>
+        </Transition>
       </div>
 
       <label
