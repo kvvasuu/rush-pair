@@ -38,7 +38,7 @@ router.isReady().then(() => {
     }
   }
 
-  i18n.global.locale.value = locale;
+  i18n.global.locale = locale;
   loadLocaleMessages().then(() => {
     app.mount("#app");
   });
