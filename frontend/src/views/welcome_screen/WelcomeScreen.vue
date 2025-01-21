@@ -111,10 +111,9 @@ const showUi = ref(false);
 const registerModal = ref(false);
 const loginModal = ref(false);
 
-const language = ref<availableLanguages>("en");
+const language = ref(localStorage.getItem("locale") || "en");
 
-if (localStorage.getItem("locale") === "pl") {
-  language.value = "pl";
+if (language.value === "pl" || language.value === "en") {
   changeLocale(language.value);
 }
 

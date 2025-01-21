@@ -173,7 +173,7 @@
           <i
             class="fa-solid fa-mars-and-venus text-xl text-neutral-700 mr-4 w-6"
           ></i
-          >{{ gender }}
+          >{{ t("general." + gender) }}
         </li>
         <li class="w-full" v-if="country">
           <i
