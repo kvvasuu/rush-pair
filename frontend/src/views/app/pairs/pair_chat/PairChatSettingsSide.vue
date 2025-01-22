@@ -22,7 +22,7 @@
           class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
         ></i>
         <p class="font-bold text-3xl text-neutral-200 animate-pulse">
-          Ask for reveal?
+          {{ t("pairs.askForReveal") }}?
         </p>
       </div>
       <div
@@ -34,7 +34,7 @@
         "
       >
         <p class="font-bold text-xl text-neutral-200 animate-pulse">
-          Waiting for response...
+          {{ t("pairs.waitingForResponse") }}...
         </p>
         <i
           class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
@@ -48,13 +48,13 @@
         @click="toggleAskModal"
       >
         <p class="font-bold text-xl text-neutral-200 animate-pulse">
-          Identity reveal requested!
+          {{ t("pairs.revealRequested") }}!
         </p>
         <i
           class="fa-regular fa-eye text-5xl text-neutral-200 animate-pulse"
         ></i>
         <p class="font-bold text-3xl text-neutral-200 animate-pulse">
-          Reveal too?
+          {{ t("pairs.revealToo") }}?
         </p>
       </div>
     </div>
@@ -68,7 +68,7 @@
           class="flex justify-start text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-full"
         >
           <span class="truncate max-w-72" :title="chatStore.pairInfo.name"
-            >{{ chatStore.pairInfo.name || "Anonymous" }}
+            >{{ chatStore.pairInfo.name || t("pairs.anonymous") }}
           </span>
 
           <span class="ml-2 font-normal" v-if="chatStore.pairInfo.age">{{
@@ -77,9 +77,14 @@
         </div>
         <p class="text-slate-600 dark:text-neutral-500 text-sm">
           <i class="fa-solid fa-location-dot mr-1 text-xs w-3"></i>
-          <span>{{ chatStore.pairInfo.city || "Unknown location" }}</span>
+          <span>{{
+            chatStore.pairInfo.city || t("pairs.unknownLocation")
+          }}</span>
         </p>
-        <p class="text-slate-600 dark:text-neutral-500 text-sm">
+        <p
+          class="text-slate-600 dark:text-neutral-500 text-sm"
+          v-if="!!chatStore.pairInfo.gender"
+        >
           <i
             class="fa-solid fa-mars mr-1 text-xs w-3"
             v-if="chatStore.pairInfo.gender === 'male'"
@@ -89,7 +94,9 @@
             v-else-if="chatStore.pairInfo.gender === 'female'"
           >
           </i>
-          <span class="capitalize">{{ chatStore.pairInfo.gender }}</span>
+          <span class="capitalize">{{
+            t("general." + chatStore.pairInfo.gender)
+          }}</span>
         </p>
         <p
           class="text-slate-600 dark:text-neutral-500 text-base text-justify mt-3 mb-8 leading-5"
@@ -99,7 +106,7 @@
         <button
           class="text-slate-400 dark:text-neutral-500 group self-center mt-auto mb-0"
           @click="toggleChatSettings"
-          title="Open pair settings"
+          :title="t('pairs.openPairSettings')"
         >
           <i
             class="fa-solid fa-ellipsis text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -111,14 +118,14 @@
         <div class="flex items-center flex-col justify-start">
           <span
             class="w-full text-start text-sm text-slate-600 dark:text-neutral-500 select-none"
-            >Nickname:</span
+            >{{ t("pairs.nickname") }}:</span
           >
           <div class="flex items-center justify-start w-full">
             <p
               class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
               v-if="!isEditingNickname"
             >
-              {{ chatStore.pairInfo.name || "Anonymous" }}
+              {{ chatStore.pairInfo.name || t("pairs.anonymous") }}
             </p>
             <input
               type="text"
@@ -130,7 +137,13 @@
             />
             <button
               class="ml-auto mr-0 text-slate-400 dark:text-neutral-500 group"
-              :title="!isEditingNickname ? `Edit nickname` : `Save nickname`"
+              :title="
+                !isEditingNickname
+                  ? t('pairs.editNickname')
+                  : chatStore.pairInfo.name.length <= 0
+                  ? t('pairs.discardNickname')
+                  : t('pairs.saveNickname')
+              "
               @click.stop="
                 () => (isEditingNickname ? saveNickname() : editNickname())
               "
@@ -141,10 +154,7 @@
               ></i>
               <i
                 class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full bg-neutral-400/10"
-                v-else-if="
-                  chatStore.pairInfo.name.length <= 0 ||
-                  chatStore.pairInfo.name === tempNickname
-                "
+                v-else-if="chatStore.pairInfo.name.length <= 0"
               ></i>
               <i
                 class="fa-solid fa-check flex text-blue-500 items-center justify-center h-8 w-8 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -156,15 +166,15 @@
         <button
           class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl self-center mt-auto mb-4"
           @click="toggleReportOverlay"
-          title="Report"
+          :title="t('report.report')"
         >
           <i class="fa-solid fa-triangle-exclamation mr-2"></i
-          ><span>Report</span>
+          ><span>{{ t("report.report") }}</span>
         </button>
         <button
           class="text-slate-400 dark:text-neutral-500 group self-center mb-0"
           @click="toggleChatSettings"
-          title="Close pair settings"
+          :title="t('pairs.closePairSettings')"
         >
           <i
             class="fa-solid fa-xmark text-2xl flex items-center justify-center h-12 w-12 rounded-full group-hover:bg-neutral-400/10 dark:group-hover:text-neutral-400 transition-all"
@@ -187,7 +197,7 @@
           @confirm="askForReveal"
           v-if="isAskModalVisible"
         >
-          <template v-slot:title>Reveal?</template>
+          <template v-slot:title>{{ t("pairs.reveal") }}?</template>
           <template v-slot:content
             ><div
               v-if="
@@ -196,15 +206,14 @@
                 !chatStore.pairInfo.hasBeenAskedForReveal
               "
             >
-              <p>Curious who you're chatting with?</p>
+              <p>{{ t("pairs.curious") }}</p>
               <p>
-                Send a request to reveal their identity and wait for their
-                response!
+                {{ t("pairs.sendARequest") }}
               </p>
             </div>
             <div v-else>
-              <p>Someone's curious about who you are!</p>
-              <p>Do you want to reveal your identity to them?</p>
+              <p>{{ t("pairs.someoneIsCurious") }}</p>
+              <p>{{ t("pairs.wantToReveal") }}</p>
             </div>
           </template>
         </ConfirmationModal>
@@ -219,6 +228,9 @@ import PairAvatar from "../../../../components/PairAvatar.vue";
 import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const chatStore = useChatStore();
 
