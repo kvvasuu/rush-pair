@@ -76,7 +76,7 @@
               :pair="chatStore.pairInfo"
               class="w-3 h-3 mr-2 shrink-0 self-end"
               :class="index === 0 ? '-mt-1' : 'mt-1'"
-              :title="`${t('pairs.messageDeleted')}: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
+              :title="chatStore.messages[0]?.readAt && `${t('pairs.messageRead')}: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
               v-if="showReadIndicator"
             ></PairAvatar>
           </Transition>

@@ -73,5 +73,9 @@
     "objects": "Obiekty",
     "symbols": "Symbole",
     "flags": "Flagi"
+  },
+  "horizontalScreenWarning": {
+    "rotate": "Obróć urządzenie, aby korzystać z aplikacji.",
+    "appDesigned": "Ta aplikacja jest zaprojektowana do pracy tylko w trybie portretowym."
   }
 }
