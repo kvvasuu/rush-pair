@@ -42,7 +42,7 @@
         >
           <button
             class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
-            title="Delete message"
+            :title="t('pairs.deleteMessage')"
             @click="emit('showDeleteModal', message)"
           >
             <i class="fa-solid fa-trash-can text-sm"></i>

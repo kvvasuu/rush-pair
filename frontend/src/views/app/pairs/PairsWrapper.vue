@@ -27,7 +27,9 @@
         v-if="route.params.id"
       >
         <i class="fa-solid fa-angle-left text-4xl"></i>
-        <span class="text-xl hidden md:block select-none">Pairs</span>
+        <span class="text-xl hidden md:block select-none">{{
+          t("pairs.pairs")
+        }}</span>
       </button>
       <PairAvatar
         class="absolute right-4 min-w-10 max-w-10 lg:hidden cursor-pointer"
