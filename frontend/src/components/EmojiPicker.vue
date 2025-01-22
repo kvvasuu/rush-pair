@@ -40,7 +40,7 @@
         >
           <span
             class="px-1 mb-0.5 text-xs w-full select-none text-neutral-500"
-            >{{ key }}</span
+            >{{ t("general.emojiCategories." + key) }}</span
           >
           <div class="w-full grid grid-cols-9 auto-rows-min">
             <button
@@ -86,7 +86,7 @@
             : 'text-neutral-500 dark:text-neutral-600',
         ]"
         @click="scrollToCategory(index)"
-        :title="category.name"
+        :title="t('general.emojiCategories.' + category.name)"
       >
         <i :class="category.icon"></i>
       </button>
@@ -116,39 +116,39 @@ const categoriesButtonsRef = ref<HTMLElement[] | null>(null);
 const activeCategory = ref(0);
 const categoriesList = [
   {
-    name: t("general.emojiCategories.smileys"),
+    name: "smileysAndEmotion",
     icon: "fa-solid fa-face-smile-beam",
   },
   {
-    name: t("general.emojiCategories.people"),
+    name: "peopleAndBody",
     icon: "fa-solid fa-child",
   },
   {
-    name: t("general.emojiCategories.animals"),
+    name: "animalsAndNature",
     icon: "fa-solid fa-horse",
   },
   {
-    name: t("general.emojiCategories.food"),
+    name: "foodAndDrink",
     icon: "fa-solid fa-utensils",
   },
   {
-    name: t("general.emojiCategories.travel"),
+    name: "travelAndPlaces",
     icon: "fa-solid fa-earth-americas",
   },
   {
-    name: t("general.emojiCategories.activities"),
+    name: "activities",
     icon: "fa-solid fa-basketball",
   },
   {
-    name: t("general.emojiCategories.objects"),
+    name: "objects",
     icon: "fa-solid fa-lightbulb",
   },
   {
-    name: t("general.emojiCategories.symbols"),
+    name: "symbols",
     icon: "fa-solid fa-question",
   },
   {
-    name: t("general.emojiCategories.flags"),
+    name: "flags",
     icon: "fa-solid fa-flag",
   },
 ];
