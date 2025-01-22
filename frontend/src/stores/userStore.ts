@@ -64,7 +64,7 @@ export const useUserStore = defineStore("userStore", {
         this.setToken(token);
         this.initAxios();
         try {
-          const res = await axios.get("/auth/verify-token");
+          const res = await axios.get("/auth/verify-token", { timeout: 10000 });
 
           const {
             _id,

@@ -1,5 +1,5 @@
 {
-  "Smileys & Emotion": [
+  "smileysAndEmotion": [
     { "name": "Grinning face", "emoji": "😀" },
     { "name": "Grinning face with big eyes", "emoji": "😃" },
     { "name": "Grinning face with smiling eyes", "emoji": "😄" },
@@ -169,7 +169,7 @@
     { "name": "Thought balloon", "emoji": "💭" },
     { "name": "ZZZ", "emoji": "💤" }
   ],
-  "People & Body": [
+  "peopleAndBody": [
     { "name": "Waving hand", "emoji": "👋" },
     { "name": "Waving hand: light skin tone", "emoji": "👋🏻" },
     { "name": "Waving hand: medium-light skin tone", "emoji": "👋🏼" },
@@ -1087,7 +1087,7 @@
     { "name": "Family", "emoji": "👪" },
     { "name": "Footprints", "emoji": "👣" }
   ],
-  "Animals & Nature": [
+  "animalsAndNature": [
     { "name": "Monkey face", "emoji": "🐵" },
     { "name": "Monkey", "emoji": "🐒" },
     { "name": "Gorilla", "emoji": "🦍" },
@@ -1243,7 +1243,7 @@
     { "name": "Nest with eggs", "emoji": "🪺" },
     { "name": "Mushroom", "emoji": "🍄" }
   ],
-  "Food & Drink": [
+  "foodAndDrink": [
     { "name": "Grapes", "emoji": "🍇" },
     { "name": "Melon", "emoji": "🍈" },
     { "name": "Watermelon", "emoji": "🍉" },
@@ -1380,7 +1380,7 @@
     { "name": "Jar", "emoji": "🫙" },
     { "name": "Amphora", "emoji": "🏺" }
   ],
-  "Travel & Places": [
+  "travelAndPlaces": [
     { "name": "Globe showing Europe-Africa", "emoji": "🌍" },
     { "name": "Globe showing Americas", "emoji": "🌎" },
     { "name": "Globe showing Asia-Australia", "emoji": "🌏" },
@@ -1649,7 +1649,7 @@
     { "name": "Droplet", "emoji": "💧" },
     { "name": "Water wave", "emoji": "🌊" }
   ],
-  "Activities": [
+  "activities": [
     { "name": "Jack-o-lantern", "emoji": "🎃" },
     { "name": "Christmas tree", "emoji": "🎄" },
     { "name": "Fireworks", "emoji": "🎆" },
@@ -1747,7 +1747,7 @@
     { "name": "Yarn", "emoji": "🧶" },
     { "name": "Knot", "emoji": "🪢" }
   ],
-  "Objects": [
+  "objects": [
     { "name": "Glasses", "emoji": "👓" },
     { "name": "Sunglasses", "emoji": "🕶️" },
     { "name": "Sunglasses", "emoji": "🕶" },
@@ -2059,7 +2059,7 @@
     { "name": "Placard", "emoji": "🪧" },
     { "name": "Identification card", "emoji": "🪪" }
   ],
-  "Symbols": [
+  "symbols": [
     { "name": "ATM sign", "emoji": "🏧" },
     { "name": "Litter in bin sign", "emoji": "🚮" },
     { "name": "Potable water", "emoji": "🚰" },
@@ -2365,7 +2365,7 @@
     { "name": "White square button", "emoji": "🔳" },
     { "name": "Black square button", "emoji": "🔲" }
   ],
-  "Flags": [
+  "flags": [
     { "name": "Chequered flag", "emoji": "🏁" },
     { "name": "Triangular flag", "emoji": "🚩" },
     { "name": "Crossed flags", "emoji": "🎌" },

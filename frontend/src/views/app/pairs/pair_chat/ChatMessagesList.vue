@@ -11,17 +11,15 @@
         class="text-xs text-neutral-500 select-none"
         v-if="chatStore?.messages?.length === 0"
       >
-        Why not start by saying 'Hi' or use the button below to ask something
-        interesting, or roll for a random message!
+        {{ t("pairs.whyNotStart") }}
       </p>
       <p class="text-xs text-neutral-500 select-none" v-else>
-        Long time no see! It's been a while since we last chatted. Ready to
-        catch up?
+        {{ t("pairs.longTimeNoSee") }}
       </p>
       <div class="flex gap-1 items-center">
         <button
           class="rounded-3xl flex-grow-0 shadow-sm py-2 px-3 bg-slate-100 hover:bg-slate-100/50 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 group transition-all"
-          title="Roll the dice!"
+          :title="t('pairs.rollTheDice')"
           @click="getRandomSampleMessage"
         >
           <i
@@ -73,7 +71,11 @@
         class="absolute -top-6 w-96 font-semibold"
         v-if="!!chatStore.pairInfo.unreadMessagesCount"
       >
-        You have {{ chatStore.pairInfo.unreadMessagesCount }} new messages
+        {{
+          t("pairs.youHaveNewMessages", {
+            messagesQuantity: chatStore.pairInfo.unreadMessagesCount,
+          })
+        }}
       </p>
       <i class="fa-solid fa-circle-chevron-down text-[3rem]"></i>
     </button>
@@ -85,16 +87,16 @@
         @confirm="deleteMessage"
         v-if="isDeleteModalVisible"
       >
-        <template v-slot:title>Delete message</template>
+        <template v-slot:title>{{ t("pairs.deleteMessage") }}</template>
         <template v-slot:content
           ><p>
-            Deleting this message will permanently remove it if it hasn't been
-            read by the recipient yet.
+            {{ t("pairs.deletingThisMessage") }}
           </p>
-          <p>Are you sure you want to proceed?</p></template
+          <p>{{ t("pairs.areYouSure") }}</p></template
         >
         <template v-slot:confirm-button>
-          Delete <i class="fa-solid fa-trash-can text-sm ml-1"></i
+          {{ t("general.delete") }}
+          <i class="fa-solid fa-trash-can text-sm ml-1"></i
         ></template>
       </ConfirmationModal>
     </Teleport>
@@ -107,6 +109,9 @@ import { ref, nextTick, onMounted, onBeforeUnmount, watch } from "vue";
 import MessageBlock from "./MessageBlock.vue";
 import { Message } from "../../../../types";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["sendSampleMessage"]);
 
@@ -114,42 +119,10 @@ const chatStore = useChatStore();
 
 const messagesContainer = ref<HTMLDivElement | null>(null);
 
-const sampleMessages = [
-  "Hi there! How's your day going?",
-  "What's your favorite hobby?",
-  "Have you read any good books lately?",
-  "What kind of music do you listen to?",
-  "Tell me about your dream vacation destination!",
-  "Do you like coffee or tea?",
-  "What's something interesting about you?",
-  "If you could have dinner with anyone, dead or alive, who would it be?",
-  "What's your favorite type of movie?",
-  "Do you prefer cats or dogs?",
-  "What's one thing you've always wanted to try but haven't yet?",
-  "What do you do for fun?",
-  "How do you like to spend your weekends?",
-  "What's your go-to comfort food?",
-  "If you could visit any country in the world, where would you go?",
-  "What's the best concert you've ever been to?",
-  "Do you enjoy cooking? What's your signature dish?",
-  "Do you have a favorite quote or saying?",
-  "What's the last movie or TV show you watched?",
-  "Do you believe in aliens?",
-  "What's your biggest fear?",
-  "What's your ideal way to relax after a long day?",
-  "What's something you're really proud of?",
-  "If you could live anywhere in the world, where would it be?",
-  "What's your favorite season of the year?",
-  "What kind of sports do you enjoy?",
-  "Do you have any pets? Tell me about them!",
-  "What's your favorite video game?",
-  "What's the most adventurous thing you've done?",
-  "Have you ever met anyone famous?",
-];
 const sampleMessage = ref("");
 const getRandomSampleMessage = () => {
-  const messageIndex = Math.floor(Math.random() * sampleMessages.length);
-  sampleMessage.value = sampleMessages[messageIndex];
+  const messageIndex = Math.floor(Math.random() * 30);
+  sampleMessage.value = t("pairs.sampleMessages." + messageIndex);
 };
 
 const showSampleMessage = (): boolean => {

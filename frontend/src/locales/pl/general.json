@@ -24,7 +24,7 @@
   "home": "Strona główna",
   "pairs": "Pary",
   "stars": "Ulubione",
-  "unreadMessages": "Masz 0 nieprzeczytanych wiadomości. | Masz jedną nieprzeczytaną wiadomość. | Masz {count} nieprzeczytane wiadomości.",
+  "unreadMessages": "Masz 0 nieprzeczytanych wiadomości. | Masz 1 nieprzeczytaną wiadomość. | Masz {count} nieprzeczytane wiadomości.",
   "workInProgress": "Praca w toku.",
   "profile": "Profil",
   "security": "Bezpieczeństwo",
@@ -34,5 +34,44 @@
   "optional": "Opcjonalne",
   "upload": "Prześlij",
   "change": "Zmień",
-  "save": "Zapisz"
+  "save": "Zapisz",
+  "confirm": "Potwierdź",
+  "cancel": "Anuluj",
+  "search": "Szukaj",
+  "summary": "Podsumowanie",
+  "months": {
+    "january": "Styczeń",
+    "february": "Luty",
+    "march": "Marzec",
+    "april": "Kwiecień",
+    "may": "Maj",
+    "june": "Czerwiec",
+    "july": "Lipiec",
+    "august": "Sierpień",
+    "september": "Wrzesień",
+    "october": "Październik",
+    "november": "Listopad",
+    "december": "Grudzień"
+  },
+  "days": {
+    "monday": "Poniedziałek",
+    "tuesday": "Wtorek",
+    "wednesday": "Środa",
+    "thursday": "Czwartek",
+    "friday": "Piątek",
+    "saturday": "Sobota",
+    "sunday": "Niedziela"
+  },
+  "searchForEmoji": "Szukaj emoji...",
+  "emojiCategories": {
+    "smileysAndEmotion": "Emotikony i emocje",
+    "peopleAndBody": "Ludzie i ciało",
+    "animalsAndNature": "Zwierzęta i natura",
+    "foodAndDrink": "Jedzenie i napoje",
+    "travelAndPlaces": "Podróże i miejsca",
+    "activities": "Aktywności",
+    "objects": "Obiekty",
+    "symbols": "Symbole",
+    "flags": "Flagi"
+  }
 }

@@ -2,7 +2,7 @@
   <li
     class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer rounded-md hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
     @click="goToPair"
-    :title="`${pair.name}, paired at: ${pairedAt}`"
+    :title="`${pair.name}, ${t('pairs.pairedAt')}: ${pairedAt}`"
   >
     <div class="relative">
       <PairAvatar
@@ -14,9 +14,13 @@
       <div
         v-if="!!pair.unreadMessagesCount"
         class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
-        :title="`You have ${pair.unreadMessagesCount} unread message${
-          pair.unreadMessagesCount === 1 ? '' : 's'
-        }.`"
+        :title="
+          pair.unreadMessagesCount
+            ? t('general.unreadMessages', {
+                count: pair.unreadMessagesCount,
+              })
+            : pair?.name
+        "
       >
         {{ pair.unreadMessagesCount < 100 ? pair.unreadMessagesCount : "99+" }}
       </div>
@@ -35,12 +39,12 @@
     </div>
     <i
       class="ml-auto mr-0 fa-solid fa-masks-theater text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
-      title="Anonymous"
+      :title="t('pairs.anonymous')"
       v-if="!pair.isVisible && !pair.askedForReveal"
     ></i>
     <i
       class="ml-auto mr-0 fa-solid fa-eye text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
-      title="Asked for reveal"
+      :title="t('pairs.askedForReveal')"
       v-else-if="!pair.isVisible && pair.askedForReveal"
     ></i>
   </li>
@@ -50,6 +54,9 @@
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import PairAvatar from "../../../components/PairAvatar.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps(["pair", "searchValue"]);
 

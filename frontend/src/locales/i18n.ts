@@ -37,6 +37,7 @@ const loadLocaleMessages = async (): Promise<void> => {
 
 const changeLocale = (newLocale: availableLanguages) => {
   i18n.global.locale = newLocale;
+  localStorage.setItem("locale", newLocale);
 };
 
 const i18nConfig = {
