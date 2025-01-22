@@ -6,7 +6,7 @@
     <div class="w-full relative h-8" v-if="!isLoading">
       <input
         type="text"
-        placeholder="Search for emoji"
+        :placeholder="t('general.searchForEmoji')"
         class="w-full p-1 pl-8 rounded-lg outline-none bg-neutral-50 dark:bg-neutral-800/80 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700"
         v-model="searchValue"
         @keyup="search"
@@ -98,7 +98,9 @@
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import BasicSpinner from "./BasicSpinner.vue";
 import type { Emoji } from "../types";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const emit = defineEmits(["selectEmoji", "close"]);
 
 const isLoading = ref(true);
@@ -114,39 +116,39 @@ const categoriesButtonsRef = ref<HTMLElement[] | null>(null);
 const activeCategory = ref(0);
 const categoriesList = [
   {
-    name: "Smileys & Emotion",
+    name: t("general.emojiCategories.smileys"),
     icon: "fa-solid fa-face-smile-beam",
   },
   {
-    name: "People & Body",
+    name: t("general.emojiCategories.people"),
     icon: "fa-solid fa-child",
   },
   {
-    name: "Animals & Nature",
+    name: t("general.emojiCategories.animals"),
     icon: "fa-solid fa-horse",
   },
   {
-    name: "Food & Drink",
+    name: t("general.emojiCategories.food"),
     icon: "fa-solid fa-utensils",
   },
   {
-    name: "Travel & Places",
+    name: t("general.emojiCategories.travel"),
     icon: "fa-solid fa-earth-americas",
   },
   {
-    name: "Activities",
+    name: t("general.emojiCategories.activities"),
     icon: "fa-solid fa-basketball",
   },
   {
-    name: "Objects",
+    name: t("general.emojiCategories.objects"),
     icon: "fa-solid fa-lightbulb",
   },
   {
-    name: "Symbols",
+    name: t("general.emojiCategories.symbols"),
     icon: "fa-solid fa-question",
   },
   {
-    name: "Flags",
+    name: t("general.emojiCategories.flags"),
     icon: "fa-solid fa-flag",
   },
 ];

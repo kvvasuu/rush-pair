@@ -24,7 +24,7 @@
   "home": "Home",
   "pairs": "Pairs",
   "stars": "Stars",
-  "unreadMessages": "You have 0 unread messages. | You have one unread message. | You have {count} unread messages.",
+  "unreadMessages": "You have 0 unread messages. | You have 1 unread message. | You have {count} unread messages.",
   "workInProgress": "Work in progress.",
   "profile": "Profile",
   "security": "Security",
@@ -35,6 +35,8 @@
   "upload": "Upload",
   "change": "Change",
   "save": "Save",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
   "search": "Search",
   "summary": "Summary",
   "months": {
@@ -59,5 +61,17 @@
     "friday": "Friday",
     "saturday": "Saturday",
     "sunday": "Sunday"
+  },
+  "searchForEmoji": "Search for emoji",
+  "emojiCategories": {
+    "smileys": "Smileys & Emotion",
+    "people": "People & Body",
+    "animals": "Animals & Nature",
+    "food": "Food & Drink",
+    "travel": "Travel & Places",
+    "activities": "Activities",
+    "objects": "Objects",
+    "symbols": "Symbols",
+    "flags": "Flags"
   }
 }

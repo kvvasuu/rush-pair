@@ -33,13 +33,13 @@
             class="rounded-lg select-none text-center py-3 px-6 font-semibold cursor-pointer text-neutral-500 hover:text-neutral-800 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 transition-all"
             @click="closeModal"
           >
-            Cancel
+            {{ t("general.cancel") }}
           </button>
           <button
             class="rounded-lg select-none text-center py-3 px-6 font-semibold cursor-pointer text-neutral-50 dark:text-inherit bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 transition-all"
             @click="confirm"
           >
-            <slot name="confirm-button">Confirm</slot>
+            <slot name="confirm-button">{{ t("general.confirm") }}</slot>
           </button>
         </div>
       </section>
@@ -49,7 +49,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const emit = defineEmits(["close", "confirm"]);
 
 const isVisible = ref(false);

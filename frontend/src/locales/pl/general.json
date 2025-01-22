@@ -24,7 +24,7 @@
   "home": "Strona główna",
   "pairs": "Pary",
   "stars": "Ulubione",
-  "unreadMessages": "Masz 0 nieprzeczytanych wiadomości. | Masz jedną nieprzeczytaną wiadomość. | Masz {count} nieprzeczytane wiadomości.",
+  "unreadMessages": "Masz 0 nieprzeczytanych wiadomości. | Masz 1 nieprzeczytaną wiadomość. | Masz {count} nieprzeczytane wiadomości.",
   "workInProgress": "Praca w toku.",
   "profile": "Profil",
   "security": "Bezpieczeństwo",
@@ -35,6 +35,8 @@
   "upload": "Prześlij",
   "change": "Zmień",
   "save": "Zapisz",
+  "confirm": "Potwierdź",
+  "cancel": "Anuluj",
   "search": "Szukaj",
   "summary": "Podsumowanie",
   "months": {
@@ -59,5 +61,17 @@
     "friday": "Piątek",
     "saturday": "Sobota",
     "sunday": "Niedziela"
+  },
+  "searchForEmoji": "Szukaj emoji...",
+  "emojiCategories": {
+    "smileys": "Emotikony i emocje",
+    "people": "Ludzie i ciało",
+    "animals": "Zwierzęta i natura",
+    "food": "Jedzenie i napoje",
+    "travel": "Podróże i miejsca",
+    "activities": "Aktywności",
+    "objects": "Obiekty",
+    "symbols": "Symbole",
+    "flags": "Flagi"
   }
 }
