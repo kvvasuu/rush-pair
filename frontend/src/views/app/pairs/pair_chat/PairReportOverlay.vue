@@ -7,13 +7,18 @@
         <i
           class="fa-solid fa-triangle-exclamation text-5xl text-red-500 mb-2"
         ></i>
-        <h2 class="text-red-500 text-2xl font-semibold">Report</h2>
+        <h2 class="text-red-500 text-2xl font-semibold">
+          {{ t("report.report") }}
+        </h2>
         <h4 class="text-xs font-semibold text-neutral-500">
-          We won't tell
-          <span v-if="chatStore.pairInfo.name !== 'Anonymous'">{{
-            chatStore.pairInfo.name
-          }}</span>
-          <span v-else>anyone</span>
+          {{
+            t("report.wontTell", {
+              pairName:
+                chatStore.pairInfo.name !== "Anonymous"
+                  ? chatStore.pairInfo.name
+                  : t("report.anyone"),
+            })
+          }}
         </h4>
       </div>
 
@@ -48,11 +53,10 @@
                 <p
                   class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-neutral-300"
                 >
-                  Fake profile
+                  {{ t("report.reportType.fake.type") }}
                 </p>
                 <p class="text-xs text-neutral-700 dark:text-neutral-400">
-                  The user is pretending to be someone else or providing false
-                  information.
+                  {{ t("report.reportType.fake.description") }}
                 </p>
               </div>
             </label>
@@ -73,11 +77,10 @@
                 <p
                   class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-neutral-300"
                 >
-                  Spam
+                  {{ t("report.reportType.spam.type") }}
                 </p>
                 <p class="text-xs text-neutral-700 dark:text-neutral-400">
-                  The user is sending unwanted messages, advertisements, or
-                  links.
+                  {{ t("report.reportType.spam.description") }}
                 </p>
               </div>
             </label>
@@ -101,11 +104,10 @@
                 <p
                   class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-neutral-300"
                 >
-                  Offensive content
+                  {{ t("report.reportType.offensive.type") }}
                 </p>
                 <p class="text-xs text-neutral-700 dark:text-neutral-400">
-                  Messages contain offensive language, hate speech, vulgarity,
-                  or insults.
+                  {{ t("report.reportType.offensive.description") }}
                 </p>
               </div>
             </label>
@@ -126,10 +128,10 @@
                 <p
                   class="text-lg leading-4 mb-1 font-semibold text-neutral-800 dark:text-neutral-300"
                 >
-                  Other
+                  {{ t("report.reportType.other.type") }}
                 </p>
                 <p class="text-xs text-neutral-700 dark:text-neutral-400">
-                  Please provide a detailed explanation of the issue.
+                  {{ t("report.reportType.other.description") }}
                 </p>
               </div>
             </label>
@@ -138,13 +140,10 @@
 
         <div class="text-sm w-full h-60 font-medium" v-if="step === 1">
           <h3 class="text-xs mb-2 text-neutral-700 dark:text-neutral-400">
-            <span v-if="reportType === 'other'"
-              >Please provide a detailed explanation of the issue.</span
-            >
-            <span v-else>
-              Optional: Add additional details to help us better understand the
-              issue.</span
-            >
+            <span v-if="reportType === 'other'">{{
+              t("report.explaination")
+            }}</span>
+            <span v-else> {{ t("report.additionalDetails") }}</span>
           </h3>
           <textarea
             id="other-text"
@@ -161,20 +160,24 @@
           v-if="step === 2"
         >
           <h3 class="text-lg w-full font-semibold text-center mb-2 gap-2">
-            Summary:
+            {{ t("general.summary") }}:
           </h3>
 
-          <div class="flex justify-start gap-2">
-            <div class="font-semibold w-[102px] shrink-0">Report type:</div>
+          <div class="flex justify-start gap-3">
+            <div class="font-semibold text-right w-[102px] shrink-0">
+              {{ t("report.reportType.reportType") }}:
+            </div>
             <div>{{ reportTypeMap[reportType] }}</div>
           </div>
-          <div class="flex justify-start gap-2">
-            <div class="font-semibold w-[102px] shrink-0">Message:</div>
+          <div class="flex justify-start gap-3">
+            <div class="font-semibold text-right w-[102px] shrink-0">
+              {{ t("report.message") }}:
+            </div>
             <div class="line-clamp-6">
               <span v-if="message">{{ message }}</span
-              ><span v-else class="text-sm text-neutral-400 select-none"
-                >No additional details provided.</span
-              >
+              ><span v-else class="text-sm text-neutral-400 select-none">{{
+                t("report.noAdditionalDetails")
+              }}</span>
             </div>
           </div>
           <div class="flex w-full justify-center mt-8 leading-3">
@@ -191,8 +194,7 @@
               <label
                 for="confirmReport"
                 class="text-xs font-semibold text-neutral-600"
-                >I confirm that the information provided is accurate and
-                truthful to the best of my knowledge.</label
+                >{{ t("report.iConfirm") }}</label
               >
             </div>
           </div>
@@ -202,8 +204,7 @@
           class="flex items-center flex-col w-full justify-center mb-2 sm:mb-8 mt-auto gap-4"
         >
           <div class="text-xs font-semibold text-center text-neutral-500 mt-3">
-            Your report is anonymous, and the user you reported will not be
-            notified about your identity.
+            {{ t("report.reportIsAnonymous") }}
           </div>
           <div class="flex items-center w-full justify-center gap-4">
             <button
@@ -211,7 +212,7 @@
               @click="step--"
               v-if="!isSent && step > 0"
             >
-              Back
+              {{ t("general.back") }}
             </button>
             <button
               class="mt-auto mb-4 w-full md:w-4/5 rounded-lg sm:w-4/5 flex items-center select-none justify-center text-center p-3 font-semibold text-neutral-50 dark:text-inherit transition-all"
@@ -230,7 +231,7 @@
               @click="nextStep"
               v-if="!isSent"
             >
-              {{ step < 2 ? "Next" : "Submit report" }}
+              {{ step < 2 ? t("general.next") : t("report.submitReport") }}
             </button>
           </div>
         </div>
@@ -241,13 +242,13 @@
           <h2
             class="font-bold text-center text-neutral-800 dark:text-neutral-400 mb-6"
           >
-            Thank you for helping us maintain a safe and respectful community.
+            {{ t("report.thankYou") }}
           </h2>
 
           <p
             class="font-semibold text-center text-neutral-700 dark:text-neutral-500"
           >
-            Reference ID:
+            {{ t("report.referenceID") }}
           </p>
           <p class="font-bold text-2xl text-center text-red-500 mb-6">
             {{ reportReferenceID }}
@@ -256,15 +257,13 @@
           <h3
             class="font-semibold text-center text-neutral-800 dark:text-neutral-400"
           >
-            Your report will be reviewed by our moderation team.<br />If
-            necessary, we may take appropriate actions, including account
-            restrictions or bans.
+            {{ t("report.reportReviewed") }}
           </h3>
         </div>
 
         <div v-else>
           <h2 class="font-bold text-center text-red-500">
-            Something went wrong. Try again later.
+            {{ t("general.somethingWentWrong") }}
           </h2>
         </div>
 
@@ -273,7 +272,7 @@
           v-if="!isSent && step > 0"
           @click="close"
         >
-          Close
+          {{ t("general.close") }}
         </button>
       </div>
 
@@ -343,6 +342,9 @@ import { useMainStore } from "../../../../stores";
 import BasicOverlay from "../../../../components/containers/BasicOverlay.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
 import axios from "axios";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const emit = defineEmits(["close"]);
 
@@ -353,10 +355,10 @@ const message = ref("");
 const reportType = ref<"fake" | "spam" | "offensive" | "other">("fake");
 
 const reportTypeMap = {
-  fake: "Fake profile",
-  spam: "Spam",
-  offensive: "Offensive content",
-  other: "Other",
+  fake: t("report.reportType.fake.type"),
+  spam: t("report.reportType.spam.type"),
+  offensive: t("report.reportType.offensive.type"),
+  other: t("report.reportType.other.type"),
 };
 
 const showError = ref(false);

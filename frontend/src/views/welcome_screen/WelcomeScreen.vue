@@ -119,7 +119,6 @@ if (language.value === "pl" || language.value === "en") {
 
 const changeLanguage = (lang: availableLanguages) => {
   language.value = lang;
-  localStorage.setItem("locale", lang);
   changeLocale(lang);
 };
 

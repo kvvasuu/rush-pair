@@ -8,7 +8,9 @@
       <div
         class="text-slate-700 dark:text-neutral-300 text-xl font-semibold min-w-0 max-w-52 min-[400px]:max-w-72 sm:max-w-96 relative"
       >
-        <p class="w-full select-none truncate">{{ pairName || "Pairs" }}</p>
+        <p class="w-full select-none truncate">
+          {{ pairName || t("pairs.pairs") }}
+        </p>
 
         <div
           class="hidden lg:block absolute rounded-full border-2 border-slate-200 dark:border-neutral-800 bg-lime-500 w-4 h-4 z-10 top-0 -right-5"
@@ -50,6 +52,9 @@ import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../../../stores/userStore";
 import { useChatStore } from "../../../stores/chatStore";
 import PairAvatar from "../../../components/PairAvatar.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();

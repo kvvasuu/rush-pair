@@ -34,5 +34,7 @@
   "optional": "Optional",
   "upload": "Upload",
   "change": "Change",
-  "save": "Save"
+  "save": "Save",
+  "search": "Search",
+  "summary": "Summary"
 }
