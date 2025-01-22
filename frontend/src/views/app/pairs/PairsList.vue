@@ -6,9 +6,9 @@
       class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none max-w-[666px]"
       v-if="userStore.pairs?.length <= 0"
     >
-      <p class="text-xl">You have no pairs yet.</p>
+      <p class="text-xl">{{ t("pairs.noPairs") }}</p>
       <i class="fa-solid fa-handshake-simple text-5xl"></i>
-      <p class="text-xl">Start pairing!</p>
+      <p class="text-xl">{{ t("pairs.startPairing") }}</p>
     </div>
     <div
       class="relative w-[calc(100%-3rem)] flex justify-center max-w-[666px]"
@@ -21,7 +21,7 @@
         autocomplete="off"
         @keyup="search"
         v-model="searchValue"
-        placeholder="Search..."
+        :placeholder="t('general.search') + '...'"
       />
       <label
         for="search-input"
@@ -47,6 +47,9 @@ import { useUserStore } from "../../../stores/userStore";
 import { ref, watch } from "vue";
 import PairListElement from "./PairListElement.vue";
 import { PairInfo } from "../../../types";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const userStore = useUserStore();
 

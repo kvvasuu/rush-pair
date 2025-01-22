@@ -37,7 +37,7 @@
       <div class="w-16 h-16 z-20 relative" v-if="!isTouchDevice">
         <button
           class="w-full h-full text-neutral-600 text-2xl group"
-          title="Select emoji"
+          :title="t('pairs.selectEmoji')"
           @click.stop="toggleEmojiSelector"
         >
           <i
@@ -55,7 +55,7 @@
       </div>
       <button
         class="w-16 h-16 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl z-20"
-        :title="message ? `Send message` : `Send heart`"
+        :title="message ? t('pairs.sendMessage') : t('pairs.sendHeart')"
         @click="sendMessage"
       >
         <Transition name="pop-up-fast" mode="out-in">
@@ -73,6 +73,9 @@ import { useChatStore } from "../../../../stores/chatStore";
 import EmojiPicker from "../../../../components/EmojiPicker.vue";
 import ChatMessagesList from "./ChatMessagesList.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const chatStore = useChatStore();
 
@@ -216,7 +219,12 @@ const getRandomSampleMessage = (msg: string) => {
 
 onMounted(async () => {
   await chatStore.loadMessages();
-
+  if (messageInputRef.value) {
+    messageInputRef.value.setAttribute(
+      "data-placeholder",
+      t("pairs.typeAMessage")
+    );
+  }
   isLoading.value = false;
 });
 
@@ -228,6 +236,6 @@ const isTouchDevice = ref(
 <style lang="postcss" scoped>
 .message-input[contenteditable="true"]:empty::before {
   @apply pointer-events-none text-neutral-400 dark:text-neutral-700;
-  content: "Type a message...";
+  content: attr(data-placeholder);
 }
 </style>

@@ -1,0 +1,34 @@
+{
+  "report": "Zgłoś",
+  "wontTell": "Nie powiemy {pairName}",
+  "anyone": "nikomu",
+  "submitReport": "Wyślij złgoszenie",
+  "reportType": {
+    "fake": {
+      "type": "Fałszywy profil",
+      "description": "Użytkownik udaje kogoś innego lub podaje fałszywe informacje."
+    },
+    "spam": {
+      "type": "Spam",
+      "description": "Użytkownik wysyła niechciane wiadomości, reklamy lub linki."
+    },
+    "offensive": {
+      "type": "Obraźliwe treści",
+      "description": "Wiadomości zawierają obraźliwy język, mowę nienawiści, wulgaryzmy lub obelgi."
+    },
+    "other": {
+      "type": "Inne",
+      "description": "Proszę podać szczegółowy opis problemu."
+    },
+    "reportType": "Typ"
+  },
+  "explaination": "Proszę podać szczegółowy opis problemu.",
+  "additionalDetails": "Opcjonalnie: Dodaj dodatkowe informacje, aby pomóc nam lepiej zrozumieć problem.",
+  "reportIsAnonymous": "Twoje zgłoszenie jest anonimowe, a użytkownik, którego zgłosiłeś, nie zostanie powiadomiony o Twojej tożsamości.",
+  "thankYou": "Dziękujemy za pomoc w utrzymaniu bezpiecznej i szanującej się społeczności.",
+  "referenceID": "ID zgłoszenia",
+  "reportReviewed": "Twoje zgłoszenie zostanie przejrzane przez nasz zespół moderacyjny. W razie potrzeby możemy podjąć odpowiednie działania, w tym ograniczenia lub blokadę konta.",
+  "message": "Wiadomość",
+  "noAdditionalDetails": "Nie podano dodatkowych szczegółów.",
+  "iConfirm": "Potwierdzam, że podane informacje są zgodne z prawdą."
+}

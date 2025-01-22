@@ -1,0 +1,34 @@
+{
+  "report": "Report",
+  "wontTell": "We won't tell {pairName}",
+  "anyone": "anyone",
+  "submitReport": "Submit report",
+  "reportType": {
+    "fake": {
+      "type": "Fake profile",
+      "description": "The user is pretending to be someone else or providing false information."
+    },
+    "spam": {
+      "type": "Spam",
+      "description": "The user is sending unwanted messages, advertisements, or links."
+    },
+    "offensive": {
+      "type": "Offensive content",
+      "description": "Messages contain offensive language, hate speech, vulgarity, or insults."
+    },
+    "other": {
+      "type": "Other",
+      "description": "Please provide a detailed explanation of the issue."
+    },
+    "reportType": "Report type"
+  },
+  "explaination": "Please provide a detailed explanation of the issue.",
+  "additionalDetails": "Optional: Add additional details to help us better understand the issue.",
+  "reportIsAnonymous": "Your report is anonymous, and the user you reported will not benotified about your identity.",
+  "thankYou": "Thank you for helping us maintain a safe and respectful community.",
+  "referenceID": "Reference ID",
+  "reportReviewed": "Your report will be reviewed by our moderation team. If necessary, we may take appropriate actions, including account restrictions or bans.",
+  "message": "Message",
+  "noAdditionalDetails": "No additional details provided.",
+  "iConfirm": "I confirm that the information provided is accurate and truthful to the best of my knowledge."
+}

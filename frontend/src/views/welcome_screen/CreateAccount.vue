@@ -292,10 +292,14 @@ const register = async () => {
   ) {
     isLoading.value = true;
     await axios
-      .post(`${SERVER_URL}/auth/register`, {
-        email: email.value,
-        password: password.value,
-      })
+      .post(
+        `${SERVER_URL}/auth/register`,
+        {
+          email: email.value,
+          password: password.value,
+        },
+        { timeout: 10000 }
+      )
       .then(() => {
         registerComplete.value = true;
       })

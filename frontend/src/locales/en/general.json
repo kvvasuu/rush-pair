@@ -24,7 +24,7 @@
   "home": "Home",
   "pairs": "Pairs",
   "stars": "Stars",
-  "unreadMessages": "You have 0 unread messages. | You have one unread message. | You have {count} unread messages.",
+  "unreadMessages": "You have 0 unread messages. | You have 1 unread message. | You have {count} unread messages.",
   "workInProgress": "Work in progress.",
   "profile": "Profile",
   "security": "Security",
@@ -34,5 +34,44 @@
   "optional": "Optional",
   "upload": "Upload",
   "change": "Change",
-  "save": "Save"
+  "save": "Save",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "search": "Search",
+  "summary": "Summary",
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "searchForEmoji": "Search for emoji",
+  "emojiCategories": {
+    "smileysAndEmotion": "Smileys & Emotion",
+    "peopleAndBody": "People & Body",
+    "animalsAndNature": "Animals & Nature",
+    "foodAndDrink": "Food & Drink",
+    "travelAndPlaces": "Travel & Places",
+    "activities": "Activities",
+    "objects": "Objects",
+    "symbols": "Symbols",
+    "flags": "Flags"
+  }
 }

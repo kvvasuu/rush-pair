@@ -13,7 +13,7 @@
       class="fa-solid fa-triangle-exclamation text-neutral-400 dark:text-neutral-500 select-none text-5xl"
     ></i>
     <p class="text-neutral-400 dark:text-neutral-500 select-none text-center">
-      Something went wrong. Try again later...
+      {{ t("general.somethingWentWrong") }}
     </p>
   </div>
 
@@ -39,6 +39,9 @@ import BasicSpinner from "../../../../components/BasicSpinner.vue";
 import PairChatSettingsSide from "./PairChatSettingsSide.vue";
 import PairChatSettingTop from "./PairChatSettingTop.vue";
 import Chat from "./Chat.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps(["isProfileExpanded"]);
 const route = useRoute();

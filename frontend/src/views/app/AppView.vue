@@ -31,11 +31,7 @@ import { changeLocale } from "../../locales/i18n";
 const userStore = useUserStore();
 const route = useRoute();
 
-let language = localStorage.getItem("locale") || "en";
-
-if (language === "pl" || language === "en") {
-  changeLocale(language);
-}
+changeLocale(userStore.settings.language);
 
 onBeforeMount(() => {
   document.documentElement.setAttribute("data-theme", userStore.settings.theme);

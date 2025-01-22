@@ -6,7 +6,7 @@
     <div class="w-full relative h-8" v-if="!isLoading">
       <input
         type="text"
-        placeholder="Search for emoji"
+        :placeholder="t('general.searchForEmoji')"
         class="w-full p-1 pl-8 rounded-lg outline-none bg-neutral-50 dark:bg-neutral-800/80 text-neutral-600 placeholder-neutral-300 dark:text-neutral-400 dark:placeholder-neutral-700"
         v-model="searchValue"
         @keyup="search"
@@ -40,7 +40,7 @@
         >
           <span
             class="px-1 mb-0.5 text-xs w-full select-none text-neutral-500"
-            >{{ key }}</span
+            >{{ t("general.emojiCategories." + key) }}</span
           >
           <div class="w-full grid grid-cols-9 auto-rows-min">
             <button
@@ -86,7 +86,7 @@
             : 'text-neutral-500 dark:text-neutral-600',
         ]"
         @click="scrollToCategory(index)"
-        :title="category.name"
+        :title="t('general.emojiCategories.' + category.name)"
       >
         <i :class="category.icon"></i>
       </button>
@@ -98,7 +98,9 @@
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import BasicSpinner from "./BasicSpinner.vue";
 import type { Emoji } from "../types";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const emit = defineEmits(["selectEmoji", "close"]);
 
 const isLoading = ref(true);
@@ -114,39 +116,39 @@ const categoriesButtonsRef = ref<HTMLElement[] | null>(null);
 const activeCategory = ref(0);
 const categoriesList = [
   {
-    name: "Smileys & Emotion",
+    name: "smileysAndEmotion",
     icon: "fa-solid fa-face-smile-beam",
   },
   {
-    name: "People & Body",
+    name: "peopleAndBody",
     icon: "fa-solid fa-child",
   },
   {
-    name: "Animals & Nature",
+    name: "animalsAndNature",
     icon: "fa-solid fa-horse",
   },
   {
-    name: "Food & Drink",
+    name: "foodAndDrink",
     icon: "fa-solid fa-utensils",
   },
   {
-    name: "Travel & Places",
+    name: "travelAndPlaces",
     icon: "fa-solid fa-earth-americas",
   },
   {
-    name: "Activities",
+    name: "activities",
     icon: "fa-solid fa-basketball",
   },
   {
-    name: "Objects",
+    name: "objects",
     icon: "fa-solid fa-lightbulb",
   },
   {
-    name: "Symbols",
+    name: "symbols",
     icon: "fa-solid fa-question",
   },
   {
-    name: "Flags",
+    name: "flags",
     icon: "fa-solid fa-flag",
   },
 ];

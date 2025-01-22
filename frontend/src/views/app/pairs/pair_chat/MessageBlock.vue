@@ -42,7 +42,7 @@
         >
           <button
             class="rounded-full flex items-center justify-center h-8 w-8 text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-400 hover:bg-slate-100 dark:hover:bg-neutral-800 transition-colors"
-            title="Delete message"
+            :title="t('pairs.deleteMessage')"
             @click="emit('showDeleteModal', message)"
           >
             <i class="fa-solid fa-trash-can text-sm"></i>
@@ -54,10 +54,10 @@
           :class="
             computeMessageStyle(message.sender, index, message?.isDeleted)
           "
-          title="Message deleted."
+          :title="t('pairs.messageDeleted')"
           v-if="message?.isDeleted"
         >
-          Message deleted.
+          {{ t("pairs.messageDeleted") }}
         </div>
         <div
           class="max-w-[85%] flex flex-col items-end"
@@ -76,7 +76,7 @@
               :pair="chatStore.pairInfo"
               class="w-3 h-3 mr-2 shrink-0 self-end"
               :class="index === 0 ? '-mt-1' : 'mt-1'"
-              :title="`Message read: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
+              :title="`${t('pairs.messageDeleted')}: ${formatDate(new Date(chatStore.messages[0]?.readAt as unknown as Date))}`"
               v-if="showReadIndicator"
             ></PairAvatar>
           </Transition>
@@ -91,6 +91,9 @@ import { useChatStore } from "../../../../stores/chatStore";
 import { useUserStore } from "../../../../stores/userStore";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps(["message", "index"]);
 const emit = defineEmits(["showDeleteModal"]);
@@ -111,27 +114,35 @@ const formatDate = (date: Date) => {
     dateNow.getMonth() === date.getMonth() &&
     Math.floor(dateNow.getDate() / 7) === Math.floor(date.getDate() / 7);
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const days = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
 
   const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
   ];
 
   const day = date.getDate().toString().padStart(2, "0");
-  const month = months[date.getMonth()];
+  const month = t("general.months." + months[date.getMonth()]);
   const year = date.getFullYear();
-  const dayOfWeek = days[date.getDay()];
+  const dayOfWeek = t("general.days." + days[date.getDay()]);
   const hours = date.getHours().toString().padStart(2, "0");
   const minutes = date.getMinutes().toString().padStart(2, "0");
 

@@ -129,10 +129,10 @@ const toggleLanguageSelector = () => {
 const changeLanguage = async (lang: availableLanguages) => {
   try {
     if (lang === userStore.settings.language) return;
+    changeLocale(lang);
     await userStore.changeSettings({
       language: lang,
     });
-    changeLocale(lang);
   } catch {}
 };
 
