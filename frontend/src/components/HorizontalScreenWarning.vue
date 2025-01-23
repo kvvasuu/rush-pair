@@ -5,14 +5,20 @@
     <i class="fa-solid fa-rotate text-4xl rotate"></i>
     <div>
       <p class="text-lg font-semibold">
-        Rotate your device to use the application.
+        {{ t("general.horizontalScreenWarning.rotate") }}
       </p>
       <p class="text-xs">
-        This application is designed to work in portrait mode only.
+        {{ t("general.horizontalScreenWarning.appDesigned") }}
       </p>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
 
 <style scoped>
 .rotate {
