@@ -10,6 +10,7 @@
   "passwordIncorrect": "Password is incorrect.",
   "passwordRequired": "Password is required.",
   "passwordTooShort": "Password must be at least 6 characters long",
+  "passwordsAreTheSame": "New password must be different from the old password.",
   "passwordChangedSuccesfully": "Password changed successfully.",
   "passwordResetLinkSent": "Password reset link sent to your email."
 }

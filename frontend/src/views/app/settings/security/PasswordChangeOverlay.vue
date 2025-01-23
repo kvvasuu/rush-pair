@@ -115,10 +115,10 @@ const isPasswordValid = ref(false);
 const validatePassword = () => {
   if (newPassword.value.length < 6) {
     isPasswordValid.value = false;
-    errorMessage.value = "Password must be at least 6 characters long.";
+    errorMessage.value = t("serverMessages.passwordTooShort");
   } else if (newPassword.value === password.value) {
     isPasswordValid.value = false;
-    errorMessage.value = "Passwords are the same.";
+    errorMessage.value = t("serverMessages.passwordsAreTheSame");
   } else {
     isPasswordValid.value = true;
     errorMessage.value = "";
