@@ -50,7 +50,7 @@ Users can fully customize their profiles, including:
 #### App Settings :wrench:
 
 Users can personalize app settings such as:
-- **Notification preferences**: Enable or disable notifications.
+- **Language preferences**: Switch between English or Polish language.
 - **Dark/Light mode**: Switch between dark and light themes.
 
 #### Account Deletion :x:
