@@ -2,6 +2,61 @@
   <div
     class="fixed bottom-0 w-full h-16 md:hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center z-50"
   >
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <InformationModal
+          v-if="showRushCoinModal"
+          @close="showRushCoinModal = false"
+        >
+          <template #title>
+            <img
+              src="/RushCoin.svg"
+              alt="RushCoin"
+              draggable="false"
+              class="aspect-square w-24 select-none my-2 absolute -top-12"
+            />
+            <h2
+              class="mt-12 text-center font-bold text-xl text-neutral-600 dark:text-neutral-300"
+            >
+              {{ t("general.rushCoinsCurrency") }}
+            </h2>
+          </template>
+          <template #content>
+            <ul
+              class="flex mx-0 sm:mx-8 flex-col items-start justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
+            >
+              <li class="ml-8 list-disc">
+                <h3 class="font-bold text-lg mb-1">
+                  {{ t("general.whatAreRushCoins") }}
+                </h3>
+                <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                  {{ t("general.whatAreRushCoinsDescription") }}
+                </p>
+              </li>
+              <li class="ml-8 list-disc">
+                <h3 class="font-bold text-lg mb-1">
+                  {{ t("general.howToEarnRushCoins") }}
+                </h3>
+                <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                  {{ t("general.byLogging") }}
+                </p>
+                <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                  {{ t("general.byPlaying") }}
+                </p>
+              </li>
+              <li class="ml-8 list-disc">
+                <h3 class="font-bold text-lg mb-1">
+                  {{ t("general.howToSpentRushCoins") }}
+                </h3>
+                <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                  {{ t("general.revealRequest") }}
+                </p>
+              </li>
+            </ul>
+          </template>
+        </InformationModal>
+      </Teleport>
+    </Transition>
     <nav
       class="w-full max-w-[666px] h-full flex items-center justify-between px-2"
     >
@@ -25,8 +80,9 @@
           }"
         ></i>
       </RouterLink>
-      <div
-        class="max-w-28 relative w-full h-full flex items-center justify-center mx-2"
+      <button
+        class="max-w-28 relative w-full h-full flex items-center justify-center mx-2 cursor-pointer"
+        @click="showRushCoinModal = true"
       >
         <img
           src="/RushCoinBlank.svg"
@@ -39,7 +95,7 @@
         >
           {{ userStore.rushCoins }}
         </div>
-      </div>
+      </button>
       <RouterLink
         to="/app/pairs"
         class="relative max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
@@ -89,15 +145,18 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { RouterLink } from "vue-router";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useUserStore } from "../../stores/userStore";
 import { useI18n } from "vue-i18n";
+import InformationModal from "../../components/containers/InformationModal.vue";
 
 const { t } = useI18n();
 
 const userStore = useUserStore();
 
 const route = useRoute();
+
+const showRushCoinModal = ref(false);
 
 const isRouteActive = computed(() => {
   return (
