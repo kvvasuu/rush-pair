@@ -36,6 +36,7 @@ interface UserStoreState extends User {
     language: availableLanguages;
   };
   pairs: Array<PairInfo> | [];
+  tokens: number;
 }
 
 type availableLanguages = "en" | "pl";

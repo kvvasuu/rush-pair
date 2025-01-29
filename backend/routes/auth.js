@@ -52,6 +52,7 @@ auth.post(
           theme: "light",
           language: "en",
         },
+        tokens: 5,
       });
       const htmlTemplate = await fs.readFile(
         path.join(__dirname, "email_templates/email_confirm.html"),
@@ -310,6 +311,19 @@ auth.get("/verify-token", async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
+    }
+
+    const today = new Date();
+    const lastTokenCollectionDate = new Date(user.lastTokenCollection);
+
+    if (
+      !user.firstVisit &&
+      (!lastTokenCollectionDate ||
+        today.toDateString() !== lastTokenCollectionDate.toDateString())
+    ) {
+      user.tokens += 1;
+      user.lastTokenCollection = today;
+      await user.save();
     }
 
     res.json({ user: user });

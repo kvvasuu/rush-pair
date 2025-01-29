@@ -29,6 +29,7 @@ export const useUserStore = defineStore("userStore", {
       language: "en",
     },
     pairs: [],
+    tokens: 0,
   }),
   getters: {
     getAllUnreadMessages(): number {
@@ -79,6 +80,7 @@ export const useUserStore = defineStore("userStore", {
             imageUrl,
             settings,
             description,
+            tokens,
           } = { ...res.data.user };
 
           this.id = _id;
@@ -93,6 +95,7 @@ export const useUserStore = defineStore("userStore", {
           this.imageUrl = imageUrl || "";
           this.settings = settings || this.settings;
           this.description = description || "";
+          this.tokens = tokens || 0;
           try {
             this.getPairs();
           } catch (error) {

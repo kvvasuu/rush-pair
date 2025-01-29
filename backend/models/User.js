@@ -67,6 +67,8 @@ const userSchema = new mongoose.Schema({
       default: "en",
     },
   },
+  tokens: { type: Number, default: 5, required: true },
+  lastTokenCollection: { type: Date, default: Date.now },
 });
 
 userSchema.pre("save", async function (next) {
