@@ -43,6 +43,25 @@ const changeLocale = (newLocale: availableLanguages) => {
 const i18nConfig = {
   locale: "pl",
   fallbackLocale: "en",
+  pluralizationRules: {
+    pl: (choice: number, choicesLength: number, orgRule: any) => {
+      if (choice === 0) {
+        return 0;
+      }
+
+      if (choice === 1) {
+        return 1;
+      }
+
+      const teen = choice > 10 && choice < 20;
+
+      if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+        return 2;
+      }
+
+      return choicesLength < 4 ? 2 : 3;
+    },
+  },
   messages: {},
 };
 

@@ -21,5 +21,8 @@
     "title1": "Zostałeś sparowany!",
     "title2": "Sukces! Twój czat czeka.",
     "title3": "Para znaleziona! Przygotuj się do czatu."
-  }
+  },
+  "congratulations": "Gratulacje!",
+  "youEarnRushCoin": "Otrzymałeś +1 RushCoin za dzienne logowanie!",
+  "remember": "Pamiętaj, że codzienne logowanie pozwala zdobywać RushCoiny!"
 }

@@ -77,5 +77,6 @@
   "horizontalScreenWarning": {
     "rotate": "Rotate your device to use the application.",
     "appDesigned": "This application is designed to work in portrait mode only."
-  }
+  },
+  "rushCoins": "RushCoins"
 }

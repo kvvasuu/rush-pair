@@ -21,5 +21,8 @@
     "title1": "You've Been Paired!",
     "title2": "Success! Your Chat Awaits.",
     "title3": "Pair Found! Get Ready to Chat."
-  }
+  },
+  "congratulations": "Congratulations!",
+  "youEarnRushCoin": "You've earned +1 RushCoin for logging in today!",
+  "remember": "Remember, you can earn RushCoins every day by logging in!"
 }

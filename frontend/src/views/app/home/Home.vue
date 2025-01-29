@@ -8,7 +8,33 @@
         <InformationModal
           v-if="mainStore.showCoinsCollectionModal"
           @close="mainStore.showCoinsCollectionModal = false"
-        ></InformationModal>
+        >
+          <template #title>
+            <h2
+              class="text-center font-bold text-3xl text-neutral-600 dark:text-neutral-300"
+            >
+              {{ t("home.congratulations") }}
+            </h2>
+            <h3
+              class="text-center font-semibold text-lg text-neutral-600 dark:text-neutral-300"
+            >
+              {{ t("home.youEarnRushCoin") }}
+            </h3>
+          </template>
+          <template #content>
+            <div class="flex flex-col items-center justify-center gap-4">
+              <img
+                src="/RushCoin.svg"
+                alt="RushCoin"
+                draggable="false"
+                class="aspect-square w-24 select-none my-2"
+              />
+              <p class="text-center font-semibold">
+                {{ t("home.remember") }}
+              </p>
+            </div>
+          </template>
+        </InformationModal>
       </Teleport>
     </Transition>
     <div

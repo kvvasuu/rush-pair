@@ -7,18 +7,16 @@
       <section
         @mousedown.stop=""
         v-if="isVisible"
-        class="flex flex-col items-center justify-center w-full sm:max-w-[32rem] mx-6 h-full max-h-72 sm:max-h-56 bg-slate-200 dark:bg-neutral-900 rounded-lg p-4 relative"
+        class="flex flex-col items-center justify-center w-full sm:max-w-[32rem] gap-4 mx-6 p-6 bg-slate-200 dark:bg-neutral-900 rounded-lg relative"
       >
-        <div class="flex items-center justify-center w-full h-8">
-          <h2
-            class="text-center font-bold text-xl text-neutral-600 dark:text-neutral-300"
-            v-if="$slots.title"
-          >
-            <slot name="title"></slot>
-          </h2>
+        <div
+          class="flex flex-col items-center justify-center w-full gap-1"
+          v-if="$slots.title"
+        >
+          <slot name="title"></slot>
         </div>
         <div
-          class="flex flex-col w-full h-full sm:px-3 py-4 gap-1 text-neutral-600 dark:text-neutral-300"
+          class="flex flex-col w-full h-full gap-1 text-neutral-600 dark:text-neutral-300"
         >
           <slot name="content"></slot>
         </div>

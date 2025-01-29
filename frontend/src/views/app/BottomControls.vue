@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed bottom-0 w-full h-16 md:hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center"
+    class="fixed bottom-0 w-full h-16 md:hidden bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center z-50"
   >
     <nav
       class="w-full max-w-[666px] h-full flex items-center justify-between px-2"
@@ -25,6 +25,21 @@
           }"
         ></i>
       </RouterLink>
+      <div
+        class="max-w-28 relative w-full h-full flex items-center justify-center mx-2"
+      >
+        <img
+          src="/RushCoinBlank.svg"
+          alt="RushCoin"
+          draggable="false"
+          class="aspect-square h-[72px] select-none my-2 block xl:hidden"
+        />
+        <div
+          class="absolute w-full flex items-center justify-center h-full font-semibold xl:hidden text-3xl text-center select-none text-neutral-100"
+        >
+          {{ userStore.rushCoins }}
+        </div>
+      </div>
       <RouterLink
         to="/app/pairs"
         class="relative max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"
@@ -55,6 +70,7 @@
           </div>
         </div>
       </RouterLink>
+
       <RouterLink
         to="/app/settings"
         class="max-w-28 w-full h-full flex items-center justify-center text-neutral-300 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300"

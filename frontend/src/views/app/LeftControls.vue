@@ -84,7 +84,36 @@
           {{ t("general.pairs") }}
         </p>
       </RouterLink>
-      <RouterLink to="/app/settings" class="py-6 mt-auto menu-link">
+      <div
+        class="mt-auto w-full justify-self-end flex items-center pl-2 xl:pl-4 md:h-14 gap-6 text-neutral-400 dark:text-neutral-500 gap-"
+      >
+        <div class="w-12 relative flex justify-center items-center">
+          <img
+            src="/RushCoin.svg"
+            alt="RushCoin"
+            draggable="false"
+            class="aspect-square w-4/5 select-none my-2 hidden xl:block"
+          />
+          <img
+            src="/RushCoinBlank.svg"
+            alt="RushCoin"
+            draggable="false"
+            class="aspect-square w-4/5 select-none my-2 block xl:hidden"
+          />
+          <div
+            class="absolute w-full flex items-center justify-center h-full font-bold xl:hidden text-center transition-all duration-150 select-none text-neutral-100"
+            :class="userStore.rushCoins > 9 ? 'text-md' : 'text-lg'"
+          >
+            {{ userStore.rushCoins }}
+          </div>
+        </div>
+        <p
+          class="font-semibold hidden xl:block text-center transition-all duration-150 select-none"
+        >
+          {{ t("general.rushCoins", userStore.rushCoins) }}
+        </p>
+      </div>
+      <RouterLink to="/app/settings" class="menu-link">
         <div class="w-12 flex justify-center items-center">
           <i
             class="fa-solid fa-bars text-3xl transition-all duration-150"

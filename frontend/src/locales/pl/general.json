@@ -77,5 +77,6 @@
   "horizontalScreenWarning": {
     "rotate": "Obróć urządzenie, aby korzystać z aplikacji.",
     "appDesigned": "Ta aplikacja jest zaprojektowana do pracy tylko w trybie portretowym."
-  }
+  },
+  "rushCoins": "0 RushCoinów | {count} RushCoin | {count} RushCoiny | {count} RushCoinów"
 }
