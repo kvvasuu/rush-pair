@@ -36,7 +36,7 @@ interface UserStoreState extends User {
     language: availableLanguages;
   };
   pairs: Array<PairInfo> | [];
-  tokens: number;
+  rushCoins: number;
 }
 
 type availableLanguages = "en" | "pl";
@@ -57,6 +57,7 @@ interface MainStoreState {
   isEmpty: boolean;
   pairId: string;
   socketMessage: string;
+  showCoinsCollectionModal: boolean;
 }
 
 interface Emoji {

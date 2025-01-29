@@ -29,7 +29,7 @@ export const useUserStore = defineStore("userStore", {
       language: "en",
     },
     pairs: [],
-    tokens: 0,
+    rushCoins: 0,
   }),
   getters: {
     getAllUnreadMessages(): number {
@@ -80,7 +80,7 @@ export const useUserStore = defineStore("userStore", {
             imageUrl,
             settings,
             description,
-            tokens,
+            rushCoins,
           } = { ...res.data.user };
 
           this.id = _id;
@@ -95,7 +95,7 @@ export const useUserStore = defineStore("userStore", {
           this.imageUrl = imageUrl || "";
           this.settings = settings || this.settings;
           this.description = description || "";
-          this.tokens = tokens || 0;
+          this.rushCoins = rushCoins || 0;
           try {
             this.getPairs();
           } catch (error) {
@@ -107,6 +107,12 @@ export const useUserStore = defineStore("userStore", {
           this.bindEvents();
 
           this.router.replace("/app");
+          if (res.data.coinsCollected) {
+          }
+          setTimeout(() => {
+            const mainStore = useMainStore();
+            mainStore.showCoinsCollectionModal = true;
+          }, 500);
         } catch (error) {
           localStorage.removeItem("token");
         }

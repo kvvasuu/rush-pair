@@ -3,6 +3,14 @@
     class="flex flex-col items-center h-full relative w-full"
     :class="{ 'bg-main-gradient': isDrawing }"
   >
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <InformationModal
+          v-if="mainStore.showCoinsCollectionModal"
+          @close="mainStore.showCoinsCollectionModal = false"
+        ></InformationModal>
+      </Teleport>
+    </Transition>
     <div
       class="h-28 w-full flex items-center justify-center"
       v-if="isLoading && !isDrawing"
@@ -52,12 +60,15 @@ import { ref, onMounted } from "vue";
 import RecentPairs from "./recent_pairs/RecentPairs.vue";
 import DrawPair from "./DrawPair.vue";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
+import InformationModal from "../../../components/containers/InformationModal.vue";
 import { useUserStore } from "../../../stores/userStore.ts";
+import { useMainStore } from "../../../stores/index.ts";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
 const userStore = useUserStore();
+const mainStore = useMainStore();
 
 const isLoading = ref(true);
 const isDrawing = ref(false);

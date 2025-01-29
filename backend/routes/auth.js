@@ -52,7 +52,7 @@ auth.post(
           theme: "light",
           language: "en",
         },
-        tokens: 5,
+        rushCoins: 5,
       });
       const htmlTemplate = await fs.readFile(
         path.join(__dirname, "email_templates/email_confirm.html"),
@@ -314,19 +314,20 @@ auth.get("/verify-token", async (req, res) => {
     }
 
     const today = new Date();
-    const lastTokenCollectionDate = new Date(user.lastTokenCollection);
+    const lastCoinsCollectionDate = new Date(user.lastCoinsCollection);
 
     if (
       !user.firstVisit &&
-      (!lastTokenCollectionDate ||
-        today.toDateString() !== lastTokenCollectionDate.toDateString())
+      (!lastCoinsCollectionDate ||
+        today.toDateString() !== lastCoinsCollectionDate.toDateString())
     ) {
-      user.tokens += 1;
-      user.lastTokenCollection = today;
+      user.rushCoins += 1;
+      user.lastCoinsCollection = today;
       await user.save();
+      res.json({ user: user, coinsCollected: true });
+    } else {
+      res.json({ user: user });
     }
-
-    res.json({ user: user });
   });
 });
 

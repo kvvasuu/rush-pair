@@ -8,5 +8,6 @@ export const useMainStore = defineStore("mainStore", {
     isEmpty: false,
     pairId: "",
     socketMessage: "",
+    showCoinsCollectionModal: false,
   }),
 });
