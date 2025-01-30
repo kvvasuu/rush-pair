@@ -44,7 +44,7 @@ const i18nConfig = {
   locale: "pl",
   fallbackLocale: "en",
   pluralizationRules: {
-    pl: (choice: number, choicesLength: number, orgRule: any) => {
+    pl: (choice: number, choicesLength: number) => {
       if (choice === 0) {
         return 0;
       }
