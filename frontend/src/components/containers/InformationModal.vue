@@ -7,7 +7,7 @@
       <section
         @mousedown.stop=""
         v-if="isVisible"
-        class="flex flex-col items-center justify-center w-full sm:max-w-[32rem] gap-4 mx-6 p-6 bg-slate-200 dark:bg-neutral-900 rounded-lg relative"
+        class="flex flex-col items-center justify-center w-full sm:max-w-[32rem] gap-4 mx-6 py-6 px-4 sm:px-6 bg-slate-200 dark:bg-neutral-900 rounded-lg relative"
       >
         <div
           class="flex flex-col items-center justify-center w-full gap-1"

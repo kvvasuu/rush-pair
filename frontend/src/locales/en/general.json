@@ -78,5 +78,13 @@
     "rotate": "Rotate your device to use the application.",
     "appDesigned": "This application is designed to work in portrait mode only."
   },
-  "rushCoins": "RushCoins"
+  "rushCoins": "0 RushCoins | 1 RushCoin | {count} RushCoins",
+  "rushCoinsCurrency": "RushCoins - Your currency in RushPair!",
+  "whatAreRushCoins": "What are RushCoins?",
+  "whatAreRushCoinsDescription": "RushCoins are a special currency that you can use in the application.",
+  "howToEarnRushCoins": "How to earn RushCoins?",
+  "byLogging": "By logging in daily (+1 RushCoin)",
+  "byPlaying": "By playing minigames (max +3 RushCoins daily)",
+  "howToSpentRushCoins": "What can you spend them on?",
+  "revealRequest": "Request to reveal identity (-2 RushCoins)"
 }

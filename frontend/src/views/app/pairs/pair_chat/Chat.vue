@@ -212,6 +212,7 @@ const placeCaretAtEnd = (el: HTMLElement) => {
 const getRandomSampleMessage = (msg: string) => {
   if (messageInputRef.value) {
     messageInputRef.value.innerText = msg;
+    message.value = msg;
     placeCaretAtEnd(messageInputRef.value);
     triggerTyping();
   }

@@ -108,11 +108,11 @@ export const useUserStore = defineStore("userStore", {
 
           this.router.replace("/app");
           if (res.data.coinsCollected) {
+            setTimeout(() => {
+              const mainStore = useMainStore();
+              mainStore.showCoinsCollectionModal = true;
+            }, 500);
           }
-          setTimeout(() => {
-            const mainStore = useMainStore();
-            mainStore.showCoinsCollectionModal = true;
-          }, 500);
         } catch (error) {
           localStorage.removeItem("token");
         }
