@@ -140,7 +140,7 @@
         </p>
       </RouterLink>
       <button
-        class="mt-auto w-full justify-self-end pl-2 xl:pl-4 cursor-pointer menu-link"
+        class="mt-auto w-full justify-self-end pl-0 xl:pl-4 cursor-pointer menu-link"
         @click="showRushCoinModal = true"
       >
         <div class="w-12 relative flex justify-center items-center">

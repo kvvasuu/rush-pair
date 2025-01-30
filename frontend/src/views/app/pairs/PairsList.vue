@@ -6,7 +6,7 @@
       class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none max-w-[666px]"
       v-if="userStore.pairs?.length <= 0"
     >
-      <p class="text-xl">{{ t("pairs.noPairs") }}</p>
+      <p class="text-xl">{{ t("pairs.noPairsYet") }}</p>
       <i class="fa-solid fa-handshake-simple text-5xl"></i>
       <p class="text-xl">{{ t("pairs.startPairing") }}</p>
     </div>

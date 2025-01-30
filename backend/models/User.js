@@ -68,7 +68,7 @@ const userSchema = new mongoose.Schema({
     },
   },
   rushCoins: { type: Number, default: 5, required: true },
-  lastCoinsCollection: { type: Date, default: Date.now },
+  lastCoinsCollection: { type: Date, required: false },
 });
 
 userSchema.pre("save", async function (next) {
