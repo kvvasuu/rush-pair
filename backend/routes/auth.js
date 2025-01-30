@@ -318,6 +318,7 @@ auth.get("/verify-token", async (req, res) => {
 
     if (
       !user.firstVisit &&
+      user.rushCoins < 99 &&
       (!lastCoinsCollectionDate ||
         today.toDateString() !== lastCoinsCollectionDate.toDateString())
     ) {
