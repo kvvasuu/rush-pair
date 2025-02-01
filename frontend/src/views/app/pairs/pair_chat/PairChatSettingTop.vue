@@ -26,7 +26,9 @@
             <i
               class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
             ></i>
-            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+            <p
+              class="font-bold text-3xl text-center text-neutral-200 animate-pulse"
+            >
               {{ t("pairs.askForReveal") }}?
             </p>
           </div>
@@ -95,7 +97,9 @@
             <i
               class="fa-solid fa-masks-theater text-5xl text-neutral-200 animate-pulse"
             ></i>
-            <p class="font-bold text-3xl text-neutral-200 animate-pulse">
+            <p
+              class="font-bold text-3xl text-center text-neutral-200 animate-pulse"
+            >
               {{ t("pairs.askForReveal") }}?
             </p>
           </div>
