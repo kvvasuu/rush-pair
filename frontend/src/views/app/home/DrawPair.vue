@@ -100,7 +100,7 @@
               @click="router.push(`/app/pairs/${mainStore.pairId}`)"
               class="flex items-center mb-0 mt-auto justify-self-end text-neutral-50 dark:text-neutral-800 bg-red-500 hover:bg-red-600 dark:hover:bg-red-500/80 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
             >
-              <span>{{ t("general.startChatting") }}</span>
+              <span>{{ t("home.startChatting") }}</span>
             </button>
             <div class="w-full absolute bottom-0 left-0 h-">
               <div
