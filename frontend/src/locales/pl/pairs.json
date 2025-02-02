@@ -65,5 +65,8 @@
     "29": "Czy spotkałeś kiedyś kogoś sławnego?"
   },
   "deletingThisMessage": "Usunięcie tej wiadomości spowoduje jej trwałe usunięcie, jeśli nie została jeszcze przeczytana przez odbiorcę.",
-  "areYouSure": "Czy na pewno chcesz kontynuować?"
+  "areYouSure": "Czy na pewno chcesz kontynuować?",
+  "notEnoughRushCoins": "Nie masz wystarczającej liczby RushCoinów",
+  "revealRequestSent": "Prośba o ujawnienie tożsamości została wysłana!",
+  "waitForResponse": "Zabraliśmy 2 RushCoiny. Czekaj na odpowiedź partnera."
 }

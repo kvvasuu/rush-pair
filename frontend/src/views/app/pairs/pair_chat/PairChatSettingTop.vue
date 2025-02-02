@@ -297,6 +297,41 @@
           </ConfirmationModal>
         </Teleport>
       </Transition>
+      <Transition name="fade" mode="out-in">
+        <Teleport to="body">
+          <InformationModal
+            @close="isInformationModalVisible = false"
+            v-if="isInformationModalVisible"
+          >
+            <template #title>
+              <img
+                src="/RushCoin.svg"
+                alt="RushCoin"
+                draggable="false"
+                class="aspect-square w-24 select-none my-2 absolute -top-12"
+              />
+              <h2
+                class="mt-12 text-center font-bold text-xl text-neutral-600 dark:text-neutral-300"
+              >
+                {{
+                  notEnoughRushCoins
+                    ? t("pairs.notEnoughRushCoins")
+                    : t("pairs.revealRequestSent")
+                }}
+              </h2>
+            </template>
+            <template #content>
+              <div
+                class="flex mx-0 sm:mx-8 flex-col items-center justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
+              >
+                <h3 class="font-semibold mt-2 text-center">
+                  {{ !notEnoughRushCoins ? t("pairs.waitForResponse") : "" }}
+                </h3>
+              </div>
+            </template>
+          </InformationModal>
+        </Teleport>
+      </Transition>
     </div>
   </Transition>
 </template>
@@ -306,7 +341,9 @@ import { ref } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
+import { useUserStore } from "../../../../stores/userStore";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
+import InformationModal from "../../../../components/containers/InformationModal.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -314,6 +351,7 @@ const { t } = useI18n();
 const props = defineProps(["isProfileExpanded"]);
 
 const chatStore = useChatStore();
+const userStore = useUserStore();
 
 let tempNickname = "";
 
@@ -359,11 +397,28 @@ const toggleReportOverlay = () => {
 
 const isAskModalVisible = ref(false);
 const toggleAskModal = () => {
+  if (userStore.rushCoins < 2) {
+    notEnoughRushCoins.value = true;
+    toggleInformationModal();
+    return;
+  }
   isAskModalVisible.value = !isAskModalVisible.value;
 };
 
-const askForReveal = () => {
-  chatStore.askForReveal();
+const isInformationModalVisible = ref(false);
+const toggleInformationModal = () => {
+  isInformationModalVisible.value = !isInformationModalVisible.value;
+};
+
+const notEnoughRushCoins = ref(false);
+
+const askForReveal = async () => {
+  const response = await chatStore.askForReveal();
+  response === "notEnoughRushCoins"
+    ? (notEnoughRushCoins.value = true)
+    : (notEnoughRushCoins.value = false);
+
+  toggleInformationModal();
 };
 </script>
 

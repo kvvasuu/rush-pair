@@ -227,17 +227,10 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     const user = await User.findOne({ _id: userId });
 
     if (!user || user.rushCoins < 2) {
-      return res.status(400).json({ msg: "notEnoughRushCoins" });
+      return res.status(422).json({ msg: "notEnoughRushCoins" });
     }
 
     const pairEmail = await User.findOne({ _id: pairId }).select("email");
-
-    await User.updateOne(
-      { _id: userId },
-      {
-        $inc: { rushCoins: -2 },
-      }
-    );
 
     const pair = await Pair.findOneAndUpdate(
       { email: user.email, "pairedWith.id": pairId },
@@ -266,6 +259,8 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     const userSocketId = await ActiveUser.findOne({ userId: userId });
     const pairSocketId = await ActiveUser.findOne({ userId: pairId });
 
+    console.log(userSocketId, pairSocketId);
+
     const userPair = userUpdated.pairedWith.find((p) => p.id === userId);
     const pairPair = pair.pairedWith.find((p) => p.id === pairId);
 
@@ -286,7 +281,7 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
       );
 
       await Pair.updateOne(
-        { email: userEmail.email, "pairedWith.id": pairId },
+        { email: user.email, "pairedWith.id": pairId },
         {
           $unset: {
             "pairedWith.$.askedForReveal": "",
@@ -306,6 +301,13 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
         io.to(pairSocketId.socketId).emit("askedForReveal");
       }
     }
+
+    await User.updateOne(
+      { _id: userId },
+      {
+        $inc: { rushCoins: -2 },
+      }
+    );
     return res.status(201).json({ hasBeenAskedForReveal: true });
   } catch (error) {
     next(error);

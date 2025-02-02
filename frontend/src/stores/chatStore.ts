@@ -260,7 +260,7 @@ export const useChatStore = defineStore("chatStore", {
       chatSocket.disconnect();
       this.removeEvents();
     },
-    async askForReveal() {
+    async askForReveal(): Promise<string | boolean> {
       const userStore = useUserStore();
       try {
         const res = await axios.post(`/chat/ask-for-reveal`, {
@@ -268,9 +268,17 @@ export const useChatStore = defineStore("chatStore", {
           pairId: this.pairInfo.id,
         });
 
-        if (res) this.pairInfo.hasBeenAskedForReveal = true;
-      } catch (error) {
-        console.log(error);
+        if (res) {
+          this.pairInfo.hasBeenAskedForReveal = true;
+          userStore.rushCoins = userStore.rushCoins - 2;
+          return true;
+        }
+        return false;
+      } catch (error: any) {
+        if (error.response?.data?.msg === "notEnoughRushCoins") {
+          return "notEnoughRushCoins";
+        }
+        return false;
       }
     },
   },

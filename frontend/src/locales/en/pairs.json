@@ -65,5 +65,8 @@
     "29": "Have you ever met anyone famous?"
   },
   "deletingThisMessage": "Deleting this message will permanently remove it if it hasn't been read by the recipient yet.",
-  "areYouSure": "Are you sure you want to proceed?"
+  "areYouSure": "Are you sure you want to proceed?",
+  "notEnoughRushCoins": "You don't have enough RushCoins",
+  "revealRequestSent": "Your identity request has been sent!",
+  "waitForResponse": "We took 2 RushCoins. Wait for the partner's response"
 }
