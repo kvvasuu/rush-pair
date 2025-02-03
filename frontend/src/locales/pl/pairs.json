@@ -29,7 +29,7 @@
   "wantToReveal": "Czy chcesz ujawnić swoją tożsamość?",
   "typeAMessage": "Wpisz wiadomość...",
   "rollTheDice": "Rzuć kostką!",
-  "whyNotStart": "Dlaczego nie zacząć od 'Cześć' lub użyć przycisku poniżej, aby zadać coś ciekawego, albo wylosować losową wiadomość!",
+  "whyNotStart": "Dlaczego nie zacząć od 'Cześć' lub użyć przycisku poniżej, aby wylosować wiadomość!",
   "longTimeNoSee": "Dawno się nie widzieliśmy! Minęło trochę czasu od naszej ostatniej rozmowy. Gotów na nadrobienie zaległości?",
   "youHaveNewMessages": "Masz 0 nowych wiadomości! | Masz 1 nową wiadomość! | Masz {messagesQuantity} nowych wiadomości!",
   "sampleMessages": {
