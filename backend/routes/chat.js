@@ -27,7 +27,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
         const pairedUser = await User.findById(el.id);
         const isActive = await ActiveUser.exists({ userId: el.id });
 
-        if (!pairedUser) return null;
+        if (!pairedUser || el?.isBlocked) return null;
 
         return el.isVisible
           ? {
@@ -204,6 +204,36 @@ chat.post("/report-user", authenticateToken, async (req, res, next) => {
         .status(201)
         .json({ msg: "Report sent.", reportReferenceId: report.referenceId });
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+chat.post("/block-user", authenticateToken, async (req, res, next) => {
+  try {
+    if (!req.body.userId || !req.body.pairId) {
+      return res.status(404).json({ msg: "Invalid information." });
+    }
+
+    const { userId, pairId } = req.body;
+
+    const user = await User.findById(userId);
+
+    await Pair.findOneAndUpdate(
+      { email: user.email, "pairedWith.id": pairId },
+      { $set: { "pairedWith.$.isBlocked": true } },
+      {
+        $unset: {
+          "pairedWith.$.isVisible": "",
+          "pairedWith.$.name": "",
+          "pairedWith.$.askedForReveal": "",
+          "pairedWith.$.hasBeenAskedForReveal": "",
+          "pairedWith.$.unreadMessagesCount": "",
+        },
+      }
+    );
+
+    return res.status(201).json({ msg: "User blocked" });
   } catch (error) {
     next(error);
   }

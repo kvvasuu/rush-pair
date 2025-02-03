@@ -241,14 +241,26 @@
               </button>
             </div>
           </div>
-          <button
-            class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl self-center mt-auto mb-4"
-            @click="toggleReportOverlay"
-            :title="t('report.report')"
+          <div
+            class="flex items-center justify-center gap-1 mt-auto mb-4 self-center flex-wrap"
           >
-            <i class="fa-solid fa-triangle-exclamation mr-2"></i
-            ><span>{{ t("report.report") }}</span>
-          </button>
+            <button
+              class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
+              @click="toggleReportOverlay"
+              :title="t('report.report')"
+            >
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i
+              ><span>{{ t("report.report") }}</span>
+            </button>
+            <button
+              class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
+              @click="toggleBlockModal"
+              :title="t('pairs.block')"
+            >
+              <i class="fa-solid fa-ban mr-2"></i
+              ><span>{{ t("pairs.block") }}</span>
+            </button>
+          </div>
           <button
             class="text-slate-400 dark:text-neutral-500 group self-center mb-0"
             @click="toggleChatSettings"
@@ -293,6 +305,42 @@
                 <p>{{ t("pairs.someoneIsCurious") }}</p>
                 <p>{{ t("pairs.wantToReveal") }}</p>
               </div>
+            </template>
+          </ConfirmationModal>
+        </Teleport>
+      </Transition>
+      <Transition name="fade" mode="out-in">
+        <Teleport to="body">
+          <ConfirmationModal
+            @close="isBlockModalVisible = false"
+            @confirm="blockUser"
+            v-if="isBlockModalVisible"
+          >
+            <template v-slot:title>{{ t("pairs.blockUser") }}</template>
+            <template v-slot:content>
+              <div>
+                <ul
+                  class="flex mx-0 sm:mx-8 flex-col items-start justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
+                >
+                  <h3 class="font-bold text-lg mb-1">
+                    {{ t("pairs.onBlock") }}
+                  </h3>
+                  <li class="ml-8 list-disc">
+                    <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                      {{ t("pairs.cannotPairAgain") }}
+                    </p>
+                  </li>
+                  <li class="ml-8 list-disc">
+                    <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                      {{ t("pairs.cannotSee") }}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </template>
+            <template v-slot:confirm-button>
+              <i class="fa-solid fa-ban mr-2"></i
+              ><span>{{ t("pairs.block") }}</span>
             </template>
           </ConfirmationModal>
         </Teleport>
@@ -345,6 +393,8 @@ import { useUserStore } from "../../../../stores/userStore";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 import InformationModal from "../../../../components/containers/InformationModal.vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import axios from "axios";
 
 const { t } = useI18n();
 
@@ -352,6 +402,8 @@ const props = defineProps(["isProfileExpanded"]);
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
+
+const router = useRouter();
 
 let tempNickname = "";
 
@@ -405,13 +457,6 @@ const toggleAskModal = () => {
   isAskModalVisible.value = !isAskModalVisible.value;
 };
 
-const isInformationModalVisible = ref(false);
-const toggleInformationModal = () => {
-  isInformationModalVisible.value = !isInformationModalVisible.value;
-};
-
-const notEnoughRushCoins = ref(false);
-
 const askForReveal = async () => {
   const response = await chatStore.askForReveal();
   response === "notEnoughRushCoins"
@@ -420,6 +465,35 @@ const askForReveal = async () => {
 
   toggleInformationModal();
 };
+
+const isInformationModalVisible = ref(false);
+const toggleInformationModal = () => {
+  isInformationModalVisible.value = !isInformationModalVisible.value;
+};
+
+const isBlockModalVisible = ref(false);
+const toggleBlockModal = () => {
+  isBlockModalVisible.value = !isBlockModalVisible.value;
+};
+
+const blockUser = async () => {
+  const pairId = chatStore.pairInfo.id;
+
+  try {
+    await axios.post(`/chat/block-user`, {
+      userId: userStore.id,
+      pairId,
+    });
+
+    router.replace("/app/pairs");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    toggleBlockModal();
+  }
+};
+
+const notEnoughRushCoins = ref(false);
 </script>
 
 <style scoped>
