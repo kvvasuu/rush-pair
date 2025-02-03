@@ -259,8 +259,6 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     const userSocketId = await ActiveUser.findOne({ userId: userId });
     const pairSocketId = await ActiveUser.findOne({ userId: pairId });
 
-    console.log(userSocketId, pairSocketId);
-
     const userPair = userUpdated.pairedWith.find((p) => p.id === userId);
     const pairPair = pair.pairedWith.find((p) => p.id === pairId);
 
@@ -305,7 +303,7 @@ chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
     await User.updateOne(
       { _id: userId },
       {
-        $inc: { rushCoins: -2 },
+        $inc: { rushCoins: -5 },
       }
     );
     return res.status(201).json({ hasBeenAskedForReveal: true });

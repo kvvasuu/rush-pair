@@ -318,7 +318,7 @@ const toggleReportOverlay = () => {
 
 const isAskModalVisible = ref(false);
 const toggleAskModal = () => {
-  if (userStore.rushCoins < 2) {
+  if (userStore.rushCoins < 5) {
     notEnoughRushCoins.value = true;
     toggleInformationModal();
     return;

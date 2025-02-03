@@ -86,5 +86,5 @@
   "byLogging": "By logging in daily (+1 RushCoin)",
   "byPlaying": "By playing minigames (max +3 RushCoins daily)",
   "howToSpentRushCoins": "What can you spend them on?",
-  "revealRequest": "Request to reveal identity (-2 RushCoins)"
+  "revealRequest": "Request to reveal identity (-5 RushCoins)"
 }
