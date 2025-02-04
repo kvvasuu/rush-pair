@@ -32,7 +32,7 @@
     <div class="w-full h-full mt-2 max-w-[666px]">
       <div class="w-full" v-if="searchValue.length < 2">
         <label
-          class="flex items-center justify-end gap-2 text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-2 relative cursor-pointer"
+          class="flex items-center justify-end gap-2 text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-6 sm:px-0 relative cursor-pointer"
         >
           <span class="px-1 select-none">Show blocked pairs</span>
 
