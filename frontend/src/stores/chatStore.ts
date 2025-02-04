@@ -270,7 +270,7 @@ export const useChatStore = defineStore("chatStore", {
 
         if (res) {
           this.pairInfo.hasBeenAskedForReveal = true;
-          userStore.rushCoins = userStore.rushCoins - 2;
+          userStore.rushCoins = userStore.rushCoins - 5;
           return true;
         }
         return false;

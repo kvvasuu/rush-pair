@@ -27,7 +27,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
         const pairedUser = await User.findById(el.id);
         const isActive = await ActiveUser.exists({ userId: el.id });
 
-        if (!pairedUser || el?.isBlocked) return null;
+        if (!pairedUser) return null;
 
         return el.isVisible
           ? {
@@ -48,6 +48,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               isActive: !!isActive,
               askedForReveal: el.askedForReveal,
               unreadMessagesCount: el.unreadMessagesCount,
+              isBlocked: el.isBlocked,
             };
       })
     );
@@ -218,10 +219,10 @@ chat.post("/block-user", authenticateToken, async (req, res, next) => {
     const { userId, pairId } = req.body;
 
     const user = await User.findById(userId);
+    const pair = await User.findById(pairId);
 
-    await Pair.findOneAndUpdate(
+    await Pair.updateOne(
       { email: user.email, "pairedWith.id": pairId },
-      { $set: { "pairedWith.$.isBlocked": true } },
       {
         $unset: {
           "pairedWith.$.isVisible": "",
@@ -230,6 +231,21 @@ chat.post("/block-user", authenticateToken, async (req, res, next) => {
           "pairedWith.$.hasBeenAskedForReveal": "",
           "pairedWith.$.unreadMessagesCount": "",
         },
+        $set: { "pairedWith.$.isBlocked": true },
+      }
+    );
+
+    await Pair.updateOne(
+      { email: pair.email, "pairedWith.id": userId },
+      {
+        $unset: {
+          "pairedWith.$.isVisible": "",
+          "pairedWith.$.name": "",
+          "pairedWith.$.askedForReveal": "",
+          "pairedWith.$.hasBeenAskedForReveal": "",
+          "pairedWith.$.unreadMessagesCount": "",
+        },
+        $set: { "pairedWith.$.isBlocked": true },
       }
     );
 

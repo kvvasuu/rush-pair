@@ -9,5 +9,6 @@ export const useMainStore = defineStore("mainStore", {
     pairId: "",
     socketMessage: "",
     showCoinsCollectionModal: false,
+    showBlockedPairs: "",
   }),
 });

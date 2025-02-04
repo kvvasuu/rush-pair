@@ -24,6 +24,7 @@ interface PairInfo {
   askedForReveal: boolean;
   hasBeenAskedForReveal: boolean;
   unreadMessagesCount: number;
+  isBlocked?: boolean;
 }
 
 interface UserStoreState extends User {
@@ -58,6 +59,7 @@ interface MainStoreState {
   pairId: string;
   socketMessage: string;
   showCoinsCollectionModal: boolean;
+  showBlockedPairs: "yes" | "";
 }
 
 interface Emoji {
