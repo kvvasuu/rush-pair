@@ -62,7 +62,7 @@
       <p
         class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"
       >
-        <span>{{ pair.name }}</span>
+        <span>Blocked</span>
       </p>
 
       <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
