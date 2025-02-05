@@ -9,7 +9,7 @@
     </p>
     <div class="w-full relative flex items-center justify-center min-h-24">
       <p
-        v-if="userStore.pairs?.length <= 0"
+        v-if="pairs?.length <= 0"
         class="text-neutral-400 dark:text-neutral-500 select-none"
       >
         {{ t("home.noPairsYet") }}
@@ -20,7 +20,7 @@
         ref="horizontalSlider"
         v-else
       >
-        <div class="relative" v-for="pair in userStore.pairs" :key="pair?.id">
+        <div class="relative" v-for="pair in pairs" :key="pair?.id">
           <PairAvatar
             :pair="pair"
             :is-active="pair.isActive"
@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useUserStore } from "../../../../stores/userStore.ts";
 import { useRouter } from "vue-router";
 import PairAvatar from "../../../../components/PairAvatar.vue";
@@ -96,6 +96,10 @@ const { t } = useI18n();
 
 const router = useRouter();
 const userStore = useUserStore();
+
+const pairs = computed(() => {
+  return userStore.pairs.filter((pair) => !pair?.isBlocked);
+});
 
 const goToPair = (id: string) => {
   router.push(`/app/pairs/${id}`);

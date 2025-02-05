@@ -3,6 +3,7 @@
     <div class="relative">
       <img
         :src="avatarSrc"
+        :key="avatarSrc"
         alt="pair-avatar"
         class="aspect-square w-full rounded-full"
         :class="{ 'rounded-none': square }"
@@ -22,7 +23,7 @@ import { useAvatar } from "../composables/avatar.ts";
 const props = defineProps(["pair", "square", "isActive"]);
 
 const { setDefaultAvatar, avatarSrc } = useAvatar(
-  props.pair.imageUrl,
-  !props.pair.isVisible
+  props.pair?.imageUrl,
+  !props.pair?.isVisible
 );
 </script>

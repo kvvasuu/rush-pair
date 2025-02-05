@@ -1,7 +1,7 @@
 <template>
   <Transition name="expand">
     <div
-      class="w-full h-full sm:h-80 absolute top-0 z-10 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
+      class="w-full h-full sm:h-80 absolute top-0 z-10 flex flex-col items-center sm:flex-row overflow-hidden box-border bg-slate-300 dark:bg-neutral-900 lg:hidden"
       v-if="props.isProfileExpanded"
     >
       <div
@@ -17,6 +17,7 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
             v-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
@@ -35,6 +36,7 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur text-center"
             v-else-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               chatStore.pairInfo.hasBeenAskedForReveal
@@ -50,7 +52,9 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer text-center"
             v-else-if="
-              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+              !chatStore.pairInfo.isBlocked &&
+              !chatStore.pairInfo.isVisible &&
+              chatStore.pairInfo.askedForReveal
             "
             @click="toggleAskModal"
           >
@@ -88,6 +92,7 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
@@ -106,6 +111,7 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center"
             v-else-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               chatStore.pairInfo.hasBeenAskedForReveal
@@ -121,7 +127,9 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-else-if="
-              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+              !chatStore.pairInfo.isBlocked &&
+              !chatStore.pairInfo.isVisible &&
+              chatStore.pairInfo.askedForReveal
             "
             @click="toggleAskModal"
           >
@@ -194,7 +202,19 @@
         </div>
 
         <div class="w-full h-full py-6 px-8 flex flex-col" v-else>
-          <div class="flex items-center flex-col justify-start">
+          <div
+            class="flex items-center flex-col justify-start"
+            v-if="chatStore.pairInfo.isBlocked"
+          >
+            <div class="flex items-center justify-start w-full">
+              <p
+                class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
+              >
+                {{ chatStore.pairInfo.name || t("pairs.anonymous") }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center flex-col justify-start" v-else>
             <span
               class="w-full text-start text-sm text-slate-600 dark:text-neutral-500 select-none"
               >{{ t("pairs.nickname") }}:</span
@@ -241,14 +261,27 @@
               </button>
             </div>
           </div>
-          <button
-            class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl self-center mt-auto mb-4"
-            @click="toggleReportOverlay"
-            :title="t('report.report')"
+          <div
+            class="flex items-center justify-center gap-1 mt-auto mb-4 self-center flex-wrap"
           >
-            <i class="fa-solid fa-triangle-exclamation mr-2"></i
-            ><span>{{ t("report.report") }}</span>
-          </button>
+            <button
+              class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
+              @click="toggleReportOverlay"
+              :title="t('report.report')"
+            >
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i
+              ><span>{{ t("report.report") }}</span>
+            </button>
+            <button
+              class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
+              @click="toggleBlockModal"
+              :title="t('pairs.block')"
+              v-if="!chatStore.pairInfo.isBlocked"
+            >
+              <i class="fa-solid fa-ban mr-2"></i
+              ><span>{{ t("pairs.block") }}</span>
+            </button>
+          </div>
           <button
             class="text-slate-400 dark:text-neutral-500 group self-center mb-0"
             @click="toggleChatSettings"
@@ -299,6 +332,42 @@
       </Transition>
       <Transition name="fade" mode="out-in">
         <Teleport to="body">
+          <ConfirmationModal
+            @close="isBlockModalVisible = false"
+            @confirm="blockUser"
+            v-if="isBlockModalVisible"
+          >
+            <template v-slot:title>{{ t("pairs.blockUser") }}</template>
+            <template v-slot:content>
+              <div>
+                <ul
+                  class="flex mx-0 sm:mx-8 flex-col items-start justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
+                >
+                  <h3 class="font-bold text-lg mb-1">
+                    {{ t("pairs.onBlock") }}
+                  </h3>
+                  <li class="ml-8 list-disc">
+                    <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                      {{ t("pairs.cannotPairAgain") }}
+                    </p>
+                  </li>
+                  <li class="ml-8 list-disc">
+                    <p class="pl-1 sm:pl-5 font-semibold text-sm">
+                      {{ t("pairs.cannotSee") }}
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </template>
+            <template v-slot:confirm-button>
+              <i class="fa-solid fa-ban mr-2"></i
+              ><span>{{ t("pairs.block") }}</span>
+            </template>
+          </ConfirmationModal>
+        </Teleport>
+      </Transition>
+      <Transition name="fade" mode="out-in">
+        <Teleport to="body">
           <InformationModal
             @close="isInformationModalVisible = false"
             v-if="isInformationModalVisible"
@@ -316,6 +385,8 @@
                 {{
                   notEnoughRushCoins
                     ? t("pairs.notEnoughRushCoins")
+                    : chatStore.pairInfo.isVisible
+                    ? t("pairs.bothRevealed")
                     : t("pairs.revealRequestSent")
                 }}
               </h2>
@@ -325,7 +396,13 @@
                 class="flex mx-0 sm:mx-8 flex-col items-center justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
               >
                 <h3 class="font-semibold mt-2 text-center">
-                  {{ !notEnoughRushCoins ? t("pairs.waitForResponse") : "" }}
+                  {{
+                    notEnoughRushCoins
+                      ? ""
+                      : chatStore.pairInfo.isVisible
+                      ? t("pairs.enjoyConversation")
+                      : t("pairs.waitForResponse")
+                  }}
                 </h3>
               </div>
             </template>
@@ -345,6 +422,8 @@ import { useUserStore } from "../../../../stores/userStore";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 import InformationModal from "../../../../components/containers/InformationModal.vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+import axios from "axios";
 
 const { t } = useI18n();
 
@@ -352,6 +431,8 @@ const props = defineProps(["isProfileExpanded"]);
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
+
+const router = useRouter();
 
 let tempNickname = "";
 
@@ -405,21 +486,45 @@ const toggleAskModal = () => {
   isAskModalVisible.value = !isAskModalVisible.value;
 };
 
-const isInformationModalVisible = ref(false);
-const toggleInformationModal = () => {
-  isInformationModalVisible.value = !isInformationModalVisible.value;
-};
-
-const notEnoughRushCoins = ref(false);
-
 const askForReveal = async () => {
   const response = await chatStore.askForReveal();
   response === "notEnoughRushCoins"
     ? (notEnoughRushCoins.value = true)
     : (notEnoughRushCoins.value = false);
 
-  toggleInformationModal();
+  setTimeout(() => {
+    if (!chatStore.pairInfo.isVisible) isInformationModalVisible.value = true;
+  }, 300);
 };
+
+const isInformationModalVisible = ref(false);
+const toggleInformationModal = () => {
+  isInformationModalVisible.value = !isInformationModalVisible.value;
+};
+
+const isBlockModalVisible = ref(false);
+const toggleBlockModal = () => {
+  isBlockModalVisible.value = !isBlockModalVisible.value;
+};
+
+const blockUser = async () => {
+  const pairId = chatStore.pairInfo.id;
+
+  try {
+    await axios.post(`/chat/block-user`, {
+      userId: userStore.id,
+      pairId,
+    });
+
+    router.replace("/app/pairs");
+  } catch (error) {
+    console.log(error);
+  } finally {
+    toggleBlockModal();
+  }
+};
+
+const notEnoughRushCoins = ref(false);
 </script>
 
 <style scoped>

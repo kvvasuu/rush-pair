@@ -32,6 +32,7 @@ export const useChatStore = defineStore("chatStore", {
       askedForReveal: false,
       hasBeenAskedForReveal: false,
       unreadMessagesCount: 0,
+      isBlocked: false,
     },
     currentPage: 1,
     messages: [],
@@ -237,6 +238,12 @@ export const useChatStore = defineStore("chatStore", {
           }
         });
       }
+      if (!socket.hasListeners("youAreBlocked")) {
+        socket.on("youAreBlocked", (pairId) => {
+          const userStore = useUserStore();
+          if (pairId === userStore.id) this.pairInfo.isBlocked = true;
+        });
+      }
     },
     removeEvents() {
       socket.removeAllListeners("askedForReveal");
@@ -244,6 +251,7 @@ export const useChatStore = defineStore("chatStore", {
       chatSocket.removeAllListeners("startTyping");
       chatSocket.removeAllListeners("stopTyping");
       chatSocket.removeAllListeners("readLastMessage");
+      socket.removeAllListeners("youAreBlocked");
     },
     async connectToSocket() {
       const userStore = useUserStore();
@@ -270,7 +278,7 @@ export const useChatStore = defineStore("chatStore", {
 
         if (res) {
           this.pairInfo.hasBeenAskedForReveal = true;
-          userStore.rushCoins = userStore.rushCoins - 2;
+          userStore.rushCoins = userStore.rushCoins - 5;
           return true;
         }
         return false;
