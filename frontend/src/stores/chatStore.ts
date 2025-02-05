@@ -238,6 +238,12 @@ export const useChatStore = defineStore("chatStore", {
           }
         });
       }
+      if (!socket.hasListeners("youAreBlocked")) {
+        socket.on("youAreBlocked", (pairId) => {
+          const userStore = useUserStore();
+          if (pairId === userStore.id) this.pairInfo.isBlocked = true;
+        });
+      }
     },
     removeEvents() {
       socket.removeAllListeners("askedForReveal");
@@ -245,6 +251,7 @@ export const useChatStore = defineStore("chatStore", {
       chatSocket.removeAllListeners("startTyping");
       chatSocket.removeAllListeners("stopTyping");
       chatSocket.removeAllListeners("readLastMessage");
+      socket.removeAllListeners("youAreBlocked");
     },
     async connectToSocket() {
       const userStore = useUserStore();

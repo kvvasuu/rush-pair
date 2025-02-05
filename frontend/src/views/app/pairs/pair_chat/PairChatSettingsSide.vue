@@ -300,6 +300,8 @@
               {{
                 notEnoughRushCoins
                   ? t("pairs.notEnoughRushCoins")
+                  : chatStore.pairInfo.isVisible
+                  ? t("pairs.bothRevealed")
                   : t("pairs.revealRequestSent")
               }}
             </h2>
@@ -309,7 +311,13 @@
               class="flex mx-0 sm:mx-8 flex-col items-center justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
             >
               <h3 class="font-semibold mt-2 text-center">
-                {{ !notEnoughRushCoins ? t("pairs.waitForResponse") : "" }}
+                {{
+                  notEnoughRushCoins
+                    ? ""
+                    : chatStore.pairInfo.isVisible
+                    ? t("pairs.enjoyConversation")
+                    : t("pairs.waitForResponse")
+                }}
               </h3>
             </div>
           </template>
@@ -320,7 +328,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import PairAvatar from "../../../../components/PairAvatar.vue";
 import PairReportOverlay from "./PairReportOverlay.vue";
 import { useChatStore } from "../../../../stores/chatStore";
@@ -328,15 +336,12 @@ import { useUserStore } from "../../../../stores/userStore";
 import ConfirmationModal from "../../../../components/containers/ConfirmationModal.vue";
 import InformationModal from "../../../../components/containers/InformationModal.vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 import axios from "axios";
 
 const { t } = useI18n();
 
 const chatStore = useChatStore();
 const userStore = useUserStore();
-
-const router = useRouter();
 
 let tempNickname = "";
 
@@ -396,7 +401,9 @@ const askForReveal = async () => {
     ? (notEnoughRushCoins.value = true)
     : (notEnoughRushCoins.value = false);
 
-  toggleInformationModal();
+  setTimeout(() => {
+    if (!chatStore.pairInfo.isVisible) isInformationModalVisible.value = true;
+  }, 300);
 };
 
 const isInformationModalVisible = ref(false);
@@ -417,8 +424,6 @@ const blockUser = async () => {
       userId: userStore.id,
       pairId,
     });
-
-    router.replace("/app/pairs");
   } catch (error) {
     console.log(error);
   } finally {
@@ -427,6 +432,16 @@ const blockUser = async () => {
 };
 
 const notEnoughRushCoins = ref(false);
+
+watch(
+  () => chatStore.pairInfo.isVisible,
+  (newValue) => {
+    if (newValue) {
+      isInformationModalVisible.value = newValue;
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style scoped>

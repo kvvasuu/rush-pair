@@ -252,6 +252,13 @@ chat.post("/block-user", authenticateToken, async (req, res, next) => {
       }
     );
 
+    const io = getIO();
+    const pairSocketId = await ActiveUser.findOne({ userId: pairId });
+
+    if (pairSocketId) {
+      io.to(pairSocketId.socketId).emit("youAreBlocked", pairId);
+    }
+
     return res.status(201).json({ msg: "User blocked" });
   } catch (error) {
     next(error);

@@ -69,11 +69,16 @@
   "notEnoughRushCoins": "Nie masz wystarczającej liczby RushCoinów",
   "revealRequestSent": "Prośba o ujawnienie tożsamości została wysłana!",
   "waitForResponse": "Zabraliśmy 5 RushCoinów. Czekaj na odpowiedź partnera.",
+  "bothRevealed": "Oboje ujawniliście swoje tożsamości!",
+  "enjoyConversation": "Teraz możecie rozmawiać bez anonimowości.",
   "block": "Zablokuj",
   "blockUser": "Zablokować użytkownika?",
   "onBlock": "Po zablokowaniu",
   "cannotPairAgain": "Nie będziesz mógł/mogła ponownie nawiązać rozmowy.",
   "cannotSee": "Ta osoba nie będzie mogła Cię już zobaczyć ani skontaktować się z Tobą.",
   "blocked": "Zablokowany",
-  "cannotChat": "Nie możesz już rozmawiać z tym użytkownikiem."
+  "cannotChat": "Nie możesz już rozmawiać z tym użytkownikiem.",
+  "youAreBlocked": "Zostałeś zablokowany",
+  "mistakeGetSupport": "Jeśli uważasz, że to pomyłka, możesz zgłosić problem do supportu.",
+  "showBlockedPairs": "Pokaż zablokowane pary"
 }

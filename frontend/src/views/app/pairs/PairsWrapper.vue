@@ -14,7 +14,7 @@
 
         <div
           class="hidden lg:block absolute rounded-full border-2 border-slate-200 dark:border-neutral-800 bg-lime-500 w-4 h-4 z-10 top-0 -right-5"
-          v-if="chatStore.pairInfo.isActive"
+          v-if="chatStore.pairInfo.isActive && !chatStore.pairInfo.isBlocked"
         ></div>
       </div>
 
@@ -34,7 +34,9 @@
       <PairAvatar
         class="absolute right-4 min-w-10 max-w-10 lg:hidden cursor-pointer"
         :pair="pairImage"
-        :is-active="chatStore.pairInfo.isActive"
+        :is-active="
+          chatStore.pairInfo.isActive && !chatStore.pairInfo.isBlocked
+        "
         :key="chatStore.pairInfo.imageUrl"
         v-if="route.params.id"
         @click="toggleExpandProfile"
@@ -65,7 +67,11 @@ const userStore = useUserStore();
 const chatStore = useChatStore();
 
 const pairName = computed(() => {
-  if (route.params.id) return chatStore.pairInfo.name || "";
+  if (route.params.id) {
+    return chatStore.pairInfo.isBlocked
+      ? t("pairs.blocked")
+      : chatStore.pairInfo.name || "";
+  }
 });
 
 const pairImage = computed(() => {

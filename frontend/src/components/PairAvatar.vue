@@ -3,6 +3,7 @@
     <div class="relative">
       <img
         :src="avatarSrc"
+        :key="avatarSrc"
         alt="pair-avatar"
         class="aspect-square w-full rounded-full"
         :class="{ 'rounded-none': square }"

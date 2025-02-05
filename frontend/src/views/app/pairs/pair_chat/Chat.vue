@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex-1 h-full w-full flex flex-col lg:flex-col justify-end relative"
-  >
+  <div class="flex-1 h-full w-full flex flex-col justify-end relative">
     <div
       class="w-full h-full relative overflow-y-auto overflow-x-hidden flex flex-col-reverse gap-1"
     >
@@ -71,15 +69,45 @@
     >
       {{ t("pairs.cannotChat") }}
     </div>
+    <Transition name="fade" mode="out-in">
+      <Teleport to="body">
+        <InformationModal
+          v-if="isBlockedModalVisible"
+          @close="isBlockedModalVisible = false"
+        >
+          <template #title>
+            <h2
+              class="text-center font-bold text-3xl text-neutral-600 dark:text-neutral-300"
+            >
+              {{ t("pairs.youAreBlocked") }}
+            </h2>
+          </template>
+          <template #content>
+            <div class="flex flex-col items-center justify-center">
+              <i class="fa-solid fa-ban text-5xl text-red-600 mt-2 mb-6"></i>
+              <p class="text-center font-semibold mb-1">
+                {{ t("pairs.cannotChat") }}
+              </p>
+              <p
+                class="text-center text-neutral-500 dark:text-neutral-400 text-[0.6rem] font-semibold"
+              >
+                {{ t("pairs.mistakeGetSupport") }}
+              </p>
+            </div>
+          </template>
+        </InformationModal>
+      </Teleport>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useChatStore } from "../../../../stores/chatStore";
 import EmojiPicker from "../../../../components/EmojiPicker.vue";
 import ChatMessagesList from "./ChatMessagesList.vue";
 import BasicSpinner from "../../../../components/BasicSpinner.vue";
+import InformationModal from "../../../../components/containers/InformationModal.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -235,6 +263,23 @@ onMounted(async () => {
   }
   isLoading.value = false;
 });
+
+const isBlockedModalVisible = ref(false);
+
+watch(
+  () => chatStore.pairInfo.isBlocked,
+  (newValue) => {
+    if (newValue) {
+      isBlockedModalVisible.value = newValue;
+      chatStore.pairInfo.imageUrl = "";
+      chatStore.pairInfo.name = "";
+      chatStore.pairInfo.description = undefined;
+      chatStore.pairInfo.age = undefined;
+      chatStore.pairInfo.city = undefined;
+    }
+  },
+  { deep: true }
+);
 
 const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0

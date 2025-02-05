@@ -9,7 +9,7 @@
     </p>
     <div class="w-full relative flex items-center justify-center min-h-24">
       <p
-        v-if="userStore.pairs?.length <= 0"
+        v-if="pairs?.length <= 0"
         class="text-neutral-400 dark:text-neutral-500 select-none"
       >
         {{ t("home.noPairsYet") }}

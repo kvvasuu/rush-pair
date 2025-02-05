@@ -16,6 +16,7 @@
         <PairAvatar
           :pair="chatStore.pairInfo"
           class="w-8 h-8 mr-2 shrink-0 self-end"
+          :key="chatStore.pairInfo.imageUrl"
           :class="[
             (chatStore.messages[index].sender === message.sender &&
               chatStore.messages[index + 1]?.sender !== message.sender) ||

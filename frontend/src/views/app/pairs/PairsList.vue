@@ -39,7 +39,9 @@
           <label
             class="flex items-center justify-end gap-2 text-neutral-600 dark:text-neutral-400 transition-all w-full p-3 px-6 sm:px-0 relative cursor-pointer"
           >
-            <span class="px-1 select-none">Show blocked pairs</span>
+            <span class="px-1 select-none">{{
+              t("pairs.showBlockedPairs")
+            }}</span>
 
             <input
               type="checkbox"

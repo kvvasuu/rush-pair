@@ -69,11 +69,16 @@
   "notEnoughRushCoins": "You don't have enough RushCoins",
   "revealRequestSent": "Your identity request has been sent!",
   "waitForResponse": "We took 5 RushCoins. Wait for the partner's response",
+  "bothRevealed": "Both of you have revealed your identities!",
+  "enjoyConversation": "Enjoy your conversation without anonymity.",
   "block": "Block",
   "blockUser": "Block user?",
   "onBlock": "After blocking:",
   "cannotPairAgain": "You will not be able to start a conversation again.",
   "cannotSee": "This person will no longer be able to see or contact you.",
   "blocked": "Blocked",
-  "cannotChat": "You can no longer chat with this user."
+  "cannotChat": "You can no longer chat with this user.",
+  "youAreBlocked": "You have been blocked",
+  "mistakeGetSupport": "If you believe this is a mistake, you can report the issue to support.",
+  "showBlockedPairs": "Show blocked pairs"
 }

@@ -1,7 +1,7 @@
 <template>
   <Transition name="expand">
     <div
-      class="w-full h-full sm:h-80 absolute top-0 z-10 flex flex-col items-center sm:flex-row overflow-hidden sm:relative box-border bg-slate-300 dark:bg-neutral-800/20 lg:hidden"
+      class="w-full h-full sm:h-80 absolute top-0 z-10 flex flex-col items-center sm:flex-row overflow-hidden box-border bg-slate-300 dark:bg-neutral-900 lg:hidden"
       v-if="props.isProfileExpanded"
     >
       <div
@@ -385,6 +385,8 @@
                 {{
                   notEnoughRushCoins
                     ? t("pairs.notEnoughRushCoins")
+                    : chatStore.pairInfo.isVisible
+                    ? t("pairs.bothRevealed")
                     : t("pairs.revealRequestSent")
                 }}
               </h2>
@@ -394,7 +396,13 @@
                 class="flex mx-0 sm:mx-8 flex-col items-center justify-center gap-4 text-neutral-600 dark:text-neutral-300 mb-4"
               >
                 <h3 class="font-semibold mt-2 text-center">
-                  {{ !notEnoughRushCoins ? t("pairs.waitForResponse") : "" }}
+                  {{
+                    notEnoughRushCoins
+                      ? ""
+                      : chatStore.pairInfo.isVisible
+                      ? t("pairs.enjoyConversation")
+                      : t("pairs.waitForResponse")
+                  }}
                 </h3>
               </div>
             </template>
@@ -484,7 +492,9 @@ const askForReveal = async () => {
     ? (notEnoughRushCoins.value = true)
     : (notEnoughRushCoins.value = false);
 
-  toggleInformationModal();
+  setTimeout(() => {
+    if (!chatStore.pairInfo.isVisible) isInformationModalVisible.value = true;
+  }, 300);
 };
 
 const isInformationModalVisible = ref(false);
