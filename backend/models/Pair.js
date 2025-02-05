@@ -35,7 +35,6 @@ const pairSchema = new mongoose.Schema({
       },
       unreadMessagesCount: {
         type: Number,
-        default: 0,
       },
       isBlocked: {
         type: Boolean,

@@ -126,6 +126,7 @@ const getRandomSampleMessage = () => {
 };
 
 const showSampleMessage = (): boolean => {
+  if (chatStore.pairInfo.isBlocked) return false;
   if (chatStore?.messages?.length === 0) return true;
 
   const dateNow = new Date().getTime();

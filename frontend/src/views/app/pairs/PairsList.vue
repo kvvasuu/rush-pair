@@ -33,7 +33,7 @@
       <TransitionGroup name="list">
         <div
           class="w-full"
-          v-if="searchValue.length < 2"
+          v-if="pairsBlocked.length > 0 && searchValue.length < 2"
           key="blocked-pairs-toggle"
         >
           <label
@@ -55,7 +55,7 @@
           </label>
         </div>
         <ul
-          class="w-full shadow-inner rounded-md bg-slate-300/80"
+          class="w-full shadow-inner rounded-md bg-slate-300/60 dark:bg-neutral-800/60"
           v-if="mainStore.showBlockedPairs"
           key="blocked-pairs"
         >

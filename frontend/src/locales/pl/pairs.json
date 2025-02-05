@@ -73,5 +73,7 @@
   "blockUser": "Zablokować użytkownika?",
   "onBlock": "Po zablokowaniu",
   "cannotPairAgain": "Nie będziesz mógł/mogła ponownie nawiązać rozmowy.",
-  "cannotSee": "Ta osoba nie będzie mogła Cię już zobaczyć ani skontaktować się z Tobą."
+  "cannotSee": "Ta osoba nie będzie mogła Cię już zobaczyć ani skontaktować się z Tobą.",
+  "blocked": "Zablokowany",
+  "cannotChat": "Nie możesz już rozmawiać z tym użytkownikiem."
 }

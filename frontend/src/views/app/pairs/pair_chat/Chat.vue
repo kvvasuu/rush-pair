@@ -21,6 +21,7 @@
 
     <div
       class="flex w-full relative items-end h-auto max-h-36 pr-2 bg-neutral-50 hover:bg-neutral-100/90 dark:bg-neutral-800/80 dark:hover:bg-neutral-800/50 text-neutral-600 dark:text-neutral-400 transition-all z-20"
+      v-if="!chatStore.pairInfo.isBlocked"
     >
       <p
         name="message"
@@ -63,6 +64,12 @@
           <i class="fa-solid fa-heart" v-else></i>
         </Transition>
       </button>
+    </div>
+    <div
+      class="flex w-full text-sm items-center justify-center h-16 font-semibold text-neutral-500 z-20 select-none"
+      v-else
+    >
+      {{ t("pairs.cannotChat") }}
     </div>
   </div>
 </template>

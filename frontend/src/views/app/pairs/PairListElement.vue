@@ -62,15 +62,21 @@
       <p
         class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"
       >
-        <span>Blocked</span>
+        <span>{{ t("pairs.blocked") }}</span>
       </p>
 
       <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
-        You can no longer chat with this user.
+        {{ pairedAt }}
+      </p>
+      <p
+        class="px-6 text-xs font-semibold text-slate-600 dark:text-neutral-600 select-none"
+      >
+        {{ t("pairs.cannotChat") }}
       </p>
     </div>
     <i
       class="ml-auto mr-0 fa-solid fa-ban text-3xl text-slate-400 dark:text-neutral-500 group-hover:text-slate-500/75 dark:group-hover:text-neutral-400/90 group-hover:rotate-6 transition-all duration-300"
+      :title="t('pairs.blocked')"
     ></i>
   </li>
 </template>

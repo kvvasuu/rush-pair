@@ -73,5 +73,7 @@
   "blockUser": "Block user?",
   "onBlock": "After blocking:",
   "cannotPairAgain": "You will not be able to start a conversation again.",
-  "cannotSee": "This person will no longer be able to see or contact you."
+  "cannotSee": "This person will no longer be able to see or contact you.",
+  "blocked": "Blocked",
+  "cannotChat": "You can no longer chat with this user."
 }

@@ -35,6 +35,7 @@
         <div
           class="flex items-center justify-center mr-1 h-10 w-10 opacity-0 group-hover:opacity-100 transition-all"
           v-if="
+            !chatStore.pairInfo.isBlocked &&
             message.sender === userStore.id &&
             !message?.isDeleted &&
             !message?.isRead

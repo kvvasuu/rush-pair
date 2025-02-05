@@ -39,6 +39,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               isActive: !!isActive,
               askedForReveal: el.askedForReveal,
               unreadMessagesCount: el.unreadMessagesCount,
+              isBlocked: el.isBlocked || false,
             }
           : {
               id: pairedUser.id,
@@ -48,7 +49,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               isActive: !!isActive,
               askedForReveal: el.askedForReveal,
               unreadMessagesCount: el.unreadMessagesCount,
-              isBlocked: el.isBlocked,
+              isBlocked: el.isBlocked || false,
             };
       })
     );
@@ -89,6 +90,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           isActive: !!isActive,
           askedForReveal: pair.askedForReveal || false,
           hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
+          isBlocked: pair.isBlocked || false,
         }
       : {
           id: pairChatUser.id,
@@ -97,6 +99,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           isActive: !!isActive,
           askedForReveal: pair.askedForReveal || false,
           hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
+          isBlocked: pair.isBlocked || false,
         };
 
     res.json({ pairChatUser: data });

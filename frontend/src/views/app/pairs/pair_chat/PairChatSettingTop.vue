@@ -17,6 +17,7 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer"
             v-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
@@ -35,6 +36,7 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur text-center"
             v-else-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               chatStore.pairInfo.hasBeenAskedForReveal
@@ -50,7 +52,9 @@
           <div
             class="h-full aspect-square flex flex-col justify-center items-center gap-4 absolute top-0 bg-black/40 backdrop-blur cursor-pointer text-center"
             v-else-if="
-              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+              !chatStore.pairInfo.isBlocked &&
+              !chatStore.pairInfo.isVisible &&
+              chatStore.pairInfo.askedForReveal
             "
             @click="toggleAskModal"
           >
@@ -88,6 +92,7 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               !chatStore.pairInfo.hasBeenAskedForReveal
@@ -106,6 +111,7 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center"
             v-else-if="
+              !chatStore.pairInfo.isBlocked &&
               !chatStore.pairInfo.isVisible &&
               !chatStore.pairInfo.askedForReveal &&
               chatStore.pairInfo.hasBeenAskedForReveal
@@ -121,7 +127,9 @@
           <div
             class="w-full h-full flex flex-col z-40 justify-center items-center gap-4 absolute backdrop-blur top-0 bg-black/40 text-center cursor-pointer"
             v-else-if="
-              !chatStore.pairInfo.isVisible && chatStore.pairInfo.askedForReveal
+              !chatStore.pairInfo.isBlocked &&
+              !chatStore.pairInfo.isVisible &&
+              chatStore.pairInfo.askedForReveal
             "
             @click="toggleAskModal"
           >
@@ -194,7 +202,19 @@
         </div>
 
         <div class="w-full h-full py-6 px-8 flex flex-col" v-else>
-          <div class="flex items-center flex-col justify-start">
+          <div
+            class="flex items-center flex-col justify-start"
+            v-if="chatStore.pairInfo.isBlocked"
+          >
+            <div class="flex items-center justify-start w-full">
+              <p
+                class="text-slate-700 dark:text-neutral-300 font-semibold text-2xl w-4/5 truncate"
+              >
+                {{ chatStore.pairInfo.name || t("pairs.anonymous") }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center flex-col justify-start" v-else>
             <span
               class="w-full text-start text-sm text-slate-600 dark:text-neutral-500 select-none"
               >{{ t("pairs.nickname") }}:</span
@@ -256,6 +276,7 @@
               class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
               @click="toggleBlockModal"
               :title="t('pairs.block')"
+              v-if="!chatStore.pairInfo.isBlocked"
             >
               <i class="fa-solid fa-ban mr-2"></i
               ><span>{{ t("pairs.block") }}</span>
