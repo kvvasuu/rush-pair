@@ -29,6 +29,7 @@ The app supports real-time chat with the following features:
 - **Typing indicatior**: See in real time when your chat partner is typing a message.
 - **Customizable nicknames**: Users can set a nickname for their chat partner.
 - **Profile details**: Users can view their chat partner’s details, including photo, description, and personal information.
+- **Report and block users**: Users can report inappropriate behavior or block other users directly from the chat settings.
 
 #### User Pairing System :two_hearts:
 The app features a unique system for matching users for live chat sessions:
@@ -52,6 +53,13 @@ Users can fully customize their profiles, including:
 Users can personalize app settings such as:
 - **Language preferences**: Switch between English or Polish language.
 - **Dark/Light mode**: Switch between dark and light themes.
+
+#### RushCoins System :coin:
+
+RushPair features a virtual currency system called **RushCoins**:
+
+- **Earn RushCoins**: Users can earn RushCoins through activities like daily logins or completing in-app challenges.
+- **Spend RushCoins**: RushCoins can be used to unlock special features, such as revealing a partner's identity or customizing the chat experience.
 
 #### Account Deletion :x:
 
