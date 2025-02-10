@@ -13,24 +13,22 @@
       v-show="isLoaded"
     />
     <div
-      class="w-full h-full bg-slate-300 dark:bg-neutral-800/60 animate-pulse absolute"
+      class="w-full h-full bg-slate-300 dark:bg-neutral-800/60 animate-pulse absolute flex items-center justify-center font-semibold text-lg text-neutral-400 dark:text-neutral-600 select-none"
       v-if="!isLoaded"
-    ></div>
+    >
+      {{ name }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
 import { ref } from "vue";
-
-const { t } = useI18n();
 
 defineProps({ name: String, imageURL: String });
 
 const isLoaded = ref(false);
 
 const onLoad = () => {
-  console.log("loaded");
   isLoaded.value = true;
 };
 </script>

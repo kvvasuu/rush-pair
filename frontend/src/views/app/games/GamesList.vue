@@ -5,13 +5,12 @@
     <div
       class="w-full max-w-[666px] gap-6 sm:gap-16 flex flex-wrap items-start justify-center"
     >
-      <GamesListElement></GamesListElement>
-      <GamesListElement></GamesListElement>
+      <GamesListElement name="Quiz"></GamesListElement>
     </div>
     <p
       class="select-none mt-8 text-lg font-semibold text-neutral-400 dark:text-neutral-600"
     >
-      More games soon...
+      {{ t("games.moreGamesSoon") }}
     </p>
   </div>
 </template>
