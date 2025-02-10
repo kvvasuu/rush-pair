@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "../stores/userStore";
 import AppView from "../views/app/AppView.vue";
 import Home from "../views/app/home/Home.vue";
-import Stars from "../views/app/Stars.vue";
+import GamesWrapper from "../views/app/games/GamesWrapper.vue";
 import SettingsWrapper from "../views/app/settings/SettingsWrapper.vue";
 import Settings from "../views/app/settings/Settings.vue";
 import PairsWrapper from "../views/app/pairs/PairsWrapper.vue";
@@ -33,9 +33,16 @@ const routes = [
         component: Home,
       },
       {
-        path: "stars",
-        name: "Stars",
-        component: Stars,
+        path: "games",
+        name: "Games",
+        component: GamesWrapper,
+        children: [
+          {
+            path: "",
+            name: "GamesList",
+            component: () => import("../views/app/games/GamesList.vue"),
+          },
+        ],
       },
       {
         path: "pairs",

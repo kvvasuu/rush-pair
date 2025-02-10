@@ -83,22 +83,22 @@
           {{ t("general.home") }}
         </p>
       </RouterLink>
-      <RouterLink to="/app/stars" class="menu-link">
+      <RouterLink to="/app/games" class="menu-link">
         <div class="w-12 flex justify-center items-center">
           <i
-            class="fa-solid fa-star text-3xl transition-all duration-150"
+            class="fa-solid fa-gamepad text-3xl transition-all duration-150"
             :class="{
-              'text-rose-500': route.path.startsWith('/app/stars'),
+              'text-rose-500': route.path.startsWith('/app/games'),
             }"
           ></i>
         </div>
         <p
           class="font-semibold hidden xl:block transition-all duration-150"
           :class="{
-            'text-rose-500': route.path.startsWith('/app/stars'),
+            'text-rose-500': route.path.startsWith('/app/games'),
           }"
         >
-          {{ t("general.stars") }}
+          {{ t("general.games") }}
         </p>
       </RouterLink>
       <RouterLink
@@ -211,7 +211,7 @@ const isRouteActive = computed(() => {
   return (
     route.path.startsWith("/app") &&
     !route.path.startsWith("/app/pairs") &&
-    !route.path.startsWith("/app/stars") &&
+    !route.path.startsWith("/app/games") &&
     !route.path.startsWith("/app/settings")
   );
 });
