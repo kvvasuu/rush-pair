@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex items-center justify-center w-60 h-60 rounded-lg shadow transition-all duration-300 overflow-hidden relative bg-neutral-100 dark:bg-neutral-800"
-    :class="{ 'cursor-pointer hover:-translate-y-1': isLoaded }"
+    class="flex items-center justify-center w-60 h-60 rounded-3xl shadow transition-all duration-300 overflow-hidden relative bg-neutral-100 dark:bg-neutral-800 select-none"
+    :class="{ 'cursor-pointer hover:scale-105': isLoaded }"
   >
     <img
       :key="name"
-      src="https://gamescrafters.berkeley.edu/instructions/i/tictactoe/tictactoe.svg"
+      :src="imgUrl"
       :alt="name"
       draggable="false"
       @load="onLoad"
@@ -24,11 +24,16 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-defineProps({ name: String, imageURL: String });
+const props = defineProps({ name: String });
 
 const isLoaded = ref(false);
 
 const onLoad = () => {
   isLoaded.value = true;
 };
+
+const imgUrl = new URL(
+  `../../../assets/images/${props.name}.webp`,
+  import.meta.url
+).href;
 </script>

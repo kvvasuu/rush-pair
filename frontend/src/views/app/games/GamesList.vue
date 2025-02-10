@@ -1,14 +1,17 @@
 <template>
   <div
-    class="absolute top-0 pt-24 pb-12 flex flex-col items-center justify-center w-full px-8 h-[calc(100%-4rem)] md:h-full overflow-y-auto overflow-x-hidden"
+    class="absolute top-0 pt-24 pb-12 flex flex-col items-center justify-start w-full px-8 h-[calc(100%-4rem)] md:h-full overflow-y-auto overflow-x-hidden"
   >
     <div
-      class="w-full max-w-[666px] gap-6 sm:gap-16 flex flex-wrap items-start justify-center"
+      class="w-full max-w-[666px] gap-8 sm:gap-16 flex flex-wrap items-start justify-center"
     >
+      <GamesListElement name="Quiz"></GamesListElement>
+      <GamesListElement name="Quiz"></GamesListElement>
+      <GamesListElement name="Quiz"></GamesListElement>
       <GamesListElement name="Quiz"></GamesListElement>
     </div>
     <p
-      class="select-none mt-8 text-lg font-semibold text-neutral-400 dark:text-neutral-600"
+      class="select-none mt-8 font-semibold text-neutral-400 dark:text-neutral-600"
     >
       {{ t("games.moreGamesSoon") }}
     </p>
