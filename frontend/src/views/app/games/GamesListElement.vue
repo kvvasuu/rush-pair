@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center w-60 h-60 rounded-3xl shadow transition-all duration-300 overflow-hidden relative bg-neutral-100 dark:bg-neutral-800 select-none"
+    class="flex items-center justify-center w-60 h-60 rounded-3xl shadow transition-all duration-300 border-4 border-neutral-100 dark:border-neutral-800 overflow-hidden relative bg-neutral-100 dark:bg-neutral-800 select-none"
     :class="{ 'cursor-pointer hover:scale-105': isLoaded }"
     @click="toggleOverlay"
   >
@@ -36,30 +36,48 @@
             />
 
             <div
-              class="w-full h-3/5 p-6 flex flex-col items-start justify-start gap-6 z-10 overflow-y-auto"
+              class="w-full h-3/5 pt-10 flex flex-col items-start justify-start z-10 overflow-y-auto"
             >
-              <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
-                {{ name }}
-              </h1>
-
-              <button
-                class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-slate-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
+              <div
+                class="w-full px-6 flex flex-col items-start justify-start gap-6"
               >
-                <i class="fa-solid fa-play mr-2"></i> Play
-              </button>
-              <div class="overflow-y-auto">
-                <p
-                  class="text-lg font-semibold text-neutral-500 dark:text-neutral-400"
+                <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
+                  {{ name }}
+                </h1>
+
+                <button
+                  class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-neutral-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum.
-                </p>
+                  <i class="fa-solid fa-play mr-2"></i> Play
+                </button>
+              </div>
+
+              <div class="overflow-y-auto mt-4 sm:mt-10 px-6 pb-6 flex">
+                <div class="w-1/2">
+                  <p
+                    class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
+                  >
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </p>
+                </div>
+                <div class="w-1/2 flex flex-col px-4">
+                  <div
+                    class="w-full h-full flex flex-col bg-neutral-800 rounded-md"
+                  >
+                    <p
+                      class="w-full p-1 text-center text-md shadow-inner font-semibold text-neutral-500 dark:text-neutral-400"
+                    >
+                      Games in progress:
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
