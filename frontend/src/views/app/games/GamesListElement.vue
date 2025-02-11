@@ -35,10 +35,18 @@
               class="object-cover h-3/5 w-full absolute top-0 img"
             />
 
-            <div class="w-full h-3/5 p-6 z-10 overflow-y-auto">
-              <h1 class="text-4xl font-bold mb-6 text-neutral-100 drop-shadow">
+            <div
+              class="w-full h-3/5 p-6 flex flex-col items-start justify-start gap-6 z-10 overflow-y-auto"
+            >
+              <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
                 {{ name }}
               </h1>
+
+              <button
+                class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-slate-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
+              >
+                <i class="fa-solid fa-play mr-2"></i> Play
+              </button>
               <div class="overflow-y-auto">
                 <p
                   class="text-lg font-semibold text-neutral-500 dark:text-neutral-400"
