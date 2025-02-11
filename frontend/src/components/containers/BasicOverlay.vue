@@ -12,7 +12,7 @@
         <slot></slot>
         <button
           @click="closeModal"
-          class="absolute top-6 right-6 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer text-4xl flex items-center justify-center w-8 h-8"
+          class="absolute top-6 right-6 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer text-4xl flex items-center justify-center w-8 h-8 z-10"
           v-if="!noCloseButton"
         >
           <i class="fa-solid fa-xmark"></i>
