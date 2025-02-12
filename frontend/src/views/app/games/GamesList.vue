@@ -5,7 +5,11 @@
     <div
       class="w-full max-w-[666px] gap-8 sm:gap-16 flex flex-wrap items-start justify-center"
     >
-      <GamesListElement name="Quiz"></GamesListElement>
+      <GamesListElement
+        name="Quiz"
+        :duration="10"
+        :prize="1"
+      ></GamesListElement>
     </div>
     <p
       class="select-none mt-8 font-semibold text-neutral-400 dark:text-neutral-600"

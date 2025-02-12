@@ -1,3 +1,9 @@
 {
-  "moreGamesSoon": "More games soon..."
+  "moreGamesSoon": "More games soon...",
+  "play": "Play",
+  "quiz": {
+    "name": "Quiz",
+    "description": "Answer a series of fun, personal questions and see how well you match with your conversation partner! Both of you will answer the same questions separately. At the end, your answers will be compared to reveal your compatibility score.",
+    "winCondition": "The higher your score, the better your match! Get 75% or more and unlock a free identity reveal!"
+  }
 }

@@ -1,3 +1,9 @@
 {
-  "moreGamesSoon": "Więcej gier wkrótce..."
+  "moreGamesSoon": "Więcej gier wkrótce...",
+  "play": "Zagraj",
+  "quiz": {
+    "name": "Quiz",
+    "description": "Odpowiedz na serię zabawnych, osobistych pytań i sprawdź, jak dobrze dopasowany/a jesteś do swojego rozmówcy! Oboje odpowiadacie na te same pytania osobno. Na końcu wasze odpowiedzi zostaną porównane, aby pokazać wynik dopasowania.",
+    "winCondition": "Im wyższy wynik, tym lepsze dopasowanie! Osiągnij 75% lub więcej, aby odblokować darmowe ujawnienie tożsamości!"
+  }
 }
