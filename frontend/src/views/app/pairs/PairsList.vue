@@ -74,6 +74,7 @@
             :key="pair.id"
             :pair="pair"
             :search-value="searchValue"
+            @onClick="goToPair"
           ></PairListElement>
         </ul>
       </TransitionGroup>
@@ -88,11 +89,13 @@ import { ref, watch, computed } from "vue";
 import PairListElement from "./PairListElement.vue";
 import { PairInfo } from "../../../types";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 const { t } = useI18n();
 
 const userStore = useUserStore();
 const mainStore = useMainStore();
+const router = useRouter();
 
 userStore.getPairs();
 
@@ -119,6 +122,11 @@ const search = () => {
     pairsList.value = userStore.pairs;
   }
 };
+
+const goToPair = (id: string) => {
+  router.push(`/app/pairs/${id}`);
+};
+
 watch(
   () => userStore.pairs,
   (newPairs) => {

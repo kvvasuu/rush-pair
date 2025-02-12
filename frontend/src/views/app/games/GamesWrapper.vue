@@ -9,7 +9,7 @@
         class="text-slate-700 dark:text-neutral-300 text-xl font-semibold min-w-0 max-w-52 min-[400px]:max-w-72 sm:max-w-96 relative"
       >
         <p class="w-full select-none truncate">
-          {{ t("general.games") }}
+          {{ gameName }}
         </p>
       </div>
     </header>
@@ -23,6 +23,13 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
 const { t } = useI18n();
+const route = useRoute();
+
+const gameName = computed(() => {
+  return route.params.id ? route.name : t("general.games");
+});
 </script>

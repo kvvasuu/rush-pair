@@ -1,7 +1,7 @@
 <template>
   <li
     class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer rounded-md hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
-    @click="goToPair"
+    @click="selectPair"
     :title="`${pair.name}, ${t('pairs.pairedAt')}: ${pairedAt}`"
     v-if="!pair.isBlocked"
   >
@@ -13,7 +13,7 @@
         class="min-w-[72px] max-w-[72px]"
       ></PairAvatar>
       <div
-        v-if="!!pair.unreadMessagesCount"
+        v-if="!small && !!pair.unreadMessagesCount"
         class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
         :title="
           pair.unreadMessagesCount
@@ -51,7 +51,7 @@
   </li>
   <li
     class="w-full h-24 px-6 py-3 flex items-center justify-start cursor-pointer rounded-md hover:bg-slate-100/50 dark:hover:bg-neutral-800/75 transition-all relative group"
-    @click="goToPair"
+    @click="selectPair"
     v-else
   >
     <div class="relative">
@@ -82,19 +82,17 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { computed } from "vue";
 import PairAvatar from "../../../components/PairAvatar.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const props = defineProps(["pair", "searchValue"]);
+const props = defineProps(["pair", "searchValue", "small"]);
+const emits = defineEmits(["onClick"]);
 
-const router = useRouter();
-
-const goToPair = () => {
-  router.push(`/app/pairs/${props.pair.id}`);
+const selectPair = () => {
+  emits("onClick", props.pair.id);
 };
 
 const pairedAt = computed(() => {

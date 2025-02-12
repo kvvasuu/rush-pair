@@ -42,6 +42,11 @@ const routes = [
             name: "GamesList",
             component: () => import("../views/app/games/GamesList.vue"),
           },
+          {
+            path: "quiz/:id",
+            name: "Quiz",
+            component: () => import("../views/app/games/games/Quiz.vue"),
+          },
         ],
       },
       {

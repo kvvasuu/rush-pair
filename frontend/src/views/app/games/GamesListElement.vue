@@ -20,74 +20,134 @@
     </div>
     <Transition name="fade" mode="out-in">
       <Teleport to="body">
-        <BasicOverlay
-          v-if="isOverlayVisible"
-          @close="toggleOverlay"
-          class="overflow-y-hidden"
-        >
-          <div
-            class="w-full h-full flex flex-col justify-end relative overflow-y-hidden"
-          >
-            <img
-              :src="imgUrl"
-              :alt="name"
-              draggable="false"
-              class="object-cover h-3/5 w-full absolute top-0 img"
-            />
-
+        <BasicOverlay v-if="isOverlayVisible" @close="toggleOverlay">
+          <Transition name="fade" mode="out-in">
             <div
-              class="w-full h-3/5 pt-10 flex flex-col items-start justify-start z-10 overflow-y-auto"
+              class="w-full h-full flex flex-col gap-6 items-center justify-center relative overflow-y-hidden"
+              v-if="isLoading"
             >
-              <div
-                class="w-full px-6 flex flex-col items-start justify-start gap-5"
-              >
-                <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
-                  {{ t("games.quiz.name") }}
-                </h1>
+              <BasicSpinner></BasicSpinner>
+              <p class="text-xl text-neutral-500 select-none">
+                {{ t("games.startingNewGame") }}
+              </p>
+            </div>
+            <div
+              class="w-full h-full flex flex-col justify-end relative overflow-y-hidden"
+              v-else-if="!choosingOpponent"
+            >
+              <img
+                :src="imgUrl"
+                :alt="name"
+                draggable="false"
+                class="object-cover h-3/5 w-full absolute top-0 img"
+              />
 
-                <button
-                  class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-neutral-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
+              <div
+                class="w-full h-3/5 pt-10 flex flex-col items-start justify-start z-10 overflow-y-auto"
+              >
+                <div
+                  class="w-full px-6 flex flex-col items-start justify-start gap-5"
                 >
-                  <i class="fa-solid fa-play mr-2"></i> {{ t("games.play") }}
-                </button>
-              </div>
+                  <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
+                    {{ t("games.quiz.name") }}
+                  </h1>
 
-              <div
-                class="flex flex-col overflow-y-auto mt-4 sm:mt-10 px-6 pb-6 gap-4"
-              >
-                <div class="flex h-6 gap-4">
-                  <div class="relative">
-                    <img
-                      src="/RushCoinBlank.svg"
-                      alt="RushCoin"
-                      draggable="false"
-                      class="aspect-square h-full select-none"
-                    />
+                  <button
+                    class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-neutral-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
+                    @click="choosingOpponent = true"
+                  >
+                    <i class="fa-solid fa-play mr-2"></i> {{ t("games.play") }}
+                  </button>
+                </div>
+
+                <div
+                  class="flex flex-col overflow-y-auto mt-4 sm:mt-10 px-6 pb-6 gap-4"
+                >
+                  <div class="flex h-6 gap-4">
+                    <div class="relative">
+                      <img
+                        src="/RushCoinBlank.svg"
+                        alt="RushCoin"
+                        draggable="false"
+                        class="aspect-square h-full select-none"
+                      />
+                      <div
+                        class="absolute w-full h-full top-0 flex text-sm items-center justify-center text-center select-none text-neutral-100"
+                      >
+                        {{ prize }}
+                      </div>
+                    </div>
                     <div
-                      class="absolute w-full h-full top-0 flex text-sm items-center justify-center text-center select-none text-neutral-100"
+                      class="h-full flex items-center text-center select-none text-neutral-500 dark:text-neutral-100"
                     >
-                      {{ prize }}
+                      {{ duration }} min.
                     </div>
                   </div>
-                  <div
-                    class="h-full flex items-center text-center select-none text-neutral-500 dark:text-neutral-100"
+                  <p
+                    class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
                   >
-                    {{ duration }} min.
-                  </div>
+                    {{ t("games.quiz.description") }}
+                  </p>
+                  <p
+                    class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
+                  >
+                    {{ t("games.quiz.winCondition") }}
+                  </p>
                 </div>
-                <p
-                  class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
-                >
-                  {{ t("games.quiz.description") }}
-                </p>
-                <p
-                  class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
-                >
-                  {{ t("games.quiz.winCondition") }}
-                </p>
               </div>
             </div>
-          </div>
+            <div
+              class="w-full h-full flex flex-col items-center justify-start py-6 text-neutral-600 dark:text-neutral-300 gap-8 overflow-y-hidden"
+              v-else
+            >
+              <h1 class="text-3xl font-bold w-4/5 text-center">
+                {{ t("games.chooseOpponent") }}
+              </h1>
+              <div class="w-full flex-1 overflow-y-auto px-6">
+                <div
+                  class="flex w-full h-full items-center justify-center text-neutral-500 select-none max-w-[666px]"
+                  v-if="userStore.pairs?.length <= 0"
+                >
+                  <p class="text-xl">{{ t("pairs.noPairsYet") }}</p>
+                </div>
+                <ul class="w-full h-full" v-else>
+                  <PairListElement
+                    v-for="pair in pairs"
+                    :key="pair.id"
+                    :pair="pair"
+                    :small="true"
+                    @on-click="selectOpponent"
+                    :class="{ 'bg-slate-100': pair.id === selectedOpponent }"
+                  ></PairListElement>
+                </ul>
+              </div>
+              <div class="flex justify-center w-full mt-auto mb-0 gap-4 px-6">
+                <button
+                  class="px-10 py-2 font-semibold bg-neutral-50 hover:bg-neutral-100 shadow rounded-xl transition-all"
+                  @click="
+                    () => {
+                      choosingOpponent = false;
+                      selectedOpponent = '';
+                    }
+                  "
+                >
+                  {{ t("general.back") }}
+                </button>
+                <button
+                  class="px-10 py-3 w-3/5 font-semibold bg-main-gradient text-neutral-100 shadow rounded-xl justify-center transition-all"
+                  :class="
+                    !selectedOpponent
+                      ? 'opacity-45'
+                      : 'hover:bg-main-gradient-dark'
+                  "
+                  @click="startGame"
+                  :disabled="!selectedOpponent"
+                >
+                  {{ t("games.play") }}
+                </button>
+              </div>
+            </div>
+          </Transition>
         </BasicOverlay>
       </Teleport>
     </Transition>
@@ -95,11 +155,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import BasicOverlay from "../../../components/containers/BasicOverlay.vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from "../../../stores/userStore";
+import PairListElement from "../pairs/PairListElement.vue";
+import { useRouter } from "vue-router";
+import BasicSpinner from "../../../components/BasicSpinner.vue";
 
 const { t } = useI18n();
+const userStore = useUserStore();
+const router = useRouter();
 
 const props = defineProps({ name: String, duration: Number, prize: Number });
 
@@ -117,6 +183,36 @@ const imgUrl = new URL(
 const isOverlayVisible = ref(false);
 const toggleOverlay = () => {
   isOverlayVisible.value = !isOverlayVisible.value;
+  choosingOpponent.value = false;
+  selectedOpponent.value = "";
+};
+
+const choosingOpponent = ref(false);
+
+const selectedOpponent = ref("");
+const selectOpponent = (id: string) => {
+  selectedOpponent.value === id
+    ? (selectedOpponent.value = "")
+    : (selectedOpponent.value = id);
+};
+
+const pairs = computed(() => {
+  return [...userStore.pairs].filter((pair) => !pair?.isBlocked);
+});
+
+const isLoading = ref(false);
+
+const startGame = () => {
+  isLoading.value = true;
+  console.log("Starting game with: " + selectedOpponent.value);
+  // start game - send request to server to create new game
+  // if game is created redirect to game page
+  setTimeout(() => {
+    isLoading.value = false;
+    router.push(
+      `/app/games/${props.name?.toLowerCase()}/${selectedOpponent.value}`
+    );
+  }, 3000);
 };
 </script>
 
