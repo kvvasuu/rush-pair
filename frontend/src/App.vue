@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useUserStore } from "./stores/userStore";
 import HorizontalScreenWarning from "./components/HorizontalScreenWarning.vue";
 
@@ -34,8 +34,4 @@ watch(
 
 window.addEventListener("resize", checkOrientation);
 window.addEventListener("load", checkOrientation);
-
-onBeforeMount(async () => {
-  await userStore.login();
-});
 </script>

@@ -100,6 +100,14 @@ const router = createRouter({
 router.beforeEach(async (to, _from) => {
   const store = useUserStore();
 
+  if (!store.token) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      store.setToken(token);
+      await store.login();
+    }
+  }
+
   if (to.meta.requiresAuth && !store.token) {
     return { name: "Welcome" };
   }
@@ -110,6 +118,10 @@ router.beforeEach(async (to, _from) => {
 
   if (store.firstVisit && to.path === "/app") {
     return { path: "/app/first-steps" };
+  }
+
+  if (!store.firstVisit && to.path === "/app/first-steps") {
+    return { path: "/app" };
   }
 
   return true;

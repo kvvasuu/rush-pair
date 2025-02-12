@@ -183,10 +183,12 @@ import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
 import { useUserStore } from "../../stores/userStore";
+import { useRouter } from "vue-router";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const store = useUserStore();
+const router = useRouter();
 
 const isLoginShown = ref(true);
 const toggleIsLoginShown = () => {
@@ -246,11 +248,13 @@ const login = async () => {
         },
         { timeout: 10000 }
       )
-      .then((res) => {
+      .then(async (res) => {
         const token = res.data.token;
         if (token) {
           store.setToken(token);
-          store.login();
+          store.login().then((res) => {
+            !!res && router.replace("/app");
+          });
         }
       })
       .catch((error) => {

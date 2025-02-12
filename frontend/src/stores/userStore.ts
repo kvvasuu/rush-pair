@@ -55,7 +55,7 @@ export const useUserStore = defineStore("userStore", {
       this.token = token;
       localStorage.setItem("token", token);
     },
-    async login() {
+    async login(): Promise<boolean> {
       let token: string | null = this.token;
       if (!token) {
         token = localStorage.getItem("token");
@@ -106,27 +106,30 @@ export const useUserStore = defineStore("userStore", {
           socket.emit("login", this.id);
           this.bindEvents();
 
-          this.router.replace("/app");
           if (res.data.coinsCollected) {
             setTimeout(() => {
               const mainStore = useMainStore();
               mainStore.showCoinsCollectionModal = true;
             }, 500);
           }
+
+          return true;
         } catch (error) {
           localStorage.removeItem("token");
+          return false;
         }
       }
+      return false;
     },
     async logout() {
       localStorage.removeItem("token");
       socket.emit("logout");
       const store = useMainStore();
       store.$reset();
-      document.documentElement.setAttribute("data-theme", "light");
-      this.$reset();
 
+      this.$reset();
       this.router.replace("/");
+      document.documentElement.setAttribute("data-theme", "light");
     },
     async updateUser(user: User) {
       const mainStore = useMainStore();
