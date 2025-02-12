@@ -20,7 +20,7 @@ export const useUserStore = defineStore("userStore", {
     country: "",
     city: "",
     phoneNumber: "",
-    firstVisit: true,
+    firstVisit: false,
     imageUrl: "",
     description: "",
     settings: {
