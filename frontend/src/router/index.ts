@@ -116,11 +116,11 @@ router.beforeEach(async (to, _from) => {
     return { path: "/app" };
   }
 
-  if (store.firstVisit && to.path === "/app") {
+  if (store.token && store.firstVisit && to.path === "/app") {
     return { path: "/app/first-steps" };
   }
 
-  if (!store.firstVisit && to.path === "/app/first-steps") {
+  if (store.token && !store.firstVisit && to.path === "/app/first-steps") {
     return { path: "/app" };
   }
 
