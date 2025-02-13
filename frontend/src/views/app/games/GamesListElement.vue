@@ -197,7 +197,12 @@ const selectOpponent = (id: string) => {
 };
 
 const pairs = computed(() => {
-  return [...userStore.pairs].filter((pair) => !pair?.isBlocked);
+  return [...userStore.pairs]
+    .filter((pair) => !pair?.isBlocked)
+    .sort(
+      (a, b) =>
+        Number(b.isFavourite) - Number(a.isFavourite) || b.pairedAt - a.pairedAt
+    );
 });
 
 const isLoading = ref(false);

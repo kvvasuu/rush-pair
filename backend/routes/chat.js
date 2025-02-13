@@ -40,6 +40,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               askedForReveal: el.askedForReveal,
               unreadMessagesCount: el.unreadMessagesCount,
               isBlocked: el.isBlocked || false,
+              isFavourite: el.isFavourite || false,
             }
           : {
               id: pairedUser.id,
@@ -50,6 +51,7 @@ chat.get("/get-pairs/", authenticateToken, async (req, res, next) => {
               askedForReveal: el.askedForReveal,
               unreadMessagesCount: el.unreadMessagesCount,
               isBlocked: el.isBlocked || false,
+              isFavourite: el.isFavourite || false,
             };
       })
     );
@@ -91,6 +93,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           askedForReveal: pair.askedForReveal || false,
           hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
           isBlocked: pair.isBlocked || false,
+          isFavourite: pair.isFavourite || false,
         }
       : {
           id: pairChatUser.id,
@@ -100,6 +103,7 @@ chat.get("/get-pair-chat/:id", authenticateToken, async (req, res, next) => {
           askedForReveal: pair.askedForReveal || false,
           hasBeenAskedForReveal: pair.hasBeenAskedForReveal || false,
           isBlocked: pair.isBlocked || false,
+          isFavourite: pair.isFavourite || false,
         };
 
     res.json({ pairChatUser: data });
@@ -260,6 +264,36 @@ chat.post("/block-user", authenticateToken, async (req, res, next) => {
     }
 
     return res.status(201).json({ msg: "User blocked" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+chat.post("/toggle-favourite", authenticateToken, async (req, res, next) => {
+  try {
+    if (!req.body.userId || !req.body.pairId) {
+      return res.status(404).json({ msg: "Invalid information." });
+    }
+
+    const { userId, pairId } = req.body;
+
+    const user = await User.findById(userId);
+
+    const pair = await Pair.findOne(
+      { email: user.email, "pairedWith.id": pairId },
+      { "pairedWith.$": 1 }
+    );
+
+    if (pair && pair.pairedWith.length > 0) {
+      const currentValue = pair.pairedWith[0].isFavourite;
+
+      await Pair.findOneAndUpdate(
+        { email: user.email, "pairedWith.id": pairId },
+        { $set: { "pairedWith.$.isFavourite": !currentValue } }
+      );
+    }
+
+    return res.status(201).json({ msg: "Toggled favourite" });
   } catch (error) {
     next(error);
   }

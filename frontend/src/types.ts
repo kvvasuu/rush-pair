@@ -25,6 +25,7 @@ interface PairInfo {
   hasBeenAskedForReveal: boolean;
   unreadMessagesCount: number;
   isBlocked?: boolean;
+  isFavourite: boolean;
 }
 
 interface UserStoreState extends User {

@@ -33,6 +33,7 @@ export const useChatStore = defineStore("chatStore", {
       hasBeenAskedForReveal: false,
       unreadMessagesCount: 0,
       isBlocked: false,
+      isFavourite: false,
     },
     currentPage: 1,
     messages: [],

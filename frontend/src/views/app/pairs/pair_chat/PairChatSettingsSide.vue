@@ -175,8 +175,27 @@
             </button>
           </div>
         </div>
+        <button
+          v-if="!chatStore.pairInfo.isBlocked"
+          class="rounded-lg transition-all font-semibold px-6 py-2 text-xl mt-auto mb-6"
+          :class="
+            chatStore.pairInfo.isFavourite
+              ? 'text-yellow-400 dark:text-yellow-500 bg-slate-500 dark:bg-neutral-800 hover:bg-slate-400 dark:hover:bg-neutral-700'
+              : 'text-slate-400 dark:text-neutral-600 hover:bg-neutral-400/10'
+          "
+          @click="toggleFavourite"
+          :title="
+            chatStore.pairInfo.isFavourite
+              ? t('pairs.deleteFromFavourites')
+              : t('pairs.setAsFavourite')
+          "
+        >
+          <i class="fa-solid fa-star mr-2"></i
+          ><span>{{ t("pairs.favourites") }}</span>
+        </button>
         <div
-          class="flex items-center justify-center gap-1 mt-auto mb-4 self-center flex-wrap"
+          class="flex items-center justify-center gap-1 mb-4 self-center flex-wrap"
+          :class="{ 'mt-auto': chatStore.pairInfo.isBlocked }"
         >
           <button
             class="text-red-500 rounded-lg hover:bg-neutral-400/10 transition-all font-semibold px-6 py-2 text-xl"
@@ -417,12 +436,10 @@ const toggleBlockModal = () => {
 };
 
 const blockUser = async () => {
-  const pairId = chatStore.pairInfo.id;
-
   try {
     await axios.post(`/chat/block-user`, {
       userId: userStore.id,
-      pairId,
+      pairId: chatStore.pairInfo.id,
     });
   } catch (error) {
     console.log(error);
@@ -432,6 +449,23 @@ const blockUser = async () => {
 };
 
 const notEnoughRushCoins = ref(false);
+
+const toggleFavourite = async () => {
+  try {
+    await axios.post(`/chat/toggle-favourite`, {
+      userId: userStore.id,
+      pairId: chatStore.pairInfo.id,
+    });
+
+    chatStore.pairInfo.isFavourite = !chatStore.pairInfo.isFavourite;
+    const pair = userStore.pairs.find(
+      (pair) => pair.id === chatStore.pairInfo.id
+    );
+    if (pair) pair.isFavourite = chatStore.pairInfo.isFavourite;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 watch(
   () => chatStore.pairInfo.isVisible,

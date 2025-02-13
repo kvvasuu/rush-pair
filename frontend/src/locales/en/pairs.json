@@ -32,6 +32,9 @@
   "whyNotStart": "Why not start by saying 'Hi' or use the button below to ask something interesting, or roll for a random message!",
   "longTimeNoSee": "Long time no see! It's been a while since we last chatted. Ready to catch up?",
   "youHaveNewMessages": "You have 0 new messages! | You have 1 new message! | You have {messagesQuantity} new messages!",
+  "favourites": "Favourites",
+  "setAsFavourite": "Set as favourite",
+  "deleteFromFavourites": "Delete from favourites",
   "sampleMessages": {
     "0": "Hi there! How's your day going?",
     "1": "What's your favorite hobby?",
