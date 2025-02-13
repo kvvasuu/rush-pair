@@ -103,7 +103,12 @@ const searchValue = ref("");
 const pairsList = ref<PairInfo[]>([...userStore.pairs]);
 
 const pairs = computed(() => {
-  return pairsList.value.filter((pair) => !pair?.isBlocked);
+  return pairsList.value
+    .filter((pair) => !pair?.isBlocked)
+    .sort(
+      (a, b) =>
+        Number(b.isFavourite) - Number(a.isFavourite) || b.pairedAt - a.pairedAt
+    );
 });
 
 const pairsBlocked = computed(() => {

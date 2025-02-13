@@ -40,6 +40,10 @@ const pairSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
       },
+      isFavourite: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });

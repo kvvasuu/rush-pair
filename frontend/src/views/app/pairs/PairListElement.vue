@@ -29,9 +29,13 @@
 
     <div class="h-full flex flex-col items-start justify-center mr-4 min-w-0">
       <p
-        class="pl-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0"
+        class="px-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0 relative"
       >
         <span v-html="highlightMatch(pair.name)"></span>
+        <i
+          v-if="pair.isFavourite"
+          class="fa-solid fa-star flex items-center h-full text-yellow-400 dark:text-yellow-500 drop-shadow-sm top-0 right-0 absolute"
+        ></i>
       </p>
 
       <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
@@ -85,10 +89,15 @@
 import { computed } from "vue";
 import PairAvatar from "../../../components/PairAvatar.vue";
 import { useI18n } from "vue-i18n";
+import type { PairInfo } from "../../../types";
 
 const { t } = useI18n();
 
-const props = defineProps(["pair", "searchValue", "small"]);
+const props = defineProps<{
+  pair: PairInfo;
+  searchValue?: string;
+  small?: boolean;
+}>();
 const emits = defineEmits(["onClick"]);
 
 const selectPair = () => {
