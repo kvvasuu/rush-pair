@@ -32,6 +32,9 @@
   "whyNotStart": "Dlaczego nie zacząć od 'Cześć' lub użyć przycisku poniżej, aby wylosować wiadomość!",
   "longTimeNoSee": "Dawno się nie widzieliśmy! Minęło trochę czasu od naszej ostatniej rozmowy. Gotów na nadrobienie zaległości?",
   "youHaveNewMessages": "Masz 0 nowych wiadomości! | Masz 1 nową wiadomość! | Masz {messagesQuantity} nowych wiadomości!",
+  "favourites": "Ulubione",
+  "setAsFavourite": "Dodaj do ulubionych",
+  "deleteFromFavourites": "Usuń z ulubionych",
   "sampleMessages": {
     "0": "Cześć! Jak mija Twój dzień?",
     "1": "Jakie jest Twoje ulubione hobby?",

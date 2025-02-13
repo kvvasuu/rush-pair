@@ -16,7 +16,7 @@
       </p>
 
       <div
-        class="w-full flex gap-6 py-4 overflow-x-scroll scroll-hide snap-x"
+        class="w-full flex gap-6 py-4 scroll-px-2 px-2 overflow-x-scroll scroll-hide snap-x"
         ref="horizontalSlider"
         v-else
       >
@@ -25,6 +25,7 @@
             :pair="pair"
             :is-active="pair.isActive"
             class="snap-start min-w-[72px] max-w-[72px] cursor-pointer"
+            :class="{ 'pair-fav': pair.isFavourite }"
             :title="
               pair.unreadMessagesCount
                 ? t('general.unreadMessages', {
@@ -98,7 +99,12 @@ const router = useRouter();
 const userStore = useUserStore();
 
 const pairs = computed(() => {
-  return userStore.pairs.filter((pair) => !pair?.isBlocked);
+  return [...userStore.pairs]
+    .filter((pair) => !pair?.isBlocked)
+    .sort(
+      (a, b) =>
+        Number(b.isFavourite) - Number(a.isFavourite) || b.pairedAt - a.pairedAt
+    );
 });
 
 const goToPair = (id: string) => {
@@ -160,6 +166,15 @@ onUnmounted(() => {
     20deg,
     rgba(255, 32, 108, 1) 0%,
     rgba(255, 127, 88, 1) 87%
+  );
+}
+
+.pair-fav {
+  padding: 2px;
+  background: linear-gradient(
+    20deg,
+    rgba(245, 121, 11, 1) 0%,
+    rgba(253, 251, 71, 1) 100%
   );
 }
 

@@ -29,12 +29,12 @@
 
     <div class="h-full flex flex-col items-start justify-center mr-4 min-w-0">
       <p
-        class="px-6 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0 relative"
+        class="pl-6 pr-5 text-lg font-semibold text-slate-700 dark:text-neutral-300 select-none w-full truncate min-w-0 relative"
       >
         <span v-html="highlightMatch(pair.name)"></span>
         <i
           v-if="pair.isFavourite"
-          class="fa-solid fa-star flex items-center h-full text-yellow-400 dark:text-yellow-500 drop-shadow-sm top-0 right-0 absolute"
+          class="fa-solid fa-star text-sm text-yellow-400 dark:text-yellow-500 drop-shadow-sm top-0 right-0 absolute"
         ></i>
       </p>
 
@@ -71,11 +71,6 @@
 
       <p class="px-6 text-sm text-slate-600 dark:text-neutral-500 select-none">
         {{ pairedAt }}
-      </p>
-      <p
-        class="px-6 text-xs font-semibold text-slate-600 dark:text-neutral-600 select-none"
-      >
-        {{ t("pairs.cannotChat") }}
       </p>
     </div>
     <i

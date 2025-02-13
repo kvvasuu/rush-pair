@@ -269,6 +269,36 @@ chat.post("/block-user", authenticateToken, async (req, res, next) => {
   }
 });
 
+chat.post("/toggle-favourite", authenticateToken, async (req, res, next) => {
+  try {
+    if (!req.body.userId || !req.body.pairId) {
+      return res.status(404).json({ msg: "Invalid information." });
+    }
+
+    const { userId, pairId } = req.body;
+
+    const user = await User.findById(userId);
+
+    const pair = await Pair.findOne(
+      { email: user.email, "pairedWith.id": pairId },
+      { "pairedWith.$": 1 }
+    );
+
+    if (pair && pair.pairedWith.length > 0) {
+      const currentValue = pair.pairedWith[0].isFavourite;
+
+      await Pair.findOneAndUpdate(
+        { email: user.email, "pairedWith.id": pairId },
+        { $set: { "pairedWith.$.isFavourite": !currentValue } }
+      );
+    }
+
+    return res.status(201).json({ msg: "Toggled favourite" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 chat.post("/ask-for-reveal", authenticateToken, async (req, res, next) => {
   try {
     const { userId, pairId } = req.body;

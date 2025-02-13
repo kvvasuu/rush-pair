@@ -65,6 +65,7 @@
             v-for="pair in pairsBlocked"
             :key="pair.id"
             :pair="pair"
+            @onClick="goToPair"
           ></PairListElement>
         </ul>
 
