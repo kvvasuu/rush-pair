@@ -115,6 +115,7 @@ export const useUserStore = defineStore("userStore", {
 
           return true;
         } catch (error) {
+          this.token = "";
           localStorage.removeItem("token");
           return false;
         }

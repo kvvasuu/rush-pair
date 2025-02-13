@@ -106,11 +106,7 @@ router.beforeEach(async (to, _from) => {
   const store = useUserStore();
 
   if (!store.token) {
-    const token = localStorage.getItem("token");
-    if (token) {
-      store.setToken(token);
-      await store.login();
-    }
+    await store.login();
   }
 
   if (to.meta.requiresAuth && !store.token) {
