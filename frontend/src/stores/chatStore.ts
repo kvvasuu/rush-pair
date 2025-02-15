@@ -36,6 +36,7 @@ export const useChatStore = defineStore("chatStore", {
       isFavourite: false,
     },
     currentPage: 1,
+    hasMoreMessages: true,
     messages: [],
     isLoading: false,
     connected: false,
@@ -95,8 +96,11 @@ export const useChatStore = defineStore("chatStore", {
     },
     async loadMessages(): Promise<boolean> {
       const userStore = useUserStore();
+      if (!this.hasMoreMessages || this.isLoading) return false; // Sprawdzamy, czy warto ładować
+
       this.isLoading = true;
       const chatId = [userStore.id, this.pairInfo.id].sort().join("-");
+
       try {
         const response = await axios.get(
           `${SERVER_URL}/chat/get-messages/${chatId}`,
@@ -105,20 +109,22 @@ export const useChatStore = defineStore("chatStore", {
             params: { page: this.currentPage, limit: 50 },
           }
         );
+
         if (response.data.length > 0) {
           this.messages = [...this.messages, ...response.data];
           this.currentPage++;
-          this.isLoading = false;
-          return true;
         } else {
-          this.isLoading = false;
-          return false;
+          this.hasMoreMessages = false;
         }
       } catch (error) {
         console.error("Error while loading messages from server: ", error);
-        return false;
+      } finally {
+        this.isLoading = false;
       }
+
+      return this.hasMoreMessages;
     },
+
     async sendMessage(message: string) {
       const userStore = useUserStore();
 

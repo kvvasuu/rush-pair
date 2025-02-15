@@ -46,6 +46,7 @@ type availableLanguages = "en" | "pl";
 interface ChatStoreState {
   pairInfo: PairInfo;
   currentPage: number;
+  hasMoreMessages: boolean;
   messages: Message[];
   isLoading: boolean;
   connected: boolean;

@@ -150,9 +150,11 @@ const scrollToBottom = () => {
 const onScroll = async () => {
   if (messagesContainer.value && !chatStore.isLoading) {
     if (
+      chatStore.hasMoreMessages &&
+      !chatStore.isLoading &&
       Math.abs(messagesContainer.value.scrollTop) +
         messagesContainer.value.clientHeight >=
-      messagesContainer.value.scrollHeight - 30
+        messagesContainer.value.scrollHeight - 30
     ) {
       const oldScrollHeight = messagesContainer.value.scrollTop;
       const result = await chatStore.loadMessages();
