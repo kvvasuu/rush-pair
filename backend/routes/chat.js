@@ -219,11 +219,11 @@ chat.post("/report-user", authenticateToken, async (req, res, next) => {
 
 chat.post("/block-user", authenticateToken, async (req, res, next) => {
   try {
-    if (!req.body.userId || !req.body.pairId) {
+    const { userId, pairId } = req.body;
+
+    if (!userId || !pairId) {
       return res.status(404).json({ msg: "Invalid information." });
     }
-
-    const { userId, pairId } = req.body;
 
     const user = await User.findById(userId);
     const pair = await User.findById(pairId);

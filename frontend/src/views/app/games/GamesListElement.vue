@@ -162,12 +162,14 @@ import { useUserStore } from "../../../stores/userStore";
 import PairListElement from "../pairs/PairListElement.vue";
 import { useRouter } from "vue-router";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
+import axios from "axios";
 
 const { t } = useI18n();
 const userStore = useUserStore();
 const router = useRouter();
 
 const props = defineProps({ name: String, duration: Number, prize: Number });
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const isLoaded = ref(false);
 
@@ -207,17 +209,22 @@ const pairs = computed(() => {
 
 const isLoading = ref(false);
 
-const startGame = () => {
+const startGame = async () => {
   isLoading.value = true;
-  console.log("Starting game with: " + selectedOpponent.value);
-  // start game - send request to server to create new game
-  // if game is created redirect to game page
-  setTimeout(() => {
+  try {
+    const gameId = await axios.post(`${SERVER_URL}/game/start-game`, {
+      userId: userStore.id,
+      pairId: selectedOpponent.value,
+      gameName: props.name?.toLowerCase(),
+    });
+    if (gameId.data) {
+      router.push(`/app/games/${props.name?.toLowerCase()}/${gameId.data}`);
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
     isLoading.value = false;
-    router.push(
-      `/app/games/${props.name?.toLowerCase()}/${selectedOpponent.value}`
-    );
-  }, 3000);
+  }
 };
 </script>
 
