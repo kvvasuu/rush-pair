@@ -6,7 +6,7 @@ import path from "path";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import chatRoutes from "./routes/chat.js";
-import gameRoutes from "./routes/game.js";
+import quizRoutes from "./routes/games/quiz.js";
 import { authenticateToken } from "./middleware/auth.js";
 import dotenv from "dotenv";
 import compression from "compression";
@@ -45,7 +45,7 @@ app.use(
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/chat", chatRoutes);
-app.use("/game", gameRoutes);
+app.use("/games/quiz", quizRoutes);
 
 app.use((error, req, res, next) => {
   res.status(500).send(error.message); //Server error middleware

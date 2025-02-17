@@ -80,6 +80,15 @@ interface Message {
   isDeleted?: boolean;
 }
 
+type GameStatus = null | "waiting" | "inProgress" | "finished";
+interface GameStoreState {
+  gameName: string;
+  opponentId: string;
+  status: GameStatus;
+  createdAt: number;
+  gameData: {};
+}
+
 export type {
   User,
   UserStoreState,
@@ -89,4 +98,5 @@ export type {
   Emoji,
   MainStoreState,
   availableLanguages,
+  GameStoreState,
 };

@@ -212,7 +212,7 @@ const isLoading = ref(false);
 const startGame = async () => {
   isLoading.value = true;
   try {
-    const gameId = await axios.post(`${SERVER_URL}/game/start-game`, {
+    const gameId = await axios.post(`${SERVER_URL}/games/quiz/start`, {
       userId: userStore.id,
       pairId: selectedOpponent.value,
       gameName: props.name?.toLowerCase(),

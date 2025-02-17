@@ -96,7 +96,7 @@ export const useChatStore = defineStore("chatStore", {
     },
     async loadMessages(): Promise<boolean> {
       const userStore = useUserStore();
-      if (!this.hasMoreMessages || this.isLoading) return false; // Sprawdzamy, czy warto ładować
+      if (!this.hasMoreMessages || this.isLoading) return false;
 
       this.isLoading = true;
       const chatId = [userStore.id, this.pairInfo.id].sort().join("-");

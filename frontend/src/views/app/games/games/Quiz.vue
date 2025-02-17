@@ -10,4 +10,17 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onBeforeMount, ref } from "vue";
+import { useGameStore } from "../../../../stores/gameStore";
+import { useRoute } from "vue-router";
+
+const gameStore = useGameStore();
+const route = useRoute();
+
+const isLoading = ref(true);
+
+onBeforeMount(async () => {
+  isLoading.value = await gameStore.getGameData(route.params.id as string);
+});
+</script>
