@@ -7,8 +7,9 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export const useGameStore = defineStore("gameStore", {
   state: (): GameStoreState => ({
+    gameId: "",
     gameName: "",
-    opponentId: "",
+    players: [],
     status: null,
     createdAt: 0,
     gameData: {},

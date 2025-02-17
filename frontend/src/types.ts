@@ -81,11 +81,14 @@ interface Message {
 }
 
 type GameStatus = null | "waiting" | "inProgress" | "finished";
-interface GameStoreState {
+interface Game {
+  gameId: string;
   gameName: string;
-  opponentId: string;
+  players: string[];
   status: GameStatus;
   createdAt: number;
+}
+interface GameStoreState extends Game {
   gameData: {};
 }
 
@@ -98,5 +101,6 @@ export type {
   Emoji,
   MainStoreState,
   availableLanguages,
+  Game,
   GameStoreState,
 };

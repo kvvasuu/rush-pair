@@ -20,7 +20,7 @@ quiz.post("/start", authenticateToken, async (req, res, next) => {
   }
 });
 
-quiz.get("/:gameId", async (req, res) => {
+quiz.get("/:gameId", authenticateToken, async (req, res) => {
   try {
     const { gameId } = req.params;
     const { userId } = req.query;

@@ -22,6 +22,32 @@
 <script setup lang="ts">
 import GamesListElement from "./GamesListElement.vue";
 import { useI18n } from "vue-i18n";
+import { ref, onBeforeMount } from "vue";
+import axios from "axios";
+import type { Game } from "../../../types";
+import { useUserStore } from "../../../stores/userStore";
 
 const { t } = useI18n();
+
+const userStore = useUserStore();
+
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
+
+const isLoading = ref(true);
+const games = ref<Game[] | null>(null);
+
+const getGames = async () => {
+  try {
+    const gamesData = await axios.get(`${SERVER_URL}/games/${userStore.id}`);
+    console.log(gamesData, games.value);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onBeforeMount(async () => {
+  await getGames();
+});
 </script>
