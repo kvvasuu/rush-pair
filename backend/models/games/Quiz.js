@@ -6,14 +6,15 @@ const quizSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  players: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  questions: [
+    {
+      questionId: { type: mongoose.Schema.Types.ObjectId, ref: "QuizQuestion" },
+      answers: { player1: { type: String }, player2: { type: String } },
+    },
   ],
-  createdAt: { type: Date, default: Date.now },
-  status: {
-    type: String,
-    enum: ["waiting", "inProgress", "finished"],
-    default: "waiting",
+  matchScore: {
+    type: Number,
+    default: 0,
   },
 });
 

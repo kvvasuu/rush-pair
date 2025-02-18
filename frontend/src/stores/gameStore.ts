@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { GameStoreState } from "../types";
-import { useUserStore } from "./userStore";
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
@@ -13,18 +12,48 @@ export const useGameStore = defineStore("gameStore", {
     status: null,
     createdAt: 0,
     gameData: {},
+    score: 0,
   }),
   actions: {
-    async getGameData(gameId: string): Promise<boolean> {
-      const userStore = useUserStore();
+    async getGameData(gameId: string, gameName: string): Promise<boolean> {
       try {
-        const gameData = await axios.get(
-          `${SERVER_URL}/games/quiz/${gameId}?userId=${userStore.id}`
+        const game = await axios.get(
+          `${SERVER_URL}/games/${gameName}/${gameId}`
         );
-        console.log(gameData);
-        return true;
-      } catch (error) {
-        console.log(error);
+
+        if (game) {
+          const { players, status, createdAt, gameData, score } = {
+            ...game.data,
+          };
+
+          this.gameId = gameId;
+          this.gameName = gameName;
+          this.players = players;
+          this.status = status;
+          this.createdAt = createdAt;
+          this.gameData = { questions: gameData };
+          this.score = score;
+        }
+
+        return false;
+      } catch (error: any) {
+        if (error.response && error.response.status === 404) {
+          console.log(error.response);
+          try {
+            const newGame = await axios.post(`${SERVER_URL}/games/quiz`, {
+              gameId,
+            });
+
+            if (newGame) {
+              await this.getGameData(gameId, gameName);
+            }
+          } catch (postError) {
+            console.error(postError);
+          }
+        } else {
+          console.error(error);
+        }
+
         return false;
       }
     },

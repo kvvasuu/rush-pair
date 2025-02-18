@@ -1,43 +1,53 @@
 import express from "express";
 import { authenticateToken } from "../../middleware/auth.js";
 import Quiz from "../../models/games/Quiz.js";
+import Game from "../../models/games/Game.js";
 
 const quiz = express.Router();
 
-quiz.post("/start", authenticateToken, async (req, res, next) => {
+quiz.post("/", authenticateToken, async (req, res, next) => {
   try {
-    const { userId, pairId, gameName } = req.body;
+    const { gameId } = req.body;
 
-    if (!userId || !pairId || !gameName) {
-      return res.status(404).json({ msg: "Invalid information." });
-    }
+    /* const questions = await getRandomQuestions(); // Funkcja do losowania pytań */
 
-    const gameId = [...[userId, pairId].sort(), Date.now()].join("-");
+    const newQuiz = new Quiz({
+      gameId,
+      questions: [],
+    });
 
-    res.status(200).json(gameId);
+    await newQuiz.save();
+    res.status(201).json(newQuiz);
   } catch (error) {
     next(error);
   }
 });
 
-quiz.get("/:gameId", authenticateToken, async (req, res) => {
+quiz.get("/:gameId", authenticateToken, async (req, res, next) => {
   try {
     const { gameId } = req.params;
-    const { userId } = req.query;
+    const game = await Game.findOne({ gameId });
+    const quiz = await Quiz.findOne({ gameId });
 
-    /* const game = await Quiz.findById(gameId);
-    if (!game) return res.status(404).json({ msg: "gameNotFound" });
+    if (!quiz) {
+      return res.status(404).json({ msg: "quizNotFound" });
+    }
 
-    if (userId && !game.players.includes(userId)) {
-      return res
-        .status(403)
-        .json({ error: "You are not a player in this game" });
-    } */
+    const data = {
+      gameId: gameId,
+      players: game.players,
+      status: game.status,
+      createdAt: game.createdAt,
+      gameData: quiz.questions,
+      score: quiz.matchScore,
+    };
 
-    res.json("gameData :D");
+    res.json(data);
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    next(error);
   }
 });
+
+const getRandomQuestions = () => {};
 
 export default quiz;

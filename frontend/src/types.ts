@@ -80,13 +80,14 @@ interface Message {
   isDeleted?: boolean;
 }
 
-type GameStatus = null | "waiting" | "inProgress" | "finished";
+type GameStatus = null | "pending" | "inProgress" | "finished";
 interface Game {
   gameId: string;
   gameName: string;
   players: string[];
   status: GameStatus;
   createdAt: number;
+  score: number;
 }
 interface GameStoreState extends Game {
   gameData: {};
