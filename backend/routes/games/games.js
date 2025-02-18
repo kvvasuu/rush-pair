@@ -15,8 +15,9 @@ games.get("/:userId", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "Invalid information." });
     }
 
-    const games = await Game.find({ players: { $in: [userId] } });
-
+    const games = await Game.find({ players: { $in: [userId] } }).select(
+      "-_id gameId players gameName createdAt status"
+    );
     res.json(games);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });

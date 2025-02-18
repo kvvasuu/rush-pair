@@ -9,6 +9,7 @@
         name="Quiz"
         :duration="10"
         :prize="1"
+        :gamesList="games"
       ></GamesListElement>
     </div>
     <p
@@ -34,12 +35,12 @@ const userStore = useUserStore();
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const isLoading = ref(true);
-const games = ref<Game[] | null>(null);
+const games = ref<Game[]>([]);
 
 const getGames = async () => {
   try {
     const gamesData = await axios.get(`${SERVER_URL}/games/${userStore.id}`);
-    console.log(gamesData, games.value);
+    games.value = gamesData.data;
   } catch (error) {
     console.log(error);
   } finally {

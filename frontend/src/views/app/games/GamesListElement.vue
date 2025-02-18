@@ -163,12 +163,24 @@ import PairListElement from "../pairs/PairListElement.vue";
 import { useRouter } from "vue-router";
 import BasicSpinner from "../../../components/BasicSpinner.vue";
 import axios from "axios";
+import { Game } from "../../../types";
 
 const { t } = useI18n();
 const userStore = useUserStore();
 const router = useRouter();
 
-const props = defineProps({ name: String, duration: Number, prize: Number });
+const props = defineProps<{
+  name: string;
+  duration: number;
+  prize: number;
+  gamesList: Game[];
+}>();
+
+const gamesInProgress = computed(() => {
+  return props.gamesList;
+});
+console.log(gamesInProgress.value);
+
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const isLoaded = ref(false);
