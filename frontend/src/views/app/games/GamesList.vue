@@ -11,6 +11,12 @@
         :prize="1"
         :gamesList="games"
       ></GamesListElement>
+      <GamesListElement
+        name="other"
+        :duration="10"
+        :prize="1"
+        :gamesList="games"
+      ></GamesListElement>
     </div>
     <p
       class="select-none mt-8 font-semibold text-neutral-400 dark:text-neutral-600"
@@ -40,7 +46,13 @@ const games = ref<Game[]>([]);
 const getGames = async () => {
   try {
     const gamesData = await axios.get(`${SERVER_URL}/games/${userStore.id}`);
-    games.value = gamesData.data;
+    games.value = gamesData.data.sort((a: Game, b: Game) => {
+      const statusSort =
+        Number(a.status === "finished") - Number(b.status === "finished");
+      if (statusSort !== 0) return statusSort;
+
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
   } catch (error) {
     console.log(error);
   } finally {

@@ -176,11 +176,6 @@ const props = defineProps<{
   gamesList: Game[];
 }>();
 
-const gamesInProgress = computed(() => {
-  return props.gamesList;
-});
-console.log(gamesInProgress.value);
-
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const isLoaded = ref(false);
@@ -211,8 +206,19 @@ const selectOpponent = (id: string) => {
 };
 
 const pairs = computed(() => {
+  const gamesInProgress = props.gamesList
+    .map((game) => {
+      return game.players.filter(
+        (player) =>
+          player !== userStore.id &&
+          game.gameName.toLowerCase() === props.name.toLowerCase() &&
+          game.status !== "finished"
+      );
+    })
+    .flat();
+
   return [...userStore.pairs]
-    .filter((pair) => !pair?.isBlocked)
+    .filter((pair) => !pair?.isBlocked && !gamesInProgress.includes(pair.id))
     .sort(
       (a, b) =>
         Number(b.isFavourite) - Number(a.isFavourite) || b.pairedAt - a.pairedAt
