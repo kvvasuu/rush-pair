@@ -1,6 +1,6 @@
 <template>
   <div
-    class="absolute top-0 pt-20 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-4rem)] md:h-full overflow-y-auto overflow-x-hidden"
+    class="absolute top-16 pt-4 pb-12 flex flex-col items-center justify-start w-full h-[calc(100%-8rem)] md:h-[calc(100%-4rem)] overflow-y-auto overflow-x-hidden"
   >
     <div
       class="flex w-full h-full items-center justify-center flex-col gap-8 text-neutral-500 select-none max-w-[666px]"

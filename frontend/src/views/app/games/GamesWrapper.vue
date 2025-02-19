@@ -12,6 +12,16 @@
           {{ gameName }}
         </p>
       </div>
+      <button
+        class="absolute flex items-center gap-2 left-0 top-0 text-neutral-600 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 transition-all cursor-pointer py-3 px-4"
+        @click="router.push({ name: 'GamesList' })"
+        v-if="route.params.id"
+      >
+        <i class="fa-solid fa-angle-left text-4xl"></i>
+        <span class="text-xl hidden md:block select-none">{{
+          t("games.games")
+        }}</span>
+      </button>
     </header>
     <RouterView v-slot="{ Component }">
       <Transition name="fade" mode="out-in">
@@ -24,10 +34,11 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const { t } = useI18n();
 const route = useRoute();
+const router = useRouter();
 
 const gameName = computed(() => {
   return route.params.id ? route.name : t("general.games");

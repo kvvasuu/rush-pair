@@ -16,7 +16,7 @@
       class="w-full h-full bg-slate-300 dark:bg-neutral-800/60 animate-pulse absolute flex items-center justify-center font-semibold text-lg text-neutral-400 dark:text-neutral-600 select-none"
       v-if="!isLoaded"
     >
-      {{ t("games.quiz.name") }}
+      {{ t(`games.${name}.name`) }}
     </div>
     <Transition name="fade" mode="out-in">
       <Teleport to="body">
@@ -49,7 +49,7 @@
                   class="w-full px-6 flex flex-col items-start justify-start gap-5"
                 >
                   <h1 class="text-4xl font-bold text-neutral-100 drop-shadow">
-                    {{ t("games.quiz.name") }}
+                    {{ t(`games.${name}.name`) }}
                   </h1>
 
                   <button
@@ -86,12 +86,12 @@
                   <p
                     class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
                   >
-                    {{ t("games.quiz.description") }}
+                    {{ t(`games.${name}.description`) }}
                   </p>
                   <p
                     class="text-sm font-semibold text-neutral-500 dark:text-neutral-400"
                   >
-                    {{ t("games.quiz.winCondition") }}
+                    {{ t(`games.${name}.winCondition`) }}
                   </p>
                 </div>
               </div>

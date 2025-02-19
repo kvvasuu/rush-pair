@@ -1,8 +1,14 @@
 {
+  "games": "Gry",
   "moreGamesSoon": "Więcej gier wkrótce...",
   "play": "Zagraj",
+  "resume": "Wznów",
   "chooseOpponent": "Wybierz przeciwnika",
   "startingNewGame": "Rozpoczynanie nowej gry...",
+  "gamesInProgress": "Gry w trakcie",
+  "gamesFinished": "Gry zakończone",
+  "noGamesYet": "Nie masz gier w trakcie",
+  "startPlaying": "Zacznij grać",
   "quiz": {
     "name": "Quiz",
     "description": "Odpowiedz na serię zabawnych, osobistych pytań i sprawdź, jak dobrze dopasowany/a jesteś do swojego rozmówcy! Oboje odpowiadacie na te same pytania osobno. Na końcu wasze odpowiedzi zostaną porównane, aby pokazać wynik dopasowania.",
