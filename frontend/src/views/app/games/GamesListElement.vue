@@ -185,7 +185,7 @@ const onLoad = () => {
 };
 
 const imgUrl = new URL(
-  `../../../assets/images/${props.name}.webp`,
+  `../../../assets/images/games/${props.name}.webp`,
   import.meta.url
 ).href;
 
