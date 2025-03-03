@@ -31,7 +31,7 @@ export const useGameStore = defineStore("gameStore", {
           this.players = players;
           this.status = status;
           this.createdAt = createdAt;
-          this.gameData = { questions: gameData };
+          this.gameData = gameData;
           this.score = score;
         }
 
@@ -40,9 +40,12 @@ export const useGameStore = defineStore("gameStore", {
         if (error.response && error.response.status === 404) {
           console.log(error.response);
           try {
-            const newGame = await axios.post(`${SERVER_URL}/games/quiz`, {
-              gameId,
-            });
+            const newGame = await axios.post(
+              `${SERVER_URL}/games/${gameName}`,
+              {
+                gameId,
+              }
+            );
 
             if (newGame) {
               await this.getGameData(gameId, gameName);

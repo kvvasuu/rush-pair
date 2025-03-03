@@ -8,7 +8,9 @@ const quizSchema = new mongoose.Schema({
   },
   questions: [
     {
-      questionId: { type: mongoose.Schema.Types.ObjectId, ref: "QuizQuestion" },
+      _id: { type: mongoose.Schema.Types.ObjectId, ref: "QuizQuestion" },
+      question: { type: String, required: true },
+      options: { type: [String], required: true },
       answers: { player1: { type: String }, player2: { type: String } },
     },
   ],
