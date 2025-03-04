@@ -11,7 +11,7 @@ const quizSchema = new mongoose.Schema({
       _id: { type: mongoose.Schema.Types.ObjectId, ref: "QuizQuestion" },
       question: { type: String, required: true },
       options: { type: [String], required: true },
-      answers: { player1: { type: String }, player2: { type: String } },
+      answers: [{ player: { type: String }, answer: { type: String } }],
     },
   ],
   matchScore: {

@@ -15,10 +15,14 @@ export const useGameStore = defineStore("gameStore", {
     score: 0,
   }),
   actions: {
-    async getGameData(gameId: string, gameName: string): Promise<boolean> {
+    async getGameData(
+      gameId: string,
+      gameName: string,
+      playerId: string
+    ): Promise<boolean> {
       try {
         const game = await axios.get(
-          `${SERVER_URL}/games/${gameName}/${gameId}`
+          `${SERVER_URL}/games/${gameName}/${gameId}?playerId=${playerId}`
         );
 
         if (game) {
@@ -48,7 +52,7 @@ export const useGameStore = defineStore("gameStore", {
             );
 
             if (newGame) {
-              await this.getGameData(gameId, gameName);
+              await this.getGameData(gameId, gameName, playerId);
             }
           } catch (postError) {
             console.error(postError);

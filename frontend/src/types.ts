@@ -90,7 +90,7 @@ interface Game {
   score: number;
 }
 interface GameStoreState extends Game {
-  gameData: {};
+  gameData: any;
 }
 
 export type {
