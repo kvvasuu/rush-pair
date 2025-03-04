@@ -11,6 +11,7 @@ export const useGameStore = defineStore("gameStore", {
     players: [],
     status: null,
     createdAt: 0,
+    createdBy: "",
     gameData: {},
     score: 0,
   }),
@@ -26,20 +27,27 @@ export const useGameStore = defineStore("gameStore", {
         );
 
         if (game) {
-          const { players, status, createdAt, gameData, score } = {
+          const { players, createdAt, gameData, score, createdBy } = {
             ...game.data,
           };
+
+          const playerStatus = players.find(
+            (player: { player: string; status: string }) =>
+              player.player === playerId
+          )?.status;
 
           this.gameId = gameId;
           this.gameName = gameName;
           this.players = players;
-          this.status = status;
+          this.status = playerStatus;
           this.createdAt = createdAt;
+          this.createdBy = createdBy;
           this.gameData = gameData;
           this.score = score;
-        }
 
-        return false;
+          return false;
+        }
+        return true;
       } catch (error: any) {
         if (error.response && error.response.status === 404) {
           console.log(error.response);
@@ -63,6 +71,9 @@ export const useGameStore = defineStore("gameStore", {
 
         return false;
       }
+    },
+    closeGame() {
+      this.$reset();
     },
   },
 });

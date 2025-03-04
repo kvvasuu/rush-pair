@@ -26,7 +26,18 @@
     <button
       class="px-8 py-2 font-semibold bg-main-gradient ml-auto mr-0 text-neutral-100 shadow-md rounded-xl justify-center transition-all"
     >
-      <i class="fa-solid fa-play mr-2"></i> {{ t("games.resume") }}
+      <i class="fa-solid fa-play mr-2" v-if="status !== 'finished'"></i>
+      {{
+        t(
+          `games.${
+            status === "pending"
+              ? "play"
+              : status === "inProgress"
+              ? "resume"
+              : "summary"
+          }`
+        )
+      }}
     </button>
   </li>
 </template>
@@ -35,14 +46,20 @@
 import type { Game } from "../../../types";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { useUserStore } from "../../../stores/userStore";
 
 const { t } = useI18n();
+const userStore = useUserStore();
 
 const props = defineProps<{
   game: Game;
 }>();
 
 const emits = defineEmits(["onClick"]);
+
+const status = props.game.players.find(
+  (player) => player.player === userStore.id
+)?.status;
 
 const createdAt = computed(() => {
   const date = new Date(Date.parse(props.game.createdAt.toString()));

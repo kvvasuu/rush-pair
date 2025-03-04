@@ -3,6 +3,7 @@
   "moreGamesSoon": "More games soon...",
   "play": "Play",
   "resume": "Resume",
+  "summary": "Summary",
   "chooseOpponent": "Choose opponent",
   "startingNewGame": "Starting new game...",
   "gamesInProgress": "Games in progress",
@@ -12,6 +13,189 @@
   "quiz": {
     "name": "Quiz",
     "description": "Answer a series of fun, personal questions and see how well you match with your conversation partner! Both of you will answer the same questions separately. At the end, your answers will be compared to reveal your compatibility score.",
-    "winCondition": "The higher your score, the better your match! Get 75% or more and get 3 RushCoins!"
+    "winCondition": "The higher your score, the better your match! Get 75% or more and get 3 RushCoins!",
+    "question": "Question",
+    "questions": {
+      "idealActivity": {
+        "question": "What would be your ideal activity?",
+        "options": {
+          "playingVideoGames": "Playing video games",
+          "readingBooks": "Reading books",
+          "watchingMovies": "Watching movies",
+          "doingSports": "Doing sports"
+        }
+      },
+      "dreamVacation": {
+        "question": "What is your dream vacation?",
+        "options": {
+          "tropicalBeach": "Relaxing on a tropical beach",
+          "mountainHiking": "Going on a mountain hike",
+          "cityExploration": "Exploring a big city",
+          "staycation": "Enjoying a staycation at home"
+        }
+      },
+      "preferredPet": {
+        "question": "Which pet do you prefer?",
+        "options": {
+          "dog": "A dog",
+          "cat": "A cat",
+          "fish": "A fish",
+          "reptile": "A reptile"
+        }
+      },
+      "weekendActivity": {
+        "question": "What is your ideal weekend activity?",
+        "options": {
+          "goingToParty": "Going to a party",
+          "stayingAtHome": "Staying at home",
+          "goingForAWalk": "Going for a walk",
+          "doingHobby": "Engaging in a hobby"
+        }
+      },
+      "favoriteSeason": {
+        "question": "What is your favorite season?",
+        "options": {
+          "summer": "Summer",
+          "winter": "Winter",
+          "spring": "Spring",
+          "autumn": "Autumn"
+        }
+      },
+      "morningRoutine": {
+        "question": "What is your morning routine?",
+        "options": {
+          "drinkingCoffee": "Drinking coffee",
+          "goingForRun": "Going for a run",
+          "meditating": "Meditating",
+          "sleepingLonger": "Sleeping longer"
+        }
+      },
+      "musicPreference": {
+        "question": "What is your favorite type of music?",
+        "options": {
+          "rock": "Rock",
+          "pop": "Pop",
+          "hipHop": "Hip-hop",
+          "classical": "Classical"
+        }
+      },
+      "dreamJob": {
+        "question": "What is your dream job?",
+        "options": {
+          "scientist": "A scientist",
+          "artist": "An artist",
+          "entrepreneur": "An entrepreneur",
+          "athlete": "An athlete"
+        }
+      },
+      "movieGenre": {
+        "question": "What is your favorite movie genre?",
+        "options": {
+          "action": "Action",
+          "comedy": "Comedy",
+          "drama": "Drama",
+          "horror": "Horror"
+        }
+      },
+      "idealSuperpower": {
+        "question": "Which superpower would you choose?",
+        "options": {
+          "flying": "Flying",
+          "teleportation": "Teleportation",
+          "mindReading": "Mind reading",
+          "superStrength": "Super strength"
+        }
+      },
+      "favoriteDessert": {
+        "question": "What is your favorite dessert?",
+        "options": {
+          "iceCream": "Ice cream",
+          "cake": "Cake",
+          "chocolate": "Chocolate",
+          "fruit": "Fruit"
+        }
+      },
+      "preferredTransport": {
+        "question": "What is your preferred mode of transport?",
+        "options": {
+          "car": "Car",
+          "bicycle": "Bicycle",
+          "publicTransport": "Public transport",
+          "walking": "Walking"
+        }
+      },
+      "socialSituation": {
+        "question": "Which social situation do you prefer?",
+        "options": {
+          "bigParty": "A big party",
+          "smallGathering": "A small gathering",
+          "oneOnOne": "A one-on-one conversation",
+          "beingAlone": "Being alone"
+        }
+      },
+      "howToRelax": {
+        "question": "How do you prefer to relax?",
+        "options": {
+          "watchingTV": "Watching TV",
+          "reading": "Reading",
+          "exercising": "Exercising",
+          "sleeping": "Sleeping"
+        }
+      },
+      "houseType": {
+        "question": "What type of house do you prefer?",
+        "options": {
+          "apartment": "An apartment",
+          "house": "A house",
+          "cabin": "A cabin",
+          "mansion": "A mansion"
+        }
+      },
+      "favoriteDrink": {
+        "question": "What is your favorite drink?",
+        "options": {
+          "coffee": "Coffee",
+          "tea": "Tea",
+          "juice": "Juice",
+          "soda": "Soda"
+        }
+      },
+      "gamingStyle": {
+        "question": "What is your gaming style?",
+        "options": {
+          "competitive": "Competitive",
+          "casual": "Casual",
+          "storyDriven": "Story-driven",
+          "social": "Social"
+        }
+      },
+      "hobbyPreference": {
+        "question": "What is your preferred hobby?",
+        "options": {
+          "painting": "Painting",
+          "coding": "Coding",
+          "gardening": "Gardening",
+          "photography": "Photography"
+        }
+      },
+      "bestLearningStyle": {
+        "question": "What is your preferred learning style?",
+        "options": {
+          "visual": "Visual",
+          "auditory": "Auditory",
+          "readingWriting": "Reading & Writing",
+          "kinesthetic": "Kinesthetic"
+        }
+      },
+      "communicationStyle": {
+        "question": "How do you prefer to communicate?",
+        "options": {
+          "texting": "Texting",
+          "calling": "Calling",
+          "inPerson": "In person",
+          "socialMedia": "Via social media"
+        }
+      }
+    }
   }
 }

@@ -117,13 +117,16 @@
                     :pair="pair"
                     :small="true"
                     @on-click="selectOpponent"
-                    :class="{ 'bg-slate-100': pair.id === selectedOpponent }"
+                    :class="{
+                      'bg-slate-100 dark:bg-neutral-800':
+                        pair.id === selectedOpponent,
+                    }"
                   ></PairListElement>
                 </ul>
               </div>
               <div class="flex justify-center w-full mt-auto mb-0 gap-4 px-6">
                 <button
-                  class="px-10 py-2 font-semibold bg-neutral-50 hover:bg-neutral-100 shadow rounded-xl transition-all"
+                  class="px-10 py-2 font-semibold bg-neutral-50 dark:bg-neutral-800 dark:hover:bg-neutral-700 hover:bg-neutral-100 shadow rounded-xl transition-all"
                   @click="
                     () => {
                       choosingOpponent = false;
@@ -208,12 +211,14 @@ const selectOpponent = (id: string) => {
 const pairs = computed(() => {
   const gamesInProgress = props.gamesList
     .map((game) => {
-      return game.players.filter(
-        (player) =>
-          player !== userStore.id &&
-          game.gameName.toLowerCase() === props.name.toLowerCase() &&
-          game.status !== "finished"
-      );
+      return game.players
+        .map((el) => el.player)
+        .filter(
+          (player) =>
+            player !== userStore.id &&
+            game.gameName.toLowerCase() === props.name.toLowerCase() &&
+            game.status !== "finished"
+        );
     })
     .flat();
 

@@ -84,10 +84,18 @@ type GameStatus = null | "pending" | "inProgress" | "finished";
 interface Game {
   gameId: string;
   gameName: string;
-  players: string[];
-  status: GameStatus;
+  players:
+    | [
+        {
+          player: string;
+          status: GameStatus;
+        }
+      ]
+    | [];
   createdAt: number;
+  createdBy: string;
   score: number;
+  status: GameStatus;
 }
 interface GameStoreState extends Game {
   gameData: any;

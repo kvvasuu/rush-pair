@@ -55,6 +55,7 @@ quiz.get("/:gameId", authenticateToken, async (req, res, next) => {
       players: game.players,
       status: game.status,
       createdAt: game.createdAt,
+      createdBy: game.createdBy,
       gameData: { questions },
       score: quiz.matchScore,
     };
