@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rush-pair",
-    "slug": "rush-pair",
+    "name": "RushPair",
+    "slug": "rushpair",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "23e2334f-cda6-48ea-a571-9b2884dbd21f"
+      }
+    },
+    "owner": "kwasu"
   }
 }

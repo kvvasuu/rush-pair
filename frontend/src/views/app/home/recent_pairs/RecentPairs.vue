@@ -3,7 +3,7 @@
     class="w-full flex flex-col items-center justify-center pt-4 px-6 md:px-0"
   >
     <p
-      class="w-full border-b-[1px] border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500 select-none"
+      class="w-full border-b border-neutral-300 dark:border-neutral-750 text-neutral-400 dark:text-neutral-500 select-none"
     >
       {{ t("home.recentPairs") }}
     </p>
@@ -37,7 +37,7 @@
           ></PairAvatar>
           <div
             v-if="!!pair.unreadMessagesCount"
-            class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
+            class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-pink-600 shadow"
           >
             {{
               pair.unreadMessagesCount < 100 ? pair.unreadMessagesCount : "99+"
@@ -162,11 +162,7 @@ onUnmounted(() => {
 <style scoped>
 .pair {
   padding: 2px;
-  background-image: linear-gradient(
-    20deg,
-    rgba(255, 32, 108, 1) 0%,
-    rgba(255, 127, 88, 1) 87%
-  );
+  background-image: linear-gradient(20deg, #7b4397, #e94548 87%);
 }
 
 .pair-fav {

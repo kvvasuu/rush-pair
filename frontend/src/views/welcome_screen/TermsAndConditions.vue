@@ -13,12 +13,12 @@
         </h1>
         <h2 class="text-base md:text-xl text-center mt-6">
           Welcome to
-          <strong class="font-semibold text-rose-600">RushPair</strong>, an
+          <strong class="font-semibold text-pink-600">RushPair</strong>, an
           online platform that connects users for random, timed, and anonymous
           conversations.<br />
           These Terms and Conditions govern your use of our website and
           services. By accessing or using
-          <strong class="font-semibold text-rose-600">RushPair</strong>, you
+          <strong class="font-semibold text-pink-600">RushPair</strong>, you
           agree to be bound by these Terms and Conditions. If you do not agree
           with any part of these Terms and Conditions, please do not use our
           services.
@@ -30,15 +30,15 @@
         <ul class="ml-8 list-disc">
           <li>
             "User" refers to anyone who accesses or uses
-            <strong class="font-bold text-rose-600">RushPair</strong>.
+            <strong class="font-bold text-pink-600">RushPair</strong>.
           </li>
           <li>
             "We," "Us," "Our" refers to the operators of
-            <strong class="font-bold text-rose-600">RushPair</strong>.
+            <strong class="font-bold text-pink-600">RushPair</strong>.
           </li>
           <li>
             "Service" refers to the functionalities provided by
-            <strong class="font-bold text-rose-600">RushPair</strong>.,
+            <strong class="font-bold text-pink-600">RushPair</strong>.,
             including random pairing, anonymous chatting, and optional identity
             reveal.
           </li>
@@ -104,10 +104,10 @@
         <ul class="ml-8 list-disc">
           <li>
             All content and materials available on
-            <strong class="font-bold text-rose-600">RushPair</strong>, including
+            <strong class="font-bold text-pink-600">RushPair</strong>, including
             but not limited to text, graphics, logos, and software, are the
             property of
-            <strong class="font-bold text-rose-600">RushPair</strong> and are
+            <strong class="font-bold text-pink-600">RushPair</strong> and are
             protected by applicable intellectual property laws.
           </li>
           <li>
@@ -127,7 +127,7 @@
         </h3>
         <ul class="ml-8 list-disc">
           <li>
-            <strong class="font-bold text-rose-600">RushPair</strong> is
+            <strong class="font-bold text-pink-600">RushPair</strong> is
             provided on an "as-is" and "as-available" basis. We make no
             warranties, express or implied, regarding the service.
           </li>
@@ -174,7 +174,7 @@
             <a
               href="https://kwasu.pl/"
               target="_blank"
-              class="font-semibold text-rose-600 underline underline-offset-2"
+              class="font-semibold text-pink-600 underline underline-offset-2"
               >kwasu.pl</a
             >
           </li>

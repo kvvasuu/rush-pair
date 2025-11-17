@@ -53,10 +53,11 @@
                   </h1>
 
                   <button
-                    class="px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-neutral-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
+                    class="flex items-center px-10 py-3 w-full md:w-auto font-semibold bg-main-gradient hover:bg-main-gradient-dark text-neutral-100 shadow-md rounded-xl justify-center transition-all drop-shadow-sm"
                     @click="choosingOpponent = true"
                   >
-                    <i class="fa-solid fa-play mr-2"></i> {{ t("games.play") }}
+                    <i class="fa-solid fa-play mr-2"></i>
+                    {{ t("games.play") }}
                   </button>
                 </div>
 

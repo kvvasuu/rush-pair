@@ -67,7 +67,7 @@
           v-else
         >
           <div
-            class="whitespace-pre-wrap break-all shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800 break-words"
+            class="whitespace-pre-wrap break-all shadow-sm py-2 px-4 dark:text-neutral-200 text-slate-800 wrap-break-word"
             :class="computeMessageStyle(message.sender, index)"
           >
             {{ message.content }}
@@ -197,7 +197,7 @@ const computeMessageStyle = (
     if (sender === userStore.id) {
       isDeleted
         ? (style += "bg-neutral-100 dark:bg-neutral-800 rounded-l-3xl ")
-        : (style += "bg-rose-300 dark:bg-rose-500/20 rounded-l-3xl ");
+        : (style += "bg-pink-300 dark:bg-pink-600/20 rounded-l-3xl ");
 
       if (
         chatStore.messages[index].sender === sender &&

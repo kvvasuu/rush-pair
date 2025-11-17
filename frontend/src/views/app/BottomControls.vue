@@ -66,7 +66,7 @@
       >
         <i
           class="fa-solid fa-house text-3xl transition-all duration-150"
-          :class="{ 'text-rose-500': isRouteActive }"
+          :class="{ 'text-pink-600': isRouteActive }"
         ></i>
       </RouterLink>
       <RouterLink
@@ -76,7 +76,7 @@
         <i
           class="fa-solid fa-gamepad text-3xl transition-all duration-150"
           :class="{
-            'text-rose-500': route.path.startsWith('/app/games'),
+            'text-pink-600': route.path.startsWith('/app/games'),
           }"
         ></i>
       </RouterLink>
@@ -104,12 +104,12 @@
           <i
             class="fa-solid fa-comments text-3xl transition-all duration-150"
             :class="{
-              'text-rose-500': route.path.startsWith('/app/pairs'),
+              'text-pink-600': route.path.startsWith('/app/pairs'),
             }"
           ></i>
           <div
             v-if="!!userStore.getAllUnreadMessages"
-            class="absolute -right-1 -top-2 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
+            class="absolute -right-1 -top-2 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-pink-600 shadow"
             :title="
               userStore.getAllUnreadMessages
                 ? t('general.unreadMessages', {
@@ -134,7 +134,7 @@
         <i
           class="fa-solid fa-bars text-3xl transition-all duration-150"
           :class="{
-            'text-rose-500': route.path.startsWith('/app/settings'),
+            'text-pink-600': route.path.startsWith('/app/settings'),
           }"
         ></i>
       </RouterLink>

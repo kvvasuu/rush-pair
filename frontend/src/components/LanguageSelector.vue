@@ -1,6 +1,6 @@
 <template>
   <ul
-    class="min-w-32 flex flex-col items-left text-md bg-slate-200 dark:bg-neutral-800 border-[1px] border-neutral-200 dark:border-neutral-700 rounded-md drop-shadow-sm z-20 overflow-hidden"
+    class="min-w-32 flex flex-col items-left text-md bg-slate-200 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md drop-shadow-sm z-20 overflow-hidden"
     ref="languageSelectorRef"
   >
     <li
@@ -10,7 +10,7 @@
       <img
         src="/flag-EN.png"
         alt="ENG"
-        class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
+        class="border box-content rounded-sm border-neutral-500 h-4"
       />
       <span>English</span>
     </li>
@@ -21,7 +21,7 @@
       <img
         src="/flag-PL.png"
         alt="PL"
-        class="border-[1px] box-content rounded-sm border-neutral-500 h-4"
+        class="border box-content rounded-sm border-neutral-500 h-4"
       />
       <span>Polski</span>
     </li>

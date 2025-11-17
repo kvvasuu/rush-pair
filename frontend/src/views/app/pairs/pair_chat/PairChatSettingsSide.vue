@@ -165,7 +165,7 @@
                 v-if="!isEditingNickname"
               ></i>
               <i
-                class="fa-solid fa-xmark flex text-rose-500 items-center justify-center h-8 w-8 rounded-full bg-neutral-400/10"
+                class="fa-solid fa-xmark flex text-pink-600 items-center justify-center h-8 w-8 rounded-full bg-neutral-400/10"
                 v-else-if="chatStore.pairInfo.name.length <= 0"
               ></i>
               <i

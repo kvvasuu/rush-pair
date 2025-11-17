@@ -23,7 +23,7 @@
           @click="getRandomSampleMessage"
         >
           <i
-            class="fa-solid fa-dice text-rose-500 group-hover:text-rose-600 group-hover:-rotate-12 group-hover:scale-105 transition-all"
+            class="fa-solid fa-dice text-pink-600 group-hover:text-rose-600 group-hover:-rotate-12 group-hover:scale-105 transition-all"
           ></i>
         </button>
         <button
@@ -62,7 +62,7 @@
   </div>
   <Transition name="fade">
     <button
-      class="absolute left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-rose-500/60 hover:text-rose-500 transition-all drop-shadow-2xl"
+      class="absolute left-[calc(50%-2rem)] w-16 h-16 flex items-center justify-center text-pink-600/60 hover:text-pink-600 transition-all drop-shadow-2xl"
       :class="[chatStore.isTyping ? 'bottom-14' : 'bottom-6']"
       v-if="showScrollButton"
       @click="scrollToBottom"

@@ -76,7 +76,7 @@
 
         <p class="w-full flex justify-end">
           <button
-            class="font-bold text-sm text-rose-500 bg-transparent border-none"
+            class="font-bold text-sm text-pink-600 bg-transparent border-none"
             @click="toggleIsLoginShown"
           >
             {{ t("welcomeScreen.forgotPassword") }}
@@ -141,7 +141,7 @@
         </p>
         <div class="flex items-center w-full justify-center gap-4 mt-auto">
           <button
-            class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+            class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border border-slate-200 rounded-full transition-all drop-shadow-sm"
             @click="toggleIsLoginShown"
           >
             {{ t("general.back") }}
@@ -163,7 +163,7 @@
           {{ t("welcomeScreen.resetPasswordLinkSent") }}
         </p>
         <button
-          class="px-8 py-3 font-bold text-lg mt-auto bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 font-bold text-lg mt-auto bg-white hover:bg-slate-200 border border-slate-200 rounded-full transition-all drop-shadow-sm"
           @click="toggleIsLoginShown"
         >
           {{ t("general.back") }}

@@ -14,7 +14,7 @@
       ></PairAvatar>
       <div
         v-if="!small && !!pair.unreadMessagesCount"
-        class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-rose-500 shadow"
+        class="absolute right-0 top-0 h-6 min-w-6 px-1 flex items-center justify-center text-xs font-semibold text-neutral-100 rounded-full bg-pink-600 shadow"
         :title="
           pair.unreadMessagesCount
             ? t('general.unreadMessages', {
@@ -115,7 +115,7 @@ const highlightMatch = (text: string) => {
   );
   return text.replace(
     queryRegex,
-    `<strong class="font-bold text-rose-500 dark:text-rose-400 bg-neutral-500/20">$1</strong>`
+    `<strong class="font-bold text-pink-600 dark:text-rose-400 bg-neutral-500/20">$1</strong>`
   );
 };
 </script>

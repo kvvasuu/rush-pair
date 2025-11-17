@@ -200,7 +200,7 @@
 
       <div class="flex items-center w-full justify-center mb-8 gap-4">
         <button
-          class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+          class="px-8 py-3 font-bold text-lg bg-white hover:bg-slate-200 border border-slate-200 rounded-full transition-all drop-shadow-sm"
           @click="step--"
           v-if="!isSent && step > 0"
         >

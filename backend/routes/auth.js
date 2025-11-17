@@ -3,7 +3,7 @@ import { check, validationResult } from "express-validator";
 import * as fs from "node:fs/promises";
 import path from "path";
 import { __dirname } from "../app.js";
-import bcrypt from "bcryptjs/dist/bcrypt.js";
+import bcrypt from "bcryptjs";
 import { sendEmail, rateLimiter } from "../utils.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
