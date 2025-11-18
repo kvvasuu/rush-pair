@@ -26,7 +26,7 @@
             class="fa-solid fa-angle-right ml-auto mr-3 text-neutral-600 dark:text-neutral-500"
           ></i>
           <div
-            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-px bg-neutral-200 dark:bg-neutral-700 absolute"
           ></div>
         </RouterLink>
       </li>
@@ -44,7 +44,7 @@
             :class="{ 'rotate-90': showLanguageSelector }"
           ></i>
           <div
-            class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
+            class="bottom-0 right-0 w-[calc(100%-54px)] h-px bg-neutral-200 dark:bg-neutral-700 absolute"
           ></div>
         </div>
         <Transition name="slide-from-right">
@@ -74,11 +74,11 @@
           id="theme-toggle"
         />
         <div
-          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-yellow-600 peer-checked:after:bg-yellow-500 after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-neutral-100 dark:after:bg-yellow-500/80 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-neutral-900"
+          class="absolute right-4 w-11 h-6 bg-neutral-300 dark:bg-neutral-700 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-yellow-600 peer-checked:after:bg-yellow-500 after:content-[''] after:absolute after:top-0.5 after:start-0.5 after:bg-neutral-100 dark:after:bg-yellow-500/80 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-neutral-900"
         ></div>
 
         <div
-          class="bottom-0 right-0 w-[calc(100%-54px)] h-[1px] bg-neutral-200 dark:bg-neutral-700 absolute"
+          class="bottom-0 right-0 w-[calc(100%-54px)] h-px bg-neutral-200 dark:bg-neutral-700 absolute"
         ></div>
       </label>
       <li>

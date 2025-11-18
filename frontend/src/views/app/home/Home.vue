@@ -53,7 +53,7 @@
       :class="[
         isEnlarged
           ? 'h-full sm:h-full top-0 sm:top-0'
-          : 'h-64 top-[calc(50%-8rem)] sm:h-[30rem] sm:top-[calc(50%-15rem)]',
+          : 'h-64 top-[calc(50%-8rem)] sm:h-120 sm:top-[calc(50%-15rem)]',
       ]"
       @start-drawing="startDrawing"
       @stop-drawing="stopDrawing"

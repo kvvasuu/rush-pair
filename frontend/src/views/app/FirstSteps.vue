@@ -239,7 +239,7 @@
         </li>
         <li class="flex w-4/5 items-center justify-center">
           <hr
-            class="h-[2px] w-4/5"
+            class="h-0.5 w-4/5"
             :class="{
               'bg-gray-400': step < 1,
               'bg-blue-500': step >= 1,
@@ -265,7 +265,7 @@
         </li>
         <li class="flex w-4/5 items-center justify-center">
           <hr
-            class="h-[2px] w-4/5"
+            class="h-0.5 w-4/5"
             :class="{
               'bg-gray-400': step < 2,
               'bg-blue-500': step >= 2,

@@ -35,7 +35,7 @@
           v-if="step === 0"
         >
           <li
-            class="w-full rounded-t-lg border border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 dark:has-[:checked]:bg-neutral-700"
+            class="w-full rounded-t-lg border border-neutral-300 dark:border-neutral-700 border-b-0 has-checked:bg-slate-100 dark:has-checked:bg-neutral-700"
           >
             <label
               for="list-radio-fake"
@@ -62,7 +62,7 @@
             </label>
           </li>
           <li
-            class="w-full border border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 dark:has-[:checked]:bg-neutral-700"
+            class="w-full border border-neutral-300 dark:border-neutral-700 border-b-0 has-checked:bg-slate-100 dark:has-checked:bg-neutral-700"
           >
             <label for="list-radio-spam" class="w-full h-full py-5 px-5 flex">
               <input
@@ -86,7 +86,7 @@
             </label>
           </li>
           <li
-            class="w-full border border-neutral-300 dark:border-neutral-700 border-b-0 has-[:checked]:bg-slate-100 dark:has-[:checked]:bg-neutral-700"
+            class="w-full border border-neutral-300 dark:border-neutral-700 border-b-0 has-checked:bg-slate-100 dark:has-checked:bg-neutral-700"
           >
             <label
               for="list-radio-offensive"
@@ -113,7 +113,7 @@
             </label>
           </li>
           <li
-            class="w-full rounded-b-lg border border-neutral-300 dark:border-neutral-700 has-[:checked]:bg-slate-100 dark:has-[:checked]:bg-neutral-700"
+            class="w-full rounded-b-lg border border-neutral-300 dark:border-neutral-700 has-checked:bg-slate-100 dark:has-checked:bg-neutral-700"
           >
             <label for="list-radio-other" class="w-full h-full py-5 px-5 flex">
               <input
@@ -290,7 +290,7 @@
         </li>
         <li class="flex w-4/5 items-center justify-center">
           <hr
-            class="h-[2px] w-4/5"
+            class="h-0.5 w-4/5"
             :class="{
               'bg-gray-400': step < 1,
               'border-red-500': step >= 1,
@@ -311,7 +311,7 @@
         </li>
         <li class="flex w-4/5 items-center justify-center">
           <hr
-            class="h-[2px] w-4/5"
+            class="h-0.5 w-4/5"
             :class="{
               'bg-gray-400': step < 2,
               'border-red-500': step >= 2,
