@@ -1,0 +1,30 @@
+{
+  "home": {
+    "recentPairs": "Recent pairs",
+    "noPairsYet": "There are no pairs yet...",
+    "howItWorks": "How it works:",
+    "howItWorks1": "Click that button",
+    "howItWorks2": "Chat anonymously",
+    "howItWorks3": "Reveal if you wish!",
+    "searching": "Searching...",
+    "stopSearching": "Stop searching",
+    "startChatting": "Start chatting",
+    "tryAgain": "Try again later or wait for others...",
+    "buttonTitles": {
+      "title1": "Rush for Pair!",
+      "title2": "Find a Pair!",
+      "title3": "Match Me Now!",
+      "title4": "Find Someone!",
+      "title5": "Let's Pair Up!",
+      "title6": "Get Matched!"
+    },
+    "pairedTitles": {
+      "title1": "You've Been Paired!",
+      "title2": "Success! Your Chat Awaits.",
+      "title3": "Pair Found! Get Ready to Chat."
+    },
+    "congratulations": "Congratulations!",
+    "youEarnRushCoin": "You've earned +1 RushCoin for logging in today!",
+    "remember": "Remember, you can earn RushCoins every day by logging in!"
+  }
+}

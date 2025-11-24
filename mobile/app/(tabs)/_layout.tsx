@@ -1,40 +1,108 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { HapticTab } from "@/components/HapticTab";
 
-import { HapticTab } from "@/components/haptic-tab";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "react-native";
+import { Colors } from "@/utils/theme";
+import { Tabs, usePathname, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useAppTheme from "../../hooks/useAppTheme";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const theme = useAppTheme();
+  const insets = useSafeAreaInsets();
+  const router = useRouter();
+  const pathName = usePathname();
+
+  const [focusedTab, setFocusedTab] = useState<
+    "index" | "games" | "pairs" | "account"
+  >("index");
+
+  useEffect(() => {
+    if (pathName.includes("/games")) setFocusedTab("games");
+    else if (pathName.includes("/account")) setFocusedTab("account");
+    else if (pathName === "/") setFocusedTab("index");
+  }, [pathName]);
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }: { color: string }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarStyle: { display: "none" },
+          headerShown: false,
+          tabBarShowLabel: false,
+          sceneStyle: { backgroundColor: Colors[theme].background },
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color }: { color: string }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen name="index" />
+        <Tabs.Screen name="pairs" />
+        <Tabs.Screen name="games" />
+        <Tabs.Screen name="account" />
+      </Tabs>
+
+      <View
+        style={[
+          styles.tabBar,
+          styles.tabBarNoGlass,
+          {
+            bottom: insets.bottom,
+            backgroundColor: Colors[theme].background,
+            borderColor: Colors[theme].border,
+          },
+        ]}
+      >
+        <HapticTab
+          onPress={() => {
+            router.push("/(tabs)");
+          }}
+          focused={focusedTab === "index"}
+          icon="home"
+        />
+
+        <HapticTab
+          onPress={() => {
+            router.push("/(tabs)/pairs");
+          }}
+          focused={focusedTab === "pairs"}
+          icon="apps"
+        />
+
+        <HapticTab
+          onPress={() => {
+            router.push("/(tabs)/games");
+          }}
+          focused={focusedTab === "games"}
+          icon="apps"
+        />
+
+        <HapticTab
+          onPress={() => {
+            router.push("/(tabs)/account");
+          }}
+          focused={focusedTab === "account"}
+          icon="person"
+        />
+      </View>
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    flexDirection: "row",
+    overflow: "hidden",
+    alignSelf: "center",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 100,
+    gap: 16,
+    position: "absolute",
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  tabBarNoGlass: {
+    borderWidth: 0.5,
+  },
+});
