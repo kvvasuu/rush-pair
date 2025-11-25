@@ -1,5 +1,4 @@
 import { HapticTab } from "@/components/HapticTab";
-
 import { Colors } from "@/utils/theme";
 import { Tabs, usePathname, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -18,7 +17,8 @@ export default function TabLayout() {
   >("index");
 
   useEffect(() => {
-    if (pathName.includes("/games")) setFocusedTab("games");
+    if (pathName.includes("/pairs")) setFocusedTab("pairs");
+    else if (pathName.includes("/games")) setFocusedTab("games");
     else if (pathName.includes("/account")) setFocusedTab("account");
     else if (pathName === "/") setFocusedTab("index");
   }, [pathName]);
@@ -42,10 +42,9 @@ export default function TabLayout() {
       <View
         style={[
           styles.tabBar,
-          styles.tabBarNoGlass,
           {
             bottom: insets.bottom,
-            backgroundColor: Colors[theme].background,
+            backgroundColor: Colors[theme].backgroundAlt,
             borderColor: Colors[theme].border,
           },
         ]}
@@ -63,7 +62,7 @@ export default function TabLayout() {
             router.push("/(tabs)/pairs");
           }}
           focused={focusedTab === "pairs"}
-          icon="apps"
+          icon="chatbubbles"
         />
 
         <HapticTab
@@ -71,7 +70,7 @@ export default function TabLayout() {
             router.push("/(tabs)/games");
           }}
           focused={focusedTab === "games"}
-          icon="apps"
+          icon="game-controller"
         />
 
         <HapticTab
@@ -101,8 +100,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 2,
-  },
-  tabBarNoGlass: {
     borderWidth: 0.5,
   },
 });
