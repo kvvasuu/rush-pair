@@ -38,6 +38,16 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/montserrat/Montserrat-Regular.ttf",
+            "./assets/fonts/montserrat/Montserrat-Bold.ttf",
+            "./assets/fonts/montserrat/Montserrat-SemiBold.ttf"
+          ]
+        }
       ]
     ],
     "experiments": {

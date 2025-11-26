@@ -1,4 +1,6 @@
 import { useMainStore } from "@/stores/mainStore";
+import { useFonts } from "expo-font";
+
 import { Colors } from "@/utils/theme";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -30,7 +32,7 @@ SplashScreen.setOptions({
 // });
 
 export const unstable_settings = {
-  anchor: "(tabs)",
+  anchor: "(app)",
 };
 
 export default function RootLayout() {
@@ -38,7 +40,12 @@ export default function RootLayout() {
 
   const language = useMainStore((state) => state.language);
   const loading = useMainStore((state) => state.loading);
-  const error = useMainStore((state) => state.error);
+
+  const [loaded, error] = useFonts({
+    Montserrat: require("../assets/fonts/montserrat/Montserrat-Regular.ttf"),
+    "Montserrat-Semibold": require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
+    "Montserrat-Bold": require("../assets/fonts/montserrat/Montserrat-Bold.ttf"),
+  });
 
   const [ready, setReady] = useState(false);
 
@@ -47,7 +54,7 @@ export default function RootLayout() {
   useInternetWatcher();
 
   useEffect(() => {
-    if (!hydrated || loading) return;
+    if (!hydrated || loading || !loaded) return;
 
     i18n.locale = language;
 
@@ -66,7 +73,7 @@ export default function RootLayout() {
     };
 
     load();
-  }, [hydrated]);
+  }, [hydrated, loaded]);
 
   useEffect(() => {
     if (ready) {
@@ -101,6 +108,8 @@ export default function RootLayout() {
     return null;
   }
 
+  const isLoggedIn = false;
+
   return (
     <SafeAreaProvider>
       <Stack
@@ -112,7 +121,12 @@ export default function RootLayout() {
           },
         }}
       >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Protected guard={isLoggedIn}>
+          <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isLoggedIn}>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        </Stack.Protected>
       </Stack>
       <StatusBar style={theme === "dark" ? "light" : "dark"} />
     </SafeAreaProvider>

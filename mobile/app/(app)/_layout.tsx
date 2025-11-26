@@ -4,7 +4,7 @@ import { Tabs, usePathname, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useAppTheme from "../../hooks/useAppTheme";
+import useAppTheme from "@/hooks/useAppTheme";
 
 export default function TabLayout() {
   const theme = useAppTheme();
@@ -51,7 +51,7 @@ export default function TabLayout() {
       >
         <HapticTab
           onPress={() => {
-            router.push("/(tabs)");
+            router.push("/");
           }}
           focused={focusedTab === "index"}
           icon="home"
@@ -59,7 +59,7 @@ export default function TabLayout() {
 
         <HapticTab
           onPress={() => {
-            router.push("/(tabs)/pairs");
+            router.push("/(app)/pairs");
           }}
           focused={focusedTab === "pairs"}
           icon="chatbubbles"
@@ -67,7 +67,7 @@ export default function TabLayout() {
 
         <HapticTab
           onPress={() => {
-            router.push("/(tabs)/games");
+            router.push("/(app)/games");
           }}
           focused={focusedTab === "games"}
           icon="game-controller"
@@ -75,7 +75,7 @@ export default function TabLayout() {
 
         <HapticTab
           onPress={() => {
-            router.push("/(tabs)/account");
+            router.push("/(app)/account");
           }}
           focused={focusedTab === "account"}
           icon="person"
