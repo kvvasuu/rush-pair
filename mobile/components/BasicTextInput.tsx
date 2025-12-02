@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
+  TextInputProps,
   View,
   ViewProps,
 } from "react-native";
@@ -21,23 +22,25 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 type Props = {
   value: string;
   onChangeText: (text: string) => void;
-  icon?: ReactNode;
+  icon?: keyof typeof Ionicons.glyphMap;
   disabled?: boolean;
 };
 
-export default function SimpleButton({
+export default function BasicTextInput({
   value,
   onChangeText,
   icon,
   disabled,
   style,
-}: Props & ViewProps) {
+}: Props & TextInputProps) {
   const theme = useAppTheme();
 
   return (
     <View>
-      <Ionicons />
+      {icon && <Ionicons name={icon} />}
+
       <TextInput
+        editable={!disabled}
         numberOfLines={1}
         maxLength={40}
         onChangeText={(text) => onChangeText(text)}
@@ -51,10 +54,14 @@ export default function SimpleButton({
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
+    height: 40,
   },
   textInput: {
     width: "100%",
     height: "100%",
   },
-  icon: {},
+  icon: {
+    position: "absolute",
+    top: 10,
+  },
 });
