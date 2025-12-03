@@ -36,7 +36,7 @@ export default function BasicTextInput({
   const theme = useAppTheme();
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       {icon && <Ionicons name={icon} />}
 
       <TextInput
@@ -45,7 +45,13 @@ export default function BasicTextInput({
         maxLength={40}
         onChangeText={(text) => onChangeText(text)}
         value={value}
-        style={styles.textInput}
+        style={[
+          styles.textInput,
+          {
+            backgroundColor: Colors[theme].backgroundAlt,
+            color: Colors[theme].text,
+          },
+        ]}
       />
     </View>
   );
@@ -54,7 +60,7 @@ export default function BasicTextInput({
 const styles = StyleSheet.create({
   wrapper: {
     position: "relative",
-    height: 40,
+    height: 60,
   },
   textInput: {
     width: "100%",

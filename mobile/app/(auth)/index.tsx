@@ -1,4 +1,3 @@
-import useAppTheme from "@/hooks/useAppTheme";
 import { Colors } from "@/utils/theme";
 import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
@@ -9,7 +8,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useFontSize from "@/hooks/useFontSize";
 
 export default function AuthScreen() {
-  const theme = useAppTheme();
   const insets = useSafeAreaInsets();
   const { xl } = useFontSize();
 
@@ -89,7 +87,6 @@ const styles = StyleSheet.create({
   logo: {
     width: "100%",
     height: 200,
-    elevation: 11,
   },
   buttonsContainer: {
     width: "100%",

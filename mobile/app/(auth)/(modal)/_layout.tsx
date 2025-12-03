@@ -1,16 +1,19 @@
 import { Stack } from "expo-router";
 
+export const unstable_settings = {
+  anchor: "(modal)",
+};
+
 export default function AuthLayoutModal() {
   return (
     <Stack
       screenOptions={{
-        presentation: "modal",
-        animation: "slide_from_bottom",
-        headerShown: false,
+        headerShown: true,
+        presentation: "transparentModal",
       }}
     >
-      <Stack.Screen name="sign-up" options={{ headerShown: false }} />
-      <Stack.Screen name="(login)" options={{ headerShown: false }} />
+      <Stack.Screen name="sign-up" />
+      <Stack.Screen name="(login)" />
     </Stack>
   );
 }

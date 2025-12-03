@@ -7,7 +7,7 @@ export default function AuthLayout() {
       <Stack.Screen
         name="(modal)"
         options={{
-          presentation: "modal",
+          presentation: "transparentModal",
         }}
       />
     </Stack>

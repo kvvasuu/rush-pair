@@ -1,83 +1,72 @@
 import useAppTheme from "@/hooks/useAppTheme";
 import { Colors } from "@/utils/theme";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import SimpleButton from "@/components/SimpleButton";
-import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useFontSize from "@/hooks/useFontSize";
+import BasicTextInput from "@/components/BasicTextInput";
+import { useState } from "react";
+import SimpleButton from "@/components/SimpleButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function AuthScreen() {
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
-  const { xl } = useFontSize();
+  const { xxxxl } = useFontSize();
+  const router = useRouter();
+
+  const [login, setLogin] = useState("");
 
   return (
-    <LinearGradient
-      colors={["#7b4397", "#e94548"]}
-      locations={[0, 0.87]}
-      end={{ x: 1, y: 0.05 }}
-      start={{ x: 0, y: 0.95 }}
-      style={styles.background}
+    <View
+      style={[
+        styles.container,
+        {
+          paddingBottom: insets.bottom,
+          paddingTop: insets.top,
+          backgroundColor: Colors[theme].background,
+        },
+      ]}
     >
-      <View
-        style={[
-          styles.container,
-          { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 },
-        ]}
-      >
-        <Image
-          style={styles.logo}
-          source={require("../../../assets/images/logo.png")}
-          contentFit="contain"
-        />
-        <View style={styles.buttonsContainer}>
+      <View style={[styles.header, { paddingTop: 64 }]}>
+        <Text
+          style={[
+            {
+              fontSize: xxxxl,
+              color: Colors[theme].text,
+              fontFamily: "Montserrat-Bold",
+            },
+          ]}
+        >
+          Create Account
+        </Text>
+        <View style={{ position: "absolute", right: 0, top: 0 }}>
           <SimpleButton
-            style={{
-              backgroundColor: Colors.light.yellow,
-              borderColor: Colors.light.yellow,
+            onPress={() => {
+              router.back();
             }}
-            onPress={() => router.push("/(auth)/(modal)/sign-up")}
-          >
-            <Text
-              style={{
-                color: Colors.light.text,
-                fontSize: xl,
-                fontFamily: "Montserrat-Bold",
-              }}
-            >
-              Create account
-            </Text>
-          </SimpleButton>
-          <SimpleButton
             transparent
             style={{
-              borderColor: Colors.light.backgroundAlt,
+              borderColor: "transparent",
+              paddingHorizontal: 0,
+              paddingVertical: 0,
+              margin: 0,
             }}
-            onPress={() => router.push("/(auth)/(modal)/(login)")}
           >
-            <Text
-              style={{
-                color: Colors.light.backgroundAlt,
-                fontSize: xl,
-                fontFamily: "Montserrat-Bold",
-              }}
-            >
-              Login
-            </Text>
+            <Ionicons name="close" size={52} color={Colors[theme].icon} />
           </SimpleButton>
         </View>
       </View>
-    </LinearGradient>
+
+      <View style={styles.content}>
+        <BasicTextInput value={login} onChangeText={setLogin}></BasicTextInput>
+        <Text>{login}</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    height: "100%",
-    width: "100%",
-  },
   container: {
     flex: 1,
     flexDirection: "column",
@@ -86,14 +75,25 @@ const styles = StyleSheet.create({
     gap: 80,
     padding: 24,
   },
+  header: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 16,
+    position: "relative",
+  },
   logo: {
     width: "100%",
-    height: 200,
-    elevation: 11,
+    height: 40,
   },
-  buttonsContainer: {
+  content: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  inputsContainer: {
     width: "100%",
     gap: 20,
-    justifyContent: "flex-end",
   },
 });
