@@ -8,7 +8,7 @@ export default function Login() {
 
       <Button
         title="Zapomniałeś hasła?"
-        onPress={() => router.push("/(auth)/(modal)/(login)/forgot-password")}
+        onPress={() => router.push("/(auth)/(login)/forgot-password")}
       />
       <Button title="Wróć" onPress={() => router.back()} />
     </View>

@@ -86,8 +86,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
     borderRadius: 100,
     gap: 16,
     borderWidth: 2,

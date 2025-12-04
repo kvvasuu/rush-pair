@@ -13,19 +13,21 @@ export const Colors = {
     tabIconSelected: tintColor,
     border: "#e5e5e5",
     yellow: "#fcc800",
+    gradient: ["#7b4397", "#e94548"],
   },
   dark: {
-    text: "#a1a1a1",
+    text: "#b5b5b5",
     background: "#171717",
-    backgroundAlt: "#262626",
+    backgroundAlt: "#1e1e1e",
     tint: tintColor,
     icon: "#687076",
     tabIconDefault: "#737373",
     tabIconSelected: tintColor,
     border: "#404040",
     yellow: "#efb100",
+    gradient: ["#552e69", "#b03335"],
   },
-};
+} as const;
 
 export const Fonts = Platform.select({
   ios: {

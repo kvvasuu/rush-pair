@@ -6,17 +6,20 @@ import SimpleButton from "@/components/SimpleButton";
 import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useFontSize from "@/hooks/useFontSize";
+import i18n from "@/locales/i18n";
+import useAppTheme from "@/hooks/useAppTheme";
 
 export default function AuthScreen() {
   const insets = useSafeAreaInsets();
   const { xl } = useFontSize();
+  const theme = useAppTheme();
 
   return (
     <LinearGradient
-      colors={["#7b4397", "#e94548"]}
+      colors={Colors[theme].gradient}
       locations={[0, 0.87]}
-      end={{ x: 1, y: 0.05 }}
-      start={{ x: 0, y: 0.95 }}
+      start={{ x: 0.5, y: 1 }}
+      end={{ x: 1, y: 0 }}
       style={styles.background}
     >
       <View
@@ -35,34 +38,38 @@ export default function AuthScreen() {
             style={{
               backgroundColor: Colors.light.yellow,
               borderColor: Colors.light.yellow,
+              padding: 16,
             }}
-            onPress={() => router.push("/(auth)/(modal)/sign-up")}
+            onPress={() => router.push("/(auth)/sign-up")}
           >
             <Text
               style={{
                 color: Colors.light.text,
                 fontSize: xl,
+                lineHeight: xl + 4,
                 fontFamily: "Montserrat-Bold",
               }}
             >
-              Create account
+              {i18n.t("welcomeScreen.createAccount")}
             </Text>
           </SimpleButton>
           <SimpleButton
             transparent
             style={{
               borderColor: Colors.light.backgroundAlt,
+              padding: 16,
             }}
-            onPress={() => router.push("/(auth)/(modal)/(login)")}
+            onPress={() => router.push("/(auth)/(login)")}
           >
             <Text
               style={{
                 color: Colors.light.backgroundAlt,
                 fontSize: xl,
+                lineHeight: xl + 4,
                 fontFamily: "Montserrat-Bold",
               }}
             >
-              Login
+              {i18n.t("welcomeScreen.login")}
             </Text>
           </SimpleButton>
         </View>

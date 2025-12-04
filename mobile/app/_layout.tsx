@@ -44,7 +44,7 @@ export default function RootLayout() {
 
   const [loaded, error] = useFonts({
     Montserrat: require("../assets/fonts/montserrat/Montserrat-Regular.ttf"),
-    "Montserrat-Semibold": require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
+    "Montserrat-SemiBold": require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
     "Montserrat-Bold": require("../assets/fonts/montserrat/Montserrat-Bold.ttf"),
   });
 

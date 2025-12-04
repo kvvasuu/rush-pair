@@ -1,3 +1,4 @@
+import i18n from "@/locales/i18n";
 import { Stack } from "expo-router";
 
 export default function AuthLayout() {
@@ -5,9 +6,17 @@ export default function AuthLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen
-        name="(modal)"
+        name="(login)"
         options={{
-          presentation: "transparentModal",
+          presentation: "card",
+          title: i18n.t("auth.login.title"),
+        }}
+      />
+      <Stack.Screen
+        name="sign-up"
+        options={{
+          presentation: "card",
+          title: i18n.t("auth.signup.title"),
         }}
       />
     </Stack>
