@@ -13,10 +13,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
 import { Image } from "expo-image";
 
-export default function AuthScreen() {
+export default function SignupScreen() {
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
-  const { base, xl, xxxxl } = useFontSize();
+  const { sm, base, xl, xxxxl } = useFontSize();
   const router = useRouter();
 
   const [login, setLogin] = useState("");
@@ -94,6 +94,29 @@ export default function AuthScreen() {
               onChangeText={setConf}
             />
           </View>
+
+          <Text
+            style={{
+              fontFamily: "Montserrat",
+              fontSize: sm,
+              color: Colors[theme].text,
+              textAlign: "center",
+            }}
+          >
+            {i18n.t("welcomeScreen.iAgree")}
+            <Pressable onPress={() => router.replace("/(auth)/(login)")}>
+              <Text
+                style={{
+                  fontFamily: "Montserrat-Bold",
+                  fontSize: sm,
+                  color: Colors[theme].tint,
+                }}
+              >
+                {" " + i18n.t("welcomeScreen.terms")}
+              </Text>
+            </Pressable>
+          </Text>
+
           <View style={styles.buttonsContainer}>
             <SimpleButton
               style={{

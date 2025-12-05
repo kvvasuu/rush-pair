@@ -48,7 +48,9 @@
             "./assets/fonts/montserrat/Montserrat-SemiBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-localization",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
