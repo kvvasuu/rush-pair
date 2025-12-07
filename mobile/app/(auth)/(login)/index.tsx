@@ -12,16 +12,21 @@ import TransparentHeader from "@/components/TransparentHeader";
 import { LinearGradient } from "expo-linear-gradient";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
 import { Image } from "expo-image";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function LoginScreen() {
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
   const { sm, base, xl, xxxxl } = useFontSize();
   const router = useRouter();
+  const authStore = useAuthStore();
 
-  const [login, setLogin] = useState("");
-  const [pass, setPass] = useState("");
-  const [conf, setConf] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = () => {
+    authStore.login(email, password);
+  };
 
   return (
     <>
@@ -74,16 +79,16 @@ export default function LoginScreen() {
               placeholder="E-mail"
               textContentType="emailAddress"
               inputMode="email"
-              value={login}
-              onChangeText={setLogin}
+              value={email}
+              onChangeText={setEmail}
             />
             <BasicTextInput
               icon="lock-closed"
               placeholder={i18n.t("general.password")}
               textContentType="password"
               secureTextEntry
-              value={pass}
-              onChangeText={setPass}
+              value={password}
+              onChangeText={setPassword}
             />
           </View>
 
@@ -93,7 +98,7 @@ export default function LoginScreen() {
                 backgroundColor: "transparent",
                 borderWidth: 0,
               }}
-              onPress={() => router.push("/(app)")}
+              onPress={login}
             >
               <LinearGradient
                 colors={Colors[theme].gradient}

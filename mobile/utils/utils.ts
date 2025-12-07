@@ -4,6 +4,8 @@
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 // import * as Notifications from "expo-notifications";
 
+import { io } from "socket.io-client";
+
 // // Tłumaczenia dodać !!!
 // async function checkForUpdate() {
 //   try {
@@ -44,3 +46,7 @@
 //   }
 // }
 // export { checkForUpdate };
+
+export const socket = io(process.env.EXPO_PUBLIC_API_URL, {
+  autoConnect: false,
+});

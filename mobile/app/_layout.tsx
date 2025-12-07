@@ -13,9 +13,8 @@ import useAppTheme from "../hooks/useAppTheme";
 import i18n from "@/locales/i18n";
 // import { checkForUpdate } from "@/utils/utils";
 // import * as Notifications from "expo-notifications";
-import { Alert, Platform } from "react-native";
 import useInternetWatcher from "@/hooks/useInternetWatcher";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuthStore } from "@/stores/authStore";
 
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({
@@ -38,6 +37,9 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const hydrated = useMainStore.persist.hasHydrated();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const token = useAuthStore((state) => state.token);
+  const loggendIn = isLoggedIn && !!token;
 
   const language = useMainStore((state) => state.language);
   const loading = useMainStore((state) => state.loading);
@@ -109,8 +111,6 @@ export default function RootLayout() {
     return null;
   }
 
-  const isLoggedIn = false;
-
   return (
     <SafeAreaProvider>
       <Stack
@@ -120,12 +120,13 @@ export default function RootLayout() {
             flex: 1,
             backgroundColor: Colors[theme].background,
           },
+          animation: "fade",
         }}
       >
-        <Stack.Protected guard={isLoggedIn}>
+        <Stack.Protected guard={loggendIn}>
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
         </Stack.Protected>
-        <Stack.Protected guard={!isLoggedIn}>
+        <Stack.Protected guard={!loggendIn}>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>

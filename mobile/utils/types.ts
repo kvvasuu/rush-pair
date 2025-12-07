@@ -31,19 +31,6 @@ interface PairInfo {
   isFavourite: boolean;
 }
 
-interface UserStoreState extends User {
-  id: string;
-  email: string;
-  token: string;
-  settings: {
-    notifications: boolean;
-    theme: Theme;
-    language: Language;
-  };
-  pairs: Array<PairInfo> | [];
-  rushCoins: number;
-}
-
 interface ChatStoreState {
   pairInfo: PairInfo;
   currentPage: number;
@@ -104,7 +91,6 @@ interface GameStoreState extends Game {
 
 export type {
   User,
-  UserStoreState,
   ChatStoreState,
   PairInfo,
   Message,
