@@ -8,6 +8,7 @@ import {
   TextInputProps,
   View,
   ViewProps,
+  ViewStyle,
 } from "react-native";
 import { Colors } from "@/utils/theme";
 import useAppTheme from "@/hooks/useAppTheme";
@@ -26,6 +27,7 @@ type Props = {
   onChangeText: (text: string) => void;
   icon?: keyof typeof Ionicons.glyphMap;
   disabled?: boolean;
+  style?: ViewStyle;
 };
 
 export default function BasicTextInput({
@@ -33,6 +35,7 @@ export default function BasicTextInput({
   onChangeText,
   icon,
   disabled,
+  style,
   ...props
 }: Props & TextInputProps) {
   const theme = useAppTheme();
@@ -43,7 +46,9 @@ export default function BasicTextInput({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={[styles.wrapper, { borderColor: Colors[theme].border }]}>
+    <View
+      style={[styles.wrapper, { borderColor: Colors[theme].border }, style]}
+    >
       {icon && (
         <Ionicons
           name={icon}

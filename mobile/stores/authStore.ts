@@ -6,12 +6,17 @@ import axios from "axios";
 import { initAxios } from "@/utils/functions";
 import { socket } from "@/utils/utils";
 import { useUserStore } from "./userStore";
+import i18n from "@/locales/i18n";
 
 interface AuthStore {
   isLoggedIn: boolean;
   token: string;
 
-  login: (email: string, password: string) => void;
+  login: (
+    email: string,
+    password: string,
+    abortController?: AbortController
+  ) => Promise<{ success: boolean; message: string }>;
   autoLogin: () => void;
   logout: () => void;
 }
@@ -22,8 +27,12 @@ export const useAuthStore = create<AuthStore>()(
       isLoggedIn: false,
       token: "",
 
-      login: async (email, password) => {
-        if (!email || !password) return;
+      login: async (email, password, abortController) => {
+        if (!email || !password)
+          return Promise.reject({
+            success: false,
+            message: i18n.t("general.somethingWentWrong"),
+          });
 
         try {
           const res = await axios.post(
@@ -32,17 +41,35 @@ export const useAuthStore = create<AuthStore>()(
               email,
               password,
             },
-            { timeout: 10000 }
+            { timeout: 10000, signal: abortController?.signal }
           );
 
           const token = res?.data?.token;
-          if (!token) return;
+          if (!token)
+            return Promise.reject({
+              success: false,
+              message: i18n.t("general.somethingWentWrong"),
+            });
 
           await SecureStore.setItemAsync("token", token);
           set({ token });
           get().autoLogin();
+          return Promise.resolve({ success: true, message: "" });
         } catch (error) {
-          console.log(error);
+          if (axios.isAxiosError(error) && !axios.isCancel(error)) {
+            const msg = error.response?.data?.msg;
+            return Promise.reject({
+              success: false,
+              message: msg
+                ? i18n.t("serverMessages." + msg)
+                : i18n.t("general." + "somethingWentWrong"),
+              status: error.response?.status,
+            });
+          }
+          return Promise.reject({
+            success: false,
+            message: i18n.t("general.somethingWentWrong"),
+          });
         }
       },
       autoLogin: async () => {

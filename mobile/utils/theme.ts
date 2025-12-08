@@ -13,6 +13,7 @@ export const Colors = {
     tabIconSelected: tintColor,
     border: "#e5e5e5",
     yellow: "#fcc800",
+    red: "#ef4444",
     gradient: ["#7b4397", "#e94548"],
   },
   dark: {
@@ -25,6 +26,7 @@ export const Colors = {
     tabIconSelected: tintColor,
     border: "#404040",
     yellow: "#efb100",
+    red: "#ef4444",
     gradient: ["#552e69", "#b03335"],
   },
 } as const;

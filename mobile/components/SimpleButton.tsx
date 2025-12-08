@@ -60,7 +60,6 @@ export default function SimpleButton({
               shadowOpacity: 0.2,
               shadowRadius: 2,
             },
-        { opacity: disabled ? 0.6 : 1 },
       ]}
     >
       <Animated.View

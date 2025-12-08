@@ -104,7 +104,7 @@ export default function SignupScreen() {
             }}
           >
             {i18n.t("welcomeScreen.iAgree")}
-            <Pressable onPress={() => router.replace("/(auth)/(login)")}>
+            <Pressable onPress={() => router.replace("/(auth)")}>
               <Text
                 style={{
                   fontFamily: "Montserrat-Bold",

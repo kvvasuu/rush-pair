@@ -140,5 +140,21 @@
     "congratulations": "Congratulations!",
     "youEarnRushCoin": "You've earned +1 RushCoin for logging in today!",
     "remember": "Remember, you can earn RushCoins every day by logging in!"
+  },
+  "serverMessages": {
+    "joinedQueue": "You have joined queue.",
+    "noActiveUsers": "There are no active users to pair.",
+    "emailNotCorrect": "Email is not correct",
+    "emailTaken": "The provided email address is already registered in our system.",
+    "accountNotExists": "Account does not exist.",
+    "accountNotVerified": "Account not verified. Check your email address.",
+    "userNotFound": "User not found.",
+    "userDeletedSuccessfully": "User deleted successfully.",
+    "passwordIncorrect": "Password is incorrect.",
+    "passwordRequired": "Password is required.",
+    "passwordTooShort": "Password must be at least 6 characters long",
+    "passwordsAreTheSame": "New password must be different from the old password.",
+    "passwordChangedSuccesfully": "Password changed successfully.",
+    "passwordResetLinkSent": "Password reset link sent to your email."
   }
 }
