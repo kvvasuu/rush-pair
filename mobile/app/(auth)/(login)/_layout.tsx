@@ -9,6 +9,7 @@ export default function LoginLayoutModal() {
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
+      <Stack.Screen name="forgot-password-success" options={{ headerShown: false }} />
     </Stack>
   );
 }

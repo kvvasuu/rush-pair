@@ -99,7 +99,8 @@
     "provideCorrectEmail": "Please provide a valid email address.",
     "enterPassword": "Please enter a password.",
     "forgotPassword": "Forgot your password?",
-    "resetPassword": "Reset Password",
+    "resetPassword": "Reset password",
+    "resetPasswordSuccess": "Password reset",
     "resetPasswordLink": "A password reset link will be sent to the provided email address.",
     "resetPasswordLinkSent": "A password reset link has been sent to your email. Please check your inbox.",
     "passwordMustBeLong": "Password must be at least 6 characters long.",
@@ -108,10 +109,11 @@
     "iAgree": "By signing up you are agreeing to our",
     "terms": "terms and conditions",
     "success": "Registration successful!",
-    "welcomeAboard": "Welcome aboard.",
+    "welcomeAboard": "Welcome aboard",
     "checkEmail": "Please check your email and confirm your address to complete the registration process.",
     "welcomeBack": "Welcome back! Continue your conversations and discover who wants to get to know you better.",
-    "startConversations": "Start conversations, meet new people, and create genuine connections — anonymously or not."
+    "startConversations": "Start conversations, meet new people, and create genuine connections — anonymously or not.",
+    "lostPassword": "Forgot your password? It happens! Create a new one to keep the conversation going."
   },
   "home": {
     "recentPairs": "Recent pairs",

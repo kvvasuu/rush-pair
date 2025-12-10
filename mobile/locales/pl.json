@@ -100,6 +100,7 @@
     "enterPassword": "Proszę wpisać hasło.",
     "forgotPassword": "Zapomniałeś hasła?",
     "resetPassword": "Zresetuj hasło",
+    "resetPasswordSuccess": "Hasło zresetowane",
     "resetPasswordLink": "Link do zresetowania hasła zostanie wysłany na podany adres e-mail.",
     "resetPasswordLinkSent": "Link do zresetowania hasła został wysłany na podany adres e-mail. Sprawdź swoją skrzynkę odbiorczą.",
     "passwordMustBeLong": "Hasło musi mieć co najmniej 6 znaków.",
@@ -108,10 +109,11 @@
     "iAgree": "Zakładając konto akceptujesz nasz",
     "terms": "regulamin",
     "success": "Rejestracja zakończona sukcesem!",
-    "welcomeAboard": "Witamy na pokładzie.",
+    "welcomeAboard": "Witamy na pokładzie",
     "checkEmail": "Proszę sprawdzić swój email i potwierdzić adres email, aby zakończyć proces rejestracji.",
     "welcomeBack": "Witaj z powrotem w RushPair! Kontynuuj swoje rozmowy i odkrywaj, kto chce Cię lepiej poznać.",
-    "startConversations": "Rozpocznij rozmowy, poznawaj ludzi, twórz naturalne połączenia — anonimowo lub nie!"
+    "startConversations": "Rozpocznij rozmowy, poznawaj ludzi, twórz naturalne połączenia — anonimowo lub nie!",
+    "lostPassword": "Zapomniałeś hasła? To nic… ustaw nowe i wróć na pokład!"
   },
   "home": {
     "recentPairs": "Ostatnie pary",

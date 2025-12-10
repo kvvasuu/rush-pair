@@ -7,10 +7,10 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 
+import i18n from "@/locales/i18n";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import useAppTheme from "../hooks/useAppTheme";
-import i18n from "@/locales/i18n";
 // import { checkForUpdate } from "@/utils/utils";
 // import * as Notifications from "expo-notifications";
 import useInternetWatcher from "@/hooks/useInternetWatcher";
@@ -36,19 +36,17 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
-  const hydrated = useMainStore.persist.hasHydrated();
+  const [loaded, error] = useFonts({
+    Montserrat: require("../assets/fonts/montserrat/Montserrat-Regular.ttf"),
+    MontserratSemiBold: require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
+    MontserratBold: require("../assets/fonts/montserrat/Montserrat-Bold.ttf"),
+  });
+
+  const hydrated = useAuthStore.persist.hasHydrated();
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const token = useAuthStore((state) => state.token);
   const loggendIn = isLoggedIn && !!token;
-
   const language = useMainStore((state) => state.language);
-  const loading = useMainStore((state) => state.loading);
-
-  const [loaded, error] = useFonts({
-    Montserrat: require("../assets/fonts/montserrat/Montserrat-Regular.ttf"),
-    "Montserrat-SemiBold": require("../assets/fonts/montserrat/Montserrat-SemiBold.ttf"),
-    "Montserrat-Bold": require("../assets/fonts/montserrat/Montserrat-Bold.ttf"),
-  });
 
   const [ready, setReady] = useState(false);
 
@@ -57,26 +55,12 @@ export default function RootLayout() {
   useInternetWatcher();
 
   useEffect(() => {
-    if (!hydrated || loading || !loaded) return;
+    if (!hydrated || !loaded) return;
 
     i18n.locale = language;
 
-    const load = async () => {
-      try {
-        // if (
-        //   !lastUpdated ||
-        //   Date.now() - lastUpdated > 1000 * 60 * 60 * 6 ||
-        //   products.length <= 0
-        // ) {
-        //   await fetchProducts();
-        // }
-      } finally {
-        setReady(true);
-      }
-    };
-
-    load();
-  }, [hydrated, loaded]);
+    setReady(true);
+  }, [hydrated, loaded, loggendIn]);
 
   useEffect(() => {
     if (ready) {

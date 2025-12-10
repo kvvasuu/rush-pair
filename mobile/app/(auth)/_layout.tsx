@@ -9,14 +9,21 @@ export default function AuthLayout() {
         name="(login)"
         options={{
           presentation: "card",
-          title: i18n.t("auth.login.title"),
+          title: i18n.t("welcomeScreen.login"),
         }}
       />
       <Stack.Screen
         name="sign-up"
         options={{
           presentation: "card",
-          title: i18n.t("auth.signup.title"),
+          title: i18n.t("welcomeScreen.createAccount"),
+        }}
+      />
+      <Stack.Screen
+        name="sign-up-success"
+        options={{
+          presentation: "card",
+          title: i18n.t("welcomeScreen.success"),
         }}
       />
     </Stack>

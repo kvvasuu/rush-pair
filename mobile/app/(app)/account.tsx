@@ -36,13 +36,10 @@ export default function AccountScreen() {
         >
           <Text
             style={{
-              color:
-                theme === "light"
-                  ? Colors.light.backgroundAlt
-                  : Colors.dark.text,
+              color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
               fontSize: xl,
               lineHeight: xl + 4,
-              fontFamily: "Montserrat-Bold",
+              fontFamily: "MontserratBold",
             }}
           >
             {i18n.t("general.logout")}

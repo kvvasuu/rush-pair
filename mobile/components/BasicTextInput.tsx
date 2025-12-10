@@ -82,7 +82,7 @@ export default function BasicTextInput({
 
       {isPassword && (
         <PlatformPressable
-          hitSlop={6}
+          hitSlop={14}
           style={styles.passwordIcon}
           onPressIn={() => {
             if (Platform.OS === "ios") {

@@ -1,54 +1,48 @@
-import useAppTheme from "@/hooks/useAppTheme";
-import { Colors } from "@/utils/theme";
-import { useRouter } from "expo-router";
-import {
-  ActivityIndicator,
-  BackHandler,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useFontSize from "@/hooks/useFontSize";
 import BasicTextInput from "@/components/BasicTextInput";
-import { useEffect, useRef, useState } from "react";
-import SimpleButton from "@/components/SimpleButton";
-import i18n from "@/locales/i18n";
-import TransparentHeader from "@/components/TransparentHeader";
-import { LinearGradient } from "expo-linear-gradient";
 import DismissKeyboardView from "@/components/DismissKeyboardView";
-import { Image } from "expo-image";
+import SimpleButton from "@/components/SimpleButton";
+import TransparentHeader from "@/components/TransparentHeader";
+import useAppTheme from "@/hooks/useAppTheme";
+import useFontSize from "@/hooks/useFontSize";
+import i18n from "@/locales/i18n";
 import { useAuthStore } from "@/stores/authStore";
+import { Colors } from "@/utils/theme";
+import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 import { Formik } from "formik";
+import { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email(i18n.t("welcomeScreen.provideCorrectEmail"))
-    .required(i18n.t("welcomeScreen.provideCorrectEmail")),
-  password: Yup.string().required(i18n.t("welcomeScreen.enterPassword")),
-});
-
 export default function LoginScreen() {
+  const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(i18n.t("welcomeScreen.provideCorrectEmail"))
+      .required(i18n.t("welcomeScreen.provideCorrectEmail")),
+    password: Yup.string().required(i18n.t("welcomeScreen.enterPassword")),
+  });
+
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
   const { sm, base, lg, xl, xxxxl } = useFontSize();
   const router = useRouter();
+
+  const lastRegisteredEmail = useAuthStore((state) => state.lastRegisteredEmail);
   const login = useAuthStore((state) => state.login);
+
   const [error, setError] = useState("");
 
   const controllerRef = useRef<AbortController | null>(null);
 
-  const handleLogin = (values: { email: string; password: string }) => {
+  const handleLogin = async (values: { email: string; password: string }) => {
     controllerRef.current = new AbortController();
-    return login(values.email, values.password, controllerRef.current)
-      .then()
-      .catch((res) => {
-        if (!res.success) {
-          setError(res.message);
-        }
-      });
+    return login(values.email, values.password, controllerRef.current).catch((res) => {
+      if (!res.success) {
+        setError(res.message);
+      }
+    });
   };
 
   useEffect(() => {
@@ -82,7 +76,7 @@ export default function LoginScreen() {
           <View style={{ gap: 8 }}>
             <Text
               style={{
-                fontFamily: "Montserrat-Bold",
+                fontFamily: "MontserratBold",
                 fontSize: xxxxl,
                 textAlign: "center",
                 lineHeight: xxxxl + 4,
@@ -108,7 +102,7 @@ export default function LoginScreen() {
         {error.length > 0 && (
           <Text
             style={{
-              fontFamily: "Montserrat-SemiBold",
+              fontFamily: "MontserratSemiBold",
               textAlign: "center",
               fontSize: lg,
               lineHeight: lg + 2,
@@ -121,20 +115,11 @@ export default function LoginScreen() {
 
         <View style={styles.content}>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: lastRegisteredEmail || "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={handleLogin}
           >
-            {({
-              values,
-              errors,
-              touched,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              isSubmitting,
-              isValid,
-            }) => (
+            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
               <View style={styles.form}>
                 <View style={styles.inputWrapper}>
                   <BasicTextInput
@@ -145,10 +130,7 @@ export default function LoginScreen() {
                     value={values.email}
                     onChangeText={handleChange("email")}
                     onBlur={handleBlur("email")}
-                    style={
-                      touched.email &&
-                      errors.email && { borderColor: Colors[theme].red }
-                    }
+                    style={touched.email && errors.email && { borderColor: Colors[theme].red }}
                   />
                   {touched.email && errors.email && (
                     <Text
@@ -156,7 +138,7 @@ export default function LoginScreen() {
                         styles.inputErrorMessage,
                         {
                           color: Colors[theme].red,
-                          fontFamily: "Montserrat-SemiBold",
+                          fontFamily: "MontserratSemiBold",
                           fontSize: sm,
                           lineHeight: sm,
                         },
@@ -176,10 +158,7 @@ export default function LoginScreen() {
                     value={values.password}
                     onChangeText={handleChange("password")}
                     onBlur={handleBlur("password")}
-                    style={
-                      touched.password &&
-                      errors.password && { borderColor: Colors[theme].red }
-                    }
+                    style={touched.password && errors.password && { borderColor: Colors[theme].red }}
                   />
                   {touched.password && errors.password && (
                     <Text
@@ -187,7 +166,7 @@ export default function LoginScreen() {
                         styles.inputErrorMessage,
                         {
                           color: Colors[theme].red,
-                          fontFamily: "Montserrat-SemiBold",
+                          fontFamily: "MontserratSemiBold",
                           fontSize: sm,
                           lineHeight: sm,
                         },
@@ -199,12 +178,14 @@ export default function LoginScreen() {
                 </View>
 
                 <Pressable
-                  onPress={() => router.push("/(auth)/(login)/forgot-password")}
+                  onPress={() =>
+                    router.push({ pathname: "/(auth)/(login)/forgot-password", params: { email: values.email } })
+                  }
                   style={{ alignSelf: "flex-end" }}
                 >
                   <Text
                     style={{
-                      fontFamily: "Montserrat-Bold",
+                      fontFamily: "MontserratBold",
                       color: Colors[theme].tint,
                       textAlign: "right",
                     }}
@@ -241,22 +222,15 @@ export default function LoginScreen() {
                       {isSubmitting ? (
                         <ActivityIndicator
                           size={xl + 4}
-                          color={
-                            theme === "light"
-                              ? Colors.light.backgroundAlt
-                              : Colors.dark.text
-                          }
+                          color={theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text}
                         />
                       ) : (
                         <Text
                           style={{
-                            color:
-                              theme === "light"
-                                ? Colors.light.backgroundAlt
-                                : Colors.dark.text,
+                            color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
                             fontSize: xl,
                             lineHeight: xl + 4,
-                            fontFamily: "Montserrat-Bold",
+                            fontFamily: "MontserratBold",
                           }}
                         >
                           {i18n.t("welcomeScreen.login")}
@@ -269,7 +243,12 @@ export default function LoginScreen() {
             )}
           </Formik>
         </View>
-        <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+
+        <Pressable
+          onPress={() => router.replace("/(auth)/sign-up")}
+          style={{ flexDirection: "row", justifyContent: "flex-end" }}
+          hitSlop={12}
+        >
           <Text
             style={{
               fontFamily: "Montserrat",
@@ -278,17 +257,16 @@ export default function LoginScreen() {
           >
             {i18n.t("welcomeScreen.newToRushPair")}
           </Text>
-          <Pressable onPress={() => router.replace("/(auth)/sign-up")}>
-            <Text
-              style={{
-                fontFamily: "Montserrat-Bold",
-                color: Colors[theme].tint,
-              }}
-            >
-              {" " + i18n.t("welcomeScreen.createAccount")}
-            </Text>
-          </Pressable>
-        </View>
+
+          <Text
+            style={{
+              fontFamily: "MontserratBold",
+              color: Colors[theme].tint,
+            }}
+          >
+            {" " + i18n.t("welcomeScreen.createAccount")}
+          </Text>
+        </Pressable>
       </DismissKeyboardView>
     </>
   );

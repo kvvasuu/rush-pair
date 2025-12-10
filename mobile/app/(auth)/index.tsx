@@ -1,13 +1,13 @@
-import { Colors } from "@/utils/theme";
-import { router } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
 import SimpleButton from "@/components/SimpleButton";
-import { Image } from "expo-image";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import useAppTheme from "@/hooks/useAppTheme";
 import useFontSize from "@/hooks/useFontSize";
 import i18n from "@/locales/i18n";
-import useAppTheme from "@/hooks/useAppTheme";
+import { Colors } from "@/utils/theme";
+import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+import { StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AuthScreen() {
   const insets = useSafeAreaInsets();
@@ -22,17 +22,8 @@ export default function AuthScreen() {
       end={{ x: 1, y: 0 }}
       style={styles.background}
     >
-      <View
-        style={[
-          styles.container,
-          { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 },
-        ]}
-      >
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/logo.png")}
-          contentFit="contain"
-        />
+      <View style={[styles.container, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
+        <Image style={styles.logo} source={require("../../assets/images/logo.png")} contentFit="contain" />
         <View style={styles.buttonsContainer}>
           <SimpleButton
             style={{
@@ -47,7 +38,7 @@ export default function AuthScreen() {
                 color: Colors.light.text,
                 fontSize: xl,
                 lineHeight: xl + 4,
-                fontFamily: "Montserrat-Bold",
+                fontFamily: "MontserratBold",
               }}
             >
               {i18n.t("welcomeScreen.createAccount")}
@@ -66,7 +57,7 @@ export default function AuthScreen() {
                 color: Colors.light.backgroundAlt,
                 fontSize: xl,
                 lineHeight: xl + 4,
-                fontFamily: "Montserrat-Bold",
+                fontFamily: "MontserratBold",
               }}
             >
               {i18n.t("welcomeScreen.login")}

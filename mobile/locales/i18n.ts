@@ -1,7 +1,7 @@
+import { Language } from "@/utils/types";
 import { I18n } from "i18n-js";
 import en from "./en.json";
 import pl from "./pl.json";
-import { Language } from "@/utils/types";
 
 const i18n = new I18n({
   pl,

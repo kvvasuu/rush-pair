@@ -9,9 +9,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   title?: string;
+  backButton?: boolean;
 };
 
-export default function TransparentHeader({ title }: Props) {
+export default function TransparentHeader({ title, backButton = true }: Props) {
   const router = useRouter();
   const theme = useAppTheme();
   const insets = useSafeAreaInsets();
@@ -26,34 +27,34 @@ export default function TransparentHeader({ title }: Props) {
         },
       ]}
     >
-      <Pressable
-        onPress={() => {
-          if (router.canGoBack()) router.back();
-        }}
-        style={({ pressed }) => [
-          styles.backButton,
-          { top: insets.top + 6, backgroundColor: Colors[theme].backgroundAlt },
-          pressed && { opacity: 0.6 },
-        ]}
-        hitSlop={16}
-      >
-        <Ionicons name="arrow-back" size={20} color={Colors[theme].text} />
-      </Pressable>
+      {backButton && (
+        <Pressable
+          onPress={() => {
+            if (router.canGoBack()) router.back();
+          }}
+          style={({ pressed }) => [
+            styles.backButton,
+            {
+              top: insets.top + 6,
+              backgroundColor: Colors[theme].backgroundAlt,
+            },
+            pressed && { opacity: 0.6 },
+          ]}
+          hitSlop={12}
+        >
+          <Ionicons name="arrow-back" size={20} color={Colors[theme].text} />
+        </Pressable>
+      )}
 
       {title && (
-        <View
-          style={[
-            styles.titleContainer,
-            { backgroundColor: Colors[theme].backgroundAlt },
-          ]}
-        >
+        <View style={[styles.titleContainer, { backgroundColor: Colors[theme].backgroundAlt }]}>
           <Text
             style={[
               styles.title,
               {
                 color: Colors[theme].text,
                 fontSize: lg,
-                fontFamily: "Montserrat-SemiBold",
+                fontFamily: "MontserratSemiBold",
               },
             ]}
             numberOfLines={1}
