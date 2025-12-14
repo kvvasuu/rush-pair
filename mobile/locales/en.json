@@ -115,6 +115,17 @@
     "startConversations": "Start conversations, meet new people, and create genuine connections — anonymously or not.",
     "lostPassword": "Forgot your password? It happens! Create a new one to keep the conversation going."
   },
+  "firstSteps": {
+    "firstSteps": "First steps",
+    "providePersonalInfo": "Before you get started, we need a few basic details about you.",
+    "additionalInfo": "You can add a bit more information to help others get to know you better.",
+    "summary": "Take a moment to review your details before finishing.",
+    "notRequired": "Not required.",
+    "enterName": "Please enter your name.",
+    "enterBirthdate": "Please enter your birthdate.",
+    "chooseGender": "Please choose your gender.",
+    "incorrectPhone": "Incorrect phone number."
+  },
   "home": {
     "recentPairs": "Recent pairs",
     "noPairsYet": "There are no pairs yet...",

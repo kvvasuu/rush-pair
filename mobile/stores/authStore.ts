@@ -9,9 +9,10 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { useUserStore } from "./userStore";
 
 interface AuthStore {
-  isLoggedIn: boolean;
-  token: string;
+  authStatus: "unknown" | "authenticated" | "unauthenticated";
+  token: string | null;
   lastRegisteredEmail: string;
+  lastVerifiedAt: number | null;
 
   login: (
     email: string,
@@ -23,16 +24,17 @@ interface AuthStore {
     password: string,
     abortController?: AbortController
   ) => Promise<{ success: boolean; message: string }>;
-  autoLogin: () => void;
+  verifyToken: (init?: boolean) => Promise<void>;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set, get) => ({
-      isLoggedIn: false,
-      token: "",
+      authStatus: "unknown",
+      token: null,
       lastRegisteredEmail: "",
+      lastVerifiedAt: null,
 
       login: async (email, password, abortController) => {
         if (!email || !password)
@@ -60,7 +62,6 @@ export const useAuthStore = create<AuthStore>()(
 
           await SecureStore.setItemAsync("token", token);
           set({ token: token, lastRegisteredEmail: "" });
-          get().autoLogin();
           return Promise.resolve({ success: true, message: "" });
         } catch (error) {
           if (axios.isAxiosError(error) && !axios.isCancel(error)) {
@@ -110,51 +111,39 @@ export const useAuthStore = create<AuthStore>()(
           });
         }
       },
-      autoLogin: async () => {
-        let token: string | null = get().token || (await SecureStore.getItemAsync("token"));
+      verifyToken: async (init = false) => {
+        const token = get().token ?? (await SecureStore.getItemAsync("token"));
+        if (!token) {
+          set({ authStatus: "unauthenticated" });
+          return;
+        }
+        if (init) initAxios(token);
 
-        if (!token) return;
-
-        initAxios(token);
         try {
-          const res = await axios.get("/auth/verify-token", {
-            timeout: 10000,
-          });
+          const res = await axios.get("/auth/verify-token");
 
-          useUserStore.setState({ ...res.data.user });
+          useUserStore.setState(res.data.user);
 
-          try {
-            useUserStore.getState().getPairs();
-          } catch (error) {
-            console.log(error);
-          }
-
-          socket.connect();
-          socket.emit("login", res.data.user._id);
-          useUserStore.getState().bindSocketEvents();
-
-          set({ isLoggedIn: true, token });
-
-          // if (res.data.coinsCollected) {
-          //   setTimeout(() => {
-          //     const mainStore = useMainStore();
-          //     mainStore.showCoinsCollectionModal = true;
-          //   }, 500);
-          // }
-        } catch (error) {
+          set({ authStatus: "authenticated", token });
+        } catch {
           await SecureStore.deleteItemAsync("token");
-          set({ isLoggedIn: false, token: "" });
+          set({ authStatus: "unauthenticated", token: null });
         }
       },
       logout: async () => {
         socket.emit("logout");
         await SecureStore.deleteItemAsync("token");
-        set({ isLoggedIn: false });
+        set({ authStatus: "unauthenticated", token: null });
       },
     }),
     {
-      name: "rushpair",
+      name: "rushpair-auth",
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => ({
+        token: state.token,
+        lastRegisteredEmail: state.lastRegisteredEmail,
+        lastVerifiedAt: state.lastVerifiedAt,
+      }),
     }
   )
 );

@@ -1,14 +1,8 @@
+import useAppTheme from "@/hooks/useAppTheme";
 import * as Haptics from "expo-haptics";
 import { ReactNode } from "react";
 import { Platform, Pressable, StyleSheet, ViewProps } from "react-native";
-import { Colors } from "@/utils/theme";
-import useAppTheme from "@/hooks/useAppTheme";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 
 type Props = {
   children: ReactNode;
@@ -17,13 +11,7 @@ type Props = {
   transparent?: boolean;
 };
 
-export default function SimpleButton({
-  children,
-  onPress,
-  style,
-  disabled,
-  transparent,
-}: Props & ViewProps) {
+export default function SimpleButton({ children, onPress, style, disabled, transparent }: Props & ViewProps) {
   const theme = useAppTheme();
 
   const scale = useSharedValue(1);

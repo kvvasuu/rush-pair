@@ -1,17 +1,19 @@
+import { PairInfo, User } from "@/utils/types";
+import { socket } from "@/utils/utils";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { PairInfo, User } from "@/utils/types";
-import axios from "axios";
-import { socket } from "@/utils/utils";
 
 interface UserStore extends User {
-  id: string;
+  _id: string;
   email: string;
   pairs: Array<PairInfo> | [];
   rushCoins: number;
 
   getPairs: () => void;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
   bindSocketEvents: () => void;
   removeSocketEvents: () => void;
 }
@@ -19,7 +21,7 @@ interface UserStore extends User {
 export const useUserStore = create<UserStore>()(
   persist(
     (set, get) => ({
-      id: "",
+      _id: "",
       email: "",
       name: "",
       birthdate: "",
@@ -27,25 +29,35 @@ export const useUserStore = create<UserStore>()(
       country: "",
       city: "",
       phoneNumber: "",
-      firstVisit: false,
+      firstVisit: true,
       imageUrl: "",
       description: "",
       pairs: [],
       rushCoins: 0,
-
       getPairs: async () => {
         try {
           const res = await axios.get("/chat/get-pairs");
           set({ pairs: res.data.pairedWith || [] });
         } catch (error) {}
       },
+
+      connectSocket: () => {
+        const id = get()._id;
+        if (!id) return;
+
+        socket.connect();
+        socket.emit("login", id);
+        get().bindSocketEvents();
+      },
+      disconnectSocket: () => {
+        socket.disconnect();
+        get().removeSocketEvents();
+      },
       bindSocketEvents: () =>
         set((state) => {
           if (!socket.hasListeners("getMessage")) {
             socket.on("getMessage", (sender) => {
-              const pairIndex = get().pairs.findIndex(
-                (pair) => pair.id === sender
-              );
+              const pairIndex = get().pairs.findIndex((pair) => pair.id === sender);
               const pair = { ...state.pairs[pairIndex] };
               return {
                 pairs: [
@@ -69,7 +81,7 @@ export const useUserStore = create<UserStore>()(
       },
     }),
     {
-      name: "rushpair",
+      name: "rushpair-user",
       storage: createJSONStorage(() => AsyncStorage),
     }
   )

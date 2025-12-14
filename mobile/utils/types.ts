@@ -1,14 +1,15 @@
 type Theme = "system" | "dark" | "light";
 type Language = "en" | "pl";
+type Gender = "female" | "male" | "other";
 
 interface User {
   name: string;
   birthdate: string;
-  gender?: "female" | "male" | "other";
+  gender?: Gender;
   country: string;
   city: string;
   phoneNumber: string;
-  firstVisit?: boolean;
+  firstVisit: boolean;
   imageUrl?: string;
   description?: string;
 }
@@ -17,7 +18,7 @@ interface PairInfo {
   id: string;
   name: string;
   age?: number;
-  gender?: "male" | "female" | "other";
+  gender?: Gender;
   imageUrl?: string;
   isVisible: boolean;
   city?: string;
@@ -90,14 +91,15 @@ interface GameStoreState extends Game {
 }
 
 export type {
-  User,
   ChatStoreState,
-  PairInfo,
-  Message,
   Emoji,
-  MainStoreState,
   Game,
   GameStoreState,
+  Gender,
   Language,
+  MainStoreState,
+  Message,
+  PairInfo,
   Theme,
+  User,
 };

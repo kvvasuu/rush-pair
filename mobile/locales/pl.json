@@ -115,6 +115,17 @@
     "startConversations": "Rozpocznij rozmowy, poznawaj ludzi, twórz naturalne połączenia — anonimowo lub nie!",
     "lostPassword": "Zapomniałeś hasła? To nic… ustaw nowe i wróć na pokład!"
   },
+  "firstSteps": {
+    "firstSteps": "Pierwsze kroki",
+    "providePersonalInfo": "Zanim zaczniesz, potrzebujemy kilku podstawowych informacji o Tobie.",
+    "additionalInfo": "Możesz dodać trochę więcej informacji, aby inni mogli lepiej Cię poznać.",
+    "summary": "Poświęć chwilę, aby sprawdzić swoje dane przed zakończeniem.",
+    "notRequired": "Nie wymagane.",
+    "enterName": "Proszę podać swoje imię.",
+    "enterBirthdate": "Proszę podać swoją datę urodzenia.",
+    "chooseGender": "Proszę wybrać swoją płeć.",
+    "incorrectPhone": "Nieprawidłowy numer telefonu."
+  },
   "home": {
     "recentPairs": "Ostatnie pary",
     "noPairsYet": "Nie masz jeszcze żadnych par...",

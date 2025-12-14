@@ -1,18 +1,19 @@
 import axios from "axios";
 
-const initAxios = (token: string) => {
+let authInterceptorId: number | null = null;
+
+export const initAxios = (token: string) => {
   axios.defaults.baseURL = process.env.EXPO_PUBLIC_API_URL;
-  axios.interceptors.request.use(
-    (config) => {
+
+  if (authInterceptorId !== null) return;
+
+  authInterceptorId = axios.interceptors.request.use(
+    async (config) => {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
       return config;
     },
-    (error) => {
-      return Promise.reject(error);
-    }
+    (error) => Promise.reject(error)
   );
 };
-
-export { initAxios };

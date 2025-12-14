@@ -1,13 +1,13 @@
+import bcrypt from "bcryptjs";
+import dotenv from "dotenv";
 import express from "express";
 import { check, validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 import * as fs from "node:fs/promises";
 import path from "path";
 import { __dirname } from "../app.js";
-import bcrypt from "bcryptjs";
-import { sendEmail, rateLimiter } from "../utils.js";
-import jwt from "jsonwebtoken";
 import User from "../models/User.js";
-import dotenv from "dotenv";
+import { rateLimiter, sendEmail } from "../utils.js";
 
 dotenv.config({ path: ".env" });
 
@@ -31,7 +31,8 @@ auth.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    email = email.toLowerCase();
 
     const firstVisit = true;
 
@@ -44,7 +45,7 @@ auth.post(
       }
 
       user = new User({
-        email,
+        email: email,
         password,
         firstVisit,
         settings: {
@@ -54,10 +55,7 @@ auth.post(
         },
         rushCoins: 5,
       });
-      const htmlTemplate = await fs.readFile(
-        path.join(__dirname, "email_templates/email_confirm.html"),
-        "utf-8"
-      );
+      const htmlTemplate = await fs.readFile(path.join(__dirname, "email_templates/email_confirm.html"), "utf-8");
 
       const token = jwt.sign({ email }, EMAIL_SECRET, { expiresIn: "7d" });
 
@@ -84,10 +82,7 @@ auth.post(
 
 auth.post(
   "/login",
-  [
-    check("email", "emailNotCorrect").isEmail(),
-    check("password", "passwordRequired").exists(),
-  ],
+  [check("email", "emailNotCorrect").isEmail(), check("password", "passwordRequired").exists()],
   rateLimiter,
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -96,7 +91,8 @@ auth.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+    email = email.toLowerCase();
 
     try {
       let user = await User.findOne({ email });
@@ -139,11 +135,7 @@ auth.get("/confirm-email", async (req, res) => {
   const token = req.query.token;
 
   if (!token) {
-    return res
-      .status(400)
-      .send(
-        `<h1 style="width: 100%; text-align: center">Token is missing</h1>`
-      );
+    return res.status(400).send(`<h1 style="width: 100%; text-align: center">Token is missing</h1>`);
   }
 
   try {
@@ -152,35 +144,19 @@ auth.get("/confirm-email", async (req, res) => {
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
-      return res
-        .status(404)
-        .send(
-          `<h1 style="width: 100%; text-align: center">User not found</h1>`
-        );
+      return res.status(404).send(`<h1 style="width: 100%; text-align: center">User not found</h1>`);
     }
 
     if (user.isVerified) {
-      return res
-        .status(200)
-        .send(
-          `<h1 style="width: 100%; text-align: center">Email is already verified</h1>`
-        );
+      return res.status(200).send(`<h1 style="width: 100%; text-align: center">Email is already verified</h1>`);
     }
 
     user.isVerified = true;
     await user.save();
 
-    res
-      .status(200)
-      .send(
-        `<h1 style="width: 100%; text-align: center">Email successfully verified!</h1>`
-      );
+    res.status(200).send(`<h1 style="width: 100%; text-align: center">Email successfully verified!</h1>`);
   } catch (error) {
-    res
-      .status(400)
-      .send(
-        `<h1 style="width: 100%; text-align: center">Invalid or expired link</h1>`
-      );
+    res.status(400).send(`<h1 style="width: 100%; text-align: center">Invalid or expired link</h1>`);
   }
 });
 
@@ -229,11 +205,7 @@ auth.get("/reset-password", async (req, res) => {
   const token = req.query.token;
 
   if (!token) {
-    return res
-      .status(400)
-      .send(
-        `<h1 style="width: 100%; text-align: center">Token is missing</h1>`
-      );
+    return res.status(400).send(`<h1 style="width: 100%; text-align: center">Token is missing</h1>`);
   }
 
   try {
@@ -242,15 +214,10 @@ auth.get("/reset-password", async (req, res) => {
     const user = await User.findOne({ email: decoded.email });
 
     if (!user) {
-      return res
-        .status(404)
-        .send(
-          `<h1 style="width: 100%; text-align: center">User not found</h1>`
-        );
+      return res.status(404).send(`<h1 style="width: 100%; text-align: center">User not found</h1>`);
     }
 
-    const charset =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     let newRandomPassword = "";
 
@@ -261,15 +228,9 @@ auth.get("/reset-password", async (req, res) => {
 
     user.password = newRandomPassword;
 
-    const htmlTemplate = await fs.readFile(
-      path.join(__dirname, "email_templates/password_reset.html"),
-      "utf-8"
-    );
+    const htmlTemplate = await fs.readFile(path.join(__dirname, "email_templates/password_reset.html"), "utf-8");
 
-    const html = htmlTemplate.replaceAll(
-      "{{newRandomPassword}}",
-      newRandomPassword
-    );
+    const html = htmlTemplate.replaceAll("{{newRandomPassword}}", newRandomPassword);
 
     await user.save().then(() => {
       sendEmail({
@@ -279,19 +240,11 @@ auth.get("/reset-password", async (req, res) => {
         html: html,
       });
 
-      res
-        .status(200)
-        .send(
-          `<h1 style="width: 100%; text-align: center">New password has been sent.</h1>`
-        );
+      res.status(200).send(`<h1 style="width: 100%; text-align: center">New password has been sent.</h1>`);
     });
   } catch (error) {
     console.error(error);
-    res
-      .status(400)
-      .send(
-        `<h1 style="width: 100%; text-align: center">Invalid or expired link.</h1>`
-      );
+    res.status(400).send(`<h1 style="width: 100%; text-align: center">Invalid or expired link.</h1>`);
   }
 });
 
@@ -319,8 +272,7 @@ auth.get("/verify-token", async (req, res) => {
     if (
       !user.firstVisit &&
       user.rushCoins < 99 &&
-      (!lastCoinsCollectionDate ||
-        today.toDateString() !== lastCoinsCollectionDate.toDateString())
+      (!lastCoinsCollectionDate || today.toDateString() !== lastCoinsCollectionDate.toDateString())
     ) {
       user.rushCoins += 1;
       user.lastCoinsCollection = today;
@@ -371,35 +323,31 @@ auth.post(
   }
 );
 
-auth.post(
-  "/delete-account",
-  [check("password", "passwordRequired").notEmpty()],
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ msg: errors.array()[0].msg });
-    }
-
-    const { email, password } = req.body;
-    let user = await User.findOne({ email });
-
-    try {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(409).json({ msg: "passwordIncorrect" });
-      }
-
-      let deletedUser = await User.findOneAndDelete({ email });
-
-      if (!deletedUser) {
-        return res.status(404).json({ msg: "userNotFound" });
-      }
-
-      res.status(200).json({ msg: "userDeletedSuccessfully" });
-    } catch (err) {
-      next(err);
-    }
+auth.post("/delete-account", [check("password", "passwordRequired").notEmpty()], async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ msg: errors.array()[0].msg });
   }
-);
+
+  const { email, password } = req.body;
+  let user = await User.findOne({ email });
+
+  try {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(409).json({ msg: "passwordIncorrect" });
+    }
+
+    let deletedUser = await User.findOneAndDelete({ email });
+
+    if (!deletedUser) {
+      return res.status(404).json({ msg: "userNotFound" });
+    }
+
+    res.status(200).json({ msg: "userDeletedSuccessfully" });
+  } catch (err) {
+    next(err);
+  }
+});
 
 export default auth;

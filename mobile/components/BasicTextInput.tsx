@@ -1,26 +1,11 @@
-import * as Haptics from "expo-haptics";
-import { ReactNode, useState } from "react";
-import {
-  Platform,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  TextInputProps,
-  View,
-  ViewProps,
-  ViewStyle,
-} from "react-native";
-import { Colors } from "@/utils/theme";
 import useAppTheme from "@/hooks/useAppTheme";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import useFontSize from "@/hooks/useFontSize";
+import { Colors } from "@/utils/theme";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { PlatformPressable } from "@react-navigation/elements";
+import * as Haptics from "expo-haptics";
+import { useState } from "react";
+import { Platform, StyleSheet, TextInput, TextInputProps, View, ViewStyle } from "react-native";
 
 type Props = {
   value: string;
@@ -46,17 +31,8 @@ export default function BasicTextInput({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View
-      style={[styles.wrapper, { borderColor: Colors[theme].border }, style]}
-    >
-      {icon && (
-        <Ionicons
-          name={icon}
-          size={26}
-          color={Colors[theme].icon}
-          style={styles.icon}
-        />
-      )}
+    <View style={[styles.wrapper, { borderColor: Colors[theme].border }, style]}>
+      {icon && <Ionicons name={icon} size={26} color={Colors[theme].icon} style={styles.icon} />}
 
       <TextInput
         editable={!disabled}
@@ -91,11 +67,7 @@ export default function BasicTextInput({
             setShowPassword((prev) => !prev);
           }}
         >
-          <Ionicons
-            name={showPassword ? "eye-off-outline" : "eye-outline"}
-            size={26}
-            color={Colors[theme].icon}
-          />
+          <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={26} color={Colors[theme].icon} />
         </PlatformPressable>
       )}
     </View>

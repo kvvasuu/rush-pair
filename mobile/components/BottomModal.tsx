@@ -1,21 +1,9 @@
 import useAppTheme from "@/hooks/useAppTheme";
-import useFontSize from "@/hooks/useFontSize";
 import { Colors } from "@/utils/theme";
 import { ReactNode, useEffect } from "react";
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Modal, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { scheduleOnRN } from "react-native-worklets";
 
@@ -25,12 +13,7 @@ interface Props {
   children: ReactNode;
   title?: string;
 }
-export default function BottomModal({
-  isVisible,
-  onModalClose,
-  children,
-  title,
-}: Props) {
+export default function BottomModal({ isVisible, onModalClose, children, title }: Props) {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const theme = useAppTheme();
@@ -115,11 +98,7 @@ export default function BottomModal({
                   },
                 ]}
               />
-              {title && (
-                <Text style={[styles.title, { color: Colors[theme].text }]}>
-                  {title}
-                </Text>
-              )}
+              {title && <Text style={[styles.title, { color: Colors[theme].text }]}>{title}</Text>}
             </View>
             {children}
           </Animated.View>
