@@ -124,7 +124,8 @@
     "enterName": "Please enter your name.",
     "enterBirthdate": "Please enter your birthdate.",
     "chooseGender": "Please choose your gender.",
-    "incorrectPhone": "Incorrect phone number."
+    "incorrectPhone": "Incorrect phone number.",
+    "atLeast16": "You must be at least 16 years old to register"
   },
   "home": {
     "recentPairs": "Recent pairs",

@@ -16,6 +16,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { useUserStore } from "@/stores/userStore";
 import { socket } from "@/utils/utils";
 import { AppState } from "react-native";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({
@@ -141,24 +142,26 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <Stack
-        key={i18n.locale}
-        screenOptions={{
-          contentStyle: {
-            flex: 1,
-            backgroundColor: Colors[theme].background,
-          },
-          animation: "fade",
-        }}
-      >
-        <Stack.Protected guard={authStatus === "authenticated"}>
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
-        </Stack.Protected>
-        <Stack.Protected guard={authStatus === "unauthenticated"}>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        </Stack.Protected>
-      </Stack>
-      <StatusBar style={theme === "dark" ? "light" : "dark"} />
+      <KeyboardProvider>
+        <Stack
+          key={i18n.locale}
+          screenOptions={{
+            contentStyle: {
+              flex: 1,
+              backgroundColor: Colors[theme].background,
+            },
+            animation: "fade",
+          }}
+        >
+          <Stack.Protected guard={authStatus === "authenticated"}>
+            <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={authStatus === "unauthenticated"}>
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          </Stack.Protected>
+        </Stack>
+        <StatusBar style={theme === "dark" ? "light" : "dark"} />
+      </KeyboardProvider>
     </SafeAreaProvider>
   );
 }
