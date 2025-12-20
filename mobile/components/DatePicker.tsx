@@ -1,13 +1,11 @@
 import useAppTheme from "@/hooks/useAppTheme";
 import useFontSize from "@/hooks/useFontSize";
+import i18n from "@/locales/i18n";
 import { Colors } from "@/utils/theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import * as Haptics from "expo-haptics";
-
+import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { PlatformPressable } from "@react-navigation/elements";
-
-import i18n from "@/locales/i18n";
+import * as Haptics from "expo-haptics";
 import { useState } from "react";
 import { Modal, Platform, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -38,7 +36,21 @@ export default function DatePicker({ onConfirm, disabled, style, ...props }: Pro
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           }
         }}
-        onPress={() => setShowPicker((prev) => !prev)}
+        onPress={() => {
+          if (Platform.OS === "ios") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            setShowPicker((prev) => !prev);
+          } else {
+            DateTimePickerAndroid.open({
+              mode: "date",
+              value: date,
+              maximumDate: new Date(new Date(new Date()).setFullYear(today.getFullYear() - 16)),
+              minimumDate: new Date(1950, 1, 1),
+              onChange: (_event, date) => date && setDate(date),
+              design: "material",
+            });
+          }
+        }}
       >
         <Ionicons name="calendar" size={26} color={Colors[theme].icon} style={styles.icon} />
         <View
@@ -133,12 +145,12 @@ export default function DatePicker({ onConfirm, disabled, style, ...props }: Pro
                 testID="dateTimePicker"
                 value={date}
                 mode={"date"}
-                display="inline"
+                display="spinner"
                 maximumDate={new Date(new Date(new Date()).setFullYear(today.getFullYear() - 16))}
                 minimumDate={new Date(1950, 1, 1)}
                 locale={i18n.locale}
                 accentColor={Colors[theme].tint}
-                onChange={(event) => setDate(new Date(event.nativeEvent.timestamp))}
+                onChange={(_event, date) => date && setDate(date)}
               />
             </View>
 
