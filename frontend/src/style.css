@@ -1,9 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+  --color-neutral-750: #313131;
+  --shadow-top: 0px 2px 5px 1px rgba(0, 0, 0, 0.2);
+}
+
+@utility bg-main-gradient {
+  background-image: linear-gradient(20deg, #7b4397, #e94548 87%);
+}
+
+@utility bg-main-gradient-dark {
+  background-image: linear-gradient(20deg, #532e66, #ad3335 87%);
+}
+
 @font-face {
   font-family: Montserrat;
   src: url("../../../fonts/Montserrat.ttf");
+}
+
+@layer components {
+  .menu-link {
+    @apply h-10 w-full flex items-center justify-center xl:justify-start xl:pl-4 md:h-14 gap-6 text-neutral-400 hover:text-neutral-500 dark:text-neutral-500 dark:hover:text-neutral-300 hover:bg-slate-50/5;
+    transition: background-color 150ms;
+  }
+
+  .message-input[contenteditable="true"]:empty::before {
+    @apply pointer-events-none text-neutral-400 dark:text-neutral-700;
+    content: attr(data-placeholder);
+  }
+}
+@layer base {
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
 }
 :root {
   font-size: 16px;
@@ -26,21 +58,9 @@ body {
   justify-content: center;
   position: relative;
   background: rgb(255, 32, 108);
-  background: -moz-linear-gradient(
-    20deg,
-    rgba(255, 32, 108, 1) 0%,
-    rgba(255, 127, 88, 1) 87%
-  );
-  background: -webkit-linear-gradient(
-    20deg,
-    rgba(255, 32, 108, 1) 0%,
-    rgba(255, 127, 88, 1) 87%
-  );
-  background: linear-gradient(
-    20deg,
-    rgba(255, 32, 108, 1) 0%,
-    rgba(255, 127, 88, 1) 87%
-  );
+  background: -moz-linear-gradient(20deg, #7b4397, #e94548 87%);
+  background: -webkit-linear-gradient(20deg, #7b4397, #e94548 87%);
+  background: linear-gradient(20deg, #7b4397, #e94548 87%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff206c",endColorstr="#ff7f58",GradientType=1);
 }
 
@@ -62,7 +82,6 @@ button {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  -webkit-border-radius: 0px;
 }
 
 /* TRANSITIONS */
@@ -75,6 +94,14 @@ button {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* Targeted FontAwesome variable assignment: only set flex where icon elements use `flex` */
+.fa.flex,
+[class*="fa-"].flex,
+.flex .fa,
+.flex [class*="fa-"] {
+  --fa-display: flex;
 }
 
 .pop-up-enter-active {
@@ -97,14 +124,6 @@ button {
 }
 .pop-up-fast-leave-active {
   animation: pop-up 0.2s reverse;
-}
-@keyframes pop-up {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 .slide-from-bottom-enter-active {

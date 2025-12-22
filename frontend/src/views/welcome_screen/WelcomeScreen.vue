@@ -31,7 +31,7 @@
           {{ t("welcomeScreen.createAccount") }}
         </button>
         <button
-          class="text-slate-50 md:text-inherit px-8 py-3 w-full mx-10 md:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-[2px] border-slate-200 rounded-full transition-all drop-shadow-sm md:hidden"
+          class="text-slate-50 md:text-inherit px-8 py-3 w-full mx-10 md:w-auto font-bold text-md bg-transparent hover:bg-slate-200/10 border-2 border-slate-200 rounded-full transition-all drop-shadow-sm md:hidden"
           @click="toggleAuthModal('login')"
         >
           {{ t("welcomeScreen.login") }}
@@ -44,7 +44,7 @@
       class="absolute top-8 right-8 hidden md:block"
     >
       <button
-        class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border-[1px] border-slate-200 rounded-full transition-all drop-shadow-sm"
+        class="px-6 py-2 font-bold text-md bg-slate-50 hover:bg-slate-200 border border-slate-200 rounded-full transition-all drop-shadow-sm"
         @click="toggleAuthModal('login')"
       >
         {{ t("welcomeScreen.login") }}
@@ -56,7 +56,7 @@
       class="absolute top-8 left-8 block"
     >
       <button
-        class="flex items-center gap-2 px-4 py-2 font-bold text-md hover:bg-slate-200 border-[1px] rounded-full transition-all drop-shadow-sm"
+        class="flex items-center gap-2 px-4 py-2 font-bold text-md hover:bg-slate-200 border rounded-full transition-all drop-shadow-sm"
         @click="toggleLanguageSelector"
         :class="showLanguageSelector ? 'bg-slate-200' : 'bg-slate-50'"
       >
@@ -64,7 +64,7 @@
           :src="`/flag-${language.toUpperCase()}.png`"
           alt="flag"
           width="20px"
-          class="border-[1px] box-content rounded-sm border-neutral-500"
+          class="border box-content rounded-sm border-neutral-500"
         /><span>{{ t("general.language") }}</span>
       </button>
       <Transition name="slide-from-left">

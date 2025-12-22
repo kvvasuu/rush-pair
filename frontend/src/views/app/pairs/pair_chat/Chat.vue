@@ -53,7 +53,7 @@
         ></EmojiPicker>
       </div>
       <button
-        class="w-16 h-16 text-rose-500 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl z-20"
+        class="w-16 h-16 text-pink-600 hover:text-rose-600 transition-all duration-300 text-2xl hover:text-3xl z-20"
         :title="message ? t('pairs.sendMessage') : t('pairs.sendHeart')"
         @click="sendMessage"
       >
@@ -285,10 +285,3 @@ const isTouchDevice = ref(
   "ontouchstart" in window || navigator.maxTouchPoints > 0
 );
 </script>
-
-<style lang="postcss" scoped>
-.message-input[contenteditable="true"]:empty::before {
-  @apply pointer-events-none text-neutral-400 dark:text-neutral-700;
-  content: attr(data-placeholder);
-}
-</style>

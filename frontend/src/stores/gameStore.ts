@@ -11,41 +11,56 @@ export const useGameStore = defineStore("gameStore", {
     players: [],
     status: null,
     createdAt: 0,
+    createdBy: "",
     gameData: {},
     score: 0,
   }),
   actions: {
-    async getGameData(gameId: string, gameName: string): Promise<boolean> {
+    async getGameData(
+      gameId: string,
+      gameName: string,
+      playerId: string
+    ): Promise<boolean> {
       try {
         const game = await axios.get(
-          `${SERVER_URL}/games/${gameName}/${gameId}`
+          `${SERVER_URL}/games/${gameName}/${gameId}?playerId=${playerId}`
         );
 
         if (game) {
-          const { players, status, createdAt, gameData, score } = {
+          const { players, createdAt, gameData, score, createdBy } = {
             ...game.data,
           };
+
+          const playerStatus = players.find(
+            (player: { player: string; status: string }) =>
+              player.player === playerId
+          )?.status;
 
           this.gameId = gameId;
           this.gameName = gameName;
           this.players = players;
-          this.status = status;
+          this.status = playerStatus;
           this.createdAt = createdAt;
-          this.gameData = { questions: gameData };
+          this.createdBy = createdBy;
+          this.gameData = gameData;
           this.score = score;
-        }
 
-        return false;
+          return false;
+        }
+        return true;
       } catch (error: any) {
         if (error.response && error.response.status === 404) {
           console.log(error.response);
           try {
-            const newGame = await axios.post(`${SERVER_URL}/games/quiz`, {
-              gameId,
-            });
+            const newGame = await axios.post(
+              `${SERVER_URL}/games/${gameName}`,
+              {
+                gameId,
+              }
+            );
 
             if (newGame) {
-              await this.getGameData(gameId, gameName);
+              await this.getGameData(gameId, gameName, playerId);
             }
           } catch (postError) {
             console.error(postError);
@@ -56,6 +71,9 @@ export const useGameStore = defineStore("gameStore", {
 
         return false;
       }
+    },
+    closeGame() {
+      this.$reset();
     },
   },
 });

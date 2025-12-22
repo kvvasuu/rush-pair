@@ -7,14 +7,25 @@ const gameSchema = new mongoose.Schema({
     unique: true,
   },
   players: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    {
+      player: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      status: {
+        type: String,
+        enum: ["pending", "inProgress", "finished"],
+        default: "pending",
+      },
+    },
   ],
   gameName: { type: String, required: true },
   createdAt: { type: Date },
-  status: {
-    type: String,
-    enum: ["pending", "inProgress", "finished"],
-    default: "pending",
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
 });
 

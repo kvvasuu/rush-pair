@@ -3,6 +3,7 @@
   "moreGamesSoon": "Więcej gier wkrótce...",
   "play": "Zagraj",
   "resume": "Wznów",
+  "summary": "Podsumowanie",
   "chooseOpponent": "Wybierz przeciwnika",
   "startingNewGame": "Rozpoczynanie nowej gry...",
   "gamesInProgress": "Gry w trakcie",
@@ -12,6 +13,29 @@
   "quiz": {
     "name": "Quiz",
     "description": "Odpowiedz na serię zabawnych, osobistych pytań i sprawdź, jak dobrze dopasowany/a jesteś do swojego rozmówcy! Oboje odpowiadacie na te same pytania osobno. Na końcu wasze odpowiedzi zostaną porównane, aby pokazać wynik dopasowania.",
-    "winCondition": "Im wyższy wynik, tym lepsze dopasowanie! Osiągnij 75% lub więcej, aby dostać 3 RushCoiny!"
+    "winCondition": "Im wyższy wynik, tym lepsze dopasowanie! Osiągnij 75% lub więcej, aby dostać 3 RushCoiny!",
+    "question": "Pytanie",
+    "questions": {
+      "idealActivity": "Jaka byłaby Twoja idealna aktywność?",
+      "dreamVacation": "Jakie są Twoje wymarzone wakacje?",
+      "preferredPet": "Jakie zwierzę domowe preferujesz?",
+      "weekendActivity": "Jak lubisz spędzać weekend?",
+      "favoriteSeason": "Jaka jest Twoja ulubiona pora roku?",
+      "morningRoutine": "Jak zazwyczaj zaczynasz poranek?",
+      "musicPreference": "Jaki jest Twój ulubiony gatunek muzyczny?",
+      "dreamJob": "Jaka jest Twoja wymarzona praca?",
+      "movieGenre": "Jaki gatunek filmowy lubisz najbardziej?",
+      "idealSuperpower": "Gdybyś mógł mieć supermoc, którą byś wybrał?",
+      "favoriteDessert": "Jaki jest Twój ulubiony deser?",
+      "preferredTransport": "Jaki środek transportu preferujesz?",
+      "socialSituation": "W jakiej sytuacji społecznej czujesz się najlepiej?",
+      "howToRelax": "Jaki jest Twój ulubiony sposób na relaks?",
+      "houseType": "W jakim rodzaju domu chciałbyś mieszkać?",
+      "favoriteDrink": "Jaki jest Twój ulubiony napój?",
+      "gamingStyle": "Jaki jest Twój styl grania?",
+      "hobbyPreference": "Które hobby najbardziej Cię interesuje?",
+      "bestLearningStyle": "Jaki styl nauki preferujesz?",
+      "communicationStyle": "Jak najchętniej komunikujesz się z innymi?"
+    }
   }
 }

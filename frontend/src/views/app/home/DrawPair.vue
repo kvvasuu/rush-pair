@@ -113,7 +113,7 @@
         <div class="w-full flex justify-center mb-24" v-if="!mainStore.pairId">
           <button
             @click="stopDrawing"
-            class="flex items-center text-rose-600 dark:text-rose-500 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
+            class="flex items-center text-rose-600 dark:text-pink-600 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-800 shadow-md py-2 px-6 rounded-xl justify-center text-xl font-semibold transition-colors"
           >
             <span v-if="isSearching">{{ t("home.stopSearching") }}</span>
             <span v-else>{{ t("general.back") }}</span>

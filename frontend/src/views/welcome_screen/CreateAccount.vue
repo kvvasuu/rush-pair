@@ -126,7 +126,7 @@
               <a
                 href="/terms"
                 target="_blank"
-                class="font-bold text-rose-500 underline-offset-2 underline"
+                class="font-bold text-pink-600 underline-offset-2 underline"
                 >{{ t("welcomeScreen.terms") }}</a
               ></label
             >

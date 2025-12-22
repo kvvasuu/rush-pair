@@ -15,9 +15,10 @@ games.get("/:userId", authenticateToken, async (req, res) => {
       return res.status(404).json({ msg: "Invalid information." });
     }
 
-    const games = await Game.find({ players: { $in: [userId] } }).select(
-      "-_id gameId players gameName createdAt status"
+    const games = await Game.find({ "players.player": userId }).select(
+      "-_id gameId players gameName createdAt createdBy"
     );
+
     res.json(games);
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
@@ -35,7 +36,6 @@ games.post("/", authenticateToken, async (req, res, next) => {
 
     const activeGame = await Game.findOne({
       gameId: { $regex: regexPattern },
-      status: { $ne: "finished" },
     });
 
     if (activeGame) {
@@ -49,13 +49,41 @@ games.post("/", authenticateToken, async (req, res, next) => {
     const newGame = new Game({
       gameId,
       gameName,
-      players: [userId, pairId],
+      players: [
+        { player: userId, status: "pending" },
+        { player: pairId, status: "pending" },
+      ],
       createdAt: currentDate,
+      createdBy: userId,
     });
 
     await newGame.save();
 
     res.status(201).json(gameId);
+  } catch (error) {
+    next(error);
+  }
+});
+
+games.patch("/start", authenticateToken, async (req, res, next) => {
+  try {
+    const { userId, gameId } = req.body;
+
+    if (!userId || !gameId) {
+      return res.status(404).json({ msg: "Invalid information." });
+    }
+
+    const game = await Game.findOneAndUpdate(
+      { gameId: gameId, "players.player": userId },
+      { $set: { "players.$.status": "inProgress" } },
+      { new: true, runValidators: true }
+    );
+
+    if (!game) {
+      return res.status(404).json({ msg: "Game not found." });
+    }
+
+    res.status(201).json(game);
   } catch (error) {
     next(error);
   }
