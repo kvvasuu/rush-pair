@@ -29,7 +29,6 @@
   "devDependencies": {
     "chai": "^6.2.1",
     "mocha": "^11.7.5",
-    "sinon": "^21.0.0",
-    "vite": "^7.2.2"
+    "sinon": "^21.0.0"
   }
 }
