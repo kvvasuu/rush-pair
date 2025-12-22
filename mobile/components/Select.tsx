@@ -80,6 +80,7 @@ export default function Select({ onConfirm, placeholder, children, icon, title, 
                 <Pressable
                   onPress={() => {
                     setShowSelect(false);
+                    setSelectedItem({ value: "", label: "" });
                   }}
                   style={({ pressed }) => [
                     styles.headerButton,

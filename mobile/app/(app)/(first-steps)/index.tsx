@@ -23,12 +23,18 @@ export default function FirstStepsScreen() {
   const Schemas = [
     Yup.object().shape({
       name: Yup.string().required(i18n.t("firstSteps.enterName")),
-      birthdate: Yup.string().required(i18n.t("firstSteps.enterBirthdate")),
+      birthdate: Yup.date()
+        .min(new Date(1950, 1, 1), i18n.t("firstSteps.enterBirthdate"))
+        .max(new Date(new Date(new Date()).setFullYear(new Date().getFullYear() - 16)), i18n.t("firstSteps.atLeast16"))
+        .required(i18n.t("firstSteps.enterBirthdate")),
       gender: Yup.string().required(i18n.t("firstSteps.chooseGender")),
     }),
     Yup.object().shape({
       name: Yup.string().required(i18n.t("firstSteps.enterName")),
-      birthdate: Yup.string().required(i18n.t("firstSteps.enterBirthdate")),
+      birthdate: Yup.date()
+        .min(new Date(1950, 1, 1), i18n.t("firstSteps.enterBirthdate"))
+        .max(new Date(new Date(new Date()).setFullYear(new Date().getFullYear() - 16)), i18n.t("firstSteps.atLeast16"))
+        .required(i18n.t("firstSteps.enterBirthdate")),
       gender: Yup.string().required(i18n.t("firstSteps.chooseGender")),
     }),
   ];
@@ -125,6 +131,7 @@ export default function FirstStepsScreen() {
             <Formik
               initialValues={{ name: "", birthdate: new Date(), gender: "" }}
               validationSchema={Schemas[currentStep]}
+              validateOnMount={false}
               onSubmit={handleSignup}
             >
               {({
@@ -170,7 +177,7 @@ export default function FirstStepsScreen() {
                   <View style={styles.inputWrapper}>
                     <DatePicker
                       onConfirm={(date) => {
-                        setFieldValue("birthdate", date);
+                        setFieldValue("birthdate", date, true);
                       }}
                       style={
                         errors.birthdate
@@ -200,7 +207,7 @@ export default function FirstStepsScreen() {
                   <View style={styles.inputWrapper}>
                     <Select
                       onConfirm={(gender) => {
-                        setFieldValue("gender", gender);
+                        setFieldValue("gender", gender, true);
                       }}
                       placeholder={i18n.t("general.gender")}
                       icon="transgender"

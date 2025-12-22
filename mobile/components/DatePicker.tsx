@@ -37,7 +37,13 @@ export default function DatePicker({ onConfirm, style }: Props) {
               value: date,
               maximumDate: new Date(new Date(new Date()).setFullYear(today.getFullYear() - 16)),
               minimumDate: new Date(1950, 1, 1),
-              onChange: (_event, date) => date && setDate(date),
+
+              onChange: (_event, date) => {
+                if (date) {
+                  setDate(date);
+                  onConfirm(date);
+                }
+              },
               design: "material",
             });
           }
