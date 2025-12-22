@@ -12,7 +12,7 @@
     "name": "Imię",
     "password": "Hasło",
     "confirmPassword": "Potwierdź hasło",
-    "birthdate": "Urodziny",
+    "birthdate": "Data urodzenia",
     "country": "Kraj",
     "city": "Miasto",
     "phoneNumber": "Telefon",

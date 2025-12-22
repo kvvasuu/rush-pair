@@ -14,7 +14,7 @@ import { useSearchParams } from "expo-router/build/hooks";
 import { Formik } from "formik";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
 export default function ForgotPassword() {
@@ -25,7 +25,6 @@ export default function ForgotPassword() {
   });
 
   const theme = useAppTheme();
-  const insets = useSafeAreaInsets();
   const { sm, base, lg, xl, xxxxl } = useFontSize();
   const router = useRouter();
 
@@ -71,160 +70,162 @@ export default function ForgotPassword() {
   return (
     <>
       <TransparentHeader />
-      <DismissKeyboardView
-        style={[
-          styles.container,
-          {
-            paddingTop: insets.top + 64,
-            paddingBottom: insets.bottom + 8,
-            backgroundColor: Colors[theme].background,
-            gap: error.length > 0 ? 14 : 48,
-          },
-        ]}
-      >
-        <View style={styles.header}>
-          <Image
-            source={require("../../../assets/images/logo_sygnet.png")}
-            style={styles.logo}
-            contentFit="contain"
-          ></Image>
-          <View style={{ gap: 8 }}>
-            <Text
-              style={{
-                fontFamily: "MontserratBold",
-                fontSize: xxxxl,
-                textAlign: "center",
-                lineHeight: xxxxl + 4,
-                color: Colors[theme].text,
-              }}
-            >
-              {i18n.t("welcomeScreen.resetPassword")}
-            </Text>
-            <Text
-              style={{
-                fontFamily: "Montserrat",
-                textAlign: "center",
-                fontSize: base,
-                lineHeight: base + 8,
-                color: Colors[theme].text,
-              }}
-            >
-              {i18n.t("welcomeScreen.lostPassword")}
-            </Text>
+      <SafeAreaView edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+        <DismissKeyboardView
+          style={[
+            styles.container,
+            {
+              paddingTop: 64,
+              paddingBottom: 8,
+              backgroundColor: Colors[theme].background,
+              gap: error.length > 0 ? 14 : 48,
+            },
+          ]}
+        >
+          <View style={styles.header}>
+            <Image
+              source={require("../../../assets/images/logo_sygnet.png")}
+              style={styles.logo}
+              contentFit="contain"
+            ></Image>
+            <View style={{ gap: 8 }}>
+              <Text
+                style={{
+                  fontFamily: "MontserratBold",
+                  fontSize: xxxxl,
+                  textAlign: "center",
+                  lineHeight: xxxxl + 4,
+                  color: Colors[theme].text,
+                }}
+              >
+                {i18n.t("welcomeScreen.resetPassword")}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Montserrat",
+                  textAlign: "center",
+                  fontSize: base,
+                  lineHeight: base + 8,
+                  color: Colors[theme].text,
+                }}
+              >
+                {i18n.t("welcomeScreen.lostPassword")}
+              </Text>
+            </View>
           </View>
-        </View>
 
-        {error.length > 0 && (
-          <Text
-            style={{
-              fontFamily: "MontserratSemiBold",
-              textAlign: "center",
-              fontSize: lg,
-              lineHeight: lg + 2,
-              color: Colors[theme].red,
-            }}
-          >
-            {error}
-          </Text>
-        )}
+          {error.length > 0 && (
+            <Text
+              style={{
+                fontFamily: "MontserratSemiBold",
+                textAlign: "center",
+                fontSize: lg,
+                lineHeight: lg + 2,
+                color: Colors[theme].red,
+              }}
+            >
+              {error}
+            </Text>
+          )}
 
-        <View style={styles.content}>
-          <Formik
-            initialValues={{ email: passedEmail }}
-            validationSchema={ForgotPasswordSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
-              <View style={styles.form}>
-                <View style={styles.inputWrapper}>
-                  <BasicTextInput
-                    icon="mail-outline"
-                    placeholder="E-mail"
-                    textContentType="emailAddress"
-                    inputMode="email"
-                    value={values.email}
-                    onChangeText={handleChange("email")}
-                    onBlur={handleBlur("email")}
-                    style={touched.email && errors.email && { borderColor: Colors[theme].red }}
-                  />
-                  {touched.email && errors.email && (
-                    <Text
-                      style={[
-                        styles.inputErrorMessage,
-                        {
-                          color: Colors[theme].red,
-                          fontFamily: "MontserratSemiBold",
-                          fontSize: sm,
-                          lineHeight: sm,
-                        },
-                      ]}
-                    >
-                      {errors.email}
-                    </Text>
-                  )}
-                </View>
+          <View style={styles.content}>
+            <Formik
+              initialValues={{ email: passedEmail }}
+              validationSchema={ForgotPasswordSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, isValid }) => (
+                <View style={styles.form}>
+                  <View style={styles.inputWrapper}>
+                    <BasicTextInput
+                      icon="mail-outline"
+                      placeholder="E-mail"
+                      textContentType="emailAddress"
+                      inputMode="email"
+                      value={values.email}
+                      onChangeText={handleChange("email")}
+                      onBlur={handleBlur("email")}
+                      style={touched.email && errors.email && { borderColor: Colors[theme].red }}
+                    />
+                    {touched.email && errors.email && (
+                      <Text
+                        style={[
+                          styles.inputErrorMessage,
+                          {
+                            color: Colors[theme].red,
+                            fontFamily: "MontserratSemiBold",
+                            fontSize: sm,
+                            lineHeight: sm,
+                          },
+                        ]}
+                      >
+                        {errors.email}
+                      </Text>
+                    )}
+                  </View>
 
-                <Text
-                  style={{
-                    fontFamily: "MontserratSemiBold",
-                    fontSize: base,
-                    color: Colors[theme].text,
-                    textAlign: "center",
-                  }}
-                >
-                  {i18n.t("welcomeScreen.resetPasswordLink")}
-                </Text>
-
-                <View style={styles.buttonsContainer}>
-                  <SimpleButton
+                  <Text
                     style={{
-                      backgroundColor: "transparent",
-                      borderWidth: 0,
+                      fontFamily: "MontserratSemiBold",
+                      fontSize: base,
+                      color: Colors[theme].text,
+                      textAlign: "center",
                     }}
-                    onPress={() => {
-                      if (isSubmitting || !isValid) return;
-                      handleSubmit();
-                    }}
-                    disabled={!!isSubmitting}
                   >
-                    <LinearGradient
-                      colors={Colors[theme].gradient}
-                      locations={[0, 0.87]}
-                      start={{ x: 0.54, y: 1.4 }}
-                      end={{ x: 0.6, y: 0 }}
-                      style={[
-                        {
-                          width: "100%",
-                          alignItems: "center",
-                          padding: 16,
-                        },
-                      ]}
+                    {i18n.t("welcomeScreen.resetPasswordLink")}
+                  </Text>
+
+                  <View style={styles.buttonsContainer}>
+                    <SimpleButton
+                      style={{
+                        backgroundColor: "transparent",
+                        borderWidth: 0,
+                      }}
+                      onPress={() => {
+                        if (isSubmitting || !isValid) return;
+                        handleSubmit();
+                      }}
+                      disabled={!!isSubmitting}
                     >
-                      {isSubmitting ? (
-                        <ActivityIndicator
-                          size={xl + 4}
-                          color={theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text}
-                        />
-                      ) : (
-                        <Text
-                          style={{
-                            color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
-                            fontSize: xl,
-                            lineHeight: xl + 4,
-                            fontFamily: "MontserratBold",
-                          }}
-                        >
-                          {i18n.t("welcomeScreen.resetPassword")}
-                        </Text>
-                      )}
-                    </LinearGradient>
-                  </SimpleButton>
+                      <LinearGradient
+                        colors={Colors[theme].gradient}
+                        locations={[0, 0.87]}
+                        start={{ x: 0.54, y: 1.4 }}
+                        end={{ x: 0.6, y: 0 }}
+                        style={[
+                          {
+                            width: "100%",
+                            alignItems: "center",
+                            padding: 16,
+                          },
+                        ]}
+                      >
+                        {isSubmitting ? (
+                          <ActivityIndicator
+                            size={xl + 4}
+                            color={theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text}
+                          />
+                        ) : (
+                          <Text
+                            style={{
+                              color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
+                              fontSize: xl,
+                              lineHeight: xl + 4,
+                              fontFamily: "MontserratBold",
+                            }}
+                          >
+                            {i18n.t("welcomeScreen.resetPassword")}
+                          </Text>
+                        )}
+                      </LinearGradient>
+                    </SimpleButton>
+                  </View>
                 </View>
-              </View>
-            )}
-          </Formik>
-        </View>
-      </DismissKeyboardView>
+              )}
+            </Formik>
+          </View>
+        </DismissKeyboardView>
+      </SafeAreaView>
     </>
   );
 }

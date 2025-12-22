@@ -7,10 +7,9 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function AuthScreen() {
-  const insets = useSafeAreaInsets();
   const { xl } = useFontSize();
   const theme = useAppTheme();
 
@@ -22,7 +21,7 @@ export default function AuthScreen() {
       end={{ x: 1, y: 0 }}
       style={styles.background}
     >
-      <View style={[styles.container, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
+      <SafeAreaView edges={["top", "bottom"]} style={[styles.container, { paddingTop: 24, paddingBottom: 24 }]}>
         <Image style={styles.logo} source={require("../../assets/images/logo.png")} contentFit="contain" />
         <View style={styles.buttonsContainer}>
           <SimpleButton
@@ -64,7 +63,7 @@ export default function AuthScreen() {
             </Text>
           </SimpleButton>
         </View>
-      </View>
+      </SafeAreaView>
     </LinearGradient>
   );
 }

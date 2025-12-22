@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type Props = {
   title: string;
@@ -13,40 +13,34 @@ type Props = {
 export default function CustomHeader({ title }: Props) {
   const router = useRouter();
   const theme = useAppTheme();
-  const insets = useSafeAreaInsets();
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          paddingTop: insets.top + 10,
-          backgroundColor: Colors[theme].backgroundAlt,
-          borderBottomColor: Colors[theme].border,
-        },
-      ]}
-    >
-      <Pressable
-        onPress={() => {
-          if (router.canGoBack()) router.back();
-        }}
-        style={({ pressed }) => [
-          styles.backButton,
-          { top: insets.top + 6 },
-          pressed && { opacity: 0.6 },
+    <SafeAreaView edges={["top"]}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: 10,
+            backgroundColor: Colors[theme].backgroundAlt,
+            borderBottomColor: Colors[theme].border,
+          },
         ]}
-        hitSlop={16}
       >
-        <Ionicons name="chevron-back" size={32} color={Colors[theme].icon} />
-      </Pressable>
+        <Pressable
+          onPress={() => {
+            if (router.canGoBack()) router.back();
+          }}
+          style={({ pressed }) => [styles.backButton, { top: 6 }, pressed && { opacity: 0.6 }]}
+          hitSlop={16}
+        >
+          <Ionicons name="chevron-back" size={32} color={Colors[theme].icon} />
+        </Pressable>
 
-      <Text
-        style={[styles.title, { color: Colors[theme].text }]}
-        numberOfLines={1}
-      >
-        {title}
-      </Text>
-    </View>
+        <Text style={[styles.title, { color: Colors[theme].text }]} numberOfLines={1}>
+          {title}
+        </Text>
+      </View>
+    </SafeAreaView>
   );
 }
 

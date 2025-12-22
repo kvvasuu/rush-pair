@@ -10,121 +10,122 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignupScreenSuccess() {
   const theme = useAppTheme();
-  const insets = useSafeAreaInsets();
   const { base, lg, xl, xxxxl } = useFontSize();
   const router = useRouter();
 
   return (
     <>
       <TransparentHeader backButton={false} />
-      <DismissKeyboardView
-        style={[
-          styles.container,
-          {
-            paddingTop: insets.top + 64,
-            paddingBottom: insets.bottom + 8,
-            backgroundColor: Colors[theme].background,
-          },
-        ]}
-      >
-        <View style={styles.header}>
-          <Image
-            source={require("../../assets/images/logo_sygnet.png")}
-            style={styles.logo}
-            contentFit="contain"
-          ></Image>
-          <View style={{ gap: 8 }}>
-            <Text
-              style={{
-                fontFamily: "MontserratBold",
-                fontSize: xxxxl,
-                textAlign: "center",
-                lineHeight: xxxxl + 4,
-                color: Colors[theme].text,
-              }}
-            >
-              {i18n.t("welcomeScreen.welcomeAboard")}
-            </Text>
-            <Text
-              style={{
-                fontFamily: "Montserrat",
-                textAlign: "center",
-                fontSize: base,
-                lineHeight: base + 8,
-                color: Colors[theme].text,
-              }}
-            >
-              {i18n.t("welcomeScreen.success")}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.content}>
-          <Ionicons name="mail-unread-outline" size={72} color={Colors[theme].text} />
-          <Text
-            style={{
-              fontFamily: "MontserratSemiBold",
-              textAlign: "center",
-              fontSize: lg,
-              lineHeight: lg + 8,
-              color: Colors[theme].text,
-            }}
-          >
-            {i18n.t("welcomeScreen.checkEmail")}
-          </Text>
-          <View style={styles.buttonsContainer}>
-            <SimpleButton
-              style={{
-                backgroundColor: "transparent",
-                borderWidth: 0,
-              }}
-              onPress={() => {
-                router.replace("/(auth)/(login)");
-              }}
-            >
-              <LinearGradient
-                colors={Colors[theme].gradient}
-                locations={[0, 0.87]}
-                start={{ x: 0.54, y: 1.4 }}
-                end={{ x: 0.6, y: 0 }}
-                style={[
-                  {
-                    width: "100%",
-                    alignItems: "center",
-                    padding: 16,
-                  },
-                ]}
+      <SafeAreaView edges={["top", "bottom"]} style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+        <DismissKeyboardView
+          style={[
+            styles.container,
+            {
+              paddingTop: 64,
+              paddingBottom: 8,
+              backgroundColor: Colors[theme].background,
+            },
+          ]}
+        >
+          <View style={styles.header}>
+            <Image
+              source={require("../../assets/images/logo_sygnet.png")}
+              style={styles.logo}
+              contentFit="contain"
+            ></Image>
+            <View style={{ gap: 8 }}>
+              <Text
+                style={{
+                  fontFamily: "MontserratBold",
+                  fontSize: xxxxl,
+                  textAlign: "center",
+                  lineHeight: xxxxl + 4,
+                  color: Colors[theme].text,
+                }}
               >
-                <Text
-                  style={{
-                    color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
-                    fontSize: xl,
-                    lineHeight: xl + 4,
-                    fontFamily: "MontserratBold",
-                  }}
-                >
-                  {i18n.t("welcomeScreen.login")}
-                </Text>
-              </LinearGradient>
-            </SimpleButton>
-            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-              <Pressable onPress={() => router.replace("/(auth)")} hitSlop={16}>
-                <Text
-                  style={{
-                    fontFamily: "MontserratBold",
-                    color: Colors[theme].tint,
-                  }}
-                >
-                  {" " + i18n.t("general.back")}
-                </Text>
-              </Pressable>
+                {i18n.t("welcomeScreen.welcomeAboard")}
+              </Text>
+              <Text
+                style={{
+                  fontFamily: "Montserrat",
+                  textAlign: "center",
+                  fontSize: base,
+                  lineHeight: base + 8,
+                  color: Colors[theme].text,
+                }}
+              >
+                {i18n.t("welcomeScreen.success")}
+              </Text>
             </View>
           </View>
-        </View>
-      </DismissKeyboardView>
+          <View style={styles.content}>
+            <Ionicons name="mail-unread-outline" size={72} color={Colors[theme].text} />
+            <Text
+              style={{
+                fontFamily: "MontserratSemiBold",
+                textAlign: "center",
+                fontSize: lg,
+                lineHeight: lg + 8,
+                color: Colors[theme].text,
+              }}
+            >
+              {i18n.t("welcomeScreen.checkEmail")}
+            </Text>
+            <View style={styles.buttonsContainer}>
+              <SimpleButton
+                style={{
+                  backgroundColor: "transparent",
+                  borderWidth: 0,
+                }}
+                onPress={() => {
+                  router.replace("/(auth)/(login)");
+                }}
+              >
+                <LinearGradient
+                  colors={Colors[theme].gradient}
+                  locations={[0, 0.87]}
+                  start={{ x: 0.54, y: 1.4 }}
+                  end={{ x: 0.6, y: 0 }}
+                  style={[
+                    {
+                      width: "100%",
+                      alignItems: "center",
+                      padding: 16,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={{
+                      color: theme === "light" ? Colors.light.backgroundAlt : Colors.dark.text,
+                      fontSize: xl,
+                      lineHeight: xl + 4,
+                      fontFamily: "MontserratBold",
+                    }}
+                  >
+                    {i18n.t("welcomeScreen.login")}
+                  </Text>
+                </LinearGradient>
+              </SimpleButton>
+              <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                <Pressable onPress={() => router.replace("/(auth)")} hitSlop={16}>
+                  <Text
+                    style={{
+                      fontFamily: "MontserratBold",
+                      color: Colors[theme].tint,
+                    }}
+                  >
+                    {" " + i18n.t("general.back")}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </DismissKeyboardView>
+      </SafeAreaView>
     </>
   );
 }
